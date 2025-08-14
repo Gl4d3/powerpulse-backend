@@ -1,0 +1,4 @@
+chat_id,total_messages,customer_messages,agent_messages,satisfaction_score,satisfaction_confidence,is_satisfied,avg_sentiment,first_contact_resolution,avg_response_time_minutes,first_message_time,last_message_time,common_topics,created_at,updated_at
+CHAT_001,5,3,2,5.0,0.9,True,,True,2.0,2025-08-14 10:00:00,2025-08-14 10:07:00,"billing, refund",2025-08-14 16:50:58,2025-08-14 16:52:12
+CHAT_002,7,4,3,4.0,0.8,True,,True,11.0,2025-08-14 11:00:00,2025-08-14 11:36:00,"order_status, shipping",2025-08-14 16:50:58,2025-08-14 16:52:12
+CHAT_003,3,2,1,4.0,0.9,True,,True,1.0,2025-08-14 12:00:00,2025-08-14 12:02:00,"account_management, technical_support",2025-08-14 16:50:58,2025-08-14 16:52:12

@@ -1,0 +1,113 @@
+{
+  "CHAT_001": [
+    {
+      "FB_CHAT_ID": "CHAT_001", 
+      "MESSAGE_CONTENT": "Hi, I'm having trouble with my billing account. Can you help me?",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-08-14T10:00:00Z",
+      "agent_info": null
+    },
+    {
+      "FB_CHAT_ID": "CHAT_001",
+      "MESSAGE_CONTENT": "Hello! I'd be happy to help you with your billing issue. Can you tell me more about the specific problem you're experiencing?",
+      "DIRECTION": "to_client", 
+      "SOCIAL_CREATE_TIME": "2025-08-14T10:02:00Z",
+      "agent_info": {"agent_name": "Sarah", "agent_id": "AGT_001"}
+    },
+    {
+      "FB_CHAT_ID": "CHAT_001",
+      "MESSAGE_CONTENT": "I was charged twice for the same service last month. I need a refund for the duplicate charge.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-08-14T10:03:00Z", 
+      "agent_info": null
+    },
+    {
+      "FB_CHAT_ID": "CHAT_001",
+      "MESSAGE_CONTENT": "I understand your concern about the duplicate charge. Let me check your account right away. I can see the duplicate charge for $29.99. I'll process a refund for you immediately.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-08-14T10:05:00Z",
+      "agent_info": {"agent_name": "Sarah", "agent_id": "AGT_001"}
+    },
+    {
+      "FB_CHAT_ID": "CHAT_001", 
+      "MESSAGE_CONTENT": "Thank you so much! That's exactly what I needed. You've been very helpful.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-08-14T10:07:00Z",
+      "agent_info": null
+    }
+  ],
+  "CHAT_002": [
+    {
+      "FB_CHAT_ID": "CHAT_002",
+      "MESSAGE_CONTENT": "Your service is terrible! I've been waiting for hours and no one has responded!",
+      "DIRECTION": "to_company", 
+      "SOCIAL_CREATE_TIME": "2025-08-14T11:00:00Z",
+      "agent_info": null
+    },
+    {
+      "FB_CHAT_ID": "CHAT_002",
+      "MESSAGE_CONTENT": "I sincerely apologize for the delay. I'm here to help you now. What specific issue can I assist you with?",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-08-14T11:30:00Z", 
+      "agent_info": {"agent_name": "Mike", "agent_id": "AGT_002"}
+    },
+    {
+      "FB_CHAT_ID": "CHAT_002",
+      "MESSAGE_CONTENT": "I ordered a product 2 weeks ago and it still hasn't arrived. This is unacceptable!",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-08-14T11:31:00Z",
+      "agent_info": null
+    },
+    {
+      "FB_CHAT_ID": "CHAT_002", 
+      "MESSAGE_CONTENT": "I'll check your order status immediately. Can you provide your order number?",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-08-14T11:32:00Z",
+      "agent_info": {"agent_name": "Mike", "agent_id": "AGT_002"}
+    },
+    {
+      "FB_CHAT_ID": "CHAT_002",
+      "MESSAGE_CONTENT": "Order #12345. I expect better service than this.",
+      "DIRECTION": "to_company", 
+      "SOCIAL_CREATE_TIME": "2025-08-14T11:33:00Z",
+      "agent_info": null
+    },
+    {
+      "FB_CHAT_ID": "CHAT_002",
+      "MESSAGE_CONTENT": "I see your order was delayed due to shipping issues. I'm expediting a replacement order with overnight shipping at no charge. You'll receive it tomorrow.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-08-14T11:35:00Z",
+      "agent_info": {"agent_name": "Mike", "agent_id": "AGT_002"}
+    },
+    {
+      "FB_CHAT_ID": "CHAT_002",
+      "MESSAGE_CONTENT": "Ok, that sounds reasonable. Thanks for fixing this.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-08-14T11:36:00Z", 
+      "agent_info": null
+    }
+  ],
+  "CHAT_003": [
+    {
+      "FB_CHAT_ID": "CHAT_003",
+      "MESSAGE_CONTENT": "How do I reset my password?",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-08-14T12:00:00Z",
+      "agent_info": null
+    },
+    {
+      "FB_CHAT_ID": "CHAT_003", 
+      "MESSAGE_CONTENT": "I can help you reset your password. Please visit our website and click 'Forgot Password' or I can send you a reset link to your email.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-08-14T12:01:00Z",
+      "agent_info": {"agent_name": "Lisa", "agent_id": "AGT_003"}
+    },
+    {
+      "FB_CHAT_ID": "CHAT_003",
+      "MESSAGE_CONTENT": "Perfect, I'll do that. Thanks!",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-08-14T12:02:00Z",
+      "agent_info": null
+    }
+  ]
+}
