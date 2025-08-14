@@ -1,6 +1,7 @@
 import json
 import os
 import logging
+import asyncio
 from typing import List, Dict, Any, Tuple
 from openai import OpenAI
 
@@ -76,8 +77,7 @@ Respond with JSON in this exact format:
     ]
 }}"""
 
-            response = self.client.chat.completions.create(
-                model=self.model,
+            response = await self._make_gpt_request_with_retry(
                 messages=[
                     {
                         "role": "system",
@@ -159,8 +159,7 @@ satisfaction_score: 1 (very dissatisfied) to 5 (very satisfied)
 confidence: 0 to 1
 is_satisfied: true if customer seems satisfied (score >= 4)"""
 
-            response = self.client.chat.completions.create(
-                model=self.model,
+            response = await self._make_gpt_request_with_retry(
                 messages=[
                     {
                         "role": "system",
@@ -195,6 +194,32 @@ is_satisfied: true if customer seems satisfied (score >= 4)"""
                 'is_satisfied': None,
                 'common_topics': []
             }
+
+    async def _make_gpt_request_with_retry(self, messages: List[Dict], response_format: Dict = None, temperature: float = 0.1, max_retries: int = 2) -> Any:
+        """Make GPT request with exponential backoff retry logic"""
+        for attempt in range(max_retries + 1):
+            try:
+                request_params = {
+                    "model": self.model,
+                    "messages": messages,
+                    "temperature": temperature
+                }
+                
+                if response_format:
+                    request_params["response_format"] = response_format
+                
+                response = self.client.chat.completions.create(**request_params)
+                return response
+                
+            except Exception as e:
+                if attempt == max_retries:
+                    logger.error(f"GPT request failed after {max_retries + 1} attempts: {e}")
+                    raise
+                
+                # Exponential backoff: 2^attempt seconds
+                wait_time = 2 ** attempt
+                logger.warning(f"GPT request attempt {attempt + 1} failed: {e}. Retrying in {wait_time}s...")
+                await asyncio.sleep(wait_time)
 
 # Global instance
 gpt_service = GPTService()

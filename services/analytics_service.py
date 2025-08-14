@@ -1,8 +1,8 @@
 import logging
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy import func, and_
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from models import Message, Conversation, Metric
 from schemas import MetricsResponse
@@ -222,6 +222,109 @@ class AnalyticsService:
             logger.error(f"Error caching metrics: {e}")
             db.rollback()
             raise
+
+    def calculate_metrics_with_date_filter(self, db: Session, start_date: Optional[date] = None, end_date: Optional[date] = None) -> Dict[str, Any]:
+        """Calculate metrics with date filtering applied"""
+        try:
+            # Build base query for conversations
+            conv_query = db.query(Conversation)
+            msg_query = db.query(Message)
+            
+            # Apply date filtering
+            if start_date:
+                start_datetime = datetime.combine(start_date, datetime.min.time())
+                conv_query = conv_query.filter(Conversation.first_message_time >= start_datetime)
+                msg_query = msg_query.filter(Message.social_create_time >= start_datetime)
+            
+            if end_date:
+                end_datetime = datetime.combine(end_date, datetime.max.time())
+                conv_query = conv_query.filter(Conversation.last_message_time <= end_datetime)
+                msg_query = msg_query.filter(Message.social_create_time <= end_datetime)
+            
+            # Basic counts
+            total_conversations = conv_query.count()
+            total_messages = msg_query.count()
+            
+            if total_conversations == 0:
+                return {
+                    'avg_sentiment_score': 0.0,
+                    'csat_percentage': 0.0,
+                    'fcr_percentage': 0.0,
+                    'avg_response_time_minutes': 0.0,
+                    'total_conversations': 0,
+                    'total_messages': 0,
+                    'most_common_topics': [],
+                    'last_updated': datetime.utcnow()
+                }
+            
+            # Average sentiment score
+            avg_sentiment = conv_query.with_entities(func.avg(Conversation.avg_sentiment)).filter(
+                Conversation.avg_sentiment.isnot(None)
+            ).scalar() or 0.0
+            
+            # CSAT percentage
+            satisfied_count = conv_query.filter(
+                and_(
+                    Conversation.is_satisfied == True,
+                    Conversation.satisfaction_score.isnot(None)
+                )
+            ).count()
+            
+            csat_percentage = (satisfied_count / total_conversations) * 100 if total_conversations > 0 else 0.0
+            
+            # FCR percentage
+            fcr_count = conv_query.filter(Conversation.first_contact_resolution == True).count()
+            fcr_percentage = (fcr_count / total_conversations) * 100 if total_conversations > 0 else 0.0
+            
+            # Average response time
+            avg_response_time = conv_query.with_entities(func.avg(Conversation.avg_response_time_minutes)).filter(
+                Conversation.avg_response_time_minutes.isnot(None)
+            ).scalar() or 0.0
+            
+            # Most common topics for filtered conversations
+            filtered_conversations = conv_query.filter(Conversation.common_topics.isnot(None)).all()
+            most_common_topics = self._extract_topics_from_conversations(filtered_conversations)
+            
+            return {
+                'avg_sentiment_score': round(avg_sentiment, 2),
+                'csat_percentage': round(csat_percentage, 2),
+                'fcr_percentage': round(fcr_percentage, 2),
+                'avg_response_time_minutes': round(avg_response_time, 2),
+                'total_conversations': total_conversations,
+                'total_messages': total_messages,
+                'most_common_topics': most_common_topics,
+                'last_updated': datetime.utcnow()
+            }
+            
+        except Exception as e:
+            logger.error(f"Error calculating metrics with date filter: {e}")
+            raise
+    
+    def _extract_topics_from_conversations(self, conversations: List[Any], limit: int = 10) -> List[Dict[str, Any]]:
+        """Extract and count topics from a list of conversation objects"""
+        try:
+            topic_counts = {}
+            
+            for conv in conversations:
+                if conv.common_topics:
+                    topics = conv.common_topics if isinstance(conv.common_topics, list) else []
+                    for topic in topics:
+                        if isinstance(topic, str) and topic.strip():
+                            topic_clean = topic.strip().lower()
+                            topic_counts[topic_clean] = topic_counts.get(topic_clean, 0) + 1
+            
+            # Sort by frequency and return top topics
+            sorted_topics = sorted(topic_counts.items(), key=lambda x: x[1], reverse=True)
+            total_conversations = len(conversations)
+            
+            return [
+                {"topic": topic, "count": count, "percentage": round((count / total_conversations) * 100, 1)}
+                for topic, count in sorted_topics[:limit]
+            ] if total_conversations > 0 else []
+            
+        except Exception as e:
+            logger.error(f"Error extracting topics: {e}")
+            return []
 
 # Global instance
 analytics_service = AnalyticsService()

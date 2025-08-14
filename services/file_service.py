@@ -13,7 +13,7 @@ class FileService:
     def __init__(self):
         pass
     
-    async def process_grouped_chats_json(self, file_content: str, db: Session) -> Tuple[int, int]:
+    async def process_grouped_chats_json(self, file_content: str, db: Session, force_reprocess: bool = False) -> Tuple[int, int]:
         """
         Process uploaded JSON file with grouped_chats format.
         Returns (conversations_processed, messages_processed)
@@ -33,8 +33,8 @@ class FileService:
                     logger.warning(f"Skipping chat_id {chat_id}: messages must be an array")
                     continue
                 
-                # Check if this chat has already been processed
-                if self._is_chat_processed(db, chat_id):
+                # Check if this chat has already been processed (skip if not forcing reprocess)
+                if not force_reprocess and self._is_chat_processed(db, chat_id):
                     logger.info(f"Skipping already processed chat: {chat_id}")
                     continue
                 
@@ -99,7 +99,7 @@ class FileService:
             raise
     
     def _validate_message(self, msg: Dict) -> bool:
-        """Validate required message fields"""
+        """Validate required message fields and filter autoresponses"""
         required_fields = ['MESSAGE_CONTENT', 'DIRECTION', 'SOCIAL_CREATE_TIME']
         
         for field in required_fields:
@@ -110,8 +110,14 @@ class FileService:
         if msg['DIRECTION'] not in ['to_company', 'to_client']:
             return False
         
-        # Validate content
-        if not msg['MESSAGE_CONTENT'] or not isinstance(msg['MESSAGE_CONTENT'], str):
+        # Validate content exists and is string
+        message_content = msg['MESSAGE_CONTENT']
+        if not message_content or not isinstance(message_content, str):
+            return False
+        
+        # Filter out autoresponse messages containing "*977#"
+        if "*977#" in message_content:
+            logger.info(f"Filtering autoresponse message containing '*977#': {message_content[:100]}...")
             return False
         
         return True
@@ -217,6 +223,123 @@ class FileService:
             return sorted_messages[0]['message_content'] == message['message_content']
         except:
             return False
+    
+    def _calculate_conversation_metrics(self, messages: List[Dict], conversation_analysis: Dict) -> Dict:
+        """Calculate conversation-level metrics"""
+        try:
+            # Basic counts
+            total_messages = len(messages)
+            customer_messages = len([m for m in messages if m['direction'] == 'to_company'])
+            agent_messages = len([m for m in messages if m['direction'] == 'to_client'])
+            
+            # Time bounds
+            timestamps = [m['social_create_time'] for m in messages]
+            first_message_time = min(timestamps) if timestamps else None
+            last_message_time = max(timestamps) if timestamps else None
+            
+            # Response time calculation
+            avg_response_time = self._calculate_avg_response_time(messages)
+            
+            # Sentiment average (only customer messages)
+            customer_msgs = [m for m in messages if m['direction'] == 'to_company']
+            avg_sentiment = None
+            if customer_msgs:
+                # This will be filled in after GPT analysis
+                avg_sentiment = 0.0  # Placeholder
+            
+            # Common topics (from conversation analysis)
+            common_topics = conversation_analysis.get('common_topics', [])
+            
+            return {
+                'total_messages': total_messages,
+                'customer_messages': customer_messages,
+                'agent_messages': agent_messages,
+                'satisfaction_score': conversation_analysis.get('satisfaction_score', 3),
+                'satisfaction_confidence': conversation_analysis.get('satisfaction_confidence', 0.5),
+                'is_satisfied': conversation_analysis.get('is_satisfied', False),
+                'avg_sentiment': avg_sentiment,
+                'first_contact_resolution': conversation_analysis.get('resolution_achieved', False),
+                'avg_response_time_minutes': avg_response_time,
+                'first_message_time': first_message_time,
+                'last_message_time': last_message_time,
+                'common_topics': common_topics
+            }
+            
+        except Exception as e:
+            logger.error(f"Error calculating conversation metrics: {e}")
+            raise
+    
+    def _calculate_avg_response_time(self, messages: List[Dict]) -> float:
+        """Calculate average response time for agent messages in the conversation"""
+        try:
+            customer_messages = [m for m in messages if m['direction'] == 'to_company']
+            agent_messages = [m for m in messages if m['direction'] == 'to_client']
+            
+            if not customer_messages or not agent_messages:
+                return 0.0
+            
+            response_times = []
+            
+            for agent_msg in agent_messages:
+                response_time = self._calculate_response_time(agent_msg, customer_messages)
+                if response_time is not None:
+                    response_times.append(response_time)
+            
+            return sum(response_times) / len(response_times) if response_times else 0.0
+            
+        except Exception as e:
+            logger.error(f"Error calculating average response time: {e}")
+            return 0.0
+    
+    def _save_conversation(self, db: Session, chat_id: str, metrics: Dict, messages: List[Dict]):
+        """Save conversation record to database"""
+        try:
+            # Check if conversation already exists
+            existing = db.query(Conversation).filter(Conversation.fb_chat_id == chat_id).first()
+            
+            if existing:
+                # Update existing conversation
+                for key, value in metrics.items():
+                    if hasattr(existing, key):
+                        setattr(existing, key, value)
+            else:
+                # Create new conversation
+                conversation = Conversation(
+                    fb_chat_id=chat_id,
+                    **metrics
+                )
+                db.add(conversation)
+            
+        except Exception as e:
+            logger.error(f"Error saving conversation {chat_id}: {e}")
+            raise
+    
+    def _is_chat_processed(self, db: Session, chat_id: str) -> bool:
+        """Check if a chat has already been processed"""
+        try:
+            return db.query(ProcessedChat).filter(ProcessedChat.fb_chat_id == chat_id).first() is not None
+        except Exception as e:
+            logger.error(f"Error checking processed status for {chat_id}: {e}")
+            return False
+    
+    def _mark_chat_processed(self, db: Session, chat_id: str, message_count: int):
+        """Mark a chat as processed"""
+        try:
+            # Remove existing record if it exists (for force reprocess)
+            existing = db.query(ProcessedChat).filter(ProcessedChat.fb_chat_id == chat_id).first()
+            if existing:
+                db.delete(existing)
+            
+            # Add new record
+            processed_chat = ProcessedChat(
+                fb_chat_id=chat_id,
+                message_count=message_count
+            )
+            db.add(processed_chat)
+            
+        except Exception as e:
+            logger.error(f"Error marking chat {chat_id} as processed: {e}")
+            raise
     
     def _calculate_conversation_metrics(self, messages: List[Dict], conversation_analysis: Dict) -> Dict:
         """Calculate aggregated metrics for the conversation"""

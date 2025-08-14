@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, BackgroundTasks, Query
 from sqlalchemy.orm import Session
 import time
 import logging
@@ -16,6 +16,7 @@ router = APIRouter()
 async def upload_json(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
+    force_reprocess: bool = Query(False, description="Force reprocessing of already processed chat_ids"),
     db: Session = Depends(get_db)
 ):
     """
@@ -47,7 +48,7 @@ async def upload_json(
         
         # Process the file
         conversations_processed, messages_processed = await file_service.process_grouped_chats_json(
-            file_content, db
+            file_content, db, force_reprocess=force_reprocess
         )
         
         # Recalculate metrics in background

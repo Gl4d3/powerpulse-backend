@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, asc
 from typing import Optional
+from datetime import date, datetime
 import logging
 
 from database import get_db
@@ -21,7 +22,9 @@ async def get_conversations(
     sort_order: str = Query(default="desc", pattern="^(asc|desc)$"),
     min_satisfaction: Optional[float] = Query(default=None, ge=1, le=5),
     max_satisfaction: Optional[float] = Query(default=None, ge=1, le=5),
-    satisfied_only: Optional[bool] = Query(default=None)
+    satisfied_only: Optional[bool] = Query(default=None),
+    start_date: Optional[date] = Query(None, description="Start date for filtering (ISO 8601 format: YYYY-MM-DD)"),
+    end_date: Optional[date] = Query(None, description="End date for filtering (ISO 8601 format: YYYY-MM-DD)")
 ):
     """
     Get paginated list of conversations with scores and metadata.
@@ -40,6 +43,13 @@ async def get_conversations(
         
         if satisfied_only is not None:
             query = query.filter(Conversation.is_satisfied == satisfied_only)
+        
+        # Date filtering
+        if start_date:
+            query = query.filter(Conversation.first_message_time >= datetime.combine(start_date, datetime.min.time()))
+        
+        if end_date:
+            query = query.filter(Conversation.last_message_time <= datetime.combine(end_date, datetime.max.time()))
         
         # Get total count before pagination
         total = query.count()

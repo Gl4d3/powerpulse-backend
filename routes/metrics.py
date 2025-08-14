@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
+from datetime import datetime, date
+from typing import Optional
 from sqlalchemy.orm import Session
 import logging
 
@@ -10,7 +12,11 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 @router.get("/metrics", response_model=MetricsResponse)
-async def get_metrics(db: Session = Depends(get_db)):
+async def get_metrics(
+    start_date: Optional[date] = Query(None, description="Start date for filtering (ISO 8601 format: YYYY-MM-DD)"),
+    end_date: Optional[date] = Query(None, description="End date for filtering (ISO 8601 format: YYYY-MM-DD)"),
+    db: Session = Depends(get_db)
+):
     """
     Get aggregated business intelligence metrics:
     - Average sentiment score
@@ -21,8 +27,23 @@ async def get_metrics(db: Session = Depends(get_db)):
     - Most common topics/keywords
     """
     try:
-        metrics = analytics_service.get_cached_metrics(db)
-        return metrics
+        # If date filtering is requested, calculate metrics on the fly
+        if start_date or end_date:
+            metrics = analytics_service.calculate_metrics_with_date_filter(db, start_date, end_date)
+            return MetricsResponse(
+                avg_sentiment_score=metrics['avg_sentiment_score'],
+                csat_percentage=metrics['csat_percentage'],
+                fcr_percentage=metrics['fcr_percentage'],
+                avg_response_time_minutes=metrics['avg_response_time_minutes'],
+                total_conversations=metrics['total_conversations'],
+                total_messages=metrics['total_messages'],
+                most_common_topics=metrics['most_common_topics'],
+                last_updated=datetime.now()
+            )
+        else:
+            # Return cached metrics for overall data
+            metrics = analytics_service.get_cached_metrics(db)
+            return metrics
         
     except Exception as e:
         logger.error(f"Error retrieving metrics: {e}")

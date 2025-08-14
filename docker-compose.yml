@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: powerpulse-analytics
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DATABASE_URL=sqlite:///./powerpulse.db
+    volumes:
+      - ./uploads:/app/uploads
+      - ./powerpulse.db:/app/powerpulse.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add PostgreSQL for production
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: powerpulse-postgres
+  #   environment:
+  #     - POSTGRES_DB=powerpulse
+  #     - POSTGRES_USER=powerpulse
+  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+  #   restart: unless-stopped
+
+# volumes:
+#   postgres_data:
