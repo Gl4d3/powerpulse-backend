@@ -17,6 +17,16 @@ The application successfully processes JSON files containing grouped chat conver
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Updates - Production Improvements (August 14, 2025)
+
+✅ **Autoresponse Filtering** - Messages containing "*977#" are automatically filtered out before GPT analysis  
+✅ **Date Range Filtering** - Both /metrics and /conversations endpoints support start_date/end_date query parameters  
+✅ **GPT Processing Cache** - ProcessedChat tracking prevents reprocessing unless force_reprocess=true is used  
+✅ **GPT Retry Logic** - Exponential backoff with max 2 retries for OpenAI API failures  
+✅ **Docker Setup** - Complete Dockerfile and docker-compose.yml for easy deployment  
+✅ **Force Reprocess** - Upload endpoint supports force_reprocess parameter for reanalysis  
+✅ **Production Testing** - Successfully processed real Facebook chat data with autoresponse filtering
+
 ## System Architecture
 
 ### Backend Framework
