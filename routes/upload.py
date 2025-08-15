@@ -4,7 +4,7 @@ import time
 import logging
 
 from database import get_db
-from services.file_service import file_service
+from services.file_service_optimized import optimized_file_service
 from services.analytics_service import analytics_service
 from schemas import UploadResponse, ErrorResponse
 from config import settings
@@ -46,8 +46,8 @@ async def upload_json(
         start_time = time.time()
         logger.info(f"Starting processing of file: {file.filename}")
         
-        # Process the file
-        conversations_processed, messages_processed = await file_service.process_grouped_chats_json(
+        # Process the file with optimized service
+        conversations_processed, messages_processed, upload_id = await optimized_file_service.process_grouped_chats_json(
             file_content, db, force_reprocess=force_reprocess
         )
         
@@ -64,7 +64,8 @@ async def upload_json(
             message=f"Successfully processed {conversations_processed} conversations",
             conversations_processed=conversations_processed,
             messages_processed=messages_processed,
-            processing_time_seconds=round(processing_time, 2)
+            processing_time_seconds=round(processing_time, 2),
+            upload_id=upload_id
         )
         
     except HTTPException:

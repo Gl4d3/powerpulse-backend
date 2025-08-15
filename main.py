@@ -10,6 +10,7 @@ from routes.upload import router as upload_router
 from routes.metrics import router as metrics_router  
 from routes.conversations import router as conversations_router
 from routes.export import router as export_router
+from routes.progress import router as progress_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -46,6 +47,7 @@ app.include_router(upload_router, prefix="/api", tags=["upload"])
 app.include_router(metrics_router, prefix="/api", tags=["metrics"])
 app.include_router(conversations_router, prefix="/api", tags=["conversations"])
 app.include_router(export_router, prefix="/api", tags=["export"])
+app.include_router(progress_router, prefix="/api", tags=["progress"])
 
 @app.get("/")
 async def root():

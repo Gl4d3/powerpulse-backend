@@ -69,6 +69,7 @@ class UploadResponse(BaseModel):
     conversations_processed: int
     messages_processed: int
     processing_time_seconds: float
+    upload_id: Optional[str] = None
     
 class ErrorResponse(BaseModel):
     error: str
