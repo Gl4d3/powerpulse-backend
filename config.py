@@ -6,7 +6,7 @@ class Settings:
     DATABASE_URL: str = "sqlite:///./powerpulse.db"
     
     # OpenAI
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", default="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")
     OPENAI_MODEL: str = "gpt-4o-mini"  # Using GPT-4o-mini as specified
     
     # File upload

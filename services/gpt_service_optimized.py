@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class OptimizedGPTService:
     def __init__(self, api_key: str):
         self.client = AsyncOpenAI(api_key=api_key)
-        self.model = "gpt-4o"  # Using GPT-4o for better performance
+        self.model = "gpt-4o-mini"  # Using GPT-4o for better performance
         
     async def batch_analyze_conversations(
         self, 

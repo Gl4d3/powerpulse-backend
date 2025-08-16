@@ -181,39 +181,43 @@ class AnalyticsService:
         """Cache calculated metrics in database"""
         try:
             for key, value in metrics.items():
+                existing = db.query(Metric).filter(Metric.metric_name == key).first()
+
                 if key == 'most_common_topics':
-                    # Store topics in metadata - delete existing first
-                    existing = db.query(Metric).filter(Metric.metric_name == key).first()
+                    # Store topics in metadata
                     if existing:
-                        db.delete(existing)
-                    
-                    db.add(Metric(
-                        metric_name=key,
-                        metric_value=len(value),
-                        metric_metadata={"topics": value}
-                    ))
+                        existing.metric_value = len(value)
+                        existing.metric_metadata = {"topics": value}
+                    else:
+                        db.add(Metric(
+                            metric_name=key,
+                            metric_value=len(value),
+                            metric_metadata={"topics": value}
+                        ))
                 elif key == 'last_updated':
-                    # Store datetime as string - delete existing first  
-                    existing = db.query(Metric).filter(Metric.metric_name == key).first()
+                    # Store datetime as string
+                    timestamp_str = value.isoformat() if isinstance(value, datetime) else str(value)
                     if existing:
-                        db.delete(existing)
-                    
-                    db.add(Metric(
-                        metric_name=key,
-                        metric_value=0,  # Dummy value
-                        metric_metadata={"timestamp": value.isoformat()}
-                    ))
+                        existing.metric_value = 0  # Dummy value
+                        existing.metric_metadata = {"timestamp": timestamp_str}
+                    else:
+                        db.add(Metric(
+                            metric_name=key,
+                            metric_value=0,  # Dummy value
+                            metric_metadata={"timestamp": timestamp_str}
+                        ))
                 else:
-                    # Store numeric metrics - delete existing first to avoid constraint issues
-                    existing = db.query(Metric).filter(Metric.metric_name == key).first()
+                    # Store numeric metrics
+                    numeric_value = float(value)
                     if existing:
-                        db.delete(existing)
-                    
-                    db.add(Metric(
-                        metric_name=key,
-                        metric_value=float(value),
-                        metric_metadata=None
-                    ))
+                        existing.metric_value = numeric_value
+                        existing.metric_metadata = None
+                    else:
+                        db.add(Metric(
+                            metric_name=key,
+                            metric_value=numeric_value,
+                            metric_metadata=None
+                        ))
             
             db.commit()
             logger.info("Metrics cached successfully")

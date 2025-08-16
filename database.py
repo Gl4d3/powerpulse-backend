@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 engine = create_engine(
     settings.DATABASE_URL,
     connect_args={"check_same_thread": False},
-    echo=False  # Set to True for SQL query logging
+    echo=True  # Set to True for SQL query logging
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

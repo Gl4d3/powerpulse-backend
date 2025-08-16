@@ -41,7 +41,7 @@ class ConversationResponse(BaseModel):
     first_message_time: Optional[datetime]
     last_message_time: Optional[datetime]
     common_topics: Optional[List[str]]
-    updated_at: datetime
+    updated_at: Optional[datetime]
     
     class Config:
         from_attributes = True

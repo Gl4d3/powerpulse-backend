@@ -136,7 +136,8 @@ Respond with JSON in this exact format:
             
             conversation = "\n".join(conversation_text)
             
-            prompt = f"""Analyze this customer service conversation for overall customer satisfaction. Consider:
+            prompt = f"""
+Analyze this customer service conversation for overall customer satisfaction. Consider:
 - Was the customer's issue resolved?
 - Was the agent helpful and responsive?
 - What was the customer's tone at the end vs beginning?

@@ -11,18 +11,41 @@ from routes.metrics import router as metrics_router
 from routes.conversations import router as conversations_router
 from routes.export import router as export_router
 from routes.progress import router as progress_router
+from database import SessionLocal
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+def check_database_health():
+    """Check if database is accessible and working"""
+    try:
+        with SessionLocal() as db:
+            # Test basic operations
+            result = db.execute("SELECT COUNT(*) FROM conversations").scalar()
+            logger.info(f"Database health check passed. Conversations count: {result}")
+            return True
+    except Exception as e:
+        logger.error(f"Database health check failed: {e}")
+        return False
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting PowerPulse Analytics Backend...")
+    
+    # Initialize database
     init_db()
     logger.info("Database initialized successfully")
+    
+    # Health check
+    if not check_database_health():
+        logger.error("Database health check failed!")
+        raise RuntimeError("Database is not accessible")
+    
+    logger.info("Database health check passed")
     yield
+    
     # Shutdown
     logger.info("Shutting down PowerPulse Analytics Backend...")
 

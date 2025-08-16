@@ -1,0 +1,156 @@
+{
+  "FB_CHAT_001": [
+    {
+      "FB_CHAT_ID": "FB_CHAT_001",
+      "MESSAGE_CONTENT": "Hello, I have a question about my recent order #12345",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T10:00:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_001",
+      "MESSAGE_CONTENT": "Hi! I'd be happy to help you with your order. Let me look that up for you.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-01-15T10:01:00.000Z",
+      "AGENT_USERNAME": "AGENT_001",
+      "AGENT_EMAIL": "agent1@company.com"
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_001",
+      "MESSAGE_CONTENT": "I can see your order was shipped yesterday and should arrive by Friday. Is there something specific you'd like to know?",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-01-15T10:02:00.000Z",
+      "AGENT_USERNAME": "AGENT_001",
+      "AGENT_EMAIL": "agent1@company.com"
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_001",
+      "MESSAGE_CONTENT": "That's perfect! Thank you so much for the quick response. I'm very satisfied with your service.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T10:03:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    }
+  ],
+  "FB_CHAT_002": [
+    {
+      "FB_CHAT_ID": "FB_CHAT_002",
+      "MESSAGE_CONTENT": "I'm having trouble with my account login. It keeps saying invalid password.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T11:00:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_002",
+      "MESSAGE_CONTENT": "I'm sorry to hear you're having trouble. Let me help you reset your password.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-01-15T11:01:00.000Z",
+      "AGENT_USERNAME": "AGENT_002",
+      "AGENT_EMAIL": "agent2@company.com"
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_002",
+      "MESSAGE_CONTENT": "I've sent a password reset link to your email. Please check your inbox and follow the instructions.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-01-15T11:02:00.000Z",
+      "AGENT_USERNAME": "AGENT_002",
+      "AGENT_EMAIL": "agent2@company.com"
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_002",
+      "MESSAGE_CONTENT": "Great! I received the email and was able to reset my password. Thank you for the help!",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T11:05:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    }
+  ],
+  "FB_CHAT_003": [
+    {
+      "FB_CHAT_ID": "FB_CHAT_003",
+      "MESSAGE_CONTENT": "I'm not happy with the quality of the product I received. It's not what I expected.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T12:00:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_003",
+      "MESSAGE_CONTENT": "I understand your concern and I'm sorry you're not satisfied. Let me help you with a return or replacement.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-01-15T12:01:00.000Z",
+      "AGENT_USERNAME": "AGENT_003",
+      "AGENT_EMAIL": "agent3@company.com"
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_003",
+      "MESSAGE_CONTENT": "I can arrange for a return label and process a refund, or if you'd prefer, I can send you a replacement product.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-01-15T12:02:00.000Z",
+      "AGENT_USERNAME": "AGENT_003",
+      "AGENT_EMAIL": "agent3@company.com"
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_003",
+      "MESSAGE_CONTENT": "I'd like a replacement please. Thank you for understanding.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T12:03:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    }
+  ],
+  "FB_CHAT_004": [
+    {
+      "FB_CHAT_ID": "FB_CHAT_004",
+      "MESSAGE_CONTENT": "*977#",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T13:00:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    }
+  ],
+  "FB_CHAT_005": [
+    {
+      "FB_CHAT_ID": "FB_CHAT_005",
+      "MESSAGE_CONTENT": "Hi, I have a billing question about my subscription.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T14:00:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_005",
+      "MESSAGE_CONTENT": "Hello! I'd be happy to help with your billing question. What would you like to know?",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-01-15T14:01:00.000Z",
+      "AGENT_USERNAME": "AGENT_001",
+      "AGENT_EMAIL": "agent1@company.com"
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_005",
+      "MESSAGE_CONTENT": "I was charged twice this month. Can you help me get a refund?",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T14:02:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_005",
+      "MESSAGE_CONTENT": "I can see the duplicate charge. Let me process a refund for you right away. It should appear in your account within 3-5 business days.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-01-15T14:03:00.000Z",
+      "AGENT_USERNAME": "AGENT_001",
+      "AGENT_EMAIL": "agent1@company.com"
+    },
+    {
+      "FB_CHAT_ID": "FB_CHAT_005",
+      "MESSAGE_CONTENT": "Perfect! Thank you so much for the quick resolution. I really appreciate it.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-01-15T14:04:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    }
+  ]
+}
