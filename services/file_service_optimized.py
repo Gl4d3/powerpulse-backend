@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from models import Message, Conversation, ProcessedChat
 from services.gpt_service_optimized import get_optimized_gpt_service
+from services.gemini_service import get_gemini_service
 from services.progress_tracker import progress_tracker
 from config import settings
 
@@ -92,11 +93,18 @@ class OptimizedFileService:
                 )
                 await progress_tracker.increment_gpt_calls(upload_id)
             
-            # Get optimized GPT service
-            gpt_service = get_optimized_gpt_service(settings.OPENAI_API_KEY)
+            # Get AI service based on configuration
+            if settings.AI_SERVICE.lower() == "gemini":
+                from services.gemini_service import get_gemini_service
+                ai_service = get_gemini_service(settings.GEMINI_API_KEY)
+                logger.info("Using Google Gemini for AI analysis")
+            else:
+                from services.gpt_service_optimized import get_optimized_gpt_service
+                ai_service = get_optimized_gpt_service(settings.OPENAI_API_KEY)
+                logger.info("Using OpenAI GPT for AI analysis")
             
-            # Batch analyze all conversations with GPT-4o
-            analysis_results = await gpt_service.batch_analyze_conversations(
+            # Batch analyze all conversations with AI service
+            analysis_results = await ai_service.batch_analyze_conversations(
                 conversations_to_process, 
                 gpt_progress_callback
             )

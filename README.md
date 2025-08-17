@@ -1,11 +1,11 @@
 # PowerPulse Analytics
 
-A production-ready customer satisfaction analytics backend built with FastAPI that processes Facebook Direct Messages to generate business intelligence metrics using OpenAI GPT-4o-mini for sentiment analysis.
+A production-ready customer satisfaction analytics backend built with FastAPI that processes Facebook Direct Messages to generate business intelligence metrics using **Google Gemini AI** for sentiment analysis.
 
 ## Features
 
 ### ✅ Core Analytics
-- **Sentiment Analysis**: AI-powered analysis of customer messages using GPT-4o-mini
+- **Sentiment Analysis**: AI-powered analysis of customer messages using **Google Gemini 1.5 Flash**
 - **CSAT Calculation**: Customer satisfaction percentage tracking
 - **FCR Metrics**: First Contact Resolution rate analysis  
 - **Response Time Analytics**: Agent response time tracking and averages
@@ -14,9 +14,10 @@ A production-ready customer satisfaction analytics backend built with FastAPI th
 ### ✅ Production Enhancements
 - **Autoresponse Filtering**: Automatically filters out messages containing "*977#"
 - **Date Range Filtering**: Support for start_date/end_date parameters in API endpoints
-- **GPT Processing Cache**: Prevents reprocessing with ProcessedChat tracking
-- **Retry Logic**: Exponential backoff for OpenAI API failures (max 2 retries)
+- **AI Processing Cache**: Prevents reprocessing with ProcessedChat tracking
+- **Retry Logic**: Exponential backoff for AI API failures (max 2 retries)
 - **Force Reprocess**: Optional reanalysis of previously processed conversations
+- **Multi-AI Support**: Switch between Google Gemini and OpenAI GPT
 
 ### ✅ API Endpoints
 - `POST /api/upload-json` - Upload Facebook chat JSON files
@@ -28,7 +29,7 @@ A production-ready customer satisfaction analytics backend built with FastAPI th
 ### ✅ Data Processing
 - **JSON Format**: Processes grouped_chats format (FB_CHAT_ID as key, message arrays as values)
 - **Message Validation**: Filters invalid messages and autoresponses
-- **Batch Processing**: Efficient GPT API usage through batched requests
+- **Batch Processing**: Efficient AI API usage through batched requests
 - **Database Persistence**: SQLite with PostgreSQL compatibility
 
 ## Quick Start
@@ -36,10 +37,11 @@ A production-ready customer satisfaction analytics backend built with FastAPI th
 ### Using Python directly:
 ```bash
 # Install dependencies
-pip install -r pyproject.toml
+pip install -r requirements.txt
 
-# Set OpenAI API key
-export OPENAI_API_KEY="your-key-here"
+# Set AI service configuration
+export GEMINI_API_KEY="your-gemini-key-here"  # Recommended
+export AI_SERVICE="gemini"  # or "openai" for GPT
 
 # Run the server
 python main.py
@@ -52,8 +54,20 @@ docker-compose up --build
 
 # Or build manually
 docker build -t powerpulse-analytics .
-docker run -p 8000:8000 -e OPENAI_API_KEY="your-key" powerpulse-analytics
+docker run -p 8000:8000 -e GEMINI_API_KEY="your-key" powerpulse-analytics
 ```
+
+## AI Service Configuration
+
+### Google Gemini (Recommended)
+- **Model**: Gemini 1.5 Flash
+- **Benefits**: Generous free tier, fast performance, no quota issues
+- **Setup**: Set `GEMINI_API_KEY` and `AI_SERVICE="gemini"`
+
+### OpenAI GPT (Alternative)
+- **Model**: GPT-4o-mini
+- **Benefits**: High accuracy, extensive training data
+- **Setup**: Set `OPENAI_API_KEY` and `AI_SERVICE="openai"`
 
 ## API Usage Examples
 
@@ -106,7 +120,9 @@ Expected JSON format for uploads:
 
 ## Environment Variables
 
-- `OPENAI_API_KEY` - Required for GPT analysis
+- `GEMINI_API_KEY` - **Recommended**: Google Gemini API key
+- `OPENAI_API_KEY` - Alternative: OpenAI API key
+- `AI_SERVICE` - Choose "gemini" (default) or "openai"
 - `DATABASE_URL` - SQLite/PostgreSQL connection string (default: sqlite:///./powerpulse.db)
 - `MAX_FILE_SIZE` - Maximum upload size in bytes (default: 52428800 = 50MB)
 
@@ -114,7 +130,8 @@ Expected JSON format for uploads:
 
 - **FastAPI**: Modern Python web framework with automatic OpenAPI documentation
 - **SQLAlchemy**: Database ORM with support for SQLite and PostgreSQL  
-- **OpenAI GPT-4o-mini**: AI model for sentiment analysis and satisfaction scoring
+- **Google Gemini**: **Primary AI model** for sentiment analysis and satisfaction scoring
+- **OpenAI GPT**: Alternative AI model (fallback option)
 - **Pandas**: Data processing and CSV export functionality
 - **Docker**: Containerized deployment with health checks
 
@@ -122,9 +139,10 @@ Expected JSON format for uploads:
 
 - **Health Checks**: Docker health monitoring
 - **Error Handling**: Comprehensive logging and error recovery
-- **Rate Limiting**: Built-in GPT API retry logic
+- **Rate Limiting**: Built-in AI API retry logic
 - **Scalability**: Async processing with background tasks
 - **Monitoring**: Request logging and performance tracking
+- **AI Flexibility**: Easy switching between Gemini and GPT
 
 ## Business Metrics
 
@@ -135,6 +153,20 @@ The system provides key customer service metrics:
 - **Average Response Time**: Mean agent response time in minutes
 - **Sentiment Distribution**: Customer message sentiment analysis
 - **Topic Analysis**: Most common conversation topics
+
+## Testing
+
+### Run Unit Tests:
+```bash
+# Test Gemini service
+python -m pytest tests/unit/test_gemini_service.py -v
+
+# Test all services
+python -m pytest tests/ -v
+
+# Run diagnostics
+python tests/test_diagnostics.py
+```
 
 ## License
 

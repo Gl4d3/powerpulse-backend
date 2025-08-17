@@ -1,16 +1,22 @@
+"""
+Google Gemini Service - Drop-in replacement for GPT service
+Implements the same interface as OptimizedGPTService
+"""
 import logging
 import asyncio
 from typing import Dict, List, Any, Optional, Tuple
-from openai import AsyncOpenAI
 import json
 from datetime import datetime
+import google.generativeai as genai
 
 logger = logging.getLogger(__name__)
 
-class OptimizedGPTService:
+class GeminiService:
     def __init__(self, api_key: str):
-        self.client = AsyncOpenAI(api_key=api_key)
-        self.model = "gpt-4o-mini"  # Using GPT-4o for better performance
+        """Initialize Gemini service with API key"""
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel('gemini-1.5-flash')  # Fast and capable model
+        self.api_key = api_key
         
     async def batch_analyze_conversations(
         self, 
@@ -18,7 +24,7 @@ class OptimizedGPTService:
         progress_callback: Optional[callable] = None
     ) -> List[Dict]:
         """
-        Optimized batch processing of conversations using GPT-4o
+        Optimized batch processing of conversations using Gemini
         Combines sentiment analysis and satisfaction scoring in single calls
         """
         try:
@@ -64,7 +70,7 @@ class OptimizedGPTService:
     async def _analyze_single_conversation(self, conversation: Dict) -> Dict:
         """
         Analyze a single conversation with optimized prompt
-        Combines all analysis in one GPT call
+        Combines all analysis in one Gemini call
         """
         try:
             messages = conversation.get('messages', [])
@@ -76,8 +82,8 @@ class OptimizedGPTService:
             # Create optimized prompt that gets everything in one call
             prompt = self._create_comprehensive_prompt(messages)
             
-            # Single GPT call with retry logic
-            response = await self._call_gpt_with_retry(prompt)
+            # Single Gemini call with retry logic
+            response = await self._call_gemini_with_retry(prompt)
             
             # Parse the comprehensive response
             analysis = self._parse_comprehensive_response(response, messages)
@@ -134,7 +140,7 @@ ANALYSIS GUIDELINES:
         return prompt
     
     def _format_messages_for_analysis(self, messages: List[Dict]) -> str:
-        """Format messages in a clean way for GPT analysis"""
+        """Format messages in a clean way for Gemini analysis"""
         formatted = []
         
         for msg in messages:
@@ -150,39 +156,29 @@ ANALYSIS GUIDELINES:
         
         return "\n".join(formatted)
     
-    async def _call_gpt_with_retry(self, prompt: str, max_retries: int = 2) -> str:
-        """Call GPT with exponential backoff retry logic"""
+    async def _call_gemini_with_retry(self, prompt: str, max_retries: int = 2) -> str:
+        """Call Gemini with exponential backoff retry logic"""
         for attempt in range(max_retries + 1):
             try:
-                response = await self.client.chat.completions.create(
-                    model=self.model,
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": "You are an expert customer service analyst. Provide accurate, structured analysis in valid JSON format only."
-                        },
-                        {
-                            "role": "user", 
-                            "content": prompt
-                        }
-                    ],
-                    temperature=0.1,
-                    max_tokens=2000
-                )
+                # Convert async to sync for Gemini (Gemini doesn't have async client yet)
+                response = self.model.generate_content(prompt)
                 
-                return response.choices[0].message.content.strip()
+                if response.text:
+                    return response.text.strip()
+                else:
+                    raise Exception("Empty response from Gemini")
                 
             except Exception as e:
                 if attempt < max_retries:
                     wait_time = (2 ** attempt) * 0.5  # Exponential backoff
-                    logger.warning(f"GPT call failed (attempt {attempt + 1}), retrying in {wait_time}s: {e}")
+                    logger.warning(f"Gemini call failed (attempt {attempt + 1}), retrying in {wait_time}s: {e}")
                     await asyncio.sleep(wait_time)
                 else:
-                    logger.error(f"GPT call failed after {max_retries + 1} attempts: {e}")
+                    logger.error(f"Gemini call failed after {max_retries + 1} attempts: {e}")
                     raise
     
     def _parse_comprehensive_response(self, response: str, original_messages: List[Dict]) -> Dict:
-        """Parse the comprehensive GPT response"""
+        """Parse the comprehensive Gemini response"""
         try:
             # Extract JSON from response
             if "```json" in response:
@@ -234,7 +230,7 @@ ANALYSIS GUIDELINES:
             }
             
         except Exception as e:
-            logger.error(f"Error parsing GPT response: {e}")
+            logger.error(f"Error parsing Gemini response: {e}")
             logger.debug(f"Response was: {response}")
             
             # Return fallback analysis
@@ -274,18 +270,18 @@ ANALYSIS GUIDELINES:
                     'direction': msg.get('direction', ''),
                     'social_create_time': msg.get('social_create_time'),
                     'sentiment_score': 0.0 if msg.get('direction') == 'to_company' else None,
-                    'sentiment_confidence': 0.5 if msg.get('direction') == 'to_company' else None,
+                    'sentiment_confidence': 0.5 if msg.get('direction') == 'company' else None,
                     'topics': []
                 }
                 for msg in messages
             ]
         }
 
-# Global optimized service instance
-optimized_gpt_service = None
+# Global Gemini service instance
+gemini_service = None
 
-def get_optimized_gpt_service(api_key: str) -> OptimizedGPTService:
-    global optimized_gpt_service
-    if optimized_gpt_service is None:
-        optimized_gpt_service = OptimizedGPTService(api_key)
-    return optimized_gpt_service
+def get_gemini_service(api_key: str) -> GeminiService:
+    global gemini_service
+    if gemini_service is None:
+        gemini_service = GeminiService(api_key)
+    return gemini_service

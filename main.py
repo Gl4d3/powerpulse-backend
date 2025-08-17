@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 import uvicorn
 import logging
 from contextlib import asynccontextmanager
+from sqlalchemy import text
 
 from database import init_db
 from routes.upload import router as upload_router
@@ -22,7 +23,7 @@ def check_database_health():
     try:
         with SessionLocal() as db:
             # Test basic operations
-            result = db.execute("SELECT COUNT(*) FROM conversations").scalar()
+            result = db.execute(text("SELECT COUNT(*) FROM conversations")).scalar()
             logger.info(f"Database health check passed. Conversations count: {result}")
             return True
     except Exception as e:

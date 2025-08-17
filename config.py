@@ -1,19 +1,15 @@
 import os
-from typing import Optional
+from pydantic_settings import BaseSettings
 
-class Settings:
-    # Database
+class Settings(BaseSettings):
+    # Database configuration
     DATABASE_URL: str = "sqlite:///./powerpulse.db"
     
-    # OpenAI
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", default="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")
-    OPENAI_MODEL: str = "gpt-4o-mini"  # Using GPT-4o-mini as specified
-    
-    # File upload
-    MAX_FILE_SIZE: int = 50 * 1024 * 1024  # 50MB
+    # File upload configuration
+    MAX_FILE_SIZE: int = 52428800  # 50MB in bytes
     UPLOAD_DIR: str = "uploads"
     
-    # Cache
+    # Cache configuration
     CACHE_PROCESSED_CHATS: bool = True
     
     # Pagination
@@ -23,11 +19,35 @@ class Settings:
     # Background tasks
     BACKGROUND_TASK_TIMEOUT: int = 3600  # 1 hour
     
-    def __init__(self):
+    # AI Service Configuration
+    OPENAI_API_KEY: str = "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"
+    GEMINI_API_KEY: str = "AIzaSyDM9GssixzNISUbofkVLttZBco1BvyI2eE"  # NEW: Gemini API key
+    AI_SERVICE: str = "gemini"  # NEW: Choose between "openai" or "gemini"
+    
+    # Model configuration
+    GPT_MODEL: str = "gpt-4o-mini"
+    GEMINI_MODEL: str = "gemini-1.5-flash"
+    
+    class Config:
+        env_file = ".env"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         # Ensure upload directory exists
         os.makedirs(self.UPLOAD_DIR, exist_ok=True)
         
-        if not self.OPENAI_API_KEY:
-            raise ValueError("OPENAI_API_KEY environment variable is required")
+        # Validate that at least one AI service is configured
+        if not self.OPENAI_API_KEY and not self.GEMINI_API_KEY:
+            raise ValueError("Either OPENAI_API_KEY or GEMINI_API_KEY environment variable is required")
+        
+        # Validate AI service selection
+        if self.AI_SERVICE.lower() not in ["openai", "gemini"]:
+            raise ValueError("AI_SERVICE must be either 'openai' or 'gemini'")
+        
+        # Validate service-specific API key
+        if self.AI_SERVICE.lower() == "openai" and not self.OPENAI_API_KEY:
+            raise ValueError("OPENAI_API_KEY is required when AI_SERVICE is 'openai'")
+        if self.AI_SERVICE.lower() == "gemini" and not self.GEMINI_API_KEY:
+            raise ValueError("GEMINI_API_KEY is required when AI_SERVICE is 'gemini'")
 
 settings = Settings()
