@@ -154,9 +154,38 @@ The system provides key customer service metrics:
 - **Sentiment Distribution**: Customer message sentiment analysis
 - **Topic Analysis**: Most common conversation topics
 
+## Dummy overview
+
+This section explains the core metric calculations in plain language for non-technical stakeholders.
+
+- Customer satisfaction (CSAT): the percentage of conversations judged "satisfied" (satisfaction score usually treated as satisfied when >= 4).
+- First Contact Resolution (FCR): the percentage of conversations resolved on the first customer contact.
+- Average Response Time: the typical time (in minutes) it takes an agent to reply to a customer message, averaged across conversations.
+- Average Sentiment: the average sentiment score for customer messages (based on AI analysis), expressed as a numeric average.
+
+## Techie specifics
+
+Detailed, code-level notes for engineers maintaining the calculations.
+
+- CSAT (code): computed in `services/analytics_service.py` by counting Conversation rows marked satisfied (e.g. `satisfaction_score >= 4` or `is_satisfied == True`) and dividing by total conversations. Formula: `csat_percentage = (satisfied_count / total_conversations) * 100`.
+
+- FCR (code): computed in `services/analytics_service.py` by counting Conversation rows where `first_contact_resolution == True` and dividing by total conversations. Formula: `fcr_percentage = (fcr_count / total_conversations) * 100`.
+
+- Average Response Time (code): per-conversation response times are calculated when processing uploads (see `services/file_service.py` and `services/file_service_optimized.py`). For each agent message, the service finds the most recent preceding customer message and computes the time difference (minutes). A conversation's `avg_response_time_minutes` is the mean of those diffs; analytics then uses a DB AVG across conversations (e.g. `AVG(conversations.avg_response_time_minutes)`).
+
+- Average Sentiment (code): message-level sentiment is produced by the AI service (`services/gpt_service.py` or `services/gpt_service_optimized.py` / Gemini equivalents) and stored on `Message` records (field `sentiment_score`). Conversation-level sentiment (e.g. `avg_sentiment`) is derived from customer messages during conversation metric calculation (in `services/file_service*.py`). Analytics then averages conversations' sentiment via SQL AVG.
+
+
+### Notes and edge cases
+
+- Empty datasets: analytics code guards against division by zero by checking `total_conversations` before computing percentages.
+- Null or missing scores: only messages/conversations with valid numeric sentiment or satisfaction values are included in averages.
+- Autoresponse filtering and data cleaning: message preprocessing filters out autoresponses and invalid messages before metrics are computed (see `services/file_service*.py`).
+
 ## Testing
 
-### Run Unit Tests:
+### Run unit tests
+
 ```bash
 # Test Gemini service
 python -m pytest tests/unit/test_gemini_service.py -v

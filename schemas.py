@@ -78,3 +78,25 @@ class ErrorResponse(BaseModel):
 class PaginationParams(BaseModel):
     page: int = Field(default=1, ge=1)
     page_size: int = Field(default=20, ge=1, le=100)
+
+class JobBase(BaseModel):
+    upload_id: Optional[str] = None
+    status: Optional[str] = "pending"
+
+class JobCreate(JobBase):
+    conversation_ids: List[int]
+
+class JobUpdate(BaseModel):
+    status: Optional[str] = None
+    result: Optional[Dict[str, Any]] = None
+    completed_at: Optional[datetime] = None
+
+class JobResponse(JobBase):
+    id: int
+    created_at: datetime
+    completed_at: Optional[datetime] = None
+    result: Optional[Dict[str, Any]] = None
+    conversations: List[ConversationResponse] = []
+
+    class Config:
+        from_attributes = True

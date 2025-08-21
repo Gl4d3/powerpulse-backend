@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, Text, JSON, ForeignKey, Index
+from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, Text, JSON, ForeignKey, Index, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
@@ -47,6 +47,7 @@ class Conversation(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     fb_chat_id = Column(String, unique=True, index=True, nullable=False)
+    messages = relationship("Message", back_populates="conversation", cascade="all, delete-orphan")
     
     # Aggregated metrics
     total_messages = Column(Integer, default=0)
@@ -71,6 +72,8 @@ class Conversation(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
+    jobs = relationship("Job", secondary=job_conversations, back_populates="conversations")
+
 class Metric(Base):
     """Cached aggregated metrics for quick dashboard loading"""
     __tablename__ = "metrics"
@@ -82,3 +85,20 @@ class Metric(Base):
     
     calculated_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+job_conversations = Table('job_conversations', Base.metadata,
+    Column('job_id', Integer, ForeignKey('jobs.id'), primary_key=True),
+    Column('conversation_id', Integer, ForeignKey('conversations.id'), primary_key=True)
+)
+
+class Job(Base):
+    __tablename__ = "jobs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    upload_id = Column(String, index=True) # To associate jobs with a specific upload
+    status = Column(String, default="pending", index=True) # pending, in_progress, completed, failed
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    completed_at = Column(DateTime(timezone=True), nullable=True)
+    result = Column(JSON, nullable=True)
+
+    conversations = relationship("Conversation", secondary=job_conversations, back_populates="jobs")

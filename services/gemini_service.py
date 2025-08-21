@@ -4,10 +4,13 @@ Implements the same interface as OptimizedGPTService
 """
 import logging
 import asyncio
+import re
 from typing import Dict, List, Any, Optional, Tuple
 import json
 from datetime import datetime
 import google.generativeai as genai
+
+from models import Conversation
 
 logger = logging.getLogger(__name__)
 
@@ -17,151 +20,111 @@ class GeminiService:
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel('gemini-1.5-flash')  # Fast and capable model
         self.api_key = api_key
-        
-    async def batch_analyze_conversations(
-        self, 
-        conversations: List[Dict], 
-        progress_callback: Optional[callable] = None
-    ) -> List[Dict]:
+
+    async def analyze_conversations_batch(self, conversations: List[Conversation]) -> List[Dict]:
         """
-        Optimized batch processing of conversations using Gemini
-        Combines sentiment analysis and satisfaction scoring in single calls
+        Analyzes a batch of conversations using a single Gemini API call.
         """
+        if not conversations:
+            return []
+
         try:
-            results = []
-            batch_size = 5  # Process 5 conversations simultaneously
-            
-            # Process conversations in batches
-            for i in range(0, len(conversations), batch_size):
-                batch = conversations[i:i + batch_size]
-                
-                # Create concurrent tasks for the batch
-                tasks = [
-                    self._analyze_single_conversation(conv)
-                    for conv in batch
-                ]
-                
-                # Execute batch concurrently
-                batch_results = await asyncio.gather(*tasks, return_exceptions=True)
-                
-                # Process results and handle exceptions
-                for j, result in enumerate(batch_results):
-                    if isinstance(result, Exception):
-                        logger.error(f"Error processing conversation {batch[j].get('chat_id')}: {result}")
-                        # Fallback result
-                        results.append(self._create_fallback_result(batch[j]))
-                    else:
-                        results.append(result)
-                
-                # Update progress
-                if progress_callback:
-                    progress = min(100, ((i + len(batch)) / len(conversations)) * 100)
-                    await progress_callback(progress, f"Processed {i + len(batch)}/{len(conversations)} conversations")
-                
-                # Small delay to avoid rate limiting
-                await asyncio.sleep(0.1)
-            
-            return results
-            
+            prompt = self._create_batch_prompt(conversations)
+            response_text = await self._call_gemini_with_retry(prompt)
+            analysis_results = self._parse_batch_response(response_text, conversations)
+            return analysis_results
         except Exception as e:
             logger.error(f"Error in batch analysis: {e}")
-            raise
-    
-    async def _analyze_single_conversation(self, conversation: Dict) -> Dict:
+            # Return fallback results for all conversations in the batch
+            return [self._create_fallback_result(conv) for conv in conversations]
+
+    def _create_batch_prompt(self, conversations: List[Conversation]) -> str:
         """
-        Analyze a single conversation with optimized prompt
-        Combines all analysis in one Gemini call
+        Creates a single prompt to analyze a batch of conversations.
         """
-        try:
-            messages = conversation.get('messages', [])
-            chat_id = conversation.get('chat_id')
-            
-            if not messages:
-                return self._create_fallback_result(conversation)
-            
-            # Create optimized prompt that gets everything in one call
-            prompt = self._create_comprehensive_prompt(messages)
-            
-            # Single Gemini call with retry logic
-            response = await self._call_gemini_with_retry(prompt)
-            
-            # Parse the comprehensive response
-            analysis = self._parse_comprehensive_response(response, messages)
-            analysis['chat_id'] = chat_id
-            
-            return analysis
-            
-        except Exception as e:
-            logger.error(f"Error analyzing conversation {chat_id}: {e}")
-            return self._create_fallback_result(conversation)
-    
-    def _create_comprehensive_prompt(self, messages: List[Dict]) -> str:
-        """
-        Create an optimized prompt that gets all analysis in one call
-        """
-        # Format messages for analysis
-        conversation_text = self._format_messages_for_analysis(messages)
-        
+        conversations_json = []
+        for conv in conversations:
+            # This assumes that conversation objects have a 'messages' attribute
+            # that contains a list of message objects with 'message_content'.
+            # As this relationship is not yet established, this part will need adjustment
+            # once the data model is updated.
+            messages_text = "\n".join([m.message_content for m in conv.messages])
+            conversations_json.append({
+                "chat_id": conv.fb_chat_id,
+                "messages": messages_text
+            })
+
+        conversations_input = json.dumps(conversations_json, indent=2)
+
         prompt = f"""
-Analyze this customer service conversation and provide a comprehensive analysis in JSON format.
+Analyze the following batch of customer service conversations and provide a comprehensive analysis for each in JSON format.
 
-CONVERSATION:
-{conversation_text}
+CONVERSATIONS_BATCH:
+{conversations_input}
 
-Provide analysis in this EXACT JSON format:
+Provide the analysis as a JSON array, with one object per conversation. Use this EXACT JSON format for each object in the array:
 {{
+    "chat_id": "<the original chat_id>",
     "conversation_analysis": {{
         "satisfaction_score": <1-5 integer>,
         "satisfaction_confidence": <0.0-1.0 float>,
         "is_satisfied": <true/false boolean>,
         "resolution_achieved": <true/false boolean>,
         "common_topics": ["topic1", "topic2", "topic3"]
-    }},
-    "message_analyses": [
-        {{
-            "message_content": "<exact message content>",
-            "sentiment_score": <-1.0 to 1.0 float>,
-            "sentiment_confidence": <0.0-1.0 float>,
-            "topics": ["topic1", "topic2"]
-        }}
-    ]
+    }}
 }}
 
 ANALYSIS GUIDELINES:
 - satisfaction_score: 1=very dissatisfied, 3=neutral, 5=very satisfied
-- sentiment_score: -1.0=very negative, 0.0=neutral, 1.0=very positive
-- Only analyze customer messages (to_company) for sentiment
-- Include agent messages in topics but not sentiment
-- resolution_achieved: true if issue was resolved or customer expressed satisfaction
-- common_topics: 3-5 main topics discussed (e.g., "token error", "technical support", "billing")
-- Be concise and accurate
+- resolution_achieved: true if the issue was resolved or the customer expressed satisfaction.
+- common_topics: 3-5 main topics discussed in the conversation.
+- Be concise and accurate.
+- Ensure the output is a valid JSON array.
 """
-        
         return prompt
-    
-    def _format_messages_for_analysis(self, messages: List[Dict]) -> str:
-        """Format messages in a clean way for Gemini analysis"""
-        formatted = []
-        
-        for msg in messages:
-            content = msg.get('message_content', '').strip()
-            direction = msg.get('direction', '')
-            timestamp = msg.get('social_create_time', '')
+
+    def _parse_batch_response(self, response: str, original_conversations: List[Conversation]) -> List[Dict]:
+        """
+        Parses the batch response from Gemini.
+        """
+        try:
+            if "```json" in response:
+                json_start = response.find("```json") + 7
+                json_end = response.find("```", json_start)
+                json_text = response[json_start:json_end].strip()
+            else:
+                json_text = response.strip()
+
+            parsed_results = json.loads(json_text)
+
+            # Create a lookup for results by chat_id
+            results_by_chat_id = {result.get("chat_id"): result for result in parsed_results}
+
+            final_results = []
+            for conv in original_conversations:
+                chat_id = conv.fb_chat_id
+                result = results_by_chat_id.get(chat_id)
+                if result:
+                    analysis = result.get("conversation_analysis", {})
+                    analysis['id'] = conv.id # Add conversation id for job_service
+                    final_results.append(analysis)
+                else:
+                    final_results.append(self._create_fallback_result(conv))
             
-            if not content:
-                continue
-                
-            speaker = "CUSTOMER" if direction == "to_company" else "AGENT"
-            formatted.append(f"[{speaker}]: {content}")
-        
-        return "\n".join(formatted)
-    
+            return final_results
+
+        except Exception as e:
+            logger.error(f"Error parsing Gemini batch response: {e}")
+            logger.debug(f"Response was: {response}")
+            return [self._create_fallback_result(conv) for conv in original_conversations]
+
     async def _call_gemini_with_retry(self, prompt: str, max_retries: int = 2) -> str:
         """Call Gemini with exponential backoff retry logic"""
         for attempt in range(max_retries + 1):
             try:
-                # Convert async to sync for Gemini (Gemini doesn't have async client yet)
-                response = self.model.generate_content(prompt)
+                loop = asyncio.get_running_loop()
+                response = await loop.run_in_executor(
+                    None, lambda: self.model.generate_content(prompt))
                 
                 if response.text:
                     return response.text.strip()
@@ -170,118 +133,35 @@ ANALYSIS GUIDELINES:
                 
             except Exception as e:
                 if attempt < max_retries:
-                    wait_time = (2 ** attempt) * 0.5  # Exponential backoff
+                    wait_time = (2 ** attempt) * 0.5  # Default exponential backoff
+                    match = re.search(r"retry_delay {{'seconds': (\d+)}}", str(e)) # Corrected regex for retry_delay
+                    if match:
+                        wait_time = int(match.group(1))
+                        logger.info(f"Gemini API suggested to wait for {wait_time} seconds.")
+
                     logger.warning(f"Gemini call failed (attempt {attempt + 1}), retrying in {wait_time}s: {e}")
                     await asyncio.sleep(wait_time)
                 else:
                     logger.error(f"Gemini call failed after {max_retries + 1} attempts: {e}")
                     raise
-    
-    def _parse_comprehensive_response(self, response: str, original_messages: List[Dict]) -> Dict:
-        """Parse the comprehensive Gemini response"""
-        try:
-            # Extract JSON from response
-            if "```json" in response:
-                json_start = response.find("```json") + 7
-                json_end = response.find("```", json_start)
-                json_text = response[json_start:json_end].strip()
-            else:
-                json_text = response.strip()
-            
-            parsed = json.loads(json_text)
-            
-            # Extract conversation-level analysis
-            conv_analysis = parsed.get('conversation_analysis', {})
-            message_analyses = parsed.get('message_analyses', [])
-            
-            # Create message analysis lookup
-            msg_analysis_lookup = {}
-            for analysis in message_analyses:
-                content = analysis.get('message_content', '')
-                if content:
-                    msg_analysis_lookup[content] = analysis
-            
-            # Match analyses to original messages
-            enriched_messages = []
-            for msg in original_messages:
-                content = msg.get('message_content', '').strip()
-                direction = msg.get('direction', '')
-                
-                # Get analysis for this message
-                analysis = msg_analysis_lookup.get(content, {})
-                
-                enriched_msg = {
-                    'message_content': content,
-                    'direction': direction,
-                    'social_create_time': msg.get('social_create_time'),
-                    'sentiment_score': analysis.get('sentiment_score') if direction == 'to_company' else None,
-                    'sentiment_confidence': analysis.get('sentiment_confidence') if direction == 'to_company' else None,
-                    'topics': analysis.get('topics', [])
-                }
-                enriched_messages.append(enriched_msg)
-            
-            return {
-                'satisfaction_score': conv_analysis.get('satisfaction_score', 3),
-                'satisfaction_confidence': conv_analysis.get('satisfaction_confidence', 0.5),
-                'is_satisfied': conv_analysis.get('is_satisfied', False),
-                'resolution_achieved': conv_analysis.get('resolution_achieved', False),
-                'common_topics': conv_analysis.get('common_topics', []),
-                'message_analyses': enriched_messages
-            }
-            
-        except Exception as e:
-            logger.error(f"Error parsing Gemini response: {e}")
-            logger.debug(f"Response was: {response}")
-            
-            # Return fallback analysis
-            return {
-                'satisfaction_score': 3,
-                'satisfaction_confidence': 0.5,
-                'is_satisfied': False,
-                'resolution_achieved': False,
-                'common_topics': ['general inquiry'],
-                'message_analyses': [
-                    {
-                        'message_content': msg.get('message_content', ''),
-                        'direction': msg.get('direction', ''),
-                        'social_create_time': msg.get('social_create_time'),
-                        'sentiment_score': 0.0 if msg.get('direction') == 'to_company' else None,
-                        'sentiment_confidence': 0.5 if msg.get('direction') == 'to_company' else None,
-                        'topics': []
-                    }
-                    for msg in original_messages
-                ]
-            }
-    
-    def _create_fallback_result(self, conversation: Dict) -> Dict:
+
+    def _create_fallback_result(self, conversation: Conversation) -> Dict:
         """Create fallback result when analysis fails"""
-        messages = conversation.get('messages', [])
-        
         return {
-            'chat_id': conversation.get('chat_id'),
+            'id': conversation.id,
+            'chat_id': conversation.fb_chat_id,
             'satisfaction_score': 3,
             'satisfaction_confidence': 0.5,
             'is_satisfied': False,
             'resolution_achieved': False,
             'common_topics': ['general inquiry'],
-            'message_analyses': [
-                {
-                    'message_content': msg.get('message_content', ''),
-                    'direction': msg.get('direction', ''),
-                    'social_create_time': msg.get('social_create_time'),
-                    'sentiment_score': 0.0 if msg.get('direction') == 'to_company' else None,
-                    'sentiment_confidence': 0.5 if msg.get('direction') == 'company' else None,
-                    'topics': []
-                }
-                for msg in messages
-            ]
         }
 
 # Global Gemini service instance
-gemini_service = None
+gemini_service_instance = None
 
 def get_gemini_service(api_key: str) -> GeminiService:
-    global gemini_service
-    if gemini_service is None:
-        gemini_service = GeminiService(api_key)
-    return gemini_service
+    global gemini_service_instance
+    if gemini_service_instance is None:
+        gemini_service_instance = GeminiService(api_key)
+    return gemini_service_instance

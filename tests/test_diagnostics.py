@@ -47,6 +47,14 @@ class BackendDiagnostic:
         logger.info("=" * 60)
         
         try:
+            # Initialize database and session
+            init_db()
+            self.db = SessionLocal()
+            logger.info("✅ Database initialized and session created")
+
+            # Clear database at the start
+            await self._clear_database()
+
             # Phase 1: Load sample data
             await self._phase1_load_sample_data()
             
@@ -64,6 +72,9 @@ class BackendDiagnostic:
         except Exception as e:
             logger.error(f"❌ Diagnostic failed: {e}")
             raise
+        finally:
+            if self.db:
+                self.db.close()
     
     async def _phase1_load_sample_data(self):
         """Phase 1: Load and validate sample data"""
@@ -79,7 +90,7 @@ class BackendDiagnostic:
             logger.info(f"✅ Sample data loaded: {len(self.sample_data)} conversations")
             
             # Validate data structure
-            for chat_id, messages in self.sample_data.items():
+            for chat_id, messages in list(self.sample_data.items())[:5]: # Log first 5
                 logger.info(f"  📝 Chat {chat_id}: {len(messages)} messages")
                 for msg in messages[:2]:  # Show first 2 messages
                     logger.info(f"    - {msg.get('DIRECTION', 'unknown')}: {msg.get('MESSAGE_CONTENT', '')[:50]}...")
@@ -92,22 +103,20 @@ class BackendDiagnostic:
     
     async def _phase2_test_gpt_service(self):
         """Phase 2: Test GPT service directly"""
-        logger.info("🤖 PHASE 2: Testing GPT Service")
+        logger.info("🤖 PHASE 2: Testing AI Service")
         logger.info("-" * 40)
         
         try:
-            # Check API key
-            api_key = settings.OPENAI_API_KEY
-            if not api_key:
-                logger.error("❌ OPENAI_API_KEY not found in settings")
-                return
-            
-            logger.info(f"✅ OpenAI API key found: {api_key[:10]}...")
-            
-            # Create GPT service
-            self.gpt_service = OptimizedGPTService(api_key)
-            logger.info("✅ GPT service created successfully")
-            
+            # Get AI service based on configuration
+            if settings.AI_SERVICE.lower() == "gemini":
+                from services.gemini_service import get_gemini_service
+                ai_service = get_gemini_service(settings.GEMINI_API_KEY)
+                logger.info("✅ Using Google Gemini for AI analysis")
+            else:
+                from services.gpt_service_optimized import get_optimized_gpt_service
+                ai_service = get_optimized_gpt_service(settings.OPENAI_API_KEY)
+                logger.info("✅ Using OpenAI GPT for AI analysis")
+
             # Test with first conversation
             first_chat_id = list(self.sample_data.keys())[0]
             first_conversation = {
@@ -115,23 +124,13 @@ class BackendDiagnostic:
                 'messages': self.sample_data[first_chat_id]
             }
             
-            logger.info(f"🧪 Testing GPT analysis on conversation: {first_chat_id}")
+            logger.info(f"🧪 Testing AI analysis on conversation: {first_chat_id}")
             logger.info(f"  📊 Messages to analyze: {len(first_conversation['messages'])}")
-            
-            # Get AI service based on configuration
-            if settings.AI_SERVICE.lower() == "gemini":
-                from services.gemini_service import get_gemini_service
-                ai_service = get_gemini_service(settings.GEMINI_API_KEY)
-                logger.info("Using Google Gemini for AI analysis")
-            else:
-                from services.gpt_service_optimized import get_optimized_gpt_service
-                ai_service = get_optimized_gpt_service(settings.OPENAI_API_KEY)
-                logger.info("Using OpenAI GPT for AI analysis")
             
             # Test single conversation analysis
             result = await ai_service._analyze_single_conversation(first_conversation)
             
-            logger.info("📋 GPT Analysis Result:")
+            logger.info("📋 AI Analysis Result:")
             logger.info(f"  - Satisfaction Score: {result.get('satisfaction_score')}")
             logger.info(f"  - Is Satisfied: {result.get('is_satisfied')}")
             logger.info(f"  - Resolution Achieved: {result.get('resolution_achieved')}")
@@ -140,11 +139,11 @@ class BackendDiagnostic:
             
             # Check if fallback values were used
             if result.get('satisfaction_score') == 3 and result.get('common_topics') == ['general inquiry']:
-                logger.warning("⚠️  FALLBACK VALUES DETECTED! GPT analysis failed")
+                logger.warning("⚠️  FALLBACK VALUES DETECTED! AI analysis failed")
             else:
-                logger.info("✅ Real GPT values detected - analysis successful")
+                logger.info("✅ Real AI values detected - analysis successful")
             
-            logger.info("✅ Phase 2 completed: GPT service tested")
+            logger.info("✅ Phase 2 completed: AI service tested")
             
         except Exception as e:
             logger.error(f"❌ Phase 2 failed: {e}")
@@ -152,18 +151,14 @@ class BackendDiagnostic:
     
     async def _phase3_test_database(self):
         """Phase 3: Test database operations"""
-        logger.info("��️  PHASE 3: Testing Database Operations")
+        logger.info("️  PHASE 3: Testing Database Operations")
         logger.info("-" * 40)
         
         try:
-            # Initialize database
-            init_db()
-            logger.info("✅ Database initialized")
-            
-            # Create database session
-            self.db = SessionLocal()
-            logger.info("✅ Database session created")
-            
+            if not self.db:
+                logger.error("❌ Database session not available")
+                return
+
             # Test basic database operations
             test_result = self.db.execute(text("SELECT 1")).scalar()
             logger.info(f"✅ Database connection test: {test_result}")
@@ -171,7 +166,7 @@ class BackendDiagnostic:
             # Check existing data
             conv_count = self.db.query(Conversation).count()
             msg_count = self.db.query(Message).count()
-            logger.info(f"📊 Current database state:")
+            logger.info(f"📊 Current database state (should be empty):")
             logger.info(f"  - Conversations: {conv_count}")
             logger.info(f"  - Messages: {msg_count}")
             
@@ -190,11 +185,16 @@ class BackendDiagnostic:
             if not self.db:
                 logger.error("❌ Database session not available")
                 return
+
+            # Test file processing with a small subset of sample data
+            subset_data = dict(list(self.sample_data.items()))
+            sample_json = json.dumps(subset_data)
+            logger.info(f"🧪 Testing file processing with {len(subset_data)} conversations")
             
-            # Test file processing with sample data
-            sample_json = json.dumps(self.sample_data)
-            logger.info(f"🧪 Testing file processing with {len(self.sample_data)} conversations")
-            
+            # Get current counts
+            conv_count_before = self.db.query(Conversation).count()
+            msg_count_before = self.db.query(Message).count()
+
             # Process the sample data
             conversations_processed, messages_processed, upload_id = await self.file_service.process_grouped_chats_json(
                 sample_json, 
@@ -208,22 +208,22 @@ class BackendDiagnostic:
             logger.info(f"  - Upload ID: {upload_id}")
             
             # Check database after processing
-            new_conv_count = self.db.query(Conversation).count()
-            new_msg_count = self.db.query(Message).count()
+            conv_count_after = self.db.query(Conversation).count()
+            msg_count_after = self.db.query(Message).count()
             
             logger.info(f"📈 Database after processing:")
-            logger.info(f"  - Conversations: {new_conv_count} (was {conv_count})")
-            logger.info(f"  - Messages: {new_msg_count} (was {msg_count})")
+            logger.info(f"  - Conversations: {conv_count_after} (was {conv_count_before})")
+            logger.info(f"  - Messages: {msg_count_after} (was {msg_count_before})")
             
             # Check if new data was added
-            if new_conv_count > conv_count:
+            if conv_count_after > conv_count_before:
                 logger.info("✅ New conversations added to database")
             else:
                 logger.warning("⚠️  No new conversations added - pipeline may have failed")
             
             # Test metrics calculation
             metrics = self.analytics_service.calculate_and_cache_metrics(self.db)
-            logger.info(f"�� Calculated Metrics:")
+            logger.info(f"📊 Calculated Metrics:")
             logger.info(f"  - CSAT: {metrics.get('csat_percentage')}%")
             logger.info(f"  - FCR: {metrics.get('fcr_percentage')}%")
             logger.info(f"  - Avg Response Time: {metrics.get('avg_response_time_minutes')} min")
@@ -233,9 +233,24 @@ class BackendDiagnostic:
         except Exception as e:
             logger.error(f"❌ Phase 4 failed: {e}")
             raise
-        finally:
-            if self.db:
-                self.db.close()
+
+    async def _clear_database(self):
+        """Clear all relevant tables in the database"""
+        logger.info("🧹 Clearing database tables...")
+        try:
+            if not self.db:
+                logger.error("❌ Cannot clear database, session not available")
+                return
+            
+            self.db.query(ProcessedChat).delete()
+            self.db.query(Message).delete()
+            self.db.query(Conversation).delete()
+            self.db.commit()
+            logger.info("✅ Database tables cleared successfully")
+        except Exception as e:
+            logger.error(f"❌ Error clearing database: {e}")
+            self.db.rollback()
+            raise
 
 async def main():
     """Main diagnostic runner"""

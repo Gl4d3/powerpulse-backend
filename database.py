@@ -50,7 +50,7 @@ def get_db():
 def init_db():
     """Initialize database tables with better error handling"""
     try:
-        from models import Message, Conversation, ProcessedChat, Metric
+        from models import Message, Conversation, ProcessedChat, Metric, Job
         
         # Check if database file exists and is writable
         db_path = settings.DATABASE_URL.replace('sqlite:///', '')

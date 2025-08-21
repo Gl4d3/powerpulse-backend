@@ -21,8 +21,13 @@ class Settings(BaseSettings):
     
     # AI Service Configuration
     OPENAI_API_KEY: str = "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"
-    GEMINI_API_KEY: str = "AIzaSyDM9GssixzNISUbofkVLttZBco1BvyI2eE"  # NEW: Gemini API key
+    # GEMINI_API_KEY: str = "AIzaSyDM9GssixzNISUbofkVLttZBco1BvyI2eE"  # NEW: Gemini API key
+    GEMINI_API_KEY: str = "AIzaSyC89aAsZ_37Q8UBY9UMlrLOCzQtwgvtWjg"
     AI_SERVICE: str = "gemini"  # NEW: Choose between "openai" or "gemini"
+
+    # Job and Batching Configuration
+    MAX_TOKENS_PER_JOB: int = 16000
+    AI_CONCURRENCY: int = 5
     
     # Model configuration
     GPT_MODEL: str = "gpt-4o-mini"
