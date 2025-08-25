@@ -20,9 +20,16 @@ class Settings(BaseSettings):
     BACKGROUND_TASK_TIMEOUT: int = 3600  # 1 hour
     
     # AI Service Configuration
-    OPENAI_API_KEY: str = "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"
-    # GEMINI_API_KEY: str = "AIzaSyDM9GssixzNISUbofkVLttZBco1BvyI2eE"  # NEW: Gemini API key
-    GEMINI_API_KEY: str = "AIzaSyC89aAsZ_37Q8UBY9UMlrLOCzQtwgvtWjg"
+    
+    # Original Key => akioko367@gmail.com
+    # OPENAI_API_KEY: str = "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"
+    
+    # The way of the Dao Key => agarcia1234.com@gmail.com
+    OPENAI_API_KEY: str = "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"
+    
+    # GEMINI_API_KEY: str = "AIzaSyDM9GssixzNISUbofkVLttZBco1BvyI2eE" 
+    # GEMINI_API_KEY: str = "AIzaSyC89aAsZ_37Q8UBY9UMlrLOCzQtwgvtWjg"
+    GEMINI_API_KEY: str = "AIzaSyB0TNJzIJAc4hAJiw5CYdhrxDuQz-1sha8"
     AI_SERVICE: str = "gemini"  # NEW: Choose between "openai" or "gemini"
 
     # Job and Batching Configuration

@@ -1,147 +1,291 @@
-import json
-import os
 import logging
 import asyncio
-from typing import List, Dict, Any, Tuple
-from openai import OpenAI
-
-from config import settings
-from models import Conversation
+from typing import Dict, List, Any, Optional, Tuple
+from openai import AsyncOpenAI
+import json
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-class GPTService:
-    def __init__(self):
-        self.client = OpenAI(api_key=settings.OPENAI_API_KEY)
-        self.model = settings.OPENAI_MODEL
-
-    async def analyze_conversations_batch(self, conversations: List[Conversation]) -> List[Dict]:
+class OptimizedGPTService:
+    def __init__(self, api_key: str):
+        self.client = AsyncOpenAI(api_key=api_key)
+        self.model = "gpt-4o-mini"  # Using GPT-4o for better performance
+        
+    async def batch_analyze_conversations(
+        self, 
+        conversations: List[Dict], 
+        progress_callback: Optional[callable] = None
+    ) -> List[Dict]:
         """
-        Analyzes a batch of conversations using a single GPT API call.
+        Optimized batch processing of conversations using GPT-4o
+        Combines sentiment analysis and satisfaction scoring in single calls
         """
-        if not conversations:
-            return []
-
         try:
-            prompt = self._create_batch_prompt(conversations)
-            response = await self._make_gpt_request_with_retry(
-                messages=[
-                    {
-                        "role": "system",
-                        "content": "You are an expert in customer satisfaction analysis. Analyze conversations holistically and provide structured JSON responses."
-                    },
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }
-                ],
-                response_format={"type": "json_object"},
-                temperature=0.1
-            )
+            results = []
+            batch_size = 5  # Process 5 conversations simultaneously
             
-            result = json.loads(response.choices[0].message.content)
-            analysis_results = self._parse_batch_response(result, conversations)
-            return analysis_results
+            # Process conversations in batches
+            for i in range(0, len(conversations), batch_size):
+                batch = conversations[i:i + batch_size]
+                
+                # Create concurrent tasks for the batch
+                tasks = [
+                    self._analyze_single_conversation(conv)
+                    for conv in batch
+                ]
+                
+                # Execute batch concurrently
+                batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+                
+                # Process results and handle exceptions
+                for j, result in enumerate(batch_results):
+                    if isinstance(result, Exception):
+                        logger.error(f"Error processing conversation {batch[j].get('chat_id')}: {result}")
+                        # Fallback result
+                        results.append(self._create_fallback_result(batch[j]))
+                    else:
+                        results.append(result)
+                
+                # Update progress
+                if progress_callback:
+                    progress = min(100, ((i + len(batch)) / len(conversations)) * 100)
+                    await progress_callback(progress, f"Processed {i + len(batch)}/{len(conversations)} conversations")
+                
+                # Small delay to avoid rate limiting
+                await asyncio.sleep(0.1)
+            
+            return results
             
         except Exception as e:
-            logger.error(f"Error in GPT batch analysis: {e}")
-            return [self._create_fallback_result(conv) for conv in conversations]
-
-    def _create_batch_prompt(self, conversations: List[Conversation]) -> str:
+            logger.error(f"Error in batch analysis: {e}")
+            raise
+    
+    async def _analyze_single_conversation(self, conversation: Dict) -> Dict:
         """
-        Creates a single prompt to analyze a batch of conversations.
+        Analyze a single conversation with optimized prompt
+        Combines all analysis in one GPT call
         """
-        conversations_json = []
-        for conv in conversations:
-            messages_text = "\n".join([f"{'Customer' if m.direction == 'to_company' else 'Agent'}: {m.message_content}" for m in conv.messages])
-            conversations_json.append({
-                "chat_id": conv.fb_chat_id,
-                "messages": messages_text
-            })
-
-        conversations_input = json.dumps(conversations_json, indent=2)
-
+        try:
+            messages = conversation.get('messages', [])
+            chat_id = conversation.get('chat_id')
+            
+            if not messages:
+                return self._create_fallback_result(conversation)
+            
+            # Create optimized prompt that gets everything in one call
+            prompt = self._create_comprehensive_prompt(messages)
+            
+            # Single GPT call with retry logic
+            response = await self._call_gpt_with_retry(prompt)
+            
+            # Parse the comprehensive response
+            analysis = self._parse_comprehensive_response(response, messages)
+            analysis['chat_id'] = chat_id
+            
+            return analysis
+            
+        except Exception as e:
+            logger.error(f"Error analyzing conversation {chat_id}: {e}")
+            return self._create_fallback_result(conversation)
+    
+    def _create_comprehensive_prompt(self, messages: List[Dict]) -> str:
+        """
+        Create an optimized prompt that gets all analysis in one call
+        """
+        # Format messages for analysis
+        conversation_text = self._format_messages_for_analysis(messages)
+        
         prompt = f"""
-Analyze the following batch of customer service conversations and provide a comprehensive analysis for each in JSON format.
+Analyze this customer service conversation and provide a comprehensive analysis in JSON format.
 
-CONVERSATIONS_BATCH:
-{conversations_input}
+CONVERSATION:
+{conversation_text}
 
-Provide the analysis as a JSON array under the "analyses" key, with one object per conversation. Use this EXACT JSON format for each object in the array:
+Provide analysis in this EXACT JSON format:
 {{
-    "chat_id": "<the original chat_id>",
-    "satisfaction_score": <1-5 integer>,
-    "satisfaction_confidence": <0.0-1.0 float>,
-    "is_satisfied": <true/false boolean>,
-    "resolution_achieved": <true/false boolean>,
-    "common_topics": ["topic1", "topic2", "topic3"]
+    "conversation_analysis": {{
+        "satisfaction_score": <1-5 integer>,
+        "satisfaction_confidence": <0.0-1.0 float>,
+        "is_satisfied": <true/false boolean>,
+        "resolution_achieved": <true/false boolean>,
+        "common_topics": ["topic1", "topic2", "topic3"]
+    }},
+    "message_analyses": [
+        {{
+            "message_content": "<exact message content>",
+            "sentiment_score": <-1.0 to 1.0 float>,
+            "sentiment_confidence": <0.0-1.0 float>,
+            "topics": ["topic1", "topic2"]
+        }}
+    ]
 }}
 
 ANALYSIS GUIDELINES:
 - satisfaction_score: 1=very dissatisfied, 3=neutral, 5=very satisfied
-- resolution_achieved: true if the issue was resolved or the customer expressed satisfaction.
-- common_topics: 3-5 main topics discussed in the conversation.
-- Be concise and accurate.
-- Ensure the output is a valid JSON object with the "analyses" key containing an array.
+- sentiment_score: -1.0=very negative, 0.0=neutral, 1.0=very positive
+- Only analyze customer messages (to_company) for sentiment
+- Include agent messages in topics but not sentiment
+- resolution_achieved: true if issue was resolved or customer expressed satisfaction
+- common_topics: 3-5 main topics discussed (e.g., "token error", "technical support", "billing")
+- Be concise and accurate
 """
-        return prompt
-
-    def _parse_batch_response(self, result: Dict, original_conversations: List[Conversation]) -> List[Dict]:
-        """
-        Parses the batch response from GPT.
-        """
-        analyses = result.get("analyses", [])
-        results_by_chat_id = {res.get("chat_id"): res for res in analyses}
-
-        final_results = []
-        for conv in original_conversations:
-            chat_id = conv.fb_chat_id
-            res = results_by_chat_id.get(chat_id)
-            if res:
-                res['id'] = conv.id # Add conversation id for job_service
-                final_results.append(res)
-            else:
-                final_results.append(self._create_fallback_result(conv))
         
-        return final_results
-
-    def _create_fallback_result(self, conversation: Conversation) -> Dict:
-        """Create fallback result when analysis fails"""
-        return {
-            'id': conversation.id,
-            'chat_id': conversation.fb_chat_id,
-            'satisfaction_score': 3,
-            'satisfaction_confidence': 0.1,
-            'is_satisfied': None,
-            'common_topics': [],
-            'resolution_achieved': False
-        }
-
-    async def _make_gpt_request_with_retry(self, messages: List[Dict], response_format: Dict = None, temperature: float = 0.1, max_retries: int = 2) -> Any:
-        """Make GPT request with exponential backoff retry logic"""
+        return prompt
+    
+    def _format_messages_for_analysis(self, messages: List[Dict]) -> str:
+        """Format messages in a clean way for GPT analysis"""
+        formatted = []
+        
+        for msg in messages:
+            content = msg.get('message_content', '').strip()
+            direction = msg.get('direction', '')
+            timestamp = msg.get('social_create_time', '')
+            
+            if not content:
+                continue
+                
+            speaker = "CUSTOMER" if direction == "to_company" else "AGENT"
+            formatted.append(f"[{speaker}]: {content}")
+        
+        return "\n".join(formatted)
+    
+    async def _call_gpt_with_retry(self, prompt: str, max_retries: int = 2) -> str:
+        """Call GPT with exponential backoff retry logic"""
         for attempt in range(max_retries + 1):
             try:
-                request_params = {
-                    "model": self.model,
-                    "messages": messages,
-                    "temperature": temperature
-                }
+                response = await self.client.chat.completions.create(
+                    model=self.model,
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are an expert customer service analyst. Provide accurate, structured analysis in valid JSON format only."
+                        },
+                        {
+                            "role": "user", 
+                            "content": prompt
+                        }
+                    ],
+                    temperature=0.1,
+                    max_tokens=2000
+                )
                 
-                if response_format:
-                    request_params["response_format"] = response_format
-                
-                response = self.client.chat.completions.create(**request_params)
-                return response
+                return response.choices[0].message.content.strip()
                 
             except Exception as e:
-                if attempt == max_retries:
-                    logger.error(f"GPT request failed after {max_retries + 1} attempts: {e}")
+                if attempt < max_retries:
+                    wait_time = (2 ** attempt) * 0.5  # Exponential backoff
+                    logger.warning(f"GPT call failed (attempt {attempt + 1}), retrying in {wait_time}s: {e}")
+                    await asyncio.sleep(wait_time)
+                else:
+                    logger.error(f"GPT call failed after {max_retries + 1} attempts: {e}")
                     raise
+    
+    def _parse_comprehensive_response(self, response: str, original_messages: List[Dict]) -> Dict:
+        """Parse the comprehensive GPT response"""
+        try:
+            # Extract JSON from response
+            if "```json" in response:
+                json_start = response.find("```json") + 7
+                json_end = response.find("```", json_start)
+                json_text = response[json_start:json_end].strip()
+            else:
+                json_text = response.strip()
+            
+            parsed = json.loads(json_text)
+            
+            # Extract conversation-level analysis
+            conv_analysis = parsed.get('conversation_analysis', {})
+            message_analyses = parsed.get('message_analyses', [])
+            
+            # Create message analysis lookup
+            msg_analysis_lookup = {}
+            for analysis in message_analyses:
+                content = analysis.get('message_content', '')
+                if content:
+                    msg_analysis_lookup[content] = analysis
+            
+            # Match analyses to original messages
+            enriched_messages = []
+            for msg in original_messages:
+                content = msg.get('message_content', '').strip()
+                direction = msg.get('direction', '')
                 
-                # Exponential backoff: 2^attempt seconds
-                wait_time = 2 ** attempt
-                logger.warning(f"GPT request attempt {attempt + 1} failed: {e}. Retrying in {wait_time}s...")
-                await asyncio.sleep(wait_time)
+                # Get analysis for this message
+                analysis = msg_analysis_lookup.get(content, {})
+                
+                enriched_msg = {
+                    'message_content': content,
+                    'direction': direction,
+                    'social_create_time': msg.get('social_create_time'),
+                    'sentiment_score': analysis.get('sentiment_score') if direction == 'to_company' else None,
+                    'sentiment_confidence': analysis.get('sentiment_confidence') if direction == 'to_company' else None,
+                    'topics': analysis.get('topics', [])
+                }
+                enriched_messages.append(enriched_msg)
+            
+            return {
+                'satisfaction_score': conv_analysis.get('satisfaction_score', 3),
+                'satisfaction_confidence': conv_analysis.get('satisfaction_confidence', 0.5),
+                'is_satisfied': conv_analysis.get('is_satisfied', False),
+                'resolution_achieved': conv_analysis.get('resolution_achieved', False),
+                'common_topics': conv_analysis.get('common_topics', []),
+                'message_analyses': enriched_messages
+            }
+            
+        except Exception as e:
+            logger.error(f"Error parsing GPT response: {e}")
+            logger.debug(f"Response was: {response}")
+            
+            # Return fallback analysis
+            return {
+                'satisfaction_score': 3,
+                'satisfaction_confidence': 0.5,
+                'is_satisfied': False,
+                'resolution_achieved': False,
+                'common_topics': ['general inquiry'],
+                'message_analyses': [
+                    {
+                        'message_content': msg.get('message_content', ''),
+                        'direction': msg.get('direction', ''),
+                        'social_create_time': msg.get('social_create_time'),
+                        'sentiment_score': 0.0 if msg.get('direction') == 'to_company' else None,
+                        'sentiment_confidence': 0.5 if msg.get('direction') == 'to_company' else None,
+                        'topics': []
+                    }
+                    for msg in original_messages
+                ]
+            }
+    
+    def _create_fallback_result(self, conversation: Dict) -> Dict:
+        """Create fallback result when analysis fails"""
+        messages = conversation.get('messages', [])
+        
+        return {
+            'chat_id': conversation.get('chat_id'),
+            'satisfaction_score': 3,
+            'satisfaction_confidence': 0.5,
+            'is_satisfied': False,
+            'resolution_achieved': False,
+            'common_topics': ['general inquiry'],
+            'message_analyses': [
+                {
+                    'message_content': msg.get('message_content', ''),
+                    'direction': msg.get('direction', ''),
+                    'social_create_time': msg.get('social_create_time'),
+                    'sentiment_score': 0.0 if msg.get('direction') == 'to_company' else None,
+                    'sentiment_confidence': 0.5 if msg.get('direction') == 'to_company' else None,
+                    'topics': []
+                }
+                for msg in messages
+            ]
+        }
 
-# Global instance
-gpt_service = GPTService()
+# Global optimized service instance
+optimized_gpt_service = None
+
+def get_optimized_gpt_service(api_key: str) -> OptimizedGPTService:
+    global optimized_gpt_service
+    if optimized_gpt_service is None:
+        optimized_gpt_service = OptimizedGPTService(api_key)
+    return optimized_gpt_service

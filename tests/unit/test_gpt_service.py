@@ -9,7 +9,7 @@ from unittest.mock import Mock, patch, AsyncMock
 # Add the project root to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from services.gpt_service_optimized import OptimizedGPTService
+from services.gpt_service import OptimizedGPTService
 
 
 class TestOptimizedGPTService:
@@ -108,9 +108,9 @@ class TestOptimizedGPTService:
         """Test retry logic when GPT API fails temporarily."""
         # This test needs to mock at a lower level to test the actual retry logic
         # Mock the OpenAI client to fail first, then succeed
-        mock_responses = [
-            Exception("API Error"),  # First call fails
-            Mock(choices=[Mock(message=Mock(content='''{
+        
+        # This is the successful response object we want to get back on the second try
+        successful_response = Mock(choices=[Mock(message=Mock(content='''{
                 "conversation_analysis": {
                     "satisfaction_score": 4,
                     "is_satisfied": true,
@@ -118,17 +118,28 @@ class TestOptimizedGPTService:
                     "common_topics": ["success"]
                 },
                 "message_analyses": []
-            }'''))])  # Second call succeeds
+            }'''))])
+
+        mock_effects = [
+            Exception("API Error"),  # First call will raise this
+            successful_response      # Second call will return this
         ]
         
-        with patch.object(gpt_service.client.chat.completions, 'create', side_effect=mock_responses):
+        # Use new_callable=AsyncMock and pass your list to side_effect
+        with patch.object(
+            gpt_service.client.chat.completions, 
+            'create', 
+            new_callable=AsyncMock, 
+            side_effect=mock_effects
+        ):
             result = await gpt_service._analyze_single_conversation(sample_conversation)
             
             # Should succeed on retry
             assert result['satisfaction_score'] == 4
             assert result['is_satisfied'] is True
             assert result['resolution_achieved'] is True
-    
+
+
     def test_fallback_result_creation(self, gpt_service, sample_conversation):
         """Test fallback result creation."""
         result = gpt_service._create_fallback_result(sample_conversation)

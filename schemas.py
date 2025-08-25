@@ -100,3 +100,22 @@ class JobResponse(JobBase):
 
     class Config:
         from_attributes = True
+
+class ProgressStatistics(BaseModel):
+    filtered_autoresponses: int
+    gpt_calls_made: int
+    errors_count: int
+
+class ProgressResponse(BaseModel):
+    upload_id: str
+    status: str
+    progress_percentage: float
+    current_stage: str
+    processed_conversations: int
+    total_conversations: int
+    details: str
+    start_time: datetime
+    last_update: datetime
+    duration_seconds: float
+    statistics: ProgressStatistics
+    errors: List[str]

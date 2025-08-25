@@ -6,7 +6,8 @@ from models import Job, Conversation
 from schemas import JobCreate
 from config import settings
 # Import AI services
-from services import gemini_service, gpt_service
+from services import gemini_service
+from services.REDACTED import gpt_service
 
 logger = logging.getLogger(__name__)
 

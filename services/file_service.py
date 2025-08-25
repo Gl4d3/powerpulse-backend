@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 
 from models import Message, Conversation, ProcessedChat
-from services.gpt_service import gpt_service
+from services.REDACTED.gpt_service import gpt_service
 
 logger = logging.getLogger(__name__)
 

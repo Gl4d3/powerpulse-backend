@@ -75,22 +75,27 @@
 
 ---
 
-## 3. Testing Plan
+## 5. Test Failures & Action Plan
 
--   **[ ] Unit Tests (`tests/unit/`):**
-    -   `test_batch_service.py`:
-        -   Test `estimate_token_count` with various inputs.
-        -   Test `create_batches` with a large list of mock conversations to ensure it creates the correct number of batches and respects the token limit.
--   **[ ] Integration Tests (`tests/integration/`):**
-    -   `test_job_system.py`:
-        -   Upload a sample file.
-        -   Verify that `Job` and `job_conversations` records are created correctly in the database.
-        -   Verify that the jobs are processed (status changes to 'completed').
-        -   Verify that the analysis results from the jobs are correctly saved back to the `conversations` table.
+**Objective:** After the initial refactoring, the test suite is failing with multiple errors. This section outlines the categories of failures and the plan to fix them.
 
----
+**Date:** 2025-08-21
 
-## 4. Documentation Updates
+### Failure Categories
 
--   **[x] `docs/repository_lifecycle.md`:** Updated to include the "Job Batching" stage.
--   **[ ] `README.md`:** Add notes about the new configuration variables if necessary.
+1.  **Outdated Unit Tests:** The majority of failures are due to tests that were not updated after the refactoring. This affects:
+    -   `tests/unit/test_gemini_service.py`
+    -   `tests/unit/test_gpt_service.py`
+    -   `tests/unit/test_models.py`
+    -   `tests/unit/test_schemas.py`
+
+2.  **Incorrect Mocking:** The integration test `tests/integration/test_job_system.py` is failing because the mock patch target for the AI services is incorrect.
+
+3.  **Incorrect Pydantic Model Usage:** The test in `tests/unit/test_metrics_calculation.py` is failing because it uses dictionary-style access on a Pydantic model instead of attribute access.
+
+### Action Plan
+
+1.  **Fix Model and Schema Tests:** Update the tests in `test_models.py` and `test_schemas.py` to use the correct attribute names and data structures.
+2.  **Fix AI Service Tests:** Update the tests for `gemini_service.py` and `gpt_service.py` to reflect the new `analyze_conversations_batch` method.
+3.  **Fix Metrics Calculation Test:** Correct the Pydantic model usage in `test_metrics_calculation.py`.
+4.  **Fix Integration Test:** Correct the mock patch target in `test_job_system.py`.

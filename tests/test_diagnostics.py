@@ -22,7 +22,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Import services
-from services.gpt_service_optimized import OptimizedGPTService
+from services.gpt_service import OptimizedGPTService
 from services.file_service_optimized import OptimizedFileService
 from services.analytics_service import AnalyticsService
 from services.progress_tracker import ProgressTracker
@@ -113,7 +113,7 @@ class BackendDiagnostic:
                 ai_service = get_gemini_service(settings.GEMINI_API_KEY)
                 logger.info("✅ Using Google Gemini for AI analysis")
             else:
-                from services.gpt_service_optimized import get_optimized_gpt_service
+                from services.gpt_service import get_optimized_gpt_service
                 ai_service = get_optimized_gpt_service(settings.OPENAI_API_KEY)
                 logger.info("✅ Using OpenAI GPT for AI analysis")
 
