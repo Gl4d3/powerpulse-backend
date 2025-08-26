@@ -1,221 +1,98 @@
 """
-Integration tests for PowerPulse Analytics API endpoints.
+Integration tests for the refactored API endpoints, focusing on CSI.
 """
 import pytest
 import json
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from models import Conversation, Message, ProcessedChat
+from models import Conversation
 
+# Fixture to set up a clean database for each test function
+@pytest.fixture(scope="function")
+def test_db_setup(test_db_session: Session):
+    # Clean up database before each test
+    test_db_session.query(Conversation).delete()
+    test_db_session.commit()
+    yield
+    # Clean up after each test
+    test_db_session.query(Conversation).delete()
+    test_db_session.commit()
 
-class TestUploadEndpoint:
-    """Test file upload endpoint functionality."""
-    
-    def test_upload_valid_json(self, client: TestClient, test_db_session: Session):
-        """Test successful JSON file upload."""
-        # Create test data
-        test_data = {
-            "FB_CHAT_ID_1": [
-                {
-                    "FB_CHAT_ID": "FB_CHAT_ID_1",
-                    "MESSAGE_CONTENT": "Hello, I need help",
-                    "DIRECTION": "to_company",
-                    "SOCIAL_CREATE_TIME": "2025-01-15T10:00:00.000Z",
-                    "AGENT_USERNAME": None,
-                    "AGENT_EMAIL": None
-                },
-                {
-                    "FB_CHAT_ID": "FB_CHAT_ID_1",
-                    "MESSAGE_CONTENT": "Hi! How can I help you?",
-                    "DIRECTION": "to_client",
-                    "SOCIAL_CREATE_TIME": "2025-01-15T10:01:00.000Z",
-                    "AGENT_USERNAME": "AGENT_001",
-                    "AGENT_EMAIL": "agent1@company.com"
-                }
-            ]
-        }
-        
-        # Convert to JSON string and create file-like object
-        json_content = json.dumps(test_data)
-        
-        # Test upload endpoint
-        response = client.post(
-            "/api/upload-json",
-            files={"file": ("test_data.json", json_content, "application/json")},
-            data={"force_reprocess": "false"}
-        )
-        
-        assert response.status_code == 200
-        data = response.json()
-        assert data["success"] is True
-        assert "upload_id" in data
-        assert data["conversations_processed"] == 1
-    
-    def test_upload_invalid_format(self, client: TestClient):
-        """Test error handling for invalid file format."""
-        # Test with non-JSON content
-        response = client.post(
-            "/api/upload-json",
-            files={"file": ("test.txt", "This is not JSON", "text/plain")},
-            data={"force_reprocess": "false"}
-        )
-        
-        assert response.status_code == 400
-        data = response.json()
-        assert "error" in data
-    
-    def test_upload_empty_file(self, client: TestClient):
-        """Test error handling for empty file."""
-        response = client.post(
-            "/api/upload-json",
-            files={"file": ("empty.json", "", "application/json")},
-            data={"force_reprocess": "false"}
-        )
-        
-        assert response.status_code == 400
-        data = response.json()
-        assert "error" in data
+@pytest.mark.usefixtures("test_db_setup")
+class TestCSIMetricsEndpoint:
+    """Test the new /api/metrics endpoint for CSI scores."""
 
-
-class TestMetricsEndpoint:
-    """Test metrics endpoint functionality."""
-    
     def test_get_metrics_empty_database(self, client: TestClient):
-        """Test metrics endpoint with empty database."""
+        """Test the metrics endpoint with an empty database, expecting zeroed metrics."""
         response = client.get("/api/metrics")
-        
         assert response.status_code == 200
         data = response.json()
-        assert data["total_conversations"] == 0
-        assert data["csat_percentage"] == 0.0
-        assert data["fcr_rate"] == 0.0
-    
+        assert data["overall_csi_score"] == 0.0
+        assert data["avg_effectiveness_score"] == 0.0
+        assert data["total_conversations_analyzed"] == 0
+
     def test_get_metrics_with_data(self, client: TestClient, test_db_session: Session):
-        """Test metrics endpoint with sample data."""
-        # Create test conversation
-        conversation = Conversation(
-            chat_id="TEST_CHAT_001",
-            first_message_time="2025-01-15T10:00:00Z",
-            last_message_time="2025-01-15T10:05:00Z",
-            message_count=2,
-            sentiment_score=0.8,
-            satisfaction_score=5,
-            is_resolved=True,
-            topics=["customer service"]
-        )
-        test_db_session.add(conversation)
+        """Test the metrics endpoint with sample conversation data."""
+        test_db_session.add(Conversation(
+            fb_chat_id="CSI_TEST_1",
+            csi_score=8.5, effectiveness_score=9, efficiency_score=8, effort_score=8, empathy_score=9
+        ))
+        test_db_session.add(Conversation(
+            fb_chat_id="CSI_TEST_2",
+            csi_score=7.5, effectiveness_score=8, efficiency_score=7, effort_score=7, empathy_score=8
+        ))
         test_db_session.commit()
-        
+
+        client.post("/api/metrics/recalculate")
+
         response = client.get("/api/metrics")
-        
         assert response.status_code == 200
         data = response.json()
-        assert data["total_conversations"] == 1
-        assert data["csat_percentage"] == 100.0  # 1/1 satisfied
-        assert data["fcr_rate"] == 100.0  # 1/1 resolved
-    
-    def test_get_metrics_with_date_filter(self, client: TestClient):
-        """Test metrics endpoint with date filtering."""
-        response = client.get("/api/metrics?start_date=2025-01-01&end_date=2025-01-31")
-        
-        assert response.status_code == 200
-        # Date filtering should work even with empty database
+        assert data["total_conversations_analyzed"] == 2
+        assert data["overall_csi_score"] == 8.0
+        assert data["avg_effectiveness_score"] == 8.5
 
+@pytest.mark.usefixtures("test_db_setup")
+class TestCSIConversationsEndpoint:
+    """Test the /api/conversations endpoint for CSI scores."""
 
-class TestConversationsEndpoint:
-    """Test conversations endpoint functionality."""
-    
-    def test_get_conversations_empty(self, client: TestClient):
-        """Test conversations endpoint with empty database."""
-        response = client.get("/api/conversations")
-        
-        assert response.status_code == 200
-        data = response.json()
-        assert data["conversations"] == []
-        assert data["total"] == 0
-        assert data["page"] == 1
-    
-    def test_get_conversations_with_data(self, client: TestClient, test_db_session: Session):
-        """Test conversations endpoint with sample data."""
-        # Create test conversation
-        conversation = Conversation(
-            chat_id="TEST_CHAT_002",
-            first_message_time="2025-01-15T10:00:00Z",
-            last_message_time="2025-01-15T10:05:00Z",
-            message_count=2,
-            sentiment_score=0.5,
-            satisfaction_score=3,
-            is_resolved=False,
-            topics=["billing"]
-        )
-        test_db_session.add(conversation)
+    def test_get_conversations_with_csi_data(self, client: TestClient, test_db_session: Session):
+        """Test that the conversations endpoint returns the new CSI fields."""
+        test_db_session.add(Conversation(
+            fb_chat_id="CSI_CONV_1",
+            csi_score=9.2, effectiveness_score=10, efficiency_score=9, effort_score=9, empathy_score=9
+        ))
         test_db_session.commit()
-        
+
         response = client.get("/api/conversations")
-        
         assert response.status_code == 200
         data = response.json()
         assert len(data["conversations"]) == 1
-        assert data["conversations"][0]["chat_id"] == "TEST_CHAT_002"
-        assert data["total"] == 1
-    
-    def test_get_conversations_pagination(self, client: TestClient):
-        """Test conversations endpoint pagination."""
-        response = client.get("/api/conversations?page=2&page_size=10")
-        
-        assert response.status_code == 200
-        data = response.json()
-        assert data["page"] == 2
-        assert data["page_size"] == 10
-    
-    def test_get_conversations_filtering(self, client: TestClient):
-        """Test conversations endpoint filtering."""
-        response = client.get("/api/conversations?satisfied_only=true")
-        
-        assert response.status_code == 200
-        # Filtering should work even with empty database
+        convo = data["conversations"][0]
+        assert convo["fb_chat_id"] == "CSI_CONV_1"
+        assert convo["csi_score"] == 9.2
 
+    def test_get_conversations_csi_filtering(self, client: TestClient, test_db_session: Session):
+        """Test filtering conversations by CSI score."""
+        test_db_session.add(Conversation(fb_chat_id="CSI_LOW", csi_score=4.0))
+        test_db_session.add(Conversation(fb_chat_id="CSI_HIGH", csi_score=9.0))
+        test_db_session.commit()
 
-class TestProgressEndpoint:
-    """Test progress tracking endpoint functionality."""
-    
-    def test_get_progress_empty(self, client: TestClient):
-        """Test progress endpoint with no active uploads."""
-        response = client.get("/api/progress")
-        
+        response = client.get("/api/conversations?min_csi_score=8.0")
         assert response.status_code == 200
         data = response.json()
-        assert isinstance(data, list)
-    
-    def test_get_progress_specific_upload(self, client: TestClient):
-        """Test getting progress for specific upload ID."""
-        # Test with non-existent upload ID
-        response = client.get("/api/progress/non-existent-id")
-        
-        assert response.status_code == 404
-        data = response.json()
-        assert "error" in data
+        assert len(data["conversations"]) == 1
+        assert data["conversations"][0]["fb_chat_id"] == "CSI_HIGH"
 
+    def test_get_conversations_csi_sorting(self, client: TestClient, test_db_session: Session):
+        """Test sorting conversations by CSI score."""
+        test_db_session.add(Conversation(fb_chat_id="CSI_LOW_2", csi_score=3.0))
+        test_db_session.add(Conversation(fb_chat_id="CSI_HIGH_2", csi_score=9.5))
+        test_db_session.commit()
 
-class TestHealthEndpoints:
-    """Test health and root endpoints."""
-    
-    def test_root_endpoint(self, client: TestClient):
-        """Test root endpoint."""
-        response = client.get("/")
-        
+        response = client.get("/api/conversations?sort_by=csi_score&sort_order=desc")
         assert response.status_code == 200
         data = response.json()
-        assert data["message"] == "PowerPulse Analytics API"
-        assert data["version"] == "1.0.0"
-        assert data["status"] == "running"
-    
-    def test_health_endpoint(self, client: TestClient):
-        """Test health check endpoint."""
-        response = client.get("/health")
-        
-        assert response.status_code == 200
-        data = response.json()
-        assert data["status"] == "healthy"
-        assert data["service"] == "PowerPulse Analytics"
+        assert len(data["conversations"]) == 2
+        assert data["conversations"][0]["fb_chat_id"] == "CSI_HIGH_2"

@@ -15,14 +15,6 @@ from models import Conversation, Message, ProcessedChat, Metric
 
 
 @pytest.fixture(scope="session")
-def event_loop() -> Generator:
-    """Create an instance of the default event loop for the test session."""
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
-
-
-@pytest.fixture(scope="session")
 def test_db_engine():
     """Create a test database engine using in-memory SQLite."""
     engine = create_engine(
@@ -131,3 +123,37 @@ def sample_metrics_data():
             "negative": 15
         }
     }
+
+
+@pytest.fixture
+def mock_gemini_service(mocker):
+    """Mock the GeminiService to avoid actual API calls."""
+    mock_service = mocker.MagicMock()
+
+    async def mock_analyze_batch(conversations: list):
+        results = []
+        for conv in conversations:
+            if conv.fb_chat_id == "TEST_CHAT_CSI_1":
+                results.append({
+                    'id': conv.id,
+                    'chat_id': conv.fb_chat_id,
+                    'effectiveness_score': 9.0,
+                    'efficiency_score': 8.0,
+                    'effort_score': 9.0,
+                    'empathy_score': 10.0,
+                    'common_topics': ['order status', 'discount'],
+                })
+            elif conv.fb_chat_id == "TEST_CHAT_CSI_2":
+                results.append({
+                    'id': conv.id,
+                    'chat_id': conv.fb_chat_id,
+                    'effectiveness_score': 2.0,
+                    'efficiency_score': 4.0,
+                    'effort_score': 3.0,
+                    'empathy_score': 2.0,
+                    'common_topics': ['broken item', 'order number'],
+                })
+        return results
+
+    mock_service.analyze_conversations_batch.side_effect = mock_analyze_batch
+    return mock_service

@@ -6,7 +6,7 @@ from models import Job, Conversation
 from schemas import JobCreate
 from config import settings
 # Import AI services
-from services import gemini_service
+from services import gemini_service, analytics_service
 from services.REDACTED import gpt_service
 
 logger = logging.getLogger(__name__)
@@ -47,7 +47,7 @@ async def process_job(job: Job, db: Session):
         try:
             # Determine which AI service to use
             if settings.AI_SERVICE.lower() == "gemini":
-                ai_function = gemini_service.analyze_conversations_batch
+                ai_function = gemini_service.get_gemini_service(settings.GEMINI_API_KEY).analyze_conversations_batch
             else: # Assumes "openai"
                 ai_function = gpt_service.analyze_conversations_batch
 
@@ -55,21 +55,23 @@ async def process_job(job: Job, db: Session):
             analysis_results = await ai_function(job.conversations)
 
             # Process and save results
-            # This part depends on how the AI service returns the results.
-            # For now, let's assume it returns a list of dicts, one for each conversation.
             job.result = {"results": analysis_results}
             job.status = "completed"
             
-            # Update the conversations with the analysis results
+            # Update the conversations with the new CSI analysis results
             for conv_data in analysis_results:
                 conv_id = conv_data.get("id")
                 if conv_id:
                     conv_to_update = db.query(Conversation).filter(Conversation.id == conv_id).first()
                     if conv_to_update:
-                        conv_to_update.satisfaction_score = conv_data.get("satisfaction_score")
-                        conv_to_update.sentiment_score = conv_data.get("sentiment_score")
-                        conv_to_update.first_contact_resolution = conv_data.get("first_contact_resolution")
-                        # ... and so on for other fields
+                        # Update the four pillar scores from the AI analysis
+                        conv_to_update.effectiveness_score = conv_data.get("effectiveness_score")
+                        conv_to_update.efficiency_score = conv_data.get("efficiency_score")
+                        conv_to_update.effort_score = conv_data.get("effort_score")
+                        conv_to_update.empathy_score = conv_data.get("empathy_score")
+                        
+                        # Calculate and set the final CSI score
+                        analytics_service.calculate_and_set_csi_score(conv_to_update)
 
         except Exception as e:
             logger.error(f"Job {job.id} failed: {e}")

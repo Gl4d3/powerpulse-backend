@@ -29,7 +29,8 @@ class Settings(BaseSettings):
     
     # GEMINI_API_KEY: str = "AIzaSyDM9GssixzNISUbofkVLttZBco1BvyI2eE" 
     # GEMINI_API_KEY: str = "AIzaSyC89aAsZ_37Q8UBY9UMlrLOCzQtwgvtWjg"
-    GEMINI_API_KEY: str = "AIzaSyB0TNJzIJAc4hAJiw5CYdhrxDuQz-1sha8"
+    # GEMINI_API_KEY: str = "AIzaSyB0TNJzIJAc4hAJiw5CYdhrxDuQz-1sha8"
+    GEMINI_API_KEY: str = "AIzaSyDUqzwa_9Z8Nl99PBHQqlN2FjquH-6xdu4"
     AI_SERVICE: str = "gemini"  # NEW: Choose between "openai" or "gemini"
 
     # Job and Batching Configuration
@@ -38,7 +39,7 @@ class Settings(BaseSettings):
     
     # Model configuration
     GPT_MODEL: str = "gpt-4o-mini"
-    GEMINI_MODEL: str = "gemini-1.5-flash"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
     
     class Config:
         env_file = ".env"

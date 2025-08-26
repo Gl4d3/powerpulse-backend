@@ -20,8 +20,16 @@ class Job(Base):
 
     conversations = relationship("Conversation", secondary=job_conversations, back_populates="jobs")
 
+# This file defines the SQLAlchemy ORM models for the PowerPulse application,
+# mapping Python classes to database tables. It includes models for Jobs,
+# Conversations, Messages, Processed Chats, and cached Metrics, forming the
+# core data structure of the application.
+
 class Conversation(Base):
-    """Conversation-level aggregated data and satisfaction analysis"""
+    """
+    Represents a single customer conversation, storing both raw data and the
+    results of the AI analysis, including the new Customer Satisfaction Index (CSI).
+    """
     __tablename__ = "conversations"
     
     id = Column(Integer, primary_key=True, index=True)
@@ -33,10 +41,20 @@ class Conversation(Base):
     customer_messages = Column(Integer, default=0)
     agent_messages = Column(Integer, default=0)
     
-    # Satisfaction analysis
-    satisfaction_score = Column(Float, nullable=True)  # 1-5 scale
-    satisfaction_confidence = Column(Float, nullable=True)  # 0-1 scale
-    is_satisfied = Column(Boolean, nullable=True)  # For CSAT calculation
+    # --- Legacy Satisfaction Analysis (to be deprecated) ---
+    satisfaction_score = Column(Float, nullable=True)
+    satisfaction_confidence = Column(Float, nullable=True)
+    is_satisfied = Column(Boolean, nullable=True)
+    
+    # --- New Customer Satisfaction Index (CSI) ---
+    # Pillar scores (1-10 scale)
+    effectiveness_score = Column(Float, nullable=True)
+    efficiency_score = Column(Float, nullable=True)
+    effort_score = Column(Float, nullable=True)
+    empathy_score = Column(Float, nullable=True)
+    
+    # Final weighted score
+    csi_score = Column(Float, nullable=True, index=True)
     
     # Metrics
     avg_sentiment = Column(Float, nullable=True)
@@ -46,7 +64,7 @@ class Conversation(Base):
     # Metadata
     first_message_time = Column(DateTime, nullable=True)
     last_message_time = Column(DateTime, nullable=True)
-    common_topics = Column(JSON, nullable=True)  # Array of most common topics
+    common_topics = Column(JSON, nullable=True)
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

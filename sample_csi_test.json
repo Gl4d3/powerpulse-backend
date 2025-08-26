@@ -1,0 +1,54 @@
+{
+    "CSI_TEST_CONV_1": [
+        {
+            "FB_CHAT_ID": "CSI_TEST_CONV_1",
+            "MESSAGE_CONTENT": "Hello, I'm having trouble with my internet connection.",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:00:00.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        },
+        {
+            "FB_CHAT_ID": "CSI_TEST_CONV_1",
+            "MESSAGE_CONTENT": "Hi there! I can certainly help you with that. Could you please restart your router for me?",
+            "DIRECTION": "to_client",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:01:00.000Z",
+            "AGENT_USERNAME": "Agent_Alice",
+            "AGENT_EMAIL": "alice@example.com"
+        },
+        {
+            "FB_CHAT_ID": "CSI_TEST_CONV_1",
+            "MESSAGE_CONTENT": "I've restarted it, and it seems to be working now. Thanks for your help!",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:05:00.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        }
+    ],
+    "CSI_TEST_CONV_2": [
+        {
+            "FB_CHAT_ID": "CSI_TEST_CONV_2",
+            "MESSAGE_CONTENT": "I want to cancel my subscription.",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T11:00:00.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        },
+        {
+            "FB_CHAT_ID": "CSI_TEST_CONV_2",
+            "MESSAGE_CONTENT": "I'm sorry to hear that. To cancel, you need to fill out a form on our website. It's a long process.",
+            "DIRECTION": "to_client",
+            "SOCIAL_CREATE_TIME": "2025-08-25T11:02:00.000Z",
+            "AGENT_USERNAME": "Agent_Bob",
+            "AGENT_EMAIL": "bob@example.com"
+        },
+        {
+            "FB_CHAT_ID": "CSI_TEST_CONV_2",
+            "MESSAGE_CONTENT": "This is too complicated. I'll just keep the subscription.",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T11:10:00.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        }
+    ]
+}

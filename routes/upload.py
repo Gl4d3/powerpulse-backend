@@ -52,7 +52,7 @@ async def upload_json(
         )
         
         # Recalculate metrics in background
-        background_tasks.add_task(analytics_service.calculate_and_cache_metrics, db)
+        background_tasks.add_task(analytics_service.calculate_and_cache_csi_metrics, db)
         
         processing_time = time.time() - start_time
         

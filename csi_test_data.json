@@ -1,0 +1,70 @@
+{
+    "TEST_CHAT_CSI_1": [
+        {
+            "FB_CHAT_ID": "TEST_CHAT_CSI_1",
+            "MESSAGE_CONTENT": "Hello, my order is late and I'm very frustrated.",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:00:00.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        },
+        {
+            "FB_CHAT_ID": "TEST_CHAT_CSI_1",
+            "MESSAGE_CONTENT": "I'm so sorry to hear that. Let me check on it for you right away.",
+            "DIRECTION": "to_client",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:01:00.000Z",
+            "AGENT_USERNAME": "Agent_Anna",
+            "AGENT_EMAIL": "anna@example.com"
+        },
+        {
+            "FB_CHAT_ID": "TEST_CHAT_CSI_1",
+            "MESSAGE_CONTENT": "I found your order. It seems there was a delay in shipping, but it's out for delivery now and should arrive today. I've also applied a 20% discount to your account for the trouble.",
+            "DIRECTION": "to_client",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:02:00.000Z",
+            "AGENT_USERNAME": "Agent_Anna",
+            "AGENT_EMAIL": "anna@example.com"
+        },
+        {
+            "FB_CHAT_ID": "TEST_CHAT_CSI_1",
+            "MESSAGE_CONTENT": "Oh, wow! Thank you so much for your help and for the discount! That's great service.",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:03:00.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        }
+    ],
+    "TEST_CHAT_CSI_2": [
+        {
+            "FB_CHAT_ID": "TEST_CHAT_CSI_2",
+            "MESSAGE_CONTENT": "hi my thing is broken",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T11:00:00.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        },
+        {
+            "FB_CHAT_ID": "TEST_CHAT_CSI_2",
+            "MESSAGE_CONTENT": "Please provide your order number.",
+            "DIRECTION": "to_client",
+            "SOCIAL_CREATE_TIME": "2025-08-25T11:05:00.000Z",
+            "AGENT_USERNAME": "Agent_Bob",
+            "AGENT_EMAIL": "bob@example.com"
+        },
+        {
+            "FB_CHAT_ID": "TEST_CHAT_CSI_2",
+            "MESSAGE_CONTENT": "i dont have it",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T11:06:00.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        },
+        {
+            "FB_CHAT_ID": "TEST_CHAT_CSI_2",
+            "MESSAGE_CONTENT": "I cannot help you without an order number.",
+            "DIRECTION": "to_client",
+            "SOCIAL_CREATE_TIME": "2025-08-25T11:10:00.000Z",
+            "AGENT_USERNAME": "Agent_Bob",
+            "AGENT_EMAIL": "bob@example.com"
+        }
+    ]
+}

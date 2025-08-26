@@ -1,0 +1,44 @@
+{
+    "E2E_TEST_CHAT_001": [
+        {
+            "FB_CHAT_ID": "E2E_TEST_CHAT_001",
+            "MESSAGE_CONTENT": "Hello, I'm having trouble with my recent order. It hasn't arrived yet.",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:00:00.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        },
+        {
+            "FB_CHAT_ID": "E2E_TEST_CHAT_001",
+            "MESSAGE_CONTENT": "I'm very sorry to hear that. Let me check the status for you right away. Can you please provide your order number?",
+            "DIRECTION": "to_client",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:01:00.000Z",
+            "AGENT_USERNAME": "Agent_Jane",
+            "AGENT_EMAIL": "jane.doe@example.com"
+        },
+        {
+            "FB_CHAT_ID": "E2E_TEST_CHAT_001",
+            "MESSAGE_CONTENT": "Sure, it's #12345.",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:01:30.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        },
+        {
+            "FB_CHAT_ID": "E2E_TEST_CHAT_001",
+            "MESSAGE_CONTENT": "Thank you. I see the issue. It seems there was a delay at the warehouse, but it's on its way now and should arrive tomorrow. I've gone ahead and refunded the shipping fee for the inconvenience.",
+            "DIRECTION": "to_client",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:03:00.000Z",
+            "AGENT_USERNAME": "Agent_Jane",
+            "AGENT_EMAIL": "jane.doe@example.com"
+        },
+        {
+            "FB_CHAT_ID": "E2E_TEST_CHAT_001",
+            "MESSAGE_CONTENT": "Oh, wow, thank you! That's very helpful.",
+            "DIRECTION": "to_company",
+            "SOCIAL_CREATE_TIME": "2025-08-25T10:03:30.000Z",
+            "AGENT_USERNAME": null,
+            "AGENT_EMAIL": null
+        }
+    ]
+}

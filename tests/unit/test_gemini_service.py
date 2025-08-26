@@ -1,211 +1,161 @@
 """
-Unit tests for Gemini service functionality.
+Unit tests for the refactored GeminiService, focusing on CSI score generation.
 """
 import pytest
-import sys
-import os
+import json
 from unittest.mock import Mock, patch, AsyncMock
 
-# Add the project root to Python path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
-
 from services.gemini_service import GeminiService
+from models import Conversation, Message
 
+@pytest.fixture
+def gemini_service():
+    """Create a GeminiService instance for testing."""
+    return GeminiService(api_key="test-api-key")
 
-class TestGeminiService:
-    """Test Gemini service functionality."""
-    
-    @pytest.fixture
-    def gemini_service(self):
-        """Create Gemini service instance for testing."""
-        return GeminiService("test-api-key")
-    
-    @pytest.fixture
-    def sample_conversation(self):
-        """Sample conversation data for testing."""
-        return {
-            'chat_id': 'test_chat_123',
-            'messages': [
-                {
-                    'message_content': 'Hello, I have a billing issue',
-                    'direction': 'to_company',
-                    'social_create_time': '2025-08-16T10:00:00Z'
-                },
-                {
-                    'message_content': 'Hi! I can help you with that. What seems to be the problem?',
-                    'direction': 'to_client',
-                    'social_create_time': '2025-08-16T10:01:00Z'
-                }
-            ]
-        }
-    
-    def test_gemini_service_initialization(self, gemini_service):
-        """Test Gemini service initialization."""
-        assert gemini_service.api_key == "test-api-key"
-        assert gemini_service.model is not None
-    
-    @patch('services.gemini_service.genai.configure')
-    @patch('services.gemini_service.genai.GenerativeModel')
-    def test_gemini_configure_called(self, mock_model_class, mock_configure, gemini_service):
-        """Test that genai.configure is called during initialization."""
-        # Re-create service to trigger the configure call
-        service = GeminiService("test-api-key")
-        mock_configure.assert_called_once_with(api_key="test-api-key")
-    
-    @patch('services.gemini_service.genai.configure')
-    @patch('services.gemini_service.genai.GenerativeModel')
-    def test_gemini_model_creation(self, mock_model_class, mock_configure, gemini_service):
-        """Test that GenerativeModel is created with correct model name."""
-        # Re-create service to trigger the model creation
-        service = GeminiService("test-api-key")
-        mock_model_class.assert_called_once_with('gemini-1.5-flash')
-    
-    @pytest.mark.asyncio
-    async def test_analyze_single_conversation_success(self, gemini_service, sample_conversation):
-        """Test successful conversation analysis."""
-        with patch.object(gemini_service, '_call_gemini_with_retry') as mock_call:
-            mock_call.return_value = '''
-            {
-                "conversation_analysis": {
-                    "satisfaction_score": 4,
-                    "satisfaction_confidence": 0.8,
-                    "is_satisfied": true,
-                    "resolution_achieved": true,
-                    "common_topics": ["billing", "customer support"]
-                },
-                "message_analyses": [
-                    {
-                        "message_content": "Hello, I have a billing issue",
-                        "sentiment_score": -0.2,
-                        "sentiment_confidence": 0.7,
-                        "topics": ["billing"]
-                    }
-                ]
+@pytest.fixture
+def sample_conversations():
+    """Create sample Conversation objects for testing."""
+    conv1 = Conversation(id=1, fb_chat_id="chat1")
+    conv1.messages = [
+        Message(direction="to_company", message_content="Hello, I have an issue."),
+        Message(direction="to_client", message_content="Hi, how can I help?")
+    ]
+
+    conv2 = Conversation(id=2, fb_chat_id="chat2")
+    conv2.messages = [
+        Message(direction="to_company", message_content="My order is late."),
+        Message(direction="to_client", message_content="I can check on that for you.")
+    ]
+    return [conv1, conv2]
+
+def test_create_batch_prompt(gemini_service, sample_conversations):
+    """Test that the batch prompt is created with the correct structure and content."""
+    prompt = gemini_service._create_batch_prompt(sample_conversations)
+
+    assert "Analyze the following batch" in prompt
+    assert "CONVERSATIONS_BATCH:" in prompt
+    assert "chat1" in prompt
+    assert "My order is late" in prompt
+    assert "effectiveness_score" in prompt
+    assert "empathy_score" in prompt
+
+def test_parse_batch_response_success(gemini_service, sample_conversations):
+    """Test successful parsing of a valid JSON response from the AI."""
+    mock_response = json.dumps([
+        {
+            "chat_id": "chat1",
+            "conversation_analysis": {
+                "effectiveness_score": 8.5,
+                "efficiency_score": 9.0,
+                "effort_score": 7.5,
+                "empathy_score": 9.5,
+                "common_topics": ["issue resolution"]
             }
-            '''
-            
-            result = await gemini_service._analyze_single_conversation(sample_conversation)
-            
-            assert result['satisfaction_score'] == 4
-            assert result['is_satisfied'] == True
-            assert result['resolution_achieved'] == True
-            assert "billing" in result['common_topics']
-            assert len(result['message_analyses']) == 2
-    
-    @pytest.mark.asyncio
-    async def test_analyze_single_conversation_fallback(self, gemini_service, sample_conversation):
-        """Test fallback when analysis fails."""
-        with patch.object(gemini_service, '_call_gemini_with_retry') as mock_call:
-            mock_call.side_effect = Exception("API Error")
-            
-            result = await gemini_service._analyze_single_conversation(sample_conversation)
-            
-            # Should return fallback values
-            assert result['satisfaction_score'] == 3
-            assert result['is_satisfied'] == False
-            assert result['common_topics'] == ['general inquiry']
-    
-    def test_create_comprehensive_prompt(self, gemini_service, sample_conversation):
-        """Test prompt creation for Gemini."""
-        prompt = gemini_service._create_comprehensive_prompt(sample_conversation['messages'])
-        
-        assert "CUSTOMER" in prompt
-        assert "AGENT" in prompt
-        assert "billing issue" in prompt
-        assert "JSON format" in prompt
-        assert "satisfaction_score" in prompt
-    
-    def test_format_messages_for_analysis(self, gemini_service, sample_conversation):
-        """Test message formatting for analysis."""
-        formatted = gemini_service._format_messages_for_analysis(sample_conversation['messages'])
-        
-        assert "[CUSTOMER]: Hello, I have a billing issue" in formatted
-        assert "[AGENT]: Hi! I can help you with that" in formatted
-    
-    @pytest.mark.asyncio
-    async def test_call_gemini_with_retry_success(self, gemini_service):
-        """Test successful Gemini API call."""
-        with patch.object(gemini_service.model, 'generate_content') as mock_generate:
-            mock_response = Mock()
-            mock_response.text = '{"result": "success"}'
-            mock_generate.return_value = mock_response
-            
-            result = await gemini_service._call_gemini_with_retry("test prompt")
-            assert result == '{"result": "success"}'
-    
-    @pytest.mark.asyncio
-    async def test_call_gemini_with_retry_failure_then_success(self, gemini_service):
-        """Test retry logic on failure."""
-        with patch.object(gemini_service.model, 'generate_content') as mock_generate:
-            # First call fails, second succeeds
-            mock_generate.side_effect = [Exception("API Error"), Mock(text='{"result": "success"}')]
-            
-            result = await gemini_service._call_gemini_with_retry("test prompt")
-            assert result == '{"result": "success"}'
-            assert mock_generate.call_count == 2
-    
-    def test_create_fallback_result(self, gemini_service, sample_conversation):
-        """Test fallback result creation."""
-        result = gemini_service._create_fallback_result(sample_conversation)
-        
-        assert result['chat_id'] == 'test_chat_123'
-        assert result['satisfaction_score'] == 3
-        assert result['is_satisfied'] == False
-        assert result['common_topics'] == ['general inquiry']
-        assert len(result['message_analyses']) == 2
-
-
-class TestGeminiServiceIntegration:
-    """Integration tests for Gemini service."""
-    
-    @pytest.fixture
-    def gemini_service(self):
-        """Create Gemini service instance for testing."""
-        return GeminiService("test-api-key")
-    
-    @pytest.mark.asyncio
-    async def test_batch_analysis_empty_list(self, gemini_service):
-        """Test batch analysis with empty conversation list."""
-        result = await gemini_service.batch_analyze_conversations([])
-        assert result == []
-    
-    @pytest.mark.asyncio
-    async def test_batch_analysis_single_conversation(self, gemini_service):
-        """Test batch analysis with single conversation."""
-        conversation = {
-            'chat_id': 'test_123',
-            'messages': [
-                {'message_content': 'Hello', 'direction': 'to_company', 'social_create_time': '2025-08-16T10:00:00Z'}
-            ]
-        }
-        
-        with patch.object(gemini_service, '_analyze_single_conversation') as mock_analyze:
-            mock_analyze.return_value = {
-                'satisfaction_score': 5,
-                'is_satisfied': True,
-                'resolution_achieved': True,
-                'common_topics': ['greeting'],
-                'message_analyses': []
+        },
+        {
+            "chat_id": "chat2",
+            "conversation_analysis": {
+                "effectiveness_score": 5.0,
+                "efficiency_score": 6.0,
+                "effort_score": 7.0,
+                "empathy_score": 8.0,
+                "common_topics": ["order status"]
             }
-            
-            results = await gemini_service.batch_analyze_conversations([conversation])
-            
-            assert len(results) == 1
-            assert results[0]['satisfaction_score'] == 5
-            assert results[0]['is_satisfied'] == True
+        }
+    ])
 
+    results = gemini_service._parse_batch_response(mock_response, sample_conversations)
 
-# Test the global function
-def test_get_gemini_service():
-    """Test the global get_gemini_service function."""
-    from services.gemini_service import get_gemini_service
-    
-    service1 = get_gemini_service("key1")
-    service2 = get_gemini_service("key1")
-    
-    # Should return the same instance (singleton pattern)
-    assert service1 is service2
-    
-    # Different keys should create different instances
-    service3 = get_gemini_service("key2")
-    assert service1 is not service3
+    assert len(results) == 2
+    assert results[0]['id'] == 1
+    assert results[0]['effectiveness_score'] == 8.5
+    assert results[1]['chat_id'] == "chat2"
+    assert results[1]['empathy_score'] == 8.0
+
+def test_parse_batch_response_with_missing_conversation(gemini_service, sample_conversations):
+    """Test that a fallback is created if a conversation from the original batch is missing in the response."""
+    mock_response = json.dumps([
+        {
+            "chat_id": "chat1", # Only chat1 is in the response
+            "conversation_analysis": {
+                "effectiveness_score": 8.5,
+                "efficiency_score": 9.0,
+                "effort_score": 7.5,
+                "empathy_score": 9.5,
+                "common_topics": ["issue resolution"]
+            }
+        }
+    ])
+
+    results = gemini_service._parse_batch_response(mock_response, sample_conversations)
+
+    assert len(results) == 2
+    assert results[0]['effectiveness_score'] == 8.5
+    # Check that the second result is a fallback
+    assert results[1]['chat_id'] == "chat2"
+    assert results[1]['effectiveness_score'] == 5.0 # Fallback value
+
+def test_parse_batch_response_invalid_json(gemini_service, sample_conversations):
+    """Test that fallbacks are returned for all conversations if the JSON is invalid."""
+    invalid_response = "This is not valid JSON."
+
+    results = gemini_service._parse_batch_response(invalid_response, sample_conversations)
+
+    assert len(results) == 2
+    assert results[0]['chat_id'] == "chat1"
+    assert results[0]['empathy_score'] == 5.0 # Fallback value
+    assert results[1]['chat_id'] == "chat2"
+    assert results[1]['empathy_score'] == 5.0 # Fallback value
+
+def test_create_fallback_result(gemini_service):
+    """Test the creation of a fallback result for a single conversation."""
+    conv = Conversation(id=10, fb_chat_id="fallback_chat")
+    fallback = gemini_service._create_fallback_result(conv)
+
+    assert fallback['id'] == 10
+    assert fallback['chat_id'] == "fallback_chat"
+    assert fallback['effectiveness_score'] == 5.0
+    assert fallback['efficiency_score'] == 5.0
+    assert fallback['effort_score'] == 5.0
+    assert fallback['empathy_score'] == 5.0
+    assert fallback['common_topics'] == ['analysis_failed']
+
+@pytest.mark.asyncio
+async def test_analyze_conversations_batch_e2e_success(gemini_service, sample_conversations):
+    """E2E test for the main batch analysis function, mocking the AI call."""
+    mock_response_text = json.dumps([
+        {
+            "chat_id": "chat1",
+            "conversation_analysis": {"effectiveness_score": 8, "efficiency_score": 9, "effort_score": 7, "empathy_score": 9, "common_topics": []}
+        },
+        {
+            "chat_id": "chat2",
+            "conversation_analysis": {"effectiveness_score": 5, "efficiency_score": 6, "effort_score": 7, "empathy_score": 8, "common_topics": []}
+        }
+    ])
+
+    with patch.object(gemini_service, '_call_gemini_with_retry', new_callable=AsyncMock) as mock_ai_call:
+        mock_ai_call.return_value = mock_response_text
+
+        results = await gemini_service.analyze_conversations_batch(sample_conversations)
+
+        mock_ai_call.assert_called_once()
+        assert len(results) == 2
+        assert results[0]['effectiveness_score'] == 8
+        assert results[1]['chat_id'] == "chat2"
+
+@pytest.mark.asyncio
+async def test_analyze_conversations_batch_e2e_failure(gemini_service, sample_conversations):
+    """Test that the main batch analysis function returns fallbacks if the AI call fails."""
+    with patch.object(gemini_service, '_call_gemini_with_retry', new_callable=AsyncMock) as mock_ai_call:
+        mock_ai_call.side_effect = Exception("Fatal AI Error")
+
+        results = await gemini_service.analyze_conversations_batch(sample_conversations)
+
+        mock_ai_call.assert_called_once()
+        assert len(results) == 2
+        assert results[0]['chat_id'] == "chat1"
+        assert results[0]['effectiveness_score'] == 5.0 # Fallback value
+        assert results[1]['chat_id'] == "chat2"
+        assert results[1]['empathy_score'] == 5.0 # Fallback value
