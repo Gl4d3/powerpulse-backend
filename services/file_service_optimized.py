@@ -85,7 +85,7 @@ class OptimizedFileService:
             # 4. Process jobs
             await progress_tracker.update_progress(upload_id, 0, "ai_analysis", f"Processing {len(jobs)} analysis jobs...")
             
-            tasks = [job_service.process_job(job, db) for job in jobs]
+            tasks = [job_service.process_job(job.id) for job in jobs]
             await asyncio.gather(*tasks)
 
             conversations_processed = len(new_conversations)

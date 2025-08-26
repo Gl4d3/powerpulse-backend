@@ -40,42 +40,44 @@ class GeminiService:
 
     def _create_batch_prompt(self, conversations: List[Conversation]) -> str:
         """
-        Creates a single prompt to analyze a batch of conversations based on the 4 Pillars of Service Quality.
+        Creates a single prompt to analyze a batch of conversations and extract
+        the five core micro-metrics for CSI calculation.
         """
         conversations_json = []
         for conv in conversations:
-            messages_text = "\n".join([f"{m.social_create_time} - {m.direction}: {m.message_content}" for m in conv.messages])
+            # Limit messages to the last 20 to keep the prompt concise
+            messages_text = "\n".join([f"{m.social_create_time} - {m.direction}: {m.message_content}" for m in conv.messages[-20:]])
             conversations_json.append({
-                "chat_id": conv.fb_chat_id,
+                "fb_chat_id": conv.fb_chat_id,
                 "messages": messages_text
             })
 
         conversations_input = json.dumps(conversations_json, indent=2)
 
         prompt = f"""
-Analyze the following batch of customer service conversations. For each conversation, provide a score from 1 to 10 for each of the Four Pillars of Service Quality.
+Analyze the following batch of customer service conversations. For each conversation, provide a score from 1 to 10 for each of the five micro-metrics.
 
 CONVERSATIONS_BATCH:
 {conversations_input}
 
 Provide the analysis as a valid JSON array, with one object per conversation. Use this EXACT JSON format for each object:
 {{
-    "chat_id": "<the original chat_id>",
+    "fb_chat_id": "<the original fb_chat_id>",
     "conversation_analysis": {{
-        "effectiveness_score": <1-10 float, how well the issue was resolved>,
-        "efficiency_score": <1-10 float, how timely and quick the service was>,
-        "effort_score": <1-10 float, how easy it was for the customer>,
-        "empathy_score": <1-10 float, the emotional tone and rapport>,
-        "common_topics": ["topic1", "topic2"]
+        "resolution_achieved": <1-10 float, was the customer's issue fully resolved?>,
+        "fcr_score": <1-10 float, was the issue resolved in a single contact? 1 if multiple contacts were needed, 10 if resolved on the first try>,
+        "response_time_score": <1-10 float, how timely were the agent's responses?>,
+        "customer_effort_score": <1-10 float, how much effort did the customer have to put in? 1 for high effort, 10 for low effort>,
+        "empathy_score": <1-10 float, what was the emotional tone and rapport of the interaction?>
     }}
 }}
 
 ANALYSIS GUIDELINES:
-- **effectiveness_score**: Focus on resolution. 1 = unresolved, 10 = fully resolved and confirmed.
-- **efficiency_score**: Focus on speed. 1 = very slow, long waits, 10 = instant, efficient responses.
-- **effort_score**: Focus on customer ease. 1 = very difficult, repetitive, 10 = seamless and simple.
-- **empathy_score**: Focus on tone. 1 = cold, robotic, 10 = warm, empathetic, personalized.
-- **common_topics**: Extract 2-3 main topics.
+- **resolution_achieved**: 1 = Not resolved at all. 10 = Issue fully resolved and confirmed by the customer.
+- **fcr_score**: 1 = Customer had to follow up multiple times. 10 = Resolved in the very first interaction.
+- **response_time_score**: 1 = Very long waits between messages. 10 = Near-instantaneous and efficient replies.
+- **customer_effort_score**: 1 = Customer had to repeat information, try multiple channels, or was heavily inconvenienced. 10 = Seamless, easy, and simple for the customer.
+- **empathy_score**: 1 = Cold, robotic, and unhelpful. 10 = Warm, understanding, and empathetic.
 - Base your scores on the entire conversation flow.
 - Ensure the output is a single, valid JSON array.
 """
@@ -83,18 +85,19 @@ ANALYSIS GUIDELINES:
 
     def _parse_batch_response(self, response: str, original_conversations: List[Conversation]) -> List[Dict]:
         """
-        Parses the batch response from Gemini and maps it to conversations.
+        Parses the batch response from Gemini for the five micro-metrics with improved robustness.
         """
         try:
-            if "```json" in response:
-                json_start = response.find("```json") + 7
-                json_end = response.find("```", json_start)
-                json_text = response[json_start:json_end].strip()
-            else:
-                json_text = response.strip()
+            # Attempt to find a JSON array within the response text, ignoring surrounding text
+            json_match = re.search(r"\[\s*\{.*\}\s*\]", response, re.DOTALL)
+            if not json_match:
+                logger.error("Could not find a valid JSON array in the Gemini response.")
+                logger.debug(f"Response was: {response}")
+                return [self._create_fallback_result(conv) for conv in original_conversations]
 
+            json_text = json_match.group(0)
             parsed_results = json.loads(json_text)
-            results_by_chat_id = {result.get("chat_id"): result for result in parsed_results}
+            results_by_chat_id = {result.get("fb_chat_id"): result for result in parsed_results}
 
             final_results = []
             for conv in original_conversations:
@@ -102,17 +105,23 @@ ANALYSIS GUIDELINES:
                 result = results_by_chat_id.get(chat_id)
                 if result and "conversation_analysis" in result:
                     analysis = result["conversation_analysis"]
+                    # Add identifiers for mapping back in the job service
                     analysis['id'] = conv.id
-                    analysis['chat_id'] = chat_id
+                    analysis['fb_chat_id'] = chat_id
                     final_results.append(analysis)
                 else:
+                    logger.warning(f"No valid analysis found for chat_id {chat_id}. Using fallback.")
                     final_results.append(self._create_fallback_result(conv))
             
             return final_results
 
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to decode JSON from Gemini response: {e}", exc_info=True)
+            logger.debug(f"Response text being parsed was: {json_text}")
+            return [self._create_fallback_result(conv) for conv in original_conversations]
         except Exception as e:
-            logger.error(f"Error parsing Gemini batch response: {e}")
-            logger.debug(f"Response was: {response}")
+            logger.error(f"An unexpected error occurred while parsing Gemini batch response: {e}", exc_info=True)
+            logger.debug(f"Full response was: {response}")
             return [self._create_fallback_result(conv) for conv in original_conversations]
 
     async def _call_gemini_with_retry(self, prompt: str, max_retries: int = 2) -> str:
@@ -143,15 +152,16 @@ ANALYSIS GUIDELINES:
                     raise
 
     def _create_fallback_result(self, conversation: Conversation) -> Dict:
-        """Create a neutral fallback result when analysis fails."""
+        """Create a neutral fallback result for micro-metrics when analysis fails."""
         return {
             'id': conversation.id,
-            'chat_id': conversation.fb_chat_id,
-            'effectiveness_score': 5.0,
-            'efficiency_score': 5.0,
-            'effort_score': 5.0,
+            'fb_chat_id': conversation.fb_chat_id,
+            'resolution_achieved': 5.0,
+            'fcr_score': 5.0,
+            'response_time_score': 5.0,
+            'customer_effort_score': 5.0,
             'empathy_score': 5.0,
-            'common_topics': ['analysis_failed'],
+            'error': 'analysis_failed'
         }
 
 # Global Gemini service instance

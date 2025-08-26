@@ -1,0 +1,623 @@
+INFO:sqlalchemy.engine.Engine:SELECT jobs.id AS jobs_id, jobs.upload_id AS jobs_upload_id, jobs.status AS jobs_status, jobs.created_at AS jobs_created_at, jobs.completed_at AS jobs_completed_at, jobs.result AS jobs_result
+FROM jobs
+WHERE jobs.id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:19,457 INFO sqlalchemy.engine.Engine [generated in 0.00051s] (1, 1, 0)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00051s] (1, 1, 0)
+INFO:services.job_service:Processing job 1...
+2025-08-26 13:08:19,459 INFO sqlalchemy.engine.Engine UPDATE jobs SET status=? WHERE jobs.id = ?
+INFO:sqlalchemy.engine.Engine:UPDATE jobs SET status=? WHERE jobs.id = ?
+2025-08-26 13:08:19,460 INFO sqlalchemy.engine.Engine [generated in 0.00039s] ('in_progress', 1)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00039s] ('in_progress', 1)
+2025-08-26 13:08:19,463 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+2025-08-26 13:08:19,465 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-08-26 13:08:19,467 INFO sqlalchemy.engine.Engine SELECT conversations.id AS conversations_id, conversations.fb_chat_id AS conversations_fb_chat_id, conversations.total_messages AS conversations_total_messages, conversations.customer_messages AS conversations_customer_messages, conversations.agent_messages AS conversations_agent_messages, conversations.satisfaction_score AS conversations_satisfaction_score, conversations.satisfaction_confidence AS conversations_satisfaction_confidence, conversations.is_satisfied AS conversations_is_satisfied, conversations.resolution_achieved AS conversations_resolution_achieved, conversations.fcr_score AS conversations_fcr_score, conversations.response_time_score AS conversations_response_time_score, conversations.customer_effort_score AS conversations_customer_effort_score, conversations.effectiveness_score AS conversations_effectiveness_score, conversations.efficiency_score AS conversations_efficiency_score, conversations.effort_score AS conversations_effort_score, conversations.empathy_score AS conversations_empathy_score, conversations.csi_score AS conversations_csi_score, conversations.avg_sentiment AS conversations_avg_sentiment, conversations.first_contact_resolution AS conversations_first_contact_resolution, conversations.avg_response_time_minutes AS conversations_avg_response_time_minutes, conversations.first_message_time AS conversations_first_message_time, conversations.last_message_time AS conversations_last_message_time, conversations.common_topics AS conversations_common_topics, conversations.created_at AS conversations_created_at, conversations.updated_at AS conversations_updated_at
+FROM conversations, job_conversations
+WHERE ? = job_conversations.job_id AND conversations.id = job_conversations.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT conversations.id AS conversations_id, conversations.fb_chat_id AS conversations_fb_chat_id, conversations.total_messages AS conversations_total_messages, conversations.customer_messages AS conversations_customer_messages, conversations.agent_messages AS conversations_agent_messages, conversations.satisfaction_score AS conversations_satisfaction_score, conversations.satisfaction_confidence AS conversations_satisfaction_confidence, conversations.is_satisfied AS conversations_is_satisfied, conversations.resolution_achieved AS conversations_resolution_achieved, conversations.fcr_score AS conversations_fcr_score, conversations.response_time_score AS conversations_response_time_score, conversations.customer_effort_score AS conversations_customer_effort_score, conversations.effectiveness_score AS conversations_effectiveness_score, conversations.efficiency_score AS conversations_efficiency_score, conversations.effort_score AS conversations_effort_score, conversations.empathy_score AS conversations_empathy_score, conversations.csi_score AS conversations_csi_score, conversations.avg_sentiment AS conversations_avg_sentiment, conversations.first_contact_resolution AS conversations_first_contact_resolution, conversations.avg_response_time_minutes AS conversations_avg_response_time_minutes, conversations.first_message_time AS conversations_first_message_time, conversations.last_message_time AS conversations_last_message_time, conversations.common_topics AS conversations_common_topics, conversations.created_at AS conversations_created_at, conversations.updated_at AS conversations_updated_at
+FROM conversations, job_conversations
+WHERE ? = job_conversations.job_id AND conversations.id = job_conversations.conversation_id
+2025-08-26 13:08:19,468 INFO sqlalchemy.engine.Engine [generated in 0.00104s] (1,)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00104s] (1,)
+2025-08-26 13:08:19,471 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,472 INFO sqlalchemy.engine.Engine [generated in 0.00085s] (1,)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00085s] (1,)
+2025-08-26 13:08:19,473 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,473 INFO sqlalchemy.engine.Engine [cached since 0.002674s ago] (2,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.002674s ago] (2,)
+2025-08-26 13:08:19,475 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,475 INFO sqlalchemy.engine.Engine [cached since 0.004318s ago] (3,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.004318s ago] (3,)
+2025-08-26 13:08:19,476 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,476 INFO sqlalchemy.engine.Engine [cached since 0.005732s ago] (4,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.005732s ago] (4,)
+2025-08-26 13:08:19,478 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,478 INFO sqlalchemy.engine.Engine [cached since 0.007559s ago] (5,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.007559s ago] (5,)
+2025-08-26 13:08:19,479 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,480 INFO sqlalchemy.engine.Engine [cached since 0.008942s ago] (6,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.008942s ago] (6,)
+2025-08-26 13:08:19,481 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,481 INFO sqlalchemy.engine.Engine [cached since 0.01043s ago] (7,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01043s ago] (7,)
+2025-08-26 13:08:19,482 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,482 INFO sqlalchemy.engine.Engine [cached since 0.01135s ago] (8,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01135s ago] (8,)
+2025-08-26 13:08:19,483 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,483 INFO sqlalchemy.engine.Engine [cached since 0.01253s ago] (9,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01253s ago] (9,)
+2025-08-26 13:08:19,484 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,484 INFO sqlalchemy.engine.Engine [cached since 0.01377s ago] (10,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01377s ago] (10,)
+2025-08-26 13:08:19,486 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,487 INFO sqlalchemy.engine.Engine [cached since 0.01646s ago] (11,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01646s ago] (11,)
+2025-08-26 13:08:19,489 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,489 INFO sqlalchemy.engine.Engine [cached since 0.01866s ago] (12,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01866s ago] (12,)
+2025-08-26 13:08:19,490 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,491 INFO sqlalchemy.engine.Engine [cached since 0.01991s ago] (13,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01991s ago] (13,)
+2025-08-26 13:08:19,492 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,492 INFO sqlalchemy.engine.Engine [cached since 0.02143s ago] (14,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.02143s ago] (14,)
+2025-08-26 13:08:19,493 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,494 INFO sqlalchemy.engine.Engine [cached since 0.02339s ago] (15,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.02339s ago] (15,)
+2025-08-26 13:08:19,495 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,496 INFO sqlalchemy.engine.Engine [cached since 0.02509s ago] (16,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.02509s ago] (16,)
+2025-08-26 13:08:19,497 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,497 INFO sqlalchemy.engine.Engine [cached since 0.02634s ago] (17,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.02634s ago] (17,)
+2025-08-26 13:08:19,498 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,499 INFO sqlalchemy.engine.Engine [cached since 0.0279s ago] (18,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.0279s ago] (18,)
+2025-08-26 13:08:19,500 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,500 INFO sqlalchemy.engine.Engine [cached since 0.02954s ago] (19,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.02954s ago] (19,)
+2025-08-26 13:08:19,501 INFO sqlalchemy.engine.Engine SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+INFO:sqlalchemy.engine.Engine:SELECT messages.id AS messages_id, messages.fb_chat_id AS messages_fb_chat_id, messages.conversation_id AS messages_conversation_id, messages.message_content AS messages_message_content, messages.direction AS messages_direction, messages.social_create_time AS messages_social_create_time, messages.agent_info AS messages_agent_info, messages.sentiment_score AS messages_sentiment_score, messages.sentiment_confidence AS messages_sentiment_confidence, messages.topics AS messages_topics, messages.is_first_contact AS messages_is_first_contact, messages.response_time_minutes AS messages_response_time_minutes, messages.created_at AS messages_created_at, messages.updated_at AS messages_updated_at
+FROM messages
+WHERE ? = messages.conversation_id
+2025-08-26 13:08:19,502 INFO sqlalchemy.engine.Engine [cached since 0.03145s ago] (20,)
+INFO:sqlalchemy.engine.Engine:[cached since 0.03145s ago] (20,)
+2025-08-26 13:08:34,023 INFO sqlalchemy.engine.Engine UPDATE conversations SET resolution_achieved=?, fcr_score=?, response_time_score=?, customer_effort_score=?, effectiveness_score=?, efficiency_score=?, effort_score=?, empathy_score=?, csi_score=?, updated_at=CURRENT_TIMESTAMP WHERE conversations.id = ?     
+INFO:sqlalchemy.engine.Engine:UPDATE conversations SET resolution_achieved=?, fcr_score=?, response_time_score=?, customer_effort_score=?, effectiveness_score=?, efficiency_score=?, effort_score=?, empathy_score=?, csi_score=?, updated_at=CURRENT_TIMESTAMP WHERE conversations.id = ?
+2025-08-26 13:08:34,024 INFO sqlalchemy.engine.Engine [generated in 0.00102s] [(5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 1), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 2), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 3), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 4), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 6), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 7), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 8)  ... displaying 10 of 20 total bound parameter sets ...  (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 19), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 20)]
+INFO:sqlalchemy.engine.Engine:[generated in 0.00102s] [(5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 1), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 2), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 3), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 4), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 6), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 7), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 8)  ... displaying 10 of 20 total bound parameter sets ...  (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 19), (5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 20)]
+2025-08-26 13:08:34,110 INFO sqlalchemy.engine.Engine UPDATE jobs SET status=?, completed_at=?, result=? WHERE jobs.id = ?
+INFO:sqlalchemy.engine.Engine:UPDATE jobs SET status=?, completed_at=?, result=? WHERE jobs.id = ?
+2025-08-26 13:08:34,111 INFO sqlalchemy.engine.Engine [generated in 0.00072s] ('completed', '2025-08-26 10:08:34.020050', '{"results": [{"id": 1, "fb_chat_id": "6173bd56f751bf0740f105c6", "resolution_achieved": 5.0, "fcr_score": 5.0, "response_time_score": 5.0, "customer_ ... (3866 characters truncated) ... ution_achieved": 5.0, "fcr_score": 5.0, "response_time_score": 5.0, "customer_effort_score": 5.0, "empathy_score": 5.0, "error": "analysis_failed"}]}', 1)     
+INFO:sqlalchemy.engine.Engine:[generated in 0.00072s] ('completed', '2025-08-26 10:08:34.020050', '{"results": [{"id": 1, "fb_chat_id": "6173bd56f751bf0740f105c6", "resolution_achieved": 5.0, "fcr_score": 5.0, "response_time_score": 5.0, "customer_ ... (3866 characters truncated) ... ution_achieved": 5.0, "fcr_score": 5.0, "response_time_score": 5.0, "customer_effort_score": 5.0, "empathy_score": 5.0, "error": "analysis_failed"}]}', 1)
+2025-08-26 13:08:34,119 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:services.job_service:Job 1 finished with status: completed
+2025-08-26 13:08:34,121 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,122 INFO sqlalchemy.engine.Engine [cached since 15.66s ago] ('6173bd56f751bf0740f105c6', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.66s ago] ('6173bd56f751bf0740f105c6', 1, 0)
+2025-08-26 13:08:34,123 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,124 INFO sqlalchemy.engine.Engine [cached since 15.66s ago] ('6173bea0d99d10108c3abefb', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.66s ago] ('6173bea0d99d10108c3abefb', 1, 0)
+2025-08-26 13:08:34,126 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,129 INFO sqlalchemy.engine.Engine [cached since 15.67s ago] ('6173bfcb48774dd4690addb1', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.67s ago] ('6173bfcb48774dd4690addb1', 1, 0)
+2025-08-26 13:08:34,132 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,133 INFO sqlalchemy.engine.Engine [cached since 15.67s ago] ('6173c0012e6c965da961c10a', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.67s ago] ('6173c0012e6c965da961c10a', 1, 0)
+2025-08-26 13:08:34,134 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,135 INFO sqlalchemy.engine.Engine [cached since 15.67s ago] ('61745b1c9f54ec7f889910f1', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.67s ago] ('61745b1c9f54ec7f889910f1', 1, 0)
+2025-08-26 13:08:34,136 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,137 INFO sqlalchemy.engine.Engine [cached since 15.68s ago] ('61751db99b8246ed5141064a', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.68s ago] ('61751db99b8246ed5141064a', 1, 0)
+2025-08-26 13:08:34,138 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,139 INFO sqlalchemy.engine.Engine [cached since 15.68s ago] ('6175866910aabac8ed4ebcdf', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.68s ago] ('6175866910aabac8ed4ebcdf', 1, 0)
+2025-08-26 13:08:34,140 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,140 INFO sqlalchemy.engine.Engine [cached since 15.68s ago] ('6175b85b66d966883cb3f71d', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.68s ago] ('6175b85b66d966883cb3f71d', 1, 0)
+2025-08-26 13:08:34,142 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,143 INFO sqlalchemy.engine.Engine [cached since 15.68s ago] ('617640bdf2041cef612e5109', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.68s ago] ('617640bdf2041cef612e5109', 1, 0)
+2025-08-26 13:08:34,145 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,146 INFO sqlalchemy.engine.Engine [cached since 15.68s ago] ('61767b0e33e3da4879eb8584', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.68s ago] ('61767b0e33e3da4879eb8584', 1, 0)
+2025-08-26 13:08:34,148 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,149 INFO sqlalchemy.engine.Engine [cached since 15.69s ago] ('6176f7180bb24f35959dc5f3', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.69s ago] ('6176f7180bb24f35959dc5f3', 1, 0)
+2025-08-26 13:08:34,152 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,152 INFO sqlalchemy.engine.Engine [cached since 15.69s ago] ('6177fdb5966fdf6741c3310a', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.69s ago] ('6177fdb5966fdf6741c3310a', 1, 0)
+2025-08-26 13:08:34,154 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,156 INFO sqlalchemy.engine.Engine [cached since 15.69s ago] ('6177ff5015107648604fc329', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.69s ago] ('6177ff5015107648604fc329', 1, 0)
+2025-08-26 13:08:34,157 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,159 INFO sqlalchemy.engine.Engine [cached since 15.7s ago] ('617806724f104ac65d9f75c6', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.7s ago] ('617806724f104ac65d9f75c6', 1, 0)
+2025-08-26 13:08:34,161 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,162 INFO sqlalchemy.engine.Engine [cached since 15.7s ago] ('61781fcdbab5b2dddd96b4fc', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.7s ago] ('61781fcdbab5b2dddd96b4fc', 1, 0)
+2025-08-26 13:08:34,164 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,165 INFO sqlalchemy.engine.Engine [cached since 15.7s ago] ('617823c3dd261102ee87dc71', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.7s ago] ('617823c3dd261102ee87dc71', 1, 0)
+2025-08-26 13:08:34,167 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,168 INFO sqlalchemy.engine.Engine [cached since 15.71s ago] ('61782619a6c2f29dca7cc578', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.71s ago] ('61782619a6c2f29dca7cc578', 1, 0)
+2025-08-26 13:08:34,169 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,170 INFO sqlalchemy.engine.Engine [cached since 15.71s ago] ('6178279a27c50e3c7e2c78de', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.71s ago] ('6178279a27c50e3c7e2c78de', 1, 0)
+2025-08-26 13:08:34,171 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,171 INFO sqlalchemy.engine.Engine [cached since 15.71s ago] ('6178279ec7a2bef471e10342', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.71s ago] ('6178279ec7a2bef471e10342', 1, 0)
+2025-08-26 13:08:34,173 INFO sqlalchemy.engine.Engine SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT processed_chats.id AS processed_chats_id, processed_chats.fb_chat_id AS processed_chats_fb_chat_id, processed_chats.processed_at AS processed_chats_processed_at, processed_chats.message_count AS processed_chats_message_count
+FROM processed_chats
+WHERE processed_chats.fb_chat_id = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,173 INFO sqlalchemy.engine.Engine [cached since 15.71s ago] ('617852f86017fdd615f2f37c', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 15.71s ago] ('617852f86017fdd615f2f37c', 1, 0)
+2025-08-26 13:08:34,177 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,177 INFO sqlalchemy.engine.Engine [generated in 0.00026s (insertmanyvalues) 1/20 (ordered; batch not supported)] ('6173bd56f751bf0740f105c6', 34)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00026s (insertmanyvalues) 1/20 (ordered; batch not supported)] ('6173bd56f751bf0740f105c6', 34)
+2025-08-26 13:08:34,182 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,183 INFO sqlalchemy.engine.Engine [insertmanyvalues 2/20 (ordered; batch not supported)] ('6173bea0d99d10108c3abefb', 11)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 2/20 (ordered; batch not supported)] ('6173bea0d99d10108c3abefb', 11)
+2025-08-26 13:08:34,188 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,189 INFO sqlalchemy.engine.Engine [insertmanyvalues 3/20 (ordered; batch not supported)] ('6173bfcb48774dd4690addb1', 26)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 3/20 (ordered; batch not supported)] ('6173bfcb48774dd4690addb1', 26)
+2025-08-26 13:08:34,195 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,196 INFO sqlalchemy.engine.Engine [insertmanyvalues 4/20 (ordered; batch not supported)] ('6173c0012e6c965da961c10a', 2)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 4/20 (ordered; batch not supported)] ('6173c0012e6c965da961c10a', 2)
+2025-08-26 13:08:34,201 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,202 INFO sqlalchemy.engine.Engine [insertmanyvalues 5/20 (ordered; batch not supported)] ('61745b1c9f54ec7f889910f1', 8)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 5/20 (ordered; batch not supported)] ('61745b1c9f54ec7f889910f1', 8)
+2025-08-26 13:08:34,208 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,208 INFO sqlalchemy.engine.Engine [insertmanyvalues 6/20 (ordered; batch not supported)] ('61751db99b8246ed5141064a', 8)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 6/20 (ordered; batch not supported)] ('61751db99b8246ed5141064a', 8)
+2025-08-26 13:08:34,214 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,215 INFO sqlalchemy.engine.Engine [insertmanyvalues 7/20 (ordered; batch not supported)] ('6175866910aabac8ed4ebcdf', 2)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 7/20 (ordered; batch not supported)] ('6175866910aabac8ed4ebcdf', 2)
+2025-08-26 13:08:34,219 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,220 INFO sqlalchemy.engine.Engine [insertmanyvalues 8/20 (ordered; batch not supported)] ('6175b85b66d966883cb3f71d', 10)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 8/20 (ordered; batch not supported)] ('6175b85b66d966883cb3f71d', 10)
+2025-08-26 13:08:34,224 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,224 INFO sqlalchemy.engine.Engine [insertmanyvalues 9/20 (ordered; batch not supported)] ('617640bdf2041cef612e5109', 4)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 9/20 (ordered; batch not supported)] ('617640bdf2041cef612e5109', 4)
+2025-08-26 13:08:34,229 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,229 INFO sqlalchemy.engine.Engine [insertmanyvalues 10/20 (ordered; batch not supported)] ('61767b0e33e3da4879eb8584', 2)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 10/20 (ordered; batch not supported)] ('61767b0e33e3da4879eb8584', 2)
+2025-08-26 13:08:34,234 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,235 INFO sqlalchemy.engine.Engine [insertmanyvalues 11/20 (ordered; batch not supported)] ('6176f7180bb24f35959dc5f3', 5)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 11/20 (ordered; batch not supported)] ('6176f7180bb24f35959dc5f3', 5)
+2025-08-26 13:08:34,240 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,240 INFO sqlalchemy.engine.Engine [insertmanyvalues 12/20 (ordered; batch not supported)] ('6177fdb5966fdf6741c3310a', 2)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 12/20 (ordered; batch not supported)] ('6177fdb5966fdf6741c3310a', 2)
+2025-08-26 13:08:34,245 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,245 INFO sqlalchemy.engine.Engine [insertmanyvalues 13/20 (ordered; batch not supported)] ('6177ff5015107648604fc329', 2)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 13/20 (ordered; batch not supported)] ('6177ff5015107648604fc329', 2)
+2025-08-26 13:08:34,251 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,252 INFO sqlalchemy.engine.Engine [insertmanyvalues 14/20 (ordered; batch not supported)] ('617806724f104ac65d9f75c6', 3)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 14/20 (ordered; batch not supported)] ('617806724f104ac65d9f75c6', 3)
+2025-08-26 13:08:34,257 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,257 INFO sqlalchemy.engine.Engine [insertmanyvalues 15/20 (ordered; batch not supported)] ('61781fcdbab5b2dddd96b4fc', 10)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 15/20 (ordered; batch not supported)] ('61781fcdbab5b2dddd96b4fc', 10)
+2025-08-26 13:08:34,262 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,262 INFO sqlalchemy.engine.Engine [insertmanyvalues 16/20 (ordered; batch not supported)] ('617823c3dd261102ee87dc71', 6)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 16/20 (ordered; batch not supported)] ('617823c3dd261102ee87dc71', 6)
+2025-08-26 13:08:34,266 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,266 INFO sqlalchemy.engine.Engine [insertmanyvalues 17/20 (ordered; batch not supported)] ('61782619a6c2f29dca7cc578', 4)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 17/20 (ordered; batch not supported)] ('61782619a6c2f29dca7cc578', 4)
+2025-08-26 13:08:34,270 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,270 INFO sqlalchemy.engine.Engine [insertmanyvalues 18/20 (ordered; batch not supported)] ('6178279a27c50e3c7e2c78de', 5)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 18/20 (ordered; batch not supported)] ('6178279a27c50e3c7e2c78de', 5)
+2025-08-26 13:08:34,274 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,275 INFO sqlalchemy.engine.Engine [insertmanyvalues 19/20 (ordered; batch not supported)] ('6178279ec7a2bef471e10342', 8)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 19/20 (ordered; batch not supported)] ('6178279ec7a2bef471e10342', 8)
+2025-08-26 13:08:34,280 INFO sqlalchemy.engine.Engine INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at      
+INFO:sqlalchemy.engine.Engine:INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at
+2025-08-26 13:08:34,281 INFO sqlalchemy.engine.Engine [insertmanyvalues 20/20 (ordered; batch not supported)] ('617852f86017fdd615f2f37c', 2)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 20/20 (ordered; batch not supported)] ('617852f86017fdd615f2f37c', 2)
+2025-08-26 13:08:34,286 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:services.progress_tracker:Upload 7ac947d6-d510-407f-a238-a3dd79788200 completed in 15.9s
+INFO:routes.upload:Successfully processed 20 conversations, 154 messages in 15.86s
+INFO:     127.0.0.1:53619 - "POST /api/upload-json HTTP/1.1" 200 OK
+2025-08-26 13:08:34,290 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+2025-08-26 13:08:34,296 INFO sqlalchemy.engine.Engine SELECT count(*) AS count_1
+FROM (SELECT conversations.id AS conversations_id, conversations.fb_chat_id AS conversations_fb_chat_id, conversations.total_messages AS conversations_total_messages, conversations.customer_messages AS conversations_customer_messages, conversations.agent_messages AS conversations_agent_messages, conversations.satisfaction_score AS conversations_satisfaction_score, conversations.satisfaction_confidence AS conversations_satisfaction_confidence, conversations.is_satisfied AS conversations_is_satisfied, conversations.resolution_achieved AS conversations_resolution_achieved, conversations.fcr_score AS conversations_fcr_score, conversations.response_time_score AS conversations_response_time_score, conversations.customer_effort_score AS conversations_customer_effort_score, conversations.effectiveness_score AS conversations_effectiveness_score, conversations.efficiency_score AS conversations_efficiency_score, conversations.effort_score AS conversations_effort_score, conversations.empathy_score AS conversations_empathy_score, conversations.csi_score AS conversations_csi_score, conversations.avg_sentiment AS conversations_avg_sentiment, conversations.first_contact_resolution AS conversations_first_contact_resolution, conversations.avg_response_time_minutes AS conversations_avg_response_time_minutes, conversations.first_message_time AS conversations_first_message_time, conversations.last_message_time AS conversations_last_message_time, conversations.common_topics AS conversations_common_topics, conversations.created_at AS conversations_created_at, conversations.updated_at AS conversations_updated_at
+FROM conversations
+WHERE conversations.csi_score IS NOT NULL) AS anon_1
+INFO:sqlalchemy.engine.Engine:SELECT count(*) AS count_1
+FROM (SELECT conversations.id AS conversations_id, conversations.fb_chat_id AS conversations_fb_chat_id, conversations.total_messages AS conversations_total_messages, conversations.customer_messages AS conversations_customer_messages, conversations.agent_messages AS conversations_agent_messages, conversations.satisfaction_score AS conversations_satisfaction_score, conversations.satisfaction_confidence AS conversations_satisfaction_confidence, conversations.is_satisfied AS conversations_is_satisfied, conversations.resolution_achieved AS conversations_resolution_achieved, conversations.fcr_score AS conversations_fcr_score, conversations.response_time_score AS conversations_response_time_score, conversations.customer_effort_score AS conversations_customer_effort_score, conversations.effectiveness_score AS conversations_effectiveness_score, conversations.efficiency_score AS conversations_efficiency_score, conversations.effort_score AS conversations_effort_score, conversations.empathy_score AS conversations_empathy_score, conversations.csi_score AS conversations_csi_score, conversations.avg_sentiment AS conversations_avg_sentiment, conversations.first_contact_resolution AS conversations_first_contact_resolution, conversations.avg_response_time_minutes AS conversations_avg_response_time_minutes, conversations.first_message_time AS conversations_first_message_time, conversations.last_message_time AS conversations_last_message_time, conversations.common_topics AS conversations_common_topics, conversations.created_at AS conversations_created_at, conversations.updated_at AS conversations_updated_at
+FROM conversations
+WHERE conversations.csi_score IS NOT NULL) AS anon_1
+2025-08-26 13:08:34,298 INFO sqlalchemy.engine.Engine [generated in 0.00156s] ()
+INFO:sqlalchemy.engine.Engine:[generated in 0.00156s] ()
+2025-08-26 13:08:34,301 INFO sqlalchemy.engine.Engine SELECT avg(conversations.effectiveness_score) AS avg_1
+FROM conversations
+INFO:sqlalchemy.engine.Engine:SELECT avg(conversations.effectiveness_score) AS avg_1
+FROM conversations
+2025-08-26 13:08:34,301 INFO sqlalchemy.engine.Engine [generated in 0.00065s] ()
+INFO:sqlalchemy.engine.Engine:[generated in 0.00065s] ()
+2025-08-26 13:08:34,303 INFO sqlalchemy.engine.Engine SELECT avg(conversations.efficiency_score) AS avg_1
+FROM conversations
+INFO:sqlalchemy.engine.Engine:SELECT avg(conversations.efficiency_score) AS avg_1
+FROM conversations
+2025-08-26 13:08:34,303 INFO sqlalchemy.engine.Engine [generated in 0.00028s] ()
+INFO:sqlalchemy.engine.Engine:[generated in 0.00028s] ()
+2025-08-26 13:08:34,304 INFO sqlalchemy.engine.Engine SELECT avg(conversations.effort_score) AS avg_1
+FROM conversations
+INFO:sqlalchemy.engine.Engine:SELECT avg(conversations.effort_score) AS avg_1
+FROM conversations
+2025-08-26 13:08:34,305 INFO sqlalchemy.engine.Engine [generated in 0.00040s] ()
+INFO:sqlalchemy.engine.Engine:[generated in 0.00040s] ()
+2025-08-26 13:08:34,306 INFO sqlalchemy.engine.Engine SELECT avg(conversations.empathy_score) AS avg_1
+FROM conversations
+INFO:sqlalchemy.engine.Engine:SELECT avg(conversations.empathy_score) AS avg_1
+FROM conversations
+2025-08-26 13:08:34,306 INFO sqlalchemy.engine.Engine [generated in 0.00042s] ()
+INFO:sqlalchemy.engine.Engine:[generated in 0.00042s] ()
+2025-08-26 13:08:34,307 INFO sqlalchemy.engine.Engine SELECT avg(conversations.csi_score) AS avg_1
+FROM conversations
+INFO:sqlalchemy.engine.Engine:SELECT avg(conversations.csi_score) AS avg_1
+FROM conversations
+2025-08-26 13:08:34,307 INFO sqlalchemy.engine.Engine [generated in 0.00029s] ()
+INFO:sqlalchemy.engine.Engine:[generated in 0.00029s] ()
+2025-08-26 13:08:34,309 INFO sqlalchemy.engine.Engine SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,309 INFO sqlalchemy.engine.Engine [generated in 0.00067s] ('overall_csi_score', 1, 0)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00067s] ('overall_csi_score', 1, 0)
+2025-08-26 13:08:34,311 INFO sqlalchemy.engine.Engine SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,312 INFO sqlalchemy.engine.Engine [cached since 0.002919s ago] ('avg_effectiveness_score', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 0.002919s ago] ('avg_effectiveness_score', 1, 0)
+2025-08-26 13:08:34,314 INFO sqlalchemy.engine.Engine SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,316 INFO sqlalchemy.engine.Engine [cached since 0.006811s ago] ('avg_efficiency_score', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 0.006811s ago] ('avg_efficiency_score', 1, 0)
+2025-08-26 13:08:34,317 INFO sqlalchemy.engine.Engine SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,318 INFO sqlalchemy.engine.Engine [cached since 0.009431s ago] ('avg_effort_score', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 0.009431s ago] ('avg_effort_score', 1, 0)
+2025-08-26 13:08:34,319 INFO sqlalchemy.engine.Engine SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,320 INFO sqlalchemy.engine.Engine [cached since 0.01101s ago] ('avg_empathy_score', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01101s ago] ('avg_empathy_score', 1, 0)
+2025-08-26 13:08:34,320 INFO sqlalchemy.engine.Engine SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,321 INFO sqlalchemy.engine.Engine [cached since 0.01218s ago] ('total_conversations_analyzed', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01218s ago] ('total_conversations_analyzed', 1, 0)
+2025-08-26 13:08:34,322 INFO sqlalchemy.engine.Engine SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+INFO:sqlalchemy.engine.Engine:SELECT metrics.id AS metrics_id, metrics.metric_name AS metrics_metric_name, metrics.metric_value AS metrics_metric_value, metrics.metric_metadata AS metrics_metric_metadata, metrics.calculated_at AS metrics_calculated_at, metrics.updated_at AS metrics_updated_at
+FROM metrics
+WHERE metrics.metric_name = ?
+ LIMIT ? OFFSET ?
+2025-08-26 13:08:34,323 INFO sqlalchemy.engine.Engine [cached since 0.01434s ago] ('last_updated', 1, 0)
+INFO:sqlalchemy.engine.Engine:[cached since 0.01434s ago] ('last_updated', 1, 0)
+2025-08-26 13:08:34,325 INFO sqlalchemy.engine.Engine INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at  
+2025-08-26 13:08:34,325 INFO sqlalchemy.engine.Engine [generated in 0.00018s (insertmanyvalues) 1/7 (ordered; batch not supported)] ('overall_csi_score', 5.0, 'null', None)
+INFO:sqlalchemy.engine.Engine:[generated in 0.00018s (insertmanyvalues) 1/7 (ordered; batch not supported)] ('overall_csi_score', 5.0, 'null', None)        
+2025-08-26 13:08:34,331 INFO sqlalchemy.engine.Engine INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at  
+2025-08-26 13:08:34,331 INFO sqlalchemy.engine.Engine [insertmanyvalues 2/7 (ordered; batch not supported)] ('avg_effectiveness_score', 5.0, 'null', None)  
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 2/7 (ordered; batch not supported)] ('avg_effectiveness_score', 5.0, 'null', None)
+2025-08-26 13:08:34,336 INFO sqlalchemy.engine.Engine INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at  
+2025-08-26 13:08:34,337 INFO sqlalchemy.engine.Engine [insertmanyvalues 3/7 (ordered; batch not supported)] ('avg_efficiency_score', 5.0, 'null', None)     
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 3/7 (ordered; batch not supported)] ('avg_efficiency_score', 5.0, 'null', None)
+2025-08-26 13:08:34,341 INFO sqlalchemy.engine.Engine INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at  
+2025-08-26 13:08:34,343 INFO sqlalchemy.engine.Engine [insertmanyvalues 4/7 (ordered; batch not supported)] ('avg_effort_score', 5.0, 'null', None)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 4/7 (ordered; batch not supported)] ('avg_effort_score', 5.0, 'null', None)
+2025-08-26 13:08:34,350 INFO sqlalchemy.engine.Engine INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at  
+2025-08-26 13:08:34,351 INFO sqlalchemy.engine.Engine [insertmanyvalues 5/7 (ordered; batch not supported)] ('avg_empathy_score', 5.0, 'null', None)        
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 5/7 (ordered; batch not supported)] ('avg_empathy_score', 5.0, 'null', None)
+2025-08-26 13:08:34,355 INFO sqlalchemy.engine.Engine INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at  
+2025-08-26 13:08:34,356 INFO sqlalchemy.engine.Engine [insertmanyvalues 6/7 (ordered; batch not supported)] ('total_conversations_analyzed', 20.0, 'null', None)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 6/7 (ordered; batch not supported)] ('total_conversations_analyzed', 20.0, 'null', None)
+2025-08-26 13:08:34,361 INFO sqlalchemy.engine.Engine INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at
+INFO:sqlalchemy.engine.Engine:INSERT INTO metrics (metric_name, metric_value, metric_metadata, updated_at) VALUES (?, ?, ?, ?) RETURNING id, calculated_at  
+2025-08-26 13:08:34,362 INFO sqlalchemy.engine.Engine [insertmanyvalues 7/7 (ordered; batch not supported)] ('last_updated', 0.0, '{"timestamp": "2025-08-26T10:08:34.308063"}', None)
+INFO:sqlalchemy.engine.Engine:[insertmanyvalues 7/7 (ordered; batch not supported)] ('last_updated', 0.0, '{"timestamp": "2025-08-26T10:08:34.308063"}', None)
+2025-08-26 13:08:34,368 INFO sqlalchemy.engine.Engine COMMIT
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:services.analytics_service:CSI metrics cached successfully
+INFO:services.analytics_service:Calculated and cached CSI metrics: {'overall_csi_score': 5.0, 'avg_effectiveness_score': 5.0, 'avg_efficiency_score': 5.0, 'avg_effort_score': 5.0, 'avg_empathy_score': 5.0, 'total_conversations_analyzed': 20, 'last_updated': datetime.datetime(2025, 8, 26, 10, 8, 34, 308063)}    

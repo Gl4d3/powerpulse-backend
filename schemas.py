@@ -123,11 +123,20 @@ class ConversationResponse(BaseModel):
     agent_messages: int
     
     # --- New Customer Satisfaction Index (CSI) ---
-    effectiveness_score: Optional[float]
-    efficiency_score: Optional[float]
-    effort_score: Optional[float]
-    empathy_score: Optional[float]
-    csi_score: Optional[float]
+    # Micro-Metrics (from AI)
+    resolution_achieved: Optional[float] = None
+    fcr_score: Optional[float] = None
+    response_time_score: Optional[float] = None
+    customer_effort_score: Optional[float] = None
+    
+    # Pillars (Calculated)
+    effectiveness_score: Optional[float] = None
+    efficiency_score: Optional[float] = None
+    effort_score: Optional[float] = None
+    empathy_score: Optional[float] = None
+    
+    # Final Score
+    csi_score: Optional[float] = None
     
     # --- Legacy Fields (to be deprecated) ---
     satisfaction_score: Optional[float]

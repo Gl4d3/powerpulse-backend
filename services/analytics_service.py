@@ -14,7 +14,10 @@ from schemas import CSIMetricsResponse
 logger = logging.getLogger(__name__)
 
 # --- CSI Calculation Constants ---
-CSI_WEIGHTS = {
+# Weights for Micro-metrics -> Pillars
+EFFECTIVENESS_WEIGHTS = {'resolution_achieved': 0.6, 'fcr_score': 0.4}
+# Pillars -> Final CSI Score
+CSI_PILLAR_WEIGHTS = {
     'effectiveness': 0.40,
     'effort': 0.25,
     'empathy': 0.20,
@@ -23,23 +26,44 @@ CSI_WEIGHTS = {
 
 def calculate_and_set_csi_score(conversation: Conversation):
     """
-    Calculates the final CSI score for a single conversation based on its pillar scores.
+    Calculates pillar scores from micro-metrics, then calculates the final 
+    CSI score for a single conversation.
     This function modifies the conversation object directly.
     """
-    if not all([
-        conversation.effectiveness_score is not None,
-        conversation.effort_score is not None,
-        conversation.empathy_score is not None,
-        conversation.efficiency_score is not None
-    ]):
+    # 1. Check if all required micro-metrics are present
+    required_micro_metrics = [
+        conversation.resolution_achieved,
+        conversation.fcr_score,
+        conversation.response_time_score,
+        conversation.customer_effort_score,
+        conversation.empathy_score
+    ]
+    if not all(score is not None for score in required_micro_metrics):
+        # Set all calculated fields to None if source data is incomplete
+        conversation.effectiveness_score = None
+        conversation.efficiency_score = None
+        conversation.effort_score = None
+        conversation.empathy_score = None
         conversation.csi_score = None
         return
 
+    # 2. Calculate Pillar Scores from Micro-Metrics
+    # Effectiveness is a weighted average
+    conversation.effectiveness_score = (
+        (conversation.resolution_achieved * EFFECTIVENESS_WEIGHTS['resolution_achieved']) +
+        (conversation.fcr_score * EFFECTIVENESS_WEIGHTS['fcr_score'])
+    )
+    # The other pillars map directly
+    conversation.efficiency_score = conversation.response_time_score
+    conversation.effort_score = conversation.customer_effort_score
+    conversation.empathy_score = conversation.empathy_score
+
+    # 3. Calculate the final CSI score from the pillar scores
     csi_score = (
-        (conversation.effectiveness_score * CSI_WEIGHTS['effectiveness']) +
-        (conversation.effort_score * CSI_WEIGHTS['effort']) +
-        (conversation.empathy_score * CSI_WEIGHTS['empathy']) +
-        (conversation.efficiency_score * CSI_WEIGHTS['efficiency'])
+        (conversation.effectiveness_score * CSI_PILLAR_WEIGHTS['effectiveness']) +
+        (conversation.effort_score * CSI_PILLAR_WEIGHTS['effort']) +
+        (conversation.empathy_score * CSI_PILLAR_WEIGHTS['empathy']) +
+        (conversation.efficiency_score * CSI_PILLAR_WEIGHTS['efficiency'])
     )
     conversation.csi_score = round(csi_score, 2)
 

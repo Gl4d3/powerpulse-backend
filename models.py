@@ -47,7 +47,13 @@ class Conversation(Base):
     is_satisfied = Column(Boolean, nullable=True)
     
     # --- New Customer Satisfaction Index (CSI) ---
-    # Pillar scores (1-10 scale)
+    # Micro-Metric Scores (from AI)
+    resolution_achieved = Column(Float, nullable=True)
+    fcr_score = Column(Float, nullable=True)
+    response_time_score = Column(Float, nullable=True)
+    customer_effort_score = Column(Float, nullable=True)
+    
+    # Pillar scores (Calculated from Micro-metrics)
     effectiveness_score = Column(Float, nullable=True)
     efficiency_score = Column(Float, nullable=True)
     effort_score = Column(Float, nullable=True)
