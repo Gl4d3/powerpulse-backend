@@ -34,6 +34,7 @@ class Settings(BaseSettings):
     AI_SERVICE: str = "gemini"  # NEW: Choose between "openai" or "gemini"
 
     # Job and Batching Configuration
+    BATCH_SIZE: int = 20  # Number of conversations per batch
     MAX_TOKENS_PER_JOB: int = 16000
     AI_CONCURRENCY: int = 5
     

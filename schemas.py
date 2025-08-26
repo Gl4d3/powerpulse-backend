@@ -1,91 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
-from datetime import datetime
-
-class MessageCreate(BaseModel):
-    fb_chat_id: str
-    message_content: str
-    direction: str = Field(..., pattern="^(to_company|to_client)$")
-    social_create_time: datetime
-    agent_info: Optional[Dict[str, Any]] = None
-
-class MessageResponse(BaseModel):
-    id: int
-    fb_chat_id: str
-    message_content: str
-    direction: str
-    social_create_time: datetime
-    agent_info: Optional[Dict[str, Any]]
-    sentiment_score: Optional[float]
-    sentiment_confidence: Optional[float]
-    topics: Optional[List[str]]
-    is_first_contact: bool
-    response_time_minutes: Optional[float]
-    created_at: datetime
-    
-    class Config:
-        from_attributes = True
-
-class ConversationResponse(BaseModel):
-    id: int
-    fb_chat_id: str
-    total_messages: int
-    customer_messages: int
-    agent_messages: int
-    satisfaction_score: Optional[float]
-    satisfaction_confidence: Optional[float]
-    is_satisfied: Optional[bool]
-    avg_sentiment: Optional[float]
-    first_contact_resolution: bool
-    avg_response_time_minutes: Optional[float]
-    first_message_time: Optional[datetime]
-    last_message_time: Optional[datetime]
-    common_topics: Optional[List[str]]
-    updated_at: Optional[datetime]
-    
-    class Config:
-        from_attributes = True
-
-class ConversationListResponse(BaseModel):
-    conversations: List[ConversationResponse]
-    total: int
-    page: int
-    page_size: int
-    total_pages: int
-
-class MetricsResponse(BaseModel):
-    avg_sentiment_score: float
-    csat_percentage: float
-    fcr_percentage: float
-    avg_response_time_minutes: float
-    total_conversations: int
-    total_messages: int
-    most_common_topics: List[Dict[str, Any]]
-    last_updated: datetime
-
-class UploadResponse(BaseModel):
-    success: bool
-    message: str
-    conversations_processed: int
-    messages_processed: int
-    processing_time_seconds: float
-    upload_id: Optional[str] = None
-    
-class ErrorResponse(BaseModel):
-    error: str
-    detail: Optional[str] = None
-    
-class PaginationParams(BaseModel):
-    page: int = Field(default=1, ge=1)
-    page_size: int = Field(default=20, ge=1, le=100)
-
-# This file defines the Pydantic models for data validation, serialization,
-# and documentation of the PowerPulse API. These schemas ensure that data
-# conforms to a predictable structure for requests and responses.
-
-from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any
-from datetime import datetime
+from datetime import datetime, date
 
 class MessageCreate(BaseModel):
     fb_chat_id: str
@@ -242,40 +157,22 @@ class ProgressResponse(BaseModel):
     statistics: ProgressStatistics
     errors: List[str]
 
+# --- New Schemas for Historical Analytics ---
 
-class JobCreate(JobBase):
-    conversation_ids: List[int]
-
-class JobUpdate(BaseModel):
-    status: Optional[str] = None
-    result: Optional[Dict[str, Any]] = None
-    completed_at: Optional[datetime] = None
-
-class JobResponse(JobBase):
-    id: int
-    created_at: datetime
-    completed_at: Optional[datetime] = None
-    result: Optional[Dict[str, Any]] = None
-    conversations: List[ConversationResponse] = []
-
-    class Config:
-        from_attributes = True
-
-class ProgressStatistics(BaseModel):
-    filtered_autoresponses: int
-    gpt_calls_made: int
-    errors_count: int
-
-class ProgressResponse(BaseModel):
-    upload_id: str
-    status: str
-    progress_percentage: float
-    current_stage: str
-    processed_conversations: int
+class DailyMetricsResponse(BaseModel):
+    """Represents the aggregated metrics for a single day."""
+    message_timestamp: date
     total_conversations: int
-    details: str
-    start_time: datetime
-    last_update: datetime
-    duration_seconds: float
-    statistics: ProgressStatistics
-    errors: List[str]
+    avg_csi_score: Optional[float] = None
+    avg_resolution_achieved: Optional[float] = None
+    avg_fcr_score: Optional[float] = None
+    avg_response_time_score: Optional[float] = None
+    avg_customer_effort_score: Optional[float] = None
+    avg_effectiveness_score: Optional[float] = None
+    avg_efficiency_score: Optional[float] = None
+    avg_effort_score: Optional[float] = None
+    avg_empathy_score: Optional[float] = None
+
+class HistoricalMetricsResponse(BaseModel):
+    """Container for a list of daily metrics over a date range."""
+    data: List[DailyMetricsResponse]

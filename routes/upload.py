@@ -12,70 +12,54 @@ from config import settings
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-@router.post("/upload-json", response_model=UploadResponse)
+import uuid
+from services.file_service_optimized import process_uploaded_file
+
+@router.post("/upload-json", response_model=UploadResponse, status_code=202)
 async def upload_json(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
-    force_reprocess: bool = Query(False, description="Force reprocessing of already processed chat_ids"),
-    db: Session = Depends(get_db)
+    force_reprocess: bool = Query(False, description="Force reprocessing of already processed chat_ids")
 ):
     """
-    Upload and process Facebook chat data in grouped_chats JSON format.
-    Triggers parsing, GPT analysis, and metrics calculation.
+    Accepts a JSON file, returns a unique ID for tracking, and starts the
+    processing in the background.
     """
+    # --- 1. Immediate Validation and Response ---
+    if not file.filename.endswith('.json'):
+        raise HTTPException(status_code=400, detail="File must be a JSON file")
+    
+    if file.size and file.size > settings.MAX_FILE_SIZE:
+        raise HTTPException(status_code=413, detail=f"File too large. Maximum size: {settings.MAX_FILE_SIZE} bytes")
+    
+    content = await file.read()
+    if not content:
+        raise HTTPException(status_code=400, detail="File is empty")
+        
     try:
-        # Validate file
-        if not file.filename.endswith('.json'):
-            raise HTTPException(status_code=400, detail="File must be a JSON file")
-        
-        if file.size and file.size > settings.MAX_FILE_SIZE:
-            raise HTTPException(status_code=413, detail=f"File too large. Maximum size: {settings.MAX_FILE_SIZE} bytes")
-        
-        # Read file content
-        content = await file.read()
-        
-        if not content:
-            raise HTTPException(status_code=400, detail="File is empty")
-        
-        try:
-            file_content = content.decode('utf-8')
-        except UnicodeDecodeError:
-            raise HTTPException(status_code=400, detail="File must be UTF-8 encoded")
-        
-        # Start processing
-        start_time = time.time()
-        logger.info(f"Starting processing of file: {file.filename}")
-        
-        # Process the file with optimized service
-        conversations_processed, messages_processed, upload_id = await optimized_file_service.process_grouped_chats_json(
-            file_content, db, force_reprocess=force_reprocess
-        )
-        
-        # Recalculate metrics in background
-        background_tasks.add_task(analytics_service.calculate_and_cache_csi_metrics, db)
-        
-        processing_time = time.time() - start_time
-        
-        logger.info(f"Successfully processed {conversations_processed} conversations, "
-                   f"{messages_processed} messages in {processing_time:.2f}s")
-        
-        return UploadResponse(
-            success=True,
-            message=f"Successfully processed {conversations_processed} conversations",
-            conversations_processed=conversations_processed,
-            messages_processed=messages_processed,
-            processing_time_seconds=round(processing_time, 2),
-            upload_id=upload_id
-        )
-        
-    except HTTPException:
-        raise
-    except ValueError as e:
-        logger.error(f"Validation error: {e}")
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        logger.error(f"Unexpected error processing upload: {e}")
-        raise HTTPException(status_code=500, detail="Internal server error processing file")
+        file_content = content.decode('utf-8')
+    except UnicodeDecodeError:
+        raise HTTPException(status_code=400, detail="File must be UTF-8 encoded")
+
+    upload_id = str(uuid.uuid4())
+    
+    # --- 2. Delegate Processing to Background Task ---
+    background_tasks.add_task(
+        process_uploaded_file,
+        file_content=file_content,
+        upload_id=upload_id,
+        force_reprocess=force_reprocess
+    )
+    
+    # --- 3. Return Immediately ---
+    return UploadResponse(
+        success=True,
+        message="File upload accepted. Processing has started in the background.",
+        upload_id=upload_id,
+        conversations_processed=0, # These values are now tracked by the progress system
+        messages_processed=0,
+        processing_time_seconds=0
+    )
 
 @router.get("/upload-status")
 async def upload_status():

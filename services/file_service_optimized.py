@@ -13,14 +13,30 @@ from config import settings
 
 logger = logging.getLogger(__name__)
 
+from database import SessionLocal
+from services.analytics_service import analytics_service
+
+async def process_uploaded_file(file_content: str, upload_id: str, force_reprocess: bool):
+    """
+    This function runs in the background to process the uploaded file.
+    It creates its own database session.
+    """
+    with SessionLocal() as db:
+        await optimized_file_service.process_grouped_chats_json(
+            file_content=file_content,
+            db=db,
+            force_reprocess=force_reprocess,
+            upload_id=upload_id
+        )
+        # After processing, trigger the global metrics recalculation
+        analytics_service.calculate_and_cache_csi_metrics(db)
+
 class OptimizedFileService:
-    def __init__(self):
-        pass
-    
     async def process_grouped_chats_json(
         self, 
         file_content: str, 
         db: Session, 
+        upload_id: str,
         force_reprocess: bool = False
     ) -> Tuple[int, int, str]:
         """
@@ -73,6 +89,12 @@ class OptimizedFileService:
                         agent_info=msg_data.get('agent_info')
                     )
                     conversation.messages.append(message)
+                
+                # Populate message counts
+                conversation.total_messages = len(conversation.messages)
+                conversation.customer_messages = sum(1 for m in conversation.messages if m.direction == 'to_company')
+                conversation.agent_messages = sum(1 for m in conversation.messages if m.direction == 'to_client')
+                
                 new_conversations.append(conversation)
 
             # 2. Create batches
@@ -130,9 +152,10 @@ class OptimizedFileService:
         if not message_content or not isinstance(message_content, str):
             return False
         
-        # Filter out autoresponse messages containing "*977#"
-        if "*977#" in message_content:
-            logger.info(f"Filtering autoresponse message containing '*977#': {message_content[:100]}...")
+        # Filter out the exact autoresponse message
+        auto_reply_text = "Thank you for reaching out! Did you know that you can now dial *977# to report a power outage or get your last three tokens instantly?"
+        if message_content == auto_reply_text:
+            logger.info(f"Filtering exact autoresponse message: {message_content[:100]}...")
             return False
         
         return True

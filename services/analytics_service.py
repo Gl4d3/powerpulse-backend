@@ -8,8 +8,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func, and_
 from datetime import datetime, date
 
-from models import Conversation, Metric
-from schemas import CSIMetricsResponse
+from models import Conversation, Metric, Message
+from schemas import CSIMetricsResponse, DailyMetricsResponse, HistoricalMetricsResponse
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +69,38 @@ def calculate_and_set_csi_score(conversation: Conversation):
 
 class AnalyticsService:
     
+    def get_historical_csi_metrics(self, db: Session, start_date: date, end_date: date) -> HistoricalMetricsResponse:
+        """
+        Calculates daily average CSI and micro/macro metrics for a given date range,
+        basing the date grouping on the message's social_create_time.
+        """
+        try:
+            # The query now joins Conversation and Message, and groups by the message date
+            results = db.query(
+                func.date(Message.social_create_time).label("message_timestamp"),
+                func.count(func.distinct(Conversation.id)).label("total_conversations"),
+                func.avg(Conversation.csi_score).label("avg_csi_score"),
+                func.avg(Conversation.resolution_achieved).label("avg_resolution_achieved"),
+                func.avg(Conversation.fcr_score).label("avg_fcr_score"),
+                func.avg(Conversation.response_time_score).label("avg_response_time_score"),
+                func.avg(Conversation.customer_effort_score).label("avg_customer_effort_score"),
+                func.avg(Conversation.effectiveness_score).label("avg_effectiveness_score"),
+                func.avg(Conversation.efficiency_score).label("avg_efficiency_score"),
+                func.avg(Conversation.effort_score).label("avg_effort_score"),
+                func.avg(Conversation.empathy_score).label("avg_empathy_score")
+            ).join(Message, Conversation.id == Message.conversation_id)\
+            .filter(func.date(Message.social_create_time).between(start_date, end_date))\
+            .group_by(func.date(Message.social_create_time))\
+            .order_by(func.date(Message.social_create_time))\
+            .all()
+
+            daily_metrics = [DailyMetricsResponse(**row._asdict()) for row in results]
+            return HistoricalMetricsResponse(data=daily_metrics)
+
+        except Exception as e:
+            logger.error(f"Error calculating historical CSI metrics: {e}", exc_info=True)
+            raise
+
     def calculate_and_cache_csi_metrics(self, db: Session) -> Dict[str, Any]:
         """Calculate all CSI-based metrics and cache them in the database."""
         try:

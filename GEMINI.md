@@ -2,6 +2,10 @@
 
 This document provides a comprehensive overview of the PowerPulse Analytics backend, outlining the refactored architecture for calculating the Customer Satisfaction Index (CSI) using a granular, multi-layered metrics system.
 
+---
+**IMPORTANT NOTE:** For detailed information on API endpoints, request/response samples, and parameters, refer to the official **[`docs/API_DOCUMENTATION.md`](./docs/API_DOCUMENTATION.md)**. This file is the canonical source for API details and must be kept up-to-date with any changes.
+---
+
 ## 1. High-Level Architecture & Data Flow
 
 The PowerPulse Analytics backend is a FastAPI application designed to process and analyze customer service chat logs. The data flow is centered around a sophisticated CSI model that transforms qualitative chat data into quantitative, actionable insights.

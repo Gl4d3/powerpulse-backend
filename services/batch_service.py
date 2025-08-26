@@ -22,37 +22,24 @@ def estimate_token_count(conversation: Conversation, db: Session) -> int:
     text_content = " ".join([message.message_content for message in messages])
     return len(text_content) // 4
 
+from typing import List
+from sqlalchemy.orm import Session
+from models import Conversation
+from config import settings
+import logging
+
+logger = logging.getLogger(__name__)
+
 def create_batches(conversations: List[Conversation], db: Session) -> List[List[Conversation]]:
     """
-    Groups conversations into batches based on token limits.
+    Splits a list of conversations into smaller batches based on BATCH_SIZE.
     """
     if not conversations:
         return []
-
-    batches = []
-    current_batch = []
-    current_batch_tokens = 0
-
-    for conv in conversations:
-        conv_tokens = estimate_token_count(conv, db)
-
-        if conv_tokens > settings.MAX_TOKENS_PER_JOB:
-            logger.warning(f"Conversation {conv.id} is too large ({conv_tokens} tokens) to fit in a job. Skipping.")
-            # TODO: Implement logic to handle conversations that are too large.
-            # For now, we just skip them.
-            continue
-
-        if current_batch_tokens + conv_tokens > settings.MAX_TOKENS_PER_JOB:
-            if current_batch:
-                batches.append(current_batch)
-            current_batch = [conv]
-            current_batch_tokens = conv_tokens
-        else:
-            current_batch.append(conv)
-            current_batch_tokens += conv_tokens
-
-    if current_batch:
-        batches.append(current_batch)
-
-    logger.info(f"Created {len(batches)} batches from {len(conversations)} conversations.")
+        
+    batch_size = settings.BATCH_SIZE
+    batches = [conversations[i:i + batch_size] for i in range(0, len(conversations), batch_size)]
+    
+    logger.info(f"Created {len(batches)} batches from {len(conversations)} conversations with a batch size of {batch_size}.")
+    
     return batches

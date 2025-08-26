@@ -68,7 +68,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(upload_router, prefix="/api", tags=["upload"])
-app.include_router(metrics_router, prefix="/api", tags=["metrics"])
+app.include_router(metrics_router, prefix="/api/metrics", tags=["metrics"])
 app.include_router(conversations_router, prefix="/api", tags=["conversations"])
 app.include_router(export_router, prefix="/api", tags=["export"])
 app.include_router(progress_router, prefix="/api", tags=["progress"])
