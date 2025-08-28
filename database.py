@@ -16,7 +16,7 @@ engine = create_engine(
         "timeout": 30,  # 30 second timeout
         "isolation_level": None  # Auto-commit mode
     },
-    echo=True,  # Enable SQL query logging
+    # echo=True,  # Enable SQL query logging
     pool_pre_ping=True,  # Verify connections before use
     pool_recycle=3600  # Recycle connections every hour
 )

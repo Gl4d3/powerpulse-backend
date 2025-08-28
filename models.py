@@ -3,9 +3,9 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from database import Base
 
-job_conversations = Table('job_conversations', Base.metadata,
+job_daily_analyses = Table('job_daily_analyses', Base.metadata,
     Column('job_id', Integer, ForeignKey('jobs.id'), primary_key=True),
-    Column('conversation_id', Integer, ForeignKey('conversations.id'), primary_key=True)
+    Column('daily_analysis_id', Integer, ForeignKey('daily_analyses.id'), primary_key=True)
 )
 
 class Job(Base):
@@ -18,7 +18,8 @@ class Job(Base):
     completed_at = Column(DateTime(timezone=True), nullable=True)
     result = Column(JSON, nullable=True)
 
-    conversations = relationship("Conversation", secondary=job_conversations, back_populates="jobs")
+    daily_analyses = relationship("DailyAnalysis", secondary=job_daily_analyses, back_populates="jobs")
+
 
 # This file defines the SQLAlchemy ORM models for the PowerPulse application,
 # mapping Python classes to database tables. It includes models for Jobs,
@@ -27,45 +28,24 @@ class Job(Base):
 
 class Conversation(Base):
     """
-    Represents a single customer conversation, storing both raw data and the
-    results of the AI analysis, including the new Customer Satisfaction Index (CSI).
+    Represents a single customer conversation, storing overall metadata.
+    The detailed, day-by-day analysis is stored in the DailyAnalysis model.
     """
     __tablename__ = "conversations"
     
     id = Column(Integer, primary_key=True, index=True)
     fb_chat_id = Column(String, unique=True, index=True, nullable=False)
-    messages = relationship("Message", back_populates="conversation", cascade="all, delete-orphan")
     
-    # Aggregated metrics
+    # Relationships
+    messages = relationship("Message", back_populates="conversation", cascade="all, delete-orphan")
+    daily_analyses = relationship("DailyAnalysis", back_populates="conversation", cascade="all, delete-orphan")
+
+    # Overall aggregated metrics
     total_messages = Column(Integer, default=0)
     customer_messages = Column(Integer, default=0)
     agent_messages = Column(Integer, default=0)
     
-    # --- Legacy Satisfaction Analysis (to be deprecated) ---
-    satisfaction_score = Column(Float, nullable=True)
-    satisfaction_confidence = Column(Float, nullable=True)
-    is_satisfied = Column(Boolean, nullable=True)
-    
-    # --- New Customer Satisfaction Index (CSI) ---
-    # Micro-Metric Scores (from AI)
-    resolution_achieved = Column(Float, nullable=True)
-    fcr_score = Column(Float, nullable=True)
-    response_time_score = Column(Float, nullable=True)
-    customer_effort_score = Column(Float, nullable=True)
-    
-    # Pillar scores (Calculated from Micro-metrics)
-    effectiveness_score = Column(Float, nullable=True)
-    efficiency_score = Column(Float, nullable=True)
-    effort_score = Column(Float, nullable=True)
-    empathy_score = Column(Float, nullable=True)
-    
-    # Final weighted score
-    csi_score = Column(Float, nullable=True, index=True)
-    
-    # Metrics
-    avg_sentiment = Column(Float, nullable=True)
-    first_contact_resolution = Column(Boolean, default=False)
-    avg_response_time_minutes = Column(Float, nullable=True)
+    # Final, overall CSI score for the entire conversation
     
     # Metadata
     first_message_time = Column(DateTime, nullable=True)
@@ -75,7 +55,42 @@ class Conversation(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
 
-    jobs = relationship("Job", secondary=job_conversations, back_populates="conversations")
+class DailyAnalysis(Base):
+    """
+    Stores the detailed CSI analysis for a single day within a conversation.
+    """
+    __tablename__ = "daily_analyses"
+
+    id = Column(Integer, primary_key=True, index=True)
+    conversation_id = Column(Integer, ForeignKey("conversations.id"), nullable=False)
+    analysis_date = Column(DateTime, nullable=False)
+
+    conversation = relationship("Conversation", back_populates="daily_analyses")
+    jobs = relationship("Job", secondary=job_daily_analyses, back_populates="daily_analyses")
+
+    # --- Micro-Metrics (from AI or calculated) ---
+    sentiment_score = Column(Float, nullable=True)
+    sentiment_shift = Column(Float, nullable=True)
+    resolution_achieved = Column(Float, nullable=True)
+    fcr_score = Column(Float, nullable=True)
+    ces = Column(Float, nullable=True) # Customer Effort Score
+    first_response_time = Column(Float, nullable=True) # seconds
+    avg_response_time = Column(Float, nullable=True) # seconds
+    total_handling_time = Column(Float, nullable=True) # minutes
+
+    # --- Pillar Scores (Calculated from Micro-metrics) ---
+    effectiveness_score = Column(Float, nullable=True)
+    effort_score = Column(Float, nullable=True)
+    efficiency_score = Column(Float, nullable=True)
+    empathy_score = Column(Float, nullable=True)
+
+    # --- Final CSI Score for the Day ---
+    csi_score = Column(Float, nullable=True, index=True)
+
+    __table_args__ = (
+        Index('idx_conversation_date', 'conversation_id', 'analysis_date', unique=True),
+    )
+
 
 class Message(Base):
     """Individual message records with sentiment analysis"""

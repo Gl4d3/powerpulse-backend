@@ -1,78 +1,52 @@
-# PowerPulse Analytics Gemini Context (CSI Refactor v2.0)
+# PowerPulse Analytics Gemini Context (CSI Refactor v4.0 - BFF)
 
-This document provides a comprehensive overview of the PowerPulse Analytics backend, outlining the refactored architecture for calculating the Customer Satisfaction Index (CSI) using a granular, multi-layered metrics system.
+This document provides a comprehensive and technically accurate overview of the PowerPulse Analytics backend. It details the final architecture after a significant refactoring to a daily granularity CSI model and the implementation of a Backend for Frontend (BFF) pattern to serve a Next.js UI.
 
 ---
-**IMPORTANT NOTE:** For detailed information on API endpoints, request/response samples, and parameters, refer to the official **[`docs/API_DOCUMENTATION.md`](./docs/API_DOCUMENTATION.md)**. This file is the canonical source for API details and must be kept up-to-date with any changes.
+**IMPORTANT NOTE:** For detailed, human-readable API documentation, including sample requests and responses, refer to the official **[`docs/API_DOCUMENTATION.md`](./docs/API_DOCUMENTATION.md)**. This file is the canonical source for API contracts.
 ---
 
 ## 1. High-Level Architecture & Data Flow
 
-The PowerPulse Analytics backend is a FastAPI application designed to process and analyze customer service chat logs. The data flow is centered around a sophisticated CSI model that transforms qualitative chat data into quantitative, actionable insights.
+The backend is a FastAPI application that processes customer service chat logs and serves a frontend with pre-aggregated, UI-specific data.
 
-1.  **Upload:** A user uploads a JSON file of chat conversations via the `POST /api/upload-json` endpoint.
+1.  **Upload:** A user uploads a JSON file via `POST /api/upload-json`. The `force_reprocess` query parameter can be used to bypass the cache of already-processed conversations.
 
-2.  **Processing:** The backend processes the file in the background using an optimized, job-based system. Conversations are parsed, cleaned, and grouped into batches for efficient processing.
+2.  **Daily Grouping & Persistence:** The backend parses conversations and groups messages by date. For each day a conversation has activity, a `DailyAnalysis` record is created in the database.
 
-3.  **AI Analysis (Micro-Metrics Extraction):** Each conversation is sent to an AI service (Google Gemini) with a carefully engineered prompt. The AI's task is to analyze the conversation and extract five specific **micro-metrics**, returning them as a JSON object. The micro-metrics are:
-    *   `resolution_achieved`: A score indicating if the customer's issue was resolved.
-    *   `fcr_score`: A score for "First Contact Resolution," measuring if the issue was solved in a single interaction.
-    *   `response_time_score`: A score reflecting the timeliness of the agent's responses.
-    *   `customer_effort_score`: A score representing the amount of effort the customer had to expend.
-    *   `empathy_score`: A score for the emotional tone and empathy demonstrated by the agent.
+3.  **Batching & AI Analysis:** The new `DailyAnalysis` records are batched and sent to a background job queue. A Google Gemini model analyzes each day's messages to extract eight **micro-metrics** (`sentiment_score`, `sentiment_shift`, `resolution_achieved`, `fcr_score`, `ces`, `first_response_time`, `avg_response_time`, `total_handling_time`).
 
-4.  **Database Persistence (Micro-Metrics):** The raw messages and the five extracted micro-metric scores are stored in a SQLite database in the `Conversation` table.
+4.  **Pillar & CSI Calculation:** For each `DailyAnalysis` record, four **macro-metric pillars** (Effectiveness, Effort, Efficiency, Empathy) are calculated from the micro-metrics. A final, weighted **CSI score** is then calculated from these pillars. All results are stored in the `DailyAnalysis` table.
 
-5.  **Macro-Metrics Calculation (The Four Pillars):** The application then calculates four higher-level **macro-metrics**, also known as the **Four Pillars of Service Quality**, using weighted averages of the micro-metrics.
-    *   **Effectiveness:** Calculated from `resolution_achieved` and `fcr_score`.
-    *   **Efficiency:** Calculated from `response_time_score`.
-    *   **Effort:** Calculated from `customer_effort_score`.
-    *   **Empathy:** Calculated from `empathy_score`.
-    These four pillar scores are also stored in the `Conversation` table.
-
-6.  **Final CSI Calculation:** The final, weighted **Customer Satisfaction Index (CSI)** is calculated from the four pillar scores and stored.
-
-7.  **Metrics Aggregation:** All scores (micro-metrics, pillars, and final CSI) are aggregated across all conversations and cached for quick retrieval.
-
-8.  **API Access:** The processed data, individual scores, and aggregated metrics are exposed to the user through various API endpoints.
+5.  **BFF Aggregation & API Access:** The API routes act as a Backend for Frontend. They query the detailed `DailyAnalysis` table and perform on-the-fly aggregations to provide data in the exact format the frontend requires. This includes system-wide metrics for the main dashboard, time-series data for charts, and simplified, conversation-level summaries for list views.
 
 ---
 
-## 2. Technical Deep Dive (Post-Refactor)
-
-This section provides a detailed walkthrough of the codebase after the micro-metrics refactor.
+## 2. Technical Deep Dive
 
 ### 2.1. Database (`models.py`)
 
-The `Conversation` model will be updated to store the full spectrum of the CSI analysis:
+-   **`Conversation` Model:** Now primarily stores metadata (`fb_chat_id`, message counts). The granular metric fields have been removed.
+-   **`DailyAnalysis` Model:** The new core of the analytics engine. It stores the eight micro-metrics, four pillar scores, and the final CSI score for a single day within a conversation.
 
--   **Micro-Metric Scores:** Five new `Float` columns are added: `resolution_achieved`, `fcr_score`, `response_time_score`, `customer_effort_score`, and `empathy_score`.
--   **Pillar Scores:** The four `Float` columns for the pillars remain: `effectiveness_score`, `efficiency_score`, `effort_score`, and `empathy_score`.
--   **Final Score:** The `csi_score` column stores the final weighted CSI score and is indexed for faster querying.
+### 2.2. Core Logic (`services/`)
 
-### 2.2. Data Schemas (`schemas.py`)
-
-Pydantic schemas will be updated to expose the new data model:
-
--   **`ConversationResponse`:** This model will be expanded to include all nine new CSI-related fields (5 micro, 4 macro) to expose them in the API.
--   **`CSIMetricsResponse`:** This response model will be updated to serve aggregated metrics for the overall CSI, the four pillars, and potentially the five micro-metrics.
+-   **`analytics_service.py`:** This service now contains two layers of logic:
+    1.  `calculate_and_set_daily_csi_score`: The low-level function that calculates pillars and CSI for a single `DailyAnalysis` object based on the formulas from `gemini-refactor.md`.
+    2.  Frontend-facing aggregation functions (e.g., `calculate_and_cache_csi_metrics`, `get_sentiment_trend`): These functions query the `DailyAnalysis` table to compute the specific, aggregated data structures required by the frontend API contract.
 
 ### 2.3. API Routes (`routes/`)
 
--   **`routes/metrics.py`:** The `GET /api/metrics` endpoint will return the updated `CSIMetricsResponse`.
--   **`routes/conversations.py`:** The `GET /api/conversations` endpoint will be updated to allow sorting and filtering based on any of the new micro-metric or pillar scores.
--   **`routes/export.py`:** The `GET /api/download` endpoint will be updated to include all new metric fields in the CSV export.
+The API has been tailored to serve the frontend's needs directly.
 
-### 2.4. Core Logic (`services/`)
+-   **`routes/metrics.py` (`GET /api/metrics`):** Serves the main dashboard by aggregating all daily analyses to provide system-wide KPIs, including pillar scores renamed for the frontend (e.g., `effectiveness_score` -> `resolution_quality`).
+-   **`routes/charts.py` (`GET /api/charts/sentiment-trend`):** A new, dedicated router that provides data pre-formatted for specific UI charts.
+-   **`routes/conversations.py` (`GET /api/conversations`):** Provides a simplified, aggregated summary of each conversation, calculating averages from the underlying daily data to match the frontend's expected schema.
 
--   **`services/gemini_service.py` (AI Client):**
-    -   The core prompt will be re-engineered to instruct the AI model to analyze conversations and return a JSON object containing the five specified micro-metrics.
-    -   Response parsing logic will be updated to handle the new, more complex JSON structure.
+---
 
--   **`services/job_service.py` (Job Execution):**
-    -   The `process_job` function will take the five micro-metric scores from `gemini_service` and store them in the corresponding columns in the `Conversation` table.
-    -   It will then trigger the `analytics_service` to calculate the pillar and final CSI scores.
+## 3. Development Environment
 
--   **`services/analytics_service.py` (Metrics Calculation):**
-    -   **`calculate_and_set_csi_score`:** This function will be heavily modified. It will first calculate the four pillar scores for a conversation using the newly available micro-metrics. It will then use those pillar scores to calculate the final weighted `csi_score`.
-    -   **`calculate_and_cache_csi_metrics`:** This function will be updated to aggregate all levels of the new metrics system and cache the results.
+-   **Database:** The application is now configured to use a file-based SQLite database (`powerpulse.db`).
+-   **Database Reset:** The `reset_database.py` script is used to clear and re-initialize the database schema after model changes. It can be run non-interactively with `python reset_database.py --force`.
+-   **Logging:** SQLAlchemy's logging level has been set to `WARNING` to reduce noise during development.

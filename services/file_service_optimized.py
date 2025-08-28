@@ -6,7 +6,7 @@ from typing import Dict, List, Any, Tuple
 from datetime import datetime
 from sqlalchemy.orm import Session
 
-from models import Message, Conversation, ProcessedChat
+from models import Message, Conversation, ProcessedChat, DailyAnalysis
 from services import batch_service, job_service
 from services.progress_tracker import progress_tracker
 from config import settings
@@ -43,9 +43,8 @@ class OptimizedFileService:
         Optimized processing of uploaded JSON file with a job-based system.
         Returns (conversations_processed, messages_processed, upload_id)
         """
-        upload_id = str(uuid.uuid4())
-        
         try:
+            logger.info(f"Parsing and validating uploaded file for upload_id: {upload_id}...")
             data = json.loads(file_content)
             if not isinstance(data, dict):
                 raise ValueError("JSON must be an object with chat_id keys")
@@ -60,8 +59,16 @@ class OptimizedFileService:
                     logger.warning(f"Skipping chat_id {chat_id}: messages must be an array")
                     continue
                 
-                if not force_reprocess and self._is_chat_processed(db, chat_id):
-                    logger.info(f"Skipping already processed chat: {chat_id}")
+                # If force_reprocess is true, delete the existing conversation and its children
+                if force_reprocess:
+                    existing_conv = db.query(Conversation).filter(Conversation.fb_chat_id == chat_id).first()
+                    if existing_conv:
+                        logger.info(f"Force reprocess: Deleting existing conversation data for {chat_id}...")
+                        db.delete(existing_conv)
+                        db.commit() # Commit the deletion before proceeding
+                
+                # Standard check for already processed chats
+                elif self._is_chat_processed(db, chat_id):
                     continue
                 
                 valid_messages = [self._clean_message(msg, chat_id) for msg in messages if self._validate_message(msg)]
@@ -73,23 +80,33 @@ class OptimizedFileService:
                     })
 
             if not conversations_to_process:
+                logger.info("No new conversations to process.")
                 await progress_tracker.complete_upload(upload_id, True)
                 return 0, 0, upload_id
 
-            # 1. Create Conversation and Message objects in memory
+            # 1. Create Conversation and DailyAnalysis objects in memory
+            logger.info(f"Creating records for {len(conversations_to_process)} conversations in memory...")
             new_conversations = []
             for conv_data in conversations_to_process:
                 conversation = Conversation(fb_chat_id=conv_data['chat_id'])
-                for msg_data in conv_data['messages']:
-                    message = Message(
-                        fb_chat_id=conv_data['chat_id'],
-                        message_content=msg_data['message_content'],
-                        direction=msg_data['direction'],
-                        social_create_time=msg_data['social_create_time'],
-                        agent_info=msg_data.get('agent_info')
-                    )
-                    conversation.messages.append(message)
                 
+                # Group messages by day
+                messages_by_day = self._group_messages_by_day(conv_data['messages'])
+                
+                for date, day_messages in messages_by_day.items():
+                    daily_analysis = DailyAnalysis(analysis_date=date)
+                    for msg_data in day_messages:
+                        message = Message(
+                            fb_chat_id=conv_data['chat_id'],
+                            message_content=msg_data['message_content'],
+                            direction=msg_data['direction'],
+                            social_create_time=msg_data['social_create_time'],
+                            agent_info=msg_data.get('agent_info')
+                        )
+                        # Associate message with both conversation and daily_analysis if models support it
+                        conversation.messages.append(message)
+                    conversation.daily_analyses.append(daily_analysis)
+
                 # Populate message counts
                 conversation.total_messages = len(conversation.messages)
                 conversation.customer_messages = sum(1 for m in conversation.messages if m.direction == 'to_company')
@@ -97,16 +114,15 @@ class OptimizedFileService:
                 
                 new_conversations.append(conversation)
 
-            # 2. Create batches
-            await progress_tracker.update_progress(upload_id, 0, "batching", "Creating analysis jobs...")
-            batches = batch_service.create_batches(new_conversations, db)
+            # 2. Create batches of DailyAnalysis objects
+            batches = batch_service.create_daily_analysis_batches(new_conversations, db)
+            logger.info(f"Splitting work into {len(batches)} batches.")
 
-            # 3. Create jobs
+            # 3. Create jobs for these batches
             jobs = await job_service.create_jobs_for_upload(upload_id, batches, db)
             
             # 4. Process jobs
-            await progress_tracker.update_progress(upload_id, 0, "ai_analysis", f"Processing {len(jobs)} analysis jobs...")
-            
+            logger.info(f"Starting AI analysis for {len(jobs)} jobs...")
             tasks = [job_service.process_job(job.id) for job in jobs]
             await asyncio.gather(*tasks)
 
@@ -118,6 +134,7 @@ class OptimizedFileService:
             
             db.commit()
 
+            logger.info(f"Upload process {upload_id} completed successfully.")
             await progress_tracker.complete_upload(upload_id, True)
             
             return conversations_processed, messages_processed, upload_id
@@ -133,7 +150,15 @@ class OptimizedFileService:
             db.rollback()
             raise
     
-    
+    def _group_messages_by_day(self, messages: List[Dict]) -> Dict[datetime.date, List[Dict]]:
+        """Groups a list of messages by their creation date."""
+        grouped = {}
+        for msg in messages:
+            msg_date = msg['social_create_time'].date()
+            if msg_date not in grouped:
+                grouped[msg_date] = []
+            grouped[msg_date].append(msg)
+        return grouped
     
     def _validate_message(self, msg: Dict) -> bool:
         """Validate required message fields and filter autoresponses"""

@@ -51,37 +51,37 @@ The primary objective is to diagnose and fix a bug preventing the backend from s
 ---
 
 ### Phase 6: Refactor AI Service & Prompts
-- [ ] **Update `services/gemini_service.py`:**
-    - [ ] Re-engineer the main prompt to instruct the LLM to return a JSON object with the 5 defined micro-metrics.
-    - [ ] Update the response parsing logic to handle the new JSON structure.
+- [x] **Update `services/gemini_service.py`:**
+    - [x] Re-engineer the main prompt to instruct the LLM to return a JSON object with the 5 defined micro-metrics.
+    - [x] Update the response parsing logic to handle the new JSON structure.
 
 ### Phase 7: Refactor Database and Schemas
-- [ ] **Update `models.py`:**
-    - [ ] Add new `Float` columns to the `Conversation` model for each of the 5 micro-metrics (e.g., `resolution_achieved`, `fcr_score`, etc.).
-- [ ] **Update `schemas.py`:**
-    - [ ] Update `ConversationResponse` to include the new micro-metrics.
-    - [ ] Create or update a `CSIMetricsResponse` to potentially include average micro-metric scores if desired.
+- [x] **Update `models.py`:**
+    - [x] Add new `Float` columns to the `Conversation` model for each of the 5 micro-metrics (e.g., `resolution_achieved`, `fcr_score`, etc.).
+- [x] **Update `schemas.py`:**
+    - [x] Update `ConversationResponse` to include the new micro-metrics.
+    - [x] Create or update a `CSIMetricsResponse` to potentially include average micro-metric scores if desired.
 
 ### Phase 8: Refactor Core Analytics Service
-- [ ] **Update `services/analytics_service.py`:**
-    - [ ] Modify `calculate_and_set_csi_score` to first calculate the four macro pillar scores from the new micro-metrics stored on the `Conversation` object.
-    - [ ] Update the function to then calculate the final `csi_score` from the newly calculated pillar scores.
-    - [ ] Update `calculate_and_cache_csi_metrics` to aggregate the new micro and macro metrics correctly.
+- [x] **Update `services/analytics_service.py`:**
+    - [x] Modify `calculate_and_set_csi_score` to first calculate the four macro pillar scores from the new micro-metrics stored on the `Conversation` object.
+    - [x] Update the function to then calculate the final `csi_score` from the newly calculated pillar scores.
+    - [x] Update `calculate_and_cache_csi_metrics` to aggregate the new micro and macro metrics correctly.
 
 ### Phase 9: Refactor Job Service
-- [ ] **Update `services/job_service.py`:**
-    - [ ] Update `process_job` to correctly retrieve the 5 micro-metrics from the `gemini_service` response.
-    - [ ] Ensure the service correctly populates the new columns in the `Conversation` model object before calling `analytics_service`.
+- [x] **Update `services/job_service.py`:**
+    - [x] Update `process_job` to correctly retrieve the 5 micro-metrics from the `gemini_service` response.
+    - [x] Ensure the service correctly populates the new columns in the `Conversation` model object before calling `analytics_service`.
 
 ### Phase 10: Update API and Export Logic
-- [ ] **Update `routes/`:**
-    - [ ] Update `routes/conversations.py` to allow filtering and sorting by the new micro-metrics if required.
-    - [ ] Update `routes/metrics.py` to expose the new aggregated metrics.
-- [ ] **Update `routes/export.py`:**
-    - [ ] Modify the CSV export logic to include columns for all new micro-metrics.
+- [x] **Update `routes/`:**
+    - [x] Update `routes/conversations.py` to allow filtering and sorting by the new micro-metrics if required.
+    - [x] Update `routes/metrics.py` to expose the new aggregated metrics.
+- [x] **Update `routes/export.py`:**
+    - [x] Modify the CSV export logic to include columns for all new micro-metrics.
 
 ### Phase 11: Final Verification & Documentation Deployment
-- [ ] **Run Full E2E Test:** Execute a full application flow test with the refactored logic.
-- [ ] **Run Regression Tests:** Execute the entire test suite in `tests/` to ensure no existing functionality has broken.
-- [ ] **Update `GEMINI.md`:** Replace the content of the root `GEMINI.md` with the corrected, up-to-date documentation reflecting the new architecture.
-- [ ] **Final Review:** Read through the `INVESTIGATION_PLAN.md` and ensure all checklist items are marked as complete.
+- [x] **Run Full E2E Test:** Execute a full application flow test with the refactored logic.
+- [x] **Run Regression Tests:** Execute the entire test suite in `tests/` to ensure no existing functionality has broken.
+- [x] **Update `GEMINI.md`:** Replace the content of the root `GEMINI.md` with the corrected, up-to-date documentation reflecting the new architecture.
+- [x] **Final Review:** Read through the `INVESTIGATION_PLAN.md` and ensure all checklist items are marked as complete.

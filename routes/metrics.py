@@ -29,16 +29,14 @@ def recalculate_csi_metrics(db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/historical", response_model=HistoricalMetricsResponse)
-def get_historical_metrics(
+@router.get("/daily", response_model=HistoricalMetricsResponse)
+def get_daily_metrics(
     start_date: date,
     end_date: date,
     db: Session = Depends(get_db)
 ):
     """
     Retrieve daily aggregated CSI metrics over a specified date range.
-    The aggregation is based on the `social_create_time` of the messages
-    within the conversations.
     """
     if start_date > end_date:
         raise HTTPException(status_code=400, detail="start_date cannot be after end_date")

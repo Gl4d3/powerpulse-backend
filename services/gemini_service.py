@@ -1,17 +1,16 @@
 """
-Google Gemini Service - Refactored for Customer Satisfaction Index (CSI)
-This service analyzes conversation batches to extract the four pillars of satisfaction:
-Effectiveness, Efficiency, Effort, and Empathy.
+Google Gemini Service - Refactored for Daily CSI Analysis
+This service analyzes batches of daily interactions to extract an expanded set of micro-metrics.
 """
 import logging
 import asyncio
 import re
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any
 import json
 from datetime import datetime
 import google.generativeai as genai
 
-from models import Conversation
+from models import DailyAnalysis
 
 logger = logging.getLogger(__name__)
 
@@ -22,107 +21,121 @@ class GeminiService:
         self.model = genai.GenerativeModel('gemini-1.5-flash')
         self.api_key = api_key
 
-    async def analyze_conversations_batch(self, conversations: List[Conversation]) -> List[Dict]:
+    async def analyze_daily_analyses_batch(self, daily_analyses: List[DailyAnalysis]) -> List[Dict]:
         """
-        Analyzes a batch of conversations using a single Gemini API call.
+        Analyzes a batch of DailyAnalysis objects using a single Gemini API call.
         """
-        if not conversations:
+        if not daily_analyses:
             return []
 
         try:
-            prompt = self._create_batch_prompt(conversations)
+            logger.info(f"--- Preparing to call Gemini API for {len(daily_analyses)} daily analyses. ---")
+            prompt = self._create_daily_analysis_batch_prompt(daily_analyses)
             response_text = await self._call_gemini_with_retry(prompt)
-            analysis_results = self._parse_batch_response(response_text, conversations)
+            logger.info(f"--- Successfully received response from Gemini API. Parsing now. ---")
+            analysis_results = self._parse_daily_analysis_batch_response(response_text, daily_analyses)
             return analysis_results
         except Exception as e:
-            logger.error(f"Error in batch analysis: {e}")
-            return [self._create_fallback_result(conv) for conv in conversations]
+            logger.error(f"--- Gemini API call failed catastrophically after retries. Using fallbacks. ---", exc_info=True)
+            return [self._create_fallback_result_daily(da) for da in daily_analyses]
 
-    def _create_batch_prompt(self, conversations: List[Conversation]) -> str:
+    def _create_daily_analysis_batch_prompt(self, daily_analyses: List[DailyAnalysis]) -> str:
         """
-        Creates a single prompt to analyze a batch of conversations and extract
-        the five core micro-metrics for CSI calculation.
+        Creates a single prompt to analyze a batch of daily analyses and extract
+        the expanded set of micro-metrics for CSI calculation.
         """
-        conversations_json = []
-        for conv in conversations:
-            # Limit messages to the last 20 to keep the prompt concise
-            messages_text = "\n".join([f"{m.social_create_time} - {m.direction}: {m.message_content}" for m in conv.messages[-20:]])
-            conversations_json.append({
-                "fb_chat_id": conv.fb_chat_id,
+        daily_analyses_json = []
+        for analysis in daily_analyses:
+            # This assumes the conversation and its messages are loaded with the DailyAnalysis object.
+            # This might require adjusting the query in the job_service.
+            messages_text = "\n".join([
+                f"{m.social_create_time} - {m.direction}: {m.message_content}" 
+                for m in analysis.conversation.messages 
+                if m.social_create_time.date() == analysis.analysis_date.date()
+            ])
+            daily_analyses_json.append({
+                "daily_analysis_id": analysis.id,
                 "messages": messages_text
             })
 
-        conversations_input = json.dumps(conversations_json, indent=2)
+        daily_analyses_input = json.dumps(daily_analyses_json, indent=2)
 
         prompt = f"""
-Analyze the following batch of customer service conversations. For each conversation, provide a score from 1 to 10 for each of the five micro-metrics.
+Analyze the following batch of customer service interactions, grouped by day. For each daily interaction, provide a score for each of the specified micro-metrics.
 
-CONVERSATIONS_BATCH:
-{conversations_input}
+INTERACTIONS_BATCH:
+{daily_analyses_input}
 
-Provide the analysis as a valid JSON array, with one object per conversation. Use this EXACT JSON format for each object:
+Provide the analysis as a valid JSON array, with one object per daily interaction. Use this EXACT JSON format for each object:
 {{
-    "fb_chat_id": "<the original fb_chat_id>",
-    "conversation_analysis": {{
-        "resolution_achieved": <1-10 float, was the customer's issue fully resolved?>,
-        "fcr_score": <1-10 float, was the issue resolved in a single contact? 1 if multiple contacts were needed, 10 if resolved on the first try>,
-        "response_time_score": <1-10 float, how timely were the agent's responses?>,
-        "customer_effort_score": <1-10 float, how much effort did the customer have to put in? 1 for high effort, 10 for low effort>,
-        "empathy_score": <1-10 float, what was the emotional tone and rapport of the interaction?>
+    "daily_analysis_id": "<the original daily_analysis_id>",
+    "daily_analysis": {{
+        "sentiment_score": <0-10 float>,
+        "sentiment_shift": <-5 to +5 float>,
+        "resolution_achieved": <0-10 float>,
+        "fcr_score": <0-10 float>,
+        "ces": <1-7 float, where 1 is high effort and 7 is low effort>,
+        "first_response_time": <seconds, float, or null>,
+        "avg_response_time": <seconds, float, or null>,
+        "total_handling_time": <minutes, float, or null>
     }}
 }}
 
 ANALYSIS GUIDELINES:
-- **resolution_achieved**: 1 = Not resolved at all. 10 = Issue fully resolved and confirmed by the customer.
-- **fcr_score**: 1 = Customer had to follow up multiple times. 10 = Resolved in the very first interaction.
-- **response_time_score**: 1 = Very long waits between messages. 10 = Near-instantaneous and efficient replies.
-- **customer_effort_score**: 1 = Customer had to repeat information, try multiple channels, or was heavily inconvenienced. 10 = Seamless, easy, and simple for the customer.
-- **empathy_score**: 1 = Cold, robotic, and unhelpful. 10 = Warm, understanding, and empathetic.
-- Base your scores on the entire conversation flow.
+- **sentiment_score**: Overall emotional tone from the customer's side for that day.
+- **sentiment_shift**: Change in sentiment from the start to the end of the day's interaction.
+- **resolution_achieved**: Was the customer's issue resolved by the end of the day's interaction?
+- **fcr_score**: Was the issue resolved within this single day's contact, without prior contact days for the same issue?
+- **ces**: Customer Effort Score - how easy was it for the customer? 1 indicates very high effort, 7 indicates very low effort.
+- **..._response_time**: Calculate these based on the timestamps provided for the day. If not applicable (e.g., no agent response), use null.
+- **total_handling_time**: Estimate the total active time spent by the agent on this conversation for the day.
 - Ensure the output is a single, valid JSON array.
 """
         return prompt
 
-    def _parse_batch_response(self, response: str, original_conversations: List[Conversation]) -> List[Dict]:
+    def _parse_daily_analysis_batch_response(self, response: str, original_analyses: List[DailyAnalysis]) -> List[Dict]:
         """
-        Parses the batch response from Gemini for the five micro-metrics with improved robustness.
+        Parses the batch response from Gemini for the daily analysis micro-metrics.
+        This function is designed to be robust against malformed JSON or extra text from the LLM.
         """
         try:
-            # Attempt to find a JSON array within the response text, ignoring surrounding text
-            json_match = re.search(r"\[\s*\{.*\}\s*\]", response, re.DOTALL)
-            if not json_match:
-                logger.error("Could not find a valid JSON array in the Gemini response.")
-                logger.debug(f"Response was: {response}")
-                return [self._create_fallback_result(conv) for conv in original_conversations]
+            # Find the start and end of the main JSON array
+            start_index = response.find('[')
+            end_index = response.rfind(']') + 1
+            
+            if start_index == -1 or end_index == 0:
+                logger.error("❌ Could not find a valid JSON array in the Gemini response for daily analysis.")
+                logger.debug(f"Full raw response from Gemini: {response}")
+                return [self._create_fallback_result_daily(da) for da in original_analyses]
 
-            json_text = json_match.group(0)
+            json_text = response[start_index:end_index]
+            
+            # Clean up potential markdown formatting
+            json_text = json_text.strip().replace("```json", "").replace("```", "").strip()
+
             parsed_results = json.loads(json_text)
-            results_by_chat_id = {result.get("fb_chat_id"): result for result in parsed_results}
+            results_by_id = {result.get("daily_analysis_id"): result for result in parsed_results}
 
             final_results = []
-            for conv in original_conversations:
-                chat_id = conv.fb_chat_id
-                result = results_by_chat_id.get(chat_id)
-                if result and "conversation_analysis" in result:
-                    analysis = result["conversation_analysis"]
-                    # Add identifiers for mapping back in the job service
-                    analysis['id'] = conv.id
-                    analysis['fb_chat_id'] = chat_id
-                    final_results.append(analysis)
+            for analysis in original_analyses:
+                result = results_by_id.get(analysis.id)
+                if result and "daily_analysis" in result:
+                    res = result["daily_analysis"]
+                    res['daily_analysis_id'] = analysis.id
+                    final_results.append(res)
                 else:
-                    logger.warning(f"No valid analysis found for chat_id {chat_id}. Using fallback.")
-                    final_results.append(self._create_fallback_result(conv))
+                    logger.warning(f"No valid analysis found for daily_analysis_id {analysis.id}. Using fallback.")
+                    final_results.append(self._create_fallback_result_daily(analysis))
             
             return final_results
 
         except json.JSONDecodeError as e:
             logger.error(f"Failed to decode JSON from Gemini response: {e}", exc_info=True)
-            logger.debug(f"Response text being parsed was: {json_text}")
-            return [self._create_fallback_result(conv) for conv in original_conversations]
+            logger.debug(f"Attempted to parse text: {json_text}")
+            return [self._create_fallback_result_daily(da) for da in original_analyses]
         except Exception as e:
-            logger.error(f"An unexpected error occurred while parsing Gemini batch response: {e}", exc_info=True)
-            logger.debug(f"Full response was: {response}")
-            return [self._create_fallback_result(conv) for conv in original_conversations]
+            logger.error(f"An unexpected error occurred while parsing Gemini daily batch response: {e}", exc_info=True)
+            return [self._create_fallback_result_daily(da) for da in original_analyses]
 
     async def _call_gemini_with_retry(self, prompt: str, max_retries: int = 2) -> str:
         """Call Gemini with exponential backoff retry logic"""
@@ -151,16 +164,18 @@ ANALYSIS GUIDELINES:
                     logger.error(f"Gemini call failed after {max_retries + 1} attempts: {e}")
                     raise
 
-    def _create_fallback_result(self, conversation: Conversation) -> Dict:
-        """Create a neutral fallback result for micro-metrics when analysis fails."""
+    def _create_fallback_result_daily(self, daily_analysis: DailyAnalysis) -> Dict:
+        """Create a neutral fallback result for daily micro-metrics when analysis fails."""
         return {
-            'id': conversation.id,
-            'fb_chat_id': conversation.fb_chat_id,
+            'daily_analysis_id': daily_analysis.id,
+            'sentiment_score': 5.0,
+            'sentiment_shift': 0.0,
             'resolution_achieved': 5.0,
             'fcr_score': 5.0,
-            'response_time_score': 5.0,
-            'customer_effort_score': 5.0,
-            'empathy_score': 5.0,
+            'ces': 4.0,
+            'first_response_time': 0.0,
+            'avg_response_time': 0.0,
+            'total_handling_time': 0.0,
             'error': 'analysis_failed'
         }
 

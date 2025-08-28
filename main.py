@@ -12,10 +12,12 @@ from routes.metrics import router as metrics_router
 from routes.conversations import router as conversations_router
 from routes.export import router as export_router
 from routes.progress import router as progress_router
+from routes.charts import router as charts_router
 from database import SessionLocal
+from logging_config import setup_logging
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Configure logging at the very top
+setup_logging()
 logger = logging.getLogger(__name__)
 
 def check_database_health():
@@ -33,22 +35,17 @@ def check_database_health():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    logger.info("Starting PowerPulse Analytics Backend...")
+    logger.info("--- PowerPulse Analytics Backend Starting Up ---")
     
-    # Initialize database
+    # Initialize database (Alembic now handles schema)
+    logger.info("Initializing database...")
     init_db()
-    logger.info("Database initialized successfully")
+    logger.info("Database initialized.")
     
-    # Health check
-    if not check_database_health():
-        logger.error("Database health check failed!")
-        raise RuntimeError("Database is not accessible")
-    
-    logger.info("Database health check passed")
     yield
     
     # Shutdown
-    logger.info("Shutting down PowerPulse Analytics Backend...")
+    logger.info("--- PowerPulse Analytics Backend Shutting Down ---")
 
 app = FastAPI(
     title="PowerPulse Analytics",
@@ -72,6 +69,7 @@ app.include_router(metrics_router, prefix="/api/metrics", tags=["metrics"])
 app.include_router(conversations_router, prefix="/api", tags=["conversations"])
 app.include_router(export_router, prefix="/api", tags=["export"])
 app.include_router(progress_router, prefix="/api", tags=["progress"])
+app.include_router(charts_router, prefix="/api/charts", tags=["charts"])
 
 @app.get("/")
 async def root():

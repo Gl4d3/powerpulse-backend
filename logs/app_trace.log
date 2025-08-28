@@ -1,0 +1,314 @@
+2025-08-27 19:28:51,422 - main - INFO - --- PowerPulse Analytics Backend Starting Up ---
+2025-08-27 19:28:51,423 - main - INFO - Initializing database...
+2025-08-27 19:28:51,451 - main - INFO - Database initialized.
+2025-08-27 19:32:10,772 - services.file_service_optimized - INFO - Parsing and validating uploaded file for upload_id: dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:32:10,897 - services.progress_tracker - INFO - Started tracking upload dddf8d58-a538-4655-a327-8161bac803e2 with 904 conversations
+2025-08-27 19:32:10,898 - services.progress_tracker - INFO - Upload dddf8d58-a538-4655-a327-8161bac803e2: 0.0% - filtering_conversations
+2025-08-27 19:32:13,180 - services.file_service_optimized - INFO - Creating records for 904 conversations in memory...
+2025-08-27 19:32:14,482 - services.batch_service - INFO - Created 59 batches from 1176 daily analysis objects with a batch size of 20.
+2025-08-27 19:32:14,484 - services.file_service_optimized - INFO - Splitting work into 59 batches.
+2025-08-27 19:34:17,018 - services.job_service - INFO - Created 59 jobs for upload dddf8d58-a538-4655-a327-8161bac803e2
+2025-08-27 19:34:17,019 - services.file_service_optimized - INFO - Starting AI analysis for 59 jobs...
+2025-08-27 19:34:17,235 - services.job_service - INFO - Starting Job 1 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:17,275 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:17,466 - services.job_service - INFO - Starting Job 2 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:17,486 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:17,573 - services.job_service - INFO - Starting Job 3 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:17,593 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:17,695 - services.job_service - INFO - Starting Job 4 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:17,709 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:17,857 - services.job_service - INFO - Starting Job 5 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:17,868 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:37,539 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:34:37,541 - services.job_service - INFO - Job 2 completed with status: SUCCESS
+2025-08-27 19:34:37,791 - services.job_service - INFO - Batch (Job 2) finished with status: completed
+2025-08-27 19:34:37,882 - services.job_service - INFO - Starting Job 6 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:37,895 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:40,307 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:34:40,308 - services.job_service - INFO - Job 3 completed with status: SUCCESS
+2025-08-27 19:34:40,543 - services.job_service - INFO - Batch (Job 3) finished with status: completed
+2025-08-27 19:34:40,614 - services.job_service - INFO - Starting Job 7 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:40,625 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:40,630 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:34:40,633 - services.job_service - INFO - Job 1 completed with status: SUCCESS
+2025-08-27 19:34:40,851 - services.job_service - INFO - Batch (Job 1) finished with status: completed
+2025-08-27 19:34:40,854 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:34:40,855 - services.job_service - INFO - Job 4 completed with status: SUCCESS
+2025-08-27 19:34:41,088 - services.job_service - INFO - Batch (Job 4) finished with status: completed
+2025-08-27 19:34:41,176 - services.job_service - INFO - Starting Job 8 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:41,191 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:41,485 - services.job_service - INFO - Starting Job 9 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:41,498 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:57,109 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:34:57,111 - services.job_service - INFO - Job 5 completed with status: SUCCESS
+2025-08-27 19:34:57,345 - services.job_service - INFO - Batch (Job 5) finished with status: completed
+2025-08-27 19:34:57,414 - services.job_service - INFO - Starting Job 10 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:57,430 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:34:57,578 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:34:57,580 - services.job_service - INFO - Job 6 completed with status: SUCCESS
+2025-08-27 19:34:57,796 - services.job_service - INFO - Batch (Job 6) finished with status: completed
+2025-08-27 19:34:57,888 - services.job_service - INFO - Starting Job 11 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:34:57,903 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:00,374 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:00,375 - services.job_service - INFO - Job 7 completed with status: SUCCESS
+2025-08-27 19:35:00,613 - services.job_service - INFO - Batch (Job 7) finished with status: completed
+2025-08-27 19:35:00,693 - services.job_service - INFO - Starting Job 12 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:00,705 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:01,296 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:01,298 - services.job_service - INFO - Job 8 completed with status: SUCCESS
+2025-08-27 19:35:01,518 - services.job_service - INFO - Batch (Job 8) finished with status: completed
+2025-08-27 19:35:01,609 - services.job_service - INFO - Starting Job 13 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:01,625 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:01,631 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:01,633 - services.job_service - INFO - Job 9 completed with status: SUCCESS
+2025-08-27 19:35:01,876 - services.job_service - INFO - Batch (Job 9) finished with status: completed
+2025-08-27 19:35:01,982 - services.job_service - INFO - Starting Job 14 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:01,999 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:16,974 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:16,976 - services.job_service - INFO - Job 11 completed with status: SUCCESS
+2025-08-27 19:35:17,256 - services.job_service - INFO - Batch (Job 11) finished with status: completed
+2025-08-27 19:35:17,326 - services.job_service - INFO - Starting Job 15 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:17,342 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:17,347 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:17,350 - services.job_service - INFO - Job 10 completed with status: SUCCESS
+2025-08-27 19:35:17,610 - services.job_service - INFO - Batch (Job 10) finished with status: completed
+2025-08-27 19:35:17,711 - services.job_service - INFO - Starting Job 16 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:17,734 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:20,398 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:20,400 - services.job_service - INFO - Job 12 completed with status: SUCCESS
+2025-08-27 19:35:20,645 - services.job_service - INFO - Batch (Job 12) finished with status: completed
+2025-08-27 19:35:20,831 - services.job_service - INFO - Starting Job 17 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:20,845 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:21,266 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:21,268 - services.job_service - INFO - Job 13 completed with status: SUCCESS
+2025-08-27 19:35:21,529 - services.job_service - INFO - Batch (Job 13) finished with status: completed
+2025-08-27 19:35:21,713 - services.job_service - INFO - Starting Job 18 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:21,729 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:21,734 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:21,736 - services.job_service - INFO - Job 14 completed with status: SUCCESS
+2025-08-27 19:35:22,076 - services.job_service - INFO - Batch (Job 14) finished with status: completed
+2025-08-27 19:35:22,182 - services.job_service - INFO - Starting Job 19 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:22,197 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:36,729 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:36,731 - services.job_service - INFO - Job 15 completed with status: SUCCESS
+2025-08-27 19:35:36,965 - services.job_service - INFO - Batch (Job 15) finished with status: completed
+2025-08-27 19:35:37,041 - services.job_service - INFO - Starting Job 20 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:37,054 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:37,753 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:37,754 - services.job_service - INFO - Job 16 completed with status: SUCCESS
+2025-08-27 19:35:38,030 - services.job_service - INFO - Batch (Job 16) finished with status: completed
+2025-08-27 19:35:38,128 - services.job_service - INFO - Starting Job 21 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:38,143 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:39,595 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:39,597 - services.job_service - INFO - Job 17 completed with status: SUCCESS
+2025-08-27 19:35:39,837 - services.job_service - INFO - Batch (Job 17) finished with status: completed
+2025-08-27 19:35:39,922 - services.job_service - INFO - Starting Job 22 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:39,937 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:41,538 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:41,540 - services.job_service - INFO - Job 18 completed with status: SUCCESS
+2025-08-27 19:35:41,769 - services.job_service - INFO - Batch (Job 18) finished with status: completed
+2025-08-27 19:35:41,856 - services.job_service - INFO - Starting Job 23 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:41,871 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:42,207 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:42,211 - services.job_service - INFO - Job 19 completed with status: SUCCESS
+2025-08-27 19:35:42,524 - services.job_service - INFO - Batch (Job 19) finished with status: completed
+2025-08-27 19:35:42,611 - services.job_service - INFO - Starting Job 24 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:42,629 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:56,803 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:56,804 - services.job_service - INFO - Job 20 completed with status: SUCCESS
+2025-08-27 19:35:57,144 - services.job_service - INFO - Batch (Job 20) finished with status: completed
+2025-08-27 19:35:57,388 - services.job_service - INFO - Starting Job 25 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:57,419 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:58,026 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:58,027 - services.job_service - INFO - Job 21 completed with status: SUCCESS
+2025-08-27 19:35:58,267 - services.job_service - INFO - Batch (Job 21) finished with status: completed
+2025-08-27 19:35:58,351 - services.job_service - INFO - Starting Job 26 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:35:58,363 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:35:59,670 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:35:59,673 - services.job_service - INFO - Job 22 completed with status: SUCCESS
+2025-08-27 19:35:59,977 - services.job_service - INFO - Batch (Job 22) finished with status: completed
+2025-08-27 19:36:00,120 - services.job_service - INFO - Starting Job 27 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:00,148 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:00,687 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:00,689 - services.job_service - INFO - Job 23 completed with status: SUCCESS
+2025-08-27 19:36:00,945 - services.job_service - INFO - Batch (Job 23) finished with status: completed
+2025-08-27 19:36:01,029 - services.job_service - INFO - Starting Job 28 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:01,043 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:02,224 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:02,227 - services.job_service - INFO - Job 24 completed with status: SUCCESS
+2025-08-27 19:36:02,463 - services.job_service - INFO - Batch (Job 24) finished with status: completed
+2025-08-27 19:36:02,543 - services.job_service - INFO - Starting Job 29 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:02,558 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:15,844 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:15,846 - services.job_service - INFO - Job 25 completed with status: SUCCESS
+2025-08-27 19:36:16,149 - services.job_service - INFO - Batch (Job 25) finished with status: completed
+2025-08-27 19:36:16,262 - services.job_service - INFO - Starting Job 30 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:16,274 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:17,073 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:17,075 - services.job_service - INFO - Job 26 completed with status: SUCCESS
+2025-08-27 19:36:17,389 - services.job_service - INFO - Batch (Job 26) finished with status: completed
+2025-08-27 19:36:17,492 - services.job_service - INFO - Starting Job 31 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:17,506 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:19,713 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:19,715 - services.job_service - INFO - Job 27 completed with status: SUCCESS
+2025-08-27 19:36:19,997 - services.job_service - INFO - Batch (Job 27) finished with status: completed
+2025-08-27 19:36:20,115 - services.job_service - INFO - Starting Job 32 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:20,128 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:20,133 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:20,137 - services.job_service - INFO - Job 28 completed with status: SUCCESS
+2025-08-27 19:36:20,406 - services.job_service - INFO - Batch (Job 28) finished with status: completed
+2025-08-27 19:36:20,509 - services.job_service - INFO - Starting Job 33 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:20,523 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:21,641 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:21,672 - services.job_service - INFO - Job 29 completed with status: SUCCESS
+2025-08-27 19:36:22,015 - services.job_service - INFO - Batch (Job 29) finished with status: completed
+2025-08-27 19:36:22,168 - services.job_service - INFO - Starting Job 34 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:22,180 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:35,980 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:35,982 - services.job_service - INFO - Job 30 completed with status: SUCCESS
+2025-08-27 19:36:36,214 - services.job_service - INFO - Batch (Job 30) finished with status: completed
+2025-08-27 19:36:36,297 - services.job_service - INFO - Starting Job 35 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:36,310 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:36,734 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:36,736 - services.job_service - INFO - Job 31 completed with status: SUCCESS
+2025-08-27 19:36:36,951 - services.job_service - INFO - Batch (Job 31) finished with status: completed
+2025-08-27 19:36:37,145 - services.job_service - INFO - Starting Job 36 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:37,203 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:39,501 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:39,503 - services.job_service - INFO - Job 32 completed with status: SUCCESS
+2025-08-27 19:36:39,719 - services.job_service - INFO - Batch (Job 32) finished with status: completed
+2025-08-27 19:36:39,809 - services.job_service - INFO - Starting Job 37 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:39,820 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:40,306 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:40,308 - services.job_service - INFO - Job 33 completed with status: SUCCESS
+2025-08-27 19:36:40,545 - services.job_service - INFO - Batch (Job 33) finished with status: completed
+2025-08-27 19:36:40,934 - services.job_service - INFO - Starting Job 38 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:40,948 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:40,956 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:40,958 - services.job_service - INFO - Job 34 completed with status: SUCCESS
+2025-08-27 19:36:41,317 - services.job_service - INFO - Batch (Job 34) finished with status: completed
+2025-08-27 19:36:41,441 - services.job_service - INFO - Starting Job 39 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:41,451 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:55,575 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:55,577 - services.job_service - INFO - Job 35 completed with status: SUCCESS
+2025-08-27 19:36:55,822 - services.job_service - INFO - Batch (Job 35) finished with status: completed
+2025-08-27 19:36:55,900 - services.job_service - INFO - Starting Job 40 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:55,912 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:56,702 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:56,704 - services.job_service - INFO - Job 36 completed with status: SUCCESS
+2025-08-27 19:36:56,960 - services.job_service - INFO - Batch (Job 36) finished with status: completed
+2025-08-27 19:36:57,089 - services.job_service - INFO - Starting Job 41 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:57,118 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:36:59,189 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:36:59,191 - services.job_service - INFO - Job 37 completed with status: SUCCESS
+2025-08-27 19:36:59,437 - services.job_service - INFO - Batch (Job 37) finished with status: completed
+2025-08-27 19:36:59,514 - services.job_service - INFO - Starting Job 42 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:36:59,525 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:00,169 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:00,171 - services.job_service - INFO - Job 38 completed with status: SUCCESS
+2025-08-27 19:37:00,462 - services.job_service - INFO - Batch (Job 38) finished with status: completed
+2025-08-27 19:37:00,556 - services.job_service - INFO - Starting Job 43 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:00,572 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:00,582 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:00,584 - services.job_service - INFO - Job 39 completed with status: SUCCESS
+2025-08-27 19:37:00,829 - services.job_service - INFO - Batch (Job 39) finished with status: completed
+2025-08-27 19:37:00,978 - services.job_service - INFO - Starting Job 44 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:00,993 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:14,931 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:14,932 - services.job_service - INFO - Job 40 completed with status: SUCCESS
+2025-08-27 19:37:15,231 - services.job_service - INFO - Batch (Job 40) finished with status: completed
+2025-08-27 19:37:15,364 - services.job_service - INFO - Starting Job 45 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:15,405 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:16,563 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:16,569 - services.job_service - INFO - Job 41 completed with status: SUCCESS
+2025-08-27 19:37:17,138 - services.job_service - INFO - Batch (Job 41) finished with status: completed
+2025-08-27 19:37:17,354 - services.job_service - INFO - Starting Job 46 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:17,566 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:18,825 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:18,829 - services.job_service - INFO - Job 42 completed with status: SUCCESS
+2025-08-27 19:37:19,203 - services.job_service - INFO - Batch (Job 42) finished with status: completed
+2025-08-27 19:37:19,404 - services.job_service - INFO - Starting Job 47 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:19,492 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:20,985 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:20,986 - services.job_service - INFO - Job 43 completed with status: SUCCESS
+2025-08-27 19:37:21,379 - services.job_service - INFO - Batch (Job 43) finished with status: completed
+2025-08-27 19:37:21,622 - services.job_service - INFO - Starting Job 48 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:22,038 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:22,044 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:22,050 - services.job_service - INFO - Job 44 completed with status: SUCCESS
+2025-08-27 19:37:22,590 - services.job_service - INFO - Batch (Job 44) finished with status: completed
+2025-08-27 19:37:22,740 - services.job_service - INFO - Starting Job 49 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:22,790 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:34,593 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:34,594 - services.job_service - INFO - Job 45 completed with status: SUCCESS
+2025-08-27 19:37:34,866 - services.job_service - INFO - Batch (Job 45) finished with status: completed
+2025-08-27 19:37:34,955 - services.job_service - INFO - Starting Job 50 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:34,975 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:36,234 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:36,239 - services.job_service - INFO - Job 46 completed with status: SUCCESS
+2025-08-27 19:37:36,635 - services.job_service - INFO - Batch (Job 46) finished with status: completed
+2025-08-27 19:37:36,736 - services.job_service - INFO - Starting Job 51 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:36,764 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:38,277 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:38,278 - services.job_service - INFO - Job 47 completed with status: SUCCESS
+2025-08-27 19:37:38,533 - services.job_service - INFO - Batch (Job 47) finished with status: completed
+2025-08-27 19:37:38,613 - services.job_service - INFO - Starting Job 52 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:38,627 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:40,447 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:40,450 - services.job_service - INFO - Job 48 completed with status: SUCCESS
+2025-08-27 19:37:40,734 - services.job_service - INFO - Batch (Job 48) finished with status: completed
+2025-08-27 19:37:40,823 - services.job_service - INFO - Starting Job 53 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:40,839 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:41,860 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:41,862 - services.job_service - INFO - Job 49 completed with status: SUCCESS
+2025-08-27 19:37:42,109 - services.job_service - INFO - Batch (Job 49) finished with status: completed
+2025-08-27 19:37:42,191 - services.job_service - INFO - Starting Job 54 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:42,203 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:54,355 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:54,358 - services.job_service - INFO - Job 50 completed with status: SUCCESS
+2025-08-27 19:37:54,633 - services.job_service - INFO - Batch (Job 50) finished with status: completed
+2025-08-27 19:37:54,701 - services.job_service - INFO - Starting Job 55 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:54,714 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:55,175 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:55,177 - services.job_service - INFO - Job 51 completed with status: SUCCESS
+2025-08-27 19:37:55,408 - services.job_service - INFO - Batch (Job 51) finished with status: completed
+2025-08-27 19:37:55,522 - services.job_service - INFO - Starting Job 56 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:55,537 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:37:57,530 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:37:57,532 - services.job_service - INFO - Job 52 completed with status: SUCCESS
+2025-08-27 19:37:57,792 - services.job_service - INFO - Batch (Job 52) finished with status: completed
+2025-08-27 19:37:57,886 - services.job_service - INFO - Starting Job 57 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:37:57,901 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:38:00,602 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:38:00,604 - services.job_service - INFO - Job 53 completed with status: SUCCESS
+2025-08-27 19:38:00,863 - services.job_service - INFO - Batch (Job 53) finished with status: completed
+2025-08-27 19:38:00,936 - services.job_service - INFO - Starting Job 58 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:38:00,957 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-27 19:38:02,755 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:38:02,757 - services.job_service - INFO - Job 54 completed with status: SUCCESS
+2025-08-27 19:38:03,011 - services.job_service - INFO - Batch (Job 54) finished with status: completed
+2025-08-27 19:38:03,091 - services.job_service - INFO - Starting Job 59 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
+2025-08-27 19:38:03,104 - services.gemini_service - INFO - --- Preparing to call Gemini API for 16 daily analyses. ---
+2025-08-27 19:38:14,231 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:38:14,233 - services.job_service - INFO - Job 55 completed with status: SUCCESS
+2025-08-27 19:38:14,472 - services.job_service - INFO - Batch (Job 55) finished with status: completed
+2025-08-27 19:38:14,490 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:38:14,492 - services.job_service - INFO - Job 56 completed with status: SUCCESS
+2025-08-27 19:38:14,717 - services.job_service - INFO - Batch (Job 56) finished with status: completed
+2025-08-27 19:38:16,477 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:38:16,479 - services.job_service - INFO - Job 57 completed with status: SUCCESS
+2025-08-27 19:38:16,715 - services.job_service - INFO - Batch (Job 57) finished with status: completed
+2025-08-27 19:38:17,805 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:38:17,807 - services.job_service - INFO - Job 59 completed with status: SUCCESS
+2025-08-27 19:38:18,012 - services.job_service - INFO - Batch (Job 59) finished with status: completed
+2025-08-27 19:38:20,163 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-27 19:38:20,166 - services.job_service - INFO - Job 58 completed with status: SUCCESS
+2025-08-27 19:38:20,430 - services.job_service - INFO - Batch (Job 58) finished with status: completed
+2025-08-27 19:38:35,916 - services.file_service_optimized - INFO - Upload process dddf8d58-a538-4655-a327-8161bac803e2 completed successfully.
+2025-08-27 19:38:35,942 - services.progress_tracker - INFO - Upload dddf8d58-a538-4655-a327-8161bac803e2 completed in 385.0s
+2025-08-27 21:56:10,711 - services.file_service_optimized - INFO - Parsing and validating uploaded file for upload_id: fa734e62-b150-45d6-90fa-c553dff592af...
+2025-08-27 21:56:11,006 - services.progress_tracker - INFO - Started tracking upload fa734e62-b150-45d6-90fa-c553dff592af with 1 conversations
+2025-08-27 21:56:11,007 - services.progress_tracker - INFO - Upload fa734e62-b150-45d6-90fa-c553dff592af: 0.0% - filtering_conversations
+2025-08-27 21:56:11,035 - services.file_service_optimized - INFO - No new conversations to process.
+2025-08-27 21:56:11,036 - services.progress_tracker - INFO - Upload fa734e62-b150-45d6-90fa-c553dff592af completed in 0.0s
+2025-08-27 21:56:37,846 - main - INFO - --- PowerPulse Analytics Backend Shutting Down ---

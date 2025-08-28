@@ -1,0 +1,27 @@
+
+-- Extracting some social media messages with agent handling email
+WITH selected_row AS (
+	SELECT ID FROM SOCIAL_MEDIA_V2.SM_CHANNEL_OPERATION sco 
+	WHERE 1 = 1
+		AND SOCIAL_CREATE_TIME >= to_date('20250817', 'yyyymmdd')
+		AND SOCIAL_CREATE_TIME <= to_date('20250823', 'yyyymmdd')
+		AND sco.VIA = 'fb_chat'
+		AND sco.SOCIAL_TYPE = 'facebook'
+)
+SELECT
+	sc.NAME,
+	sco.CHANNEL_ID AS FB_ID, sco.CONTENT, sco.SOCIAL_CREATE_TIME, sco.DIRECTION, 
+	su.USERNAME, su.EMAIL, su.NAME, su.LASTNAME
+FROM
+	SOCIAL_MEDIA_V2.SM_CHANNEL_OPERATION sco 
+	LEFT JOIN SOCIAL_MEDIA_V2.SM_USER su ON su.ID = AGENT_ID --AGENT USERNAME AND DETAILS
+	LEFT JOIN SOCIAL_MEDIA_V2.SM_CHANNEL sc ON sc.ID = sco.CHANNEL_ID --FACEBOOK USERNAME
+	JOIN selected_row sr ON sr.id = sco.ID
+WHERE 1 = 1
+--	AND CONTENT NOT LIKE '%*977#%'
+	AND DBMS_LOB.INSTR(sco.CONTENT, 'Thank you for reaching out! Did you know that you can now') = 0 -- Removing auto response
+ORDER BY
+	sco.CHANNEL_ID,
+	sco.SOCIAL_CREATE_TIME
+--FETCH FIRST 100 ROWS ONLY
+;

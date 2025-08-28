@@ -9,26 +9,36 @@ def setup_logging():
     log_dir = Path("logs")
     log_dir.mkdir(exist_ok=True)
     
-    # Configure logging
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            # Console handler
-            logging.StreamHandler(sys.stdout),
-            # File handler for all logs
-            logging.FileHandler(log_dir / "powerpulse.log"),
-            # File handler for errors only
-            logging.FileHandler(log_dir / "errors.log", level=logging.ERROR)
-        ]
-    )
+    # Define a formatter
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    # --- Console Handler ---
+    # Shows our "catchy" INFO logs and any warnings/errors
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(logging.INFO)
+    console_handler.setFormatter(formatter)
+
+    # --- Application Trace Handler (with UTF-8 encoding) ---
+    # Logs only our INFO-level application trace to a clean file
+    app_trace_handler = logging.FileHandler(log_dir / "app_trace.log", mode='w', encoding='utf-8')
+    app_trace_handler.setLevel(logging.INFO)
+    app_trace_handler.setFormatter(formatter)
+    # A filter to only allow logs from our specific application modules
+    class AppLogFilter(logging.Filter):
+        def filter(self, record):
+            return record.name.startswith('services') or record.name.startswith('main')
+    app_trace_handler.addFilter(AppLogFilter())
+
+    # --- Root Logger Configuration ---
+    # Configure the root logger to capture everything at INFO level
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.INFO)
+    root_logger.handlers = [console_handler, app_trace_handler]
+
+    # --- Quieting Down Noisy Loggers ---
+    # Set specific noisy loggers to a higher level to quiet them down
+    logging.getLogger("sqlalchemy.engine").setLevel(logging.ERROR)
+    logging.getLogger("sqlalchemy.pool").setLevel(logging.ERROR)
+    logging.getLogger("uvicorn.access").setLevel(logging.ERROR) # Silence Uvicorn access logs
     
-    # Set specific logger levels
-    logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
-    logging.getLogger("sqlalchemy.pool").setLevel(logging.INFO)
-    
-    # Create logger
-    logger = logging.getLogger(__name__)
-    logger.info("Logging configured successfully")
-    
-    return logger
+    logging.info("Logging configured successfully. Application trace will be in logs/app_trace.log")

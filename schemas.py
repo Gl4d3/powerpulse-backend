@@ -26,45 +26,49 @@ class MessageResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class DailyAnalysisResponse(BaseModel):
+    """
+    Represents the detailed CSI analysis for a single day within a conversation.
+    """
+    analysis_date: datetime
+    
+    # Micro-Metrics
+    sentiment_score: Optional[float]
+    sentiment_shift: Optional[float]
+    resolution_achieved: Optional[float]
+    fcr_score: Optional[float]
+    ces: Optional[float]
+    first_response_time: Optional[float]
+    avg_response_time: Optional[float]
+    total_handling_time: Optional[float]
+    
+    # Pillar Scores
+    effectiveness_score: Optional[float]
+    effort_score: Optional[float]
+    efficiency_score: Optional[float]
+    empathy_score: Optional[float]
+    
+    # Daily CSI Score
+    csi_score: Optional[float]
+
+    class Config:
+        from_attributes = True
+
 class ConversationResponse(BaseModel):
     """
-    Represents the detailed response for a single conversation, including
-    the new Customer Satisfaction Index (CSI) scores.
+    Represents an aggregated summary of a conversation for the frontend.
     """
-    id: int
-    fb_chat_id: str
-    total_messages: int
-    customer_messages: int
-    agent_messages: int
+    chat_id: str
+    sentiment_score: Optional[float] = None
+    satisfaction_score: Optional[float] = None # This will be the aggregated CSI
+    fcr: Optional[bool] = None
+    topics: List[str] = []
+    created_at: datetime
+    agent_username: Optional[str] = None
+    agent_email: Optional[str] = None
     
-    # --- New Customer Satisfaction Index (CSI) ---
-    # Micro-Metrics (from AI)
-    resolution_achieved: Optional[float] = None
-    fcr_score: Optional[float] = None
-    response_time_score: Optional[float] = None
-    customer_effort_score: Optional[float] = None
-    
-    # Pillars (Calculated)
-    effectiveness_score: Optional[float] = None
-    efficiency_score: Optional[float] = None
-    effort_score: Optional[float] = None
-    empathy_score: Optional[float] = None
-    
-    # Final Score
-    csi_score: Optional[float] = None
-    
-    # --- Legacy Fields (to be deprecated) ---
-    satisfaction_score: Optional[float]
-    is_satisfied: Optional[bool]
-    
-    # Other metrics
-    avg_sentiment: Optional[float]
-    first_contact_resolution: bool
-    avg_response_time_minutes: Optional[float]
-    first_message_time: Optional[datetime]
-    last_message_time: Optional[datetime]
-    common_topics: Optional[List[str]]
-    updated_at: Optional[datetime]
+    # The detailed daily breakdown can be fetched from a separate endpoint
+    # This keeps the main conversation list lightweight.
     
     class Config:
         from_attributes = True
@@ -78,16 +82,30 @@ class ConversationListResponse(BaseModel):
 
 class CSIMetricsResponse(BaseModel):
     """
-    Defines the structure for the new CSI-based aggregated metrics, providing
-    a holistic view of customer satisfaction.
+    Defines the structure for the aggregated metrics, aligned with the frontend contract.
     """
-    overall_csi_score: float
-    avg_effectiveness_score: float
-    avg_efficiency_score: float
-    avg_effort_score: float
-    avg_empathy_score: float
-    total_conversations_analyzed: int
-    last_updated: datetime
+    # Core KPIs
+    sentiment: float
+    csat_percentage: float
+    fcr_percentage: float
+    avg_response_time: float
+    sentiment_distribution: Dict[str, float]
+    topic_frequency: List[Dict[str, Any]]
+
+    # CSI and pillars (0-100 scale for frontend)
+    csi: float
+    resolution_quality: float
+    service_timeliness: float
+    customer_ease: float
+    interaction_quality: float
+    sample_count: int
+    
+    # Deltas
+    deltas: Optional[Dict[str, float]] = None
+    
+    # Metadata
+    pillar_weights: Dict[str, float]
+
 
 class LegacyMetricsResponse(BaseModel):
     """Maintains the old metrics structure for backward compatibility."""

@@ -1,45 +1,33 @@
 import logging
 from typing import List
-from models import Conversation, Message
+from models import Conversation, DailyAnalysis
 from config import settings
 from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
-def estimate_token_count(conversation: Conversation, db: Session) -> int:
+def create_daily_analysis_batches(conversations: List[Conversation], db: Session) -> List[List[DailyAnalysis]]:
     """
-    Estimates the token count of a conversation.
-    A simple proxy is len(text) / 4.
-    """
-    # This is a very rough estimation. A more accurate method would be to use a real tokenizer.
-    # For now, we'll concatenate the content of all messages in the conversation.
-    
-    # Query messages for the conversation
-    messages = db.query(Message).filter(Message.fb_chat_id == conversation.fb_chat_id).all()
-    if not messages:
-        return 0
-        
-    text_content = " ".join([message.message_content for message in messages])
-    return len(text_content) // 4
-
-from typing import List
-from sqlalchemy.orm import Session
-from models import Conversation
-from config import settings
-import logging
-
-logger = logging.getLogger(__name__)
-
-def create_batches(conversations: List[Conversation], db: Session) -> List[List[Conversation]]:
-    """
-    Splits a list of conversations into smaller batches based on BATCH_SIZE.
+    Extracts pending DailyAnalysis objects from conversations and splits them 
+    into smaller batches based on BATCH_SIZE for AI processing.
     """
     if not conversations:
         return []
+    
+    # Extract all pending DailyAnalysis objects from the conversations
+    pending_analyses = []
+    for conv in conversations:
+        for analysis in conv.daily_analyses:
+            # Assuming new DailyAnalysis objects don't have an ID yet
+            if analysis.id is None:
+                pending_analyses.append(analysis)
+
+    if not pending_analyses:
+        return []
         
     batch_size = settings.BATCH_SIZE
-    batches = [conversations[i:i + batch_size] for i in range(0, len(conversations), batch_size)]
+    batches = [pending_analyses[i:i + batch_size] for i in range(0, len(pending_analyses), batch_size)]
     
-    logger.info(f"Created {len(batches)} batches from {len(conversations)} conversations with a batch size of {batch_size}.")
+    logger.info(f"Created {len(batches)} batches from {len(pending_analyses)} daily analysis objects with a batch size of {batch_size}.")
     
     return batches
