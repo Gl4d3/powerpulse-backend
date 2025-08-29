@@ -1,0 +1,1715 @@
+2025-08-28 16:19:46,235 - main - INFO - --- PowerPulse Analytics Backend Starting Up ---
+2025-08-28 16:19:46,235 - main - INFO - Initializing database...
+2025-08-28 16:19:46,238 - main - INFO - Database initialized.
+2025-08-28 16:19:52,232 - services.file_service_optimized - INFO - Starting universal processing for upload_id: 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:19:52,286 - services.file_service_optimized - INFO - Detected single-key object format. Extracting value.
+2025-08-28 16:19:52,304 - services.progress_tracker - INFO - Started tracking upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6 with 4294 conversations
+2025-08-28 16:19:52,304 - services.progress_tracker - INFO - Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6: 0.0% - filtering_conversations
+2025-08-28 16:19:56,045 - services.file_service_optimized - INFO - Creating records for 4293 conversations in memory...
+2025-08-28 16:19:58,833 - services.batch_service - INFO - Created 308 batches from 6150 daily analysis objects with a batch size of 20.
+2025-08-28 16:19:58,835 - services.file_service_optimized - INFO - Splitting work into 308 batches.
+2025-08-28 16:22:29,747 - services.job_service - INFO - Created 308 jobs for upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6
+2025-08-28 16:22:29,748 - services.file_service_optimized - INFO - Starting AI analysis for 308 jobs...
+2025-08-28 16:22:29,853 - services.job_service - INFO - Starting Job 1 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:29,863 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:22:29,949 - services.job_service - INFO - Starting Job 2 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:29,953 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:22:30,037 - services.job_service - INFO - Starting Job 3 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:30,043 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:22:30,122 - services.job_service - INFO - Starting Job 4 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:30,129 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:22:30,211 - services.job_service - INFO - Starting Job 5 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:30,216 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:22:48,624 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:22:48,625 - services.job_service - INFO - Job 3 completed with status: SUCCESS
+2025-08-28 16:22:48,755 - services.job_service - INFO - Batch (Job 3) finished with status: completed
+2025-08-28 16:22:48,802 - services.job_service - INFO - Starting Job 6 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:48,805 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:22:49,309 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:22:49,310 - services.job_service - INFO - Job 2 completed with status: SUCCESS
+2025-08-28 16:22:49,428 - services.job_service - INFO - Batch (Job 2) finished with status: completed
+2025-08-28 16:22:49,515 - services.job_service - INFO - Starting Job 7 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:49,519 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:22:49,599 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:22:49,600 - services.job_service - INFO - Job 1 completed with status: SUCCESS
+2025-08-28 16:22:49,691 - services.job_service - INFO - Batch (Job 1) finished with status: completed
+2025-08-28 16:22:49,691 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:22:49,692 - services.job_service - INFO - Job 5 completed with status: SUCCESS
+2025-08-28 16:22:49,809 - services.job_service - INFO - Batch (Job 5) finished with status: completed
+2025-08-28 16:22:49,866 - services.job_service - INFO - Starting Job 8 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:49,870 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:22:49,931 - services.job_service - INFO - Starting Job 9 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:49,936 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:22:49,938 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:22:49,939 - services.job_service - INFO - Job 4 completed with status: SUCCESS
+2025-08-28 16:22:50,052 - services.job_service - INFO - Batch (Job 4) finished with status: completed
+2025-08-28 16:22:50,109 - services.job_service - INFO - Starting Job 10 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:22:50,114 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:07,112 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:07,114 - services.job_service - INFO - Job 7 completed with status: SUCCESS
+2025-08-28 16:23:07,211 - services.job_service - INFO - Batch (Job 7) finished with status: completed
+2025-08-28 16:23:07,257 - services.job_service - INFO - Starting Job 11 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:07,260 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:07,416 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:07,417 - services.job_service - INFO - Job 6 completed with status: SUCCESS
+2025-08-28 16:23:07,529 - services.job_service - INFO - Batch (Job 6) finished with status: completed
+2025-08-28 16:23:07,574 - services.job_service - INFO - Starting Job 12 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:07,577 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:08,679 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:08,681 - services.job_service - INFO - Job 9 completed with status: SUCCESS
+2025-08-28 16:23:08,820 - services.job_service - INFO - Batch (Job 9) finished with status: completed
+2025-08-28 16:23:08,867 - services.job_service - INFO - Starting Job 13 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:08,872 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:08,874 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:08,874 - services.job_service - INFO - Job 8 completed with status: SUCCESS
+2025-08-28 16:23:08,938 - services.job_service - INFO - Batch (Job 8) finished with status: completed
+2025-08-28 16:23:08,989 - services.job_service - INFO - Starting Job 14 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:08,992 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:08,993 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:08,993 - services.job_service - INFO - Job 10 completed with status: SUCCESS
+2025-08-28 16:23:09,045 - services.job_service - INFO - Batch (Job 10) finished with status: completed
+2025-08-28 16:23:09,093 - services.job_service - INFO - Starting Job 15 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:09,095 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:25,747 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:25,748 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 51 column 35 (char 1228)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 51 column 35 (char 1228)
+2025-08-28 16:23:25,754 - services.job_service - WARNING - Job 11 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:23:25,775 - services.job_service - ERROR - Batch (Job 11) finished with status: failed
+2025-08-28 16:23:25,827 - services.job_service - INFO - Starting Job 16 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:25,831 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:26,059 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:26,061 - services.job_service - INFO - Job 12 completed with status: SUCCESS
+2025-08-28 16:23:26,183 - services.job_service - INFO - Batch (Job 12) finished with status: completed
+2025-08-28 16:23:26,263 - services.job_service - INFO - Starting Job 17 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:26,267 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:26,979 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:26,981 - services.job_service - INFO - Job 13 completed with status: SUCCESS
+2025-08-28 16:23:27,113 - services.job_service - INFO - Batch (Job 13) finished with status: completed
+2025-08-28 16:23:27,159 - services.job_service - INFO - Starting Job 18 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:27,162 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:27,800 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:27,801 - services.job_service - INFO - Job 15 completed with status: SUCCESS
+2025-08-28 16:23:27,874 - services.job_service - INFO - Batch (Job 15) finished with status: completed
+2025-08-28 16:23:27,916 - services.job_service - INFO - Starting Job 19 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:27,919 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:28,158 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:28,159 - services.job_service - INFO - Job 14 completed with status: SUCCESS
+2025-08-28 16:23:28,221 - services.job_service - INFO - Batch (Job 14) finished with status: completed
+2025-08-28 16:23:28,268 - services.job_service - INFO - Starting Job 20 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:28,272 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:43,056 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:43,058 - services.job_service - INFO - Job 17 completed with status: SUCCESS
+2025-08-28 16:23:43,161 - services.job_service - INFO - Batch (Job 17) finished with status: completed
+2025-08-28 16:23:43,205 - services.job_service - INFO - Starting Job 21 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:43,208 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:44,494 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:44,495 - services.job_service - INFO - Job 16 completed with status: SUCCESS
+2025-08-28 16:23:44,566 - services.job_service - INFO - Batch (Job 16) finished with status: completed
+2025-08-28 16:23:44,615 - services.job_service - INFO - Starting Job 22 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:44,618 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:44,948 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:44,948 - services.job_service - INFO - Job 18 completed with status: SUCCESS
+2025-08-28 16:23:45,017 - services.job_service - INFO - Batch (Job 18) finished with status: completed
+2025-08-28 16:23:45,067 - services.job_service - INFO - Starting Job 23 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:45,071 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:45,987 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:45,988 - services.job_service - INFO - Job 19 completed with status: SUCCESS
+2025-08-28 16:23:46,093 - services.job_service - INFO - Batch (Job 19) finished with status: completed
+2025-08-28 16:23:46,170 - services.job_service - INFO - Starting Job 24 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:46,175 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:23:46,951 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:23:46,952 - services.job_service - INFO - Job 20 completed with status: SUCCESS
+2025-08-28 16:23:47,047 - services.job_service - INFO - Batch (Job 20) finished with status: completed
+2025-08-28 16:23:47,114 - services.job_service - INFO - Starting Job 25 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:23:47,118 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:01,365 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:01,366 - services.job_service - INFO - Job 21 completed with status: SUCCESS
+2025-08-28 16:24:01,430 - services.job_service - INFO - Batch (Job 21) finished with status: completed
+2025-08-28 16:24:01,479 - services.job_service - INFO - Starting Job 26 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:01,483 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:03,790 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:03,790 - services.job_service - INFO - Job 23 completed with status: SUCCESS
+2025-08-28 16:24:03,897 - services.job_service - INFO - Batch (Job 23) finished with status: completed
+2025-08-28 16:24:04,022 - services.job_service - INFO - Starting Job 27 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:04,027 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:04,129 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:04,130 - services.job_service - INFO - Job 24 completed with status: SUCCESS
+2025-08-28 16:24:04,240 - services.job_service - INFO - Batch (Job 24) finished with status: completed
+2025-08-28 16:24:04,346 - services.job_service - INFO - Starting Job 28 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:04,352 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:04,837 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:04,838 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 36 column 31 (char 844)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 36 column 31 (char 844)
+2025-08-28 16:24:04,840 - services.job_service - WARNING - Job 22 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:24:04,851 - services.job_service - ERROR - Batch (Job 22) finished with status: failed
+2025-08-28 16:24:04,927 - services.job_service - INFO - Starting Job 29 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:04,933 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:04,993 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:04,994 - services.job_service - INFO - Job 25 completed with status: SUCCESS
+2025-08-28 16:24:05,087 - services.job_service - INFO - Batch (Job 25) finished with status: completed
+2025-08-28 16:24:05,194 - services.job_service - INFO - Starting Job 30 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:05,200 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:19,196 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:19,197 - services.job_service - INFO - Job 26 completed with status: SUCCESS
+2025-08-28 16:24:19,282 - services.job_service - INFO - Batch (Job 26) finished with status: completed
+2025-08-28 16:24:19,324 - services.job_service - INFO - Starting Job 31 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:19,328 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:22,597 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:22,597 - services.job_service - INFO - Job 27 completed with status: SUCCESS
+2025-08-28 16:24:22,656 - services.job_service - INFO - Batch (Job 27) finished with status: completed
+2025-08-28 16:24:22,703 - services.job_service - INFO - Starting Job 32 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:22,707 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:23,104 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:23,106 - services.job_service - INFO - Job 29 completed with status: SUCCESS
+2025-08-28 16:24:23,195 - services.job_service - INFO - Batch (Job 29) finished with status: completed
+2025-08-28 16:24:23,243 - services.job_service - INFO - Starting Job 33 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:23,246 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:23,249 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:23,250 - services.job_service - INFO - Job 28 completed with status: SUCCESS
+2025-08-28 16:24:23,298 - services.job_service - INFO - Batch (Job 28) finished with status: completed
+2025-08-28 16:24:23,351 - services.job_service - INFO - Starting Job 34 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:23,356 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:23,812 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:23,813 - services.job_service - INFO - Job 30 completed with status: SUCCESS
+2025-08-28 16:24:23,923 - services.job_service - INFO - Batch (Job 30) finished with status: completed
+2025-08-28 16:24:23,968 - services.job_service - INFO - Starting Job 35 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:23,971 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:38,060 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:38,061 - services.job_service - INFO - Job 31 completed with status: SUCCESS
+2025-08-28 16:24:38,146 - services.job_service - INFO - Batch (Job 31) finished with status: completed
+2025-08-28 16:24:38,194 - services.job_service - INFO - Starting Job 36 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:38,198 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:40,919 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:40,919 - services.job_service - INFO - Job 32 completed with status: SUCCESS
+2025-08-28 16:24:40,980 - services.job_service - INFO - Batch (Job 32) finished with status: completed
+2025-08-28 16:24:41,031 - services.job_service - INFO - Starting Job 37 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:41,034 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:41,423 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:41,424 - services.job_service - INFO - Job 35 completed with status: SUCCESS
+2025-08-28 16:24:41,486 - services.job_service - INFO - Batch (Job 35) finished with status: completed
+2025-08-28 16:24:41,540 - services.job_service - INFO - Starting Job 38 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:41,545 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:51,343 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:51,343 - services.job_service - INFO - Job 33 completed with status: SUCCESS
+2025-08-28 16:24:51,445 - services.job_service - INFO - Batch (Job 33) finished with status: completed
+2025-08-28 16:24:51,489 - services.job_service - INFO - Starting Job 39 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:51,492 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:56,995 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:56,995 - services.job_service - INFO - Job 34 completed with status: SUCCESS
+2025-08-28 16:24:57,077 - services.job_service - INFO - Batch (Job 34) finished with status: completed
+2025-08-28 16:24:57,125 - services.job_service - INFO - Starting Job 40 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:57,130 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:57,194 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:57,195 - services.job_service - INFO - Job 36 completed with status: SUCCESS
+2025-08-28 16:24:57,273 - services.job_service - INFO - Batch (Job 36) finished with status: completed
+2025-08-28 16:24:57,321 - services.job_service - INFO - Starting Job 41 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:24:57,326 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:24:59,894 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:24:59,895 - services.job_service - INFO - Job 37 completed with status: SUCCESS
+2025-08-28 16:24:59,994 - services.job_service - INFO - Batch (Job 37) finished with status: completed
+2025-08-28 16:25:00,061 - services.job_service - INFO - Starting Job 42 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:00,065 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:00,661 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:00,661 - services.job_service - INFO - Job 38 completed with status: SUCCESS
+2025-08-28 16:25:00,715 - services.job_service - INFO - Batch (Job 38) finished with status: completed
+2025-08-28 16:25:00,762 - services.job_service - INFO - Starting Job 43 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:00,767 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:09,904 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:09,904 - services.job_service - INFO - Job 39 completed with status: SUCCESS
+2025-08-28 16:25:09,996 - services.job_service - INFO - Batch (Job 39) finished with status: completed
+2025-08-28 16:25:10,038 - services.job_service - INFO - Starting Job 44 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:10,044 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:14,916 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:14,917 - services.job_service - INFO - Job 40 completed with status: SUCCESS
+2025-08-28 16:25:14,972 - services.job_service - INFO - Batch (Job 40) finished with status: completed
+2025-08-28 16:25:14,973 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:14,973 - services.job_service - INFO - Job 41 completed with status: SUCCESS
+2025-08-28 16:25:15,023 - services.job_service - INFO - Batch (Job 41) finished with status: completed
+2025-08-28 16:25:15,070 - services.job_service - INFO - Starting Job 45 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:15,074 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:15,120 - services.job_service - INFO - Starting Job 46 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:15,123 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:18,023 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:18,024 - services.job_service - INFO - Job 42 completed with status: SUCCESS
+2025-08-28 16:25:18,086 - services.job_service - INFO - Batch (Job 42) finished with status: completed
+2025-08-28 16:25:18,132 - services.job_service - INFO - Starting Job 47 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:18,137 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:19,048 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:19,049 - services.job_service - INFO - Job 43 completed with status: SUCCESS
+2025-08-28 16:25:19,104 - services.job_service - INFO - Batch (Job 43) finished with status: completed
+2025-08-28 16:25:19,149 - services.job_service - INFO - Starting Job 48 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:19,153 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:28,060 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:28,060 - services.job_service - INFO - Job 44 completed with status: SUCCESS
+2025-08-28 16:25:28,149 - services.job_service - INFO - Batch (Job 44) finished with status: completed
+2025-08-28 16:25:28,202 - services.job_service - INFO - Starting Job 49 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:28,206 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:33,418 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:33,419 - services.job_service - INFO - Job 46 completed with status: SUCCESS
+2025-08-28 16:25:33,508 - services.job_service - INFO - Batch (Job 46) finished with status: completed
+2025-08-28 16:25:33,573 - services.job_service - INFO - Starting Job 50 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:33,577 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:33,588 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:33,589 - services.job_service - INFO - Job 45 completed with status: SUCCESS
+2025-08-28 16:25:33,685 - services.job_service - INFO - Batch (Job 45) finished with status: completed
+2025-08-28 16:25:33,744 - services.job_service - INFO - Starting Job 51 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:33,748 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:36,180 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:36,182 - services.job_service - INFO - Job 47 completed with status: SUCCESS
+2025-08-28 16:25:36,310 - services.job_service - INFO - Batch (Job 47) finished with status: completed
+2025-08-28 16:25:36,387 - services.job_service - INFO - Starting Job 52 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:36,394 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:37,482 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:37,483 - services.job_service - INFO - Job 48 completed with status: SUCCESS
+2025-08-28 16:25:37,577 - services.job_service - INFO - Batch (Job 48) finished with status: completed
+2025-08-28 16:25:37,631 - services.job_service - INFO - Starting Job 53 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:37,635 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:46,870 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:46,871 - services.job_service - INFO - Job 49 completed with status: SUCCESS
+2025-08-28 16:25:47,001 - services.job_service - INFO - Batch (Job 49) finished with status: completed
+2025-08-28 16:25:47,043 - services.job_service - INFO - Starting Job 54 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:47,046 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:50,810 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:50,812 - services.job_service - INFO - Job 51 completed with status: SUCCESS
+2025-08-28 16:25:50,964 - services.job_service - INFO - Batch (Job 51) finished with status: completed
+2025-08-28 16:25:51,041 - services.job_service - INFO - Starting Job 55 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:51,047 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:53,230 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:53,231 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 36 column 34 (char 846)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 36 column 34 (char 846)
+2025-08-28 16:25:53,234 - services.job_service - WARNING - Job 50 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:25:53,241 - services.job_service - ERROR - Batch (Job 50) finished with status: failed
+2025-08-28 16:25:53,290 - services.job_service - INFO - Starting Job 56 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:53,294 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:55,179 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:55,179 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 167 column 35 (char 4006)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 167 column 35 (char 4006)
+2025-08-28 16:25:55,182 - services.job_service - WARNING - Job 52 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:25:55,193 - services.job_service - ERROR - Batch (Job 52) finished with status: failed
+2025-08-28 16:25:55,267 - services.job_service - INFO - Starting Job 57 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:55,273 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:25:55,546 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:25:55,547 - services.job_service - INFO - Job 53 completed with status: SUCCESS
+2025-08-28 16:25:55,624 - services.job_service - INFO - Batch (Job 53) finished with status: completed
+2025-08-28 16:25:55,699 - services.job_service - INFO - Starting Job 58 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:25:55,706 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:04,981 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:04,981 - services.job_service - INFO - Job 54 completed with status: SUCCESS
+2025-08-28 16:26:05,063 - services.job_service - INFO - Batch (Job 54) finished with status: completed
+2025-08-28 16:26:05,136 - services.job_service - INFO - Starting Job 59 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:05,142 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:09,503 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:09,504 - services.job_service - INFO - Job 55 completed with status: SUCCESS
+2025-08-28 16:26:09,574 - services.job_service - INFO - Batch (Job 55) finished with status: completed
+2025-08-28 16:26:09,625 - services.job_service - INFO - Starting Job 60 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:09,628 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:12,170 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:12,172 - services.job_service - INFO - Job 56 completed with status: SUCCESS
+2025-08-28 16:26:12,396 - services.job_service - INFO - Batch (Job 56) finished with status: completed
+2025-08-28 16:26:12,442 - services.job_service - INFO - Starting Job 61 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:12,449 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:13,033 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:13,034 - services.job_service - INFO - Job 57 completed with status: SUCCESS
+2025-08-28 16:26:13,104 - services.job_service - INFO - Batch (Job 57) finished with status: completed
+2025-08-28 16:26:13,155 - services.job_service - INFO - Starting Job 62 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:13,159 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:14,063 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:14,064 - services.job_service - INFO - Job 58 completed with status: SUCCESS
+2025-08-28 16:26:14,194 - services.job_service - INFO - Batch (Job 58) finished with status: completed
+2025-08-28 16:26:14,244 - services.job_service - INFO - Starting Job 63 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:14,248 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:23,492 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:23,493 - services.job_service - INFO - Job 59 completed with status: SUCCESS
+2025-08-28 16:26:23,589 - services.job_service - INFO - Batch (Job 59) finished with status: completed
+2025-08-28 16:26:23,637 - services.job_service - INFO - Starting Job 64 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:23,641 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:27,523 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:27,524 - services.job_service - INFO - Job 60 completed with status: SUCCESS
+2025-08-28 16:26:27,644 - services.job_service - INFO - Batch (Job 60) finished with status: completed
+2025-08-28 16:26:27,724 - services.job_service - INFO - Starting Job 65 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:27,730 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:30,717 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:30,719 - services.job_service - INFO - Job 61 completed with status: SUCCESS
+2025-08-28 16:26:30,829 - services.job_service - INFO - Batch (Job 61) finished with status: completed
+2025-08-28 16:26:30,879 - services.job_service - INFO - Starting Job 66 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:30,883 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:31,067 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:31,068 - services.job_service - INFO - Job 62 completed with status: SUCCESS
+2025-08-28 16:26:31,176 - services.job_service - INFO - Batch (Job 62) finished with status: completed
+2025-08-28 16:26:31,352 - services.job_service - INFO - Starting Job 67 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:31,363 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:32,727 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:32,727 - services.job_service - INFO - Job 63 completed with status: SUCCESS
+2025-08-28 16:26:32,844 - services.job_service - INFO - Batch (Job 63) finished with status: completed
+2025-08-28 16:26:32,957 - services.job_service - INFO - Starting Job 68 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:32,963 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:41,762 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:41,763 - services.job_service - INFO - Job 64 completed with status: SUCCESS
+2025-08-28 16:26:41,944 - services.job_service - INFO - Batch (Job 64) finished with status: completed
+2025-08-28 16:26:42,029 - services.job_service - INFO - Starting Job 69 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:42,033 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:46,277 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:46,280 - services.job_service - INFO - Job 65 completed with status: SUCCESS
+2025-08-28 16:26:46,424 - services.job_service - INFO - Batch (Job 65) finished with status: completed
+2025-08-28 16:26:46,538 - services.job_service - INFO - Starting Job 70 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:46,544 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:49,134 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:49,135 - services.job_service - INFO - Job 66 completed with status: SUCCESS
+2025-08-28 16:26:49,237 - services.job_service - INFO - Batch (Job 66) finished with status: completed
+2025-08-28 16:26:49,350 - services.job_service - INFO - Starting Job 71 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:49,366 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:49,838 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:49,839 - services.job_service - INFO - Job 67 completed with status: SUCCESS
+2025-08-28 16:26:49,977 - services.job_service - INFO - Batch (Job 67) finished with status: completed
+2025-08-28 16:26:50,077 - services.job_service - INFO - Starting Job 72 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:50,082 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:26:51,289 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:26:51,291 - services.job_service - INFO - Job 68 completed with status: SUCCESS
+2025-08-28 16:26:51,463 - services.job_service - INFO - Batch (Job 68) finished with status: completed
+2025-08-28 16:26:51,568 - services.job_service - INFO - Starting Job 73 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:26:51,573 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:00,318 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:00,319 - services.job_service - INFO - Job 69 completed with status: SUCCESS
+2025-08-28 16:27:00,409 - services.job_service - INFO - Batch (Job 69) finished with status: completed
+2025-08-28 16:27:00,460 - services.job_service - INFO - Starting Job 74 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:00,464 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:04,918 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:04,919 - services.job_service - INFO - Job 70 completed with status: SUCCESS
+2025-08-28 16:27:05,061 - services.job_service - INFO - Batch (Job 70) finished with status: completed
+2025-08-28 16:27:05,176 - services.job_service - INFO - Starting Job 75 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:05,195 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:07,825 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:07,827 - services.job_service - INFO - Job 71 completed with status: SUCCESS
+2025-08-28 16:27:07,972 - services.job_service - INFO - Batch (Job 71) finished with status: completed
+2025-08-28 16:27:08,078 - services.job_service - INFO - Starting Job 76 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:08,084 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:08,410 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:08,410 - services.job_service - INFO - Job 72 completed with status: SUCCESS
+2025-08-28 16:27:08,559 - services.job_service - INFO - Batch (Job 72) finished with status: completed
+2025-08-28 16:27:08,636 - services.job_service - INFO - Starting Job 77 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:08,639 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:09,827 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:09,829 - services.job_service - INFO - Job 73 completed with status: SUCCESS
+2025-08-28 16:27:09,964 - services.job_service - INFO - Batch (Job 73) finished with status: completed
+2025-08-28 16:27:10,079 - services.job_service - INFO - Starting Job 78 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:10,084 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:19,238 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:19,238 - services.job_service - INFO - Job 74 completed with status: SUCCESS
+2025-08-28 16:27:19,310 - services.job_service - INFO - Batch (Job 74) finished with status: completed
+2025-08-28 16:27:19,362 - services.job_service - INFO - Starting Job 79 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:19,365 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:23,624 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:23,626 - services.job_service - INFO - Job 75 completed with status: SUCCESS
+2025-08-28 16:27:23,705 - services.job_service - INFO - Batch (Job 75) finished with status: completed
+2025-08-28 16:27:23,755 - services.job_service - INFO - Starting Job 80 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:23,761 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:26,812 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:26,812 - services.job_service - INFO - Job 76 completed with status: SUCCESS
+2025-08-28 16:27:26,903 - services.job_service - INFO - Batch (Job 76) finished with status: completed
+2025-08-28 16:27:26,957 - services.job_service - INFO - Starting Job 81 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:26,968 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:27,134 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:27,135 - services.job_service - INFO - Job 77 completed with status: SUCCESS
+2025-08-28 16:27:27,241 - services.job_service - INFO - Batch (Job 77) finished with status: completed
+2025-08-28 16:27:27,316 - services.job_service - INFO - Starting Job 82 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:27,322 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:28,763 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:28,765 - services.job_service - INFO - Job 78 completed with status: SUCCESS
+2025-08-28 16:27:28,891 - services.job_service - INFO - Batch (Job 78) finished with status: completed
+2025-08-28 16:27:28,999 - services.job_service - INFO - Starting Job 83 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:29,004 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:38,273 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:38,274 - services.job_service - INFO - Job 79 completed with status: SUCCESS
+2025-08-28 16:27:38,420 - services.job_service - INFO - Batch (Job 79) finished with status: completed
+2025-08-28 16:27:38,477 - services.job_service - INFO - Starting Job 84 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:38,483 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:42,077 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:42,079 - services.job_service - INFO - Job 80 completed with status: SUCCESS
+2025-08-28 16:27:42,210 - services.job_service - INFO - Batch (Job 80) finished with status: completed
+2025-08-28 16:27:42,269 - services.job_service - INFO - Starting Job 85 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:42,272 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:45,471 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:45,472 - services.job_service - INFO - Job 81 completed with status: SUCCESS
+2025-08-28 16:27:45,606 - services.job_service - INFO - Batch (Job 81) finished with status: completed
+2025-08-28 16:27:45,689 - services.job_service - INFO - Starting Job 86 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:45,696 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:47,082 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:47,082 - services.job_service - INFO - Job 82 completed with status: SUCCESS
+2025-08-28 16:27:47,197 - services.job_service - INFO - Batch (Job 82) finished with status: completed
+2025-08-28 16:27:47,248 - services.job_service - INFO - Starting Job 87 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:47,253 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:47,618 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:47,619 - services.job_service - INFO - Job 83 completed with status: SUCCESS
+2025-08-28 16:27:47,792 - services.job_service - INFO - Batch (Job 83) finished with status: completed
+2025-08-28 16:27:47,898 - services.job_service - INFO - Starting Job 88 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:47,903 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:27:58,563 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:27:58,565 - services.job_service - INFO - Job 84 completed with status: SUCCESS
+2025-08-28 16:27:58,689 - services.job_service - INFO - Batch (Job 84) finished with status: completed
+2025-08-28 16:27:58,776 - services.job_service - INFO - Starting Job 89 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:27:58,782 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:01,128 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:01,129 - services.job_service - INFO - Job 85 completed with status: SUCCESS
+2025-08-28 16:28:01,288 - services.job_service - INFO - Batch (Job 85) finished with status: completed
+2025-08-28 16:28:01,426 - services.job_service - INFO - Starting Job 90 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:01,442 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:03,886 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:03,886 - services.job_service - INFO - Job 86 completed with status: SUCCESS
+2025-08-28 16:28:04,030 - services.job_service - INFO - Batch (Job 86) finished with status: completed
+2025-08-28 16:28:04,161 - services.job_service - INFO - Starting Job 91 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:04,166 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:05,272 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:05,274 - services.job_service - INFO - Job 87 completed with status: SUCCESS
+2025-08-28 16:28:05,407 - services.job_service - INFO - Batch (Job 87) finished with status: completed
+2025-08-28 16:28:05,497 - services.job_service - INFO - Starting Job 92 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:05,516 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:05,819 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:05,820 - services.job_service - INFO - Job 88 completed with status: SUCCESS
+2025-08-28 16:28:05,963 - services.job_service - INFO - Batch (Job 88) finished with status: completed
+2025-08-28 16:28:06,054 - services.job_service - INFO - Starting Job 93 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:06,059 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:17,204 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:17,205 - services.job_service - INFO - Job 89 completed with status: SUCCESS
+2025-08-28 16:28:17,313 - services.job_service - INFO - Batch (Job 89) finished with status: completed
+2025-08-28 16:28:17,363 - services.job_service - INFO - Starting Job 94 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:17,366 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:19,559 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:19,560 - services.job_service - INFO - Job 90 completed with status: SUCCESS
+2025-08-28 16:28:19,626 - services.job_service - INFO - Batch (Job 90) finished with status: completed
+2025-08-28 16:28:19,673 - services.job_service - INFO - Starting Job 95 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:19,678 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:21,785 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:21,785 - services.job_service - INFO - Job 91 completed with status: SUCCESS
+2025-08-28 16:28:21,841 - services.job_service - INFO - Batch (Job 91) finished with status: completed
+2025-08-28 16:28:21,892 - services.job_service - INFO - Starting Job 96 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:21,895 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:23,852 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:23,852 - services.job_service - INFO - Job 93 completed with status: SUCCESS
+2025-08-28 16:28:23,946 - services.job_service - INFO - Batch (Job 93) finished with status: completed
+2025-08-28 16:28:24,010 - services.job_service - INFO - Starting Job 97 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:24,014 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:24,160 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:24,161 - services.job_service - INFO - Job 92 completed with status: SUCCESS
+2025-08-28 16:28:24,273 - services.job_service - INFO - Batch (Job 92) finished with status: completed
+2025-08-28 16:28:24,330 - services.job_service - INFO - Starting Job 98 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:24,336 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:35,714 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:35,716 - services.job_service - INFO - Job 94 completed with status: SUCCESS
+2025-08-28 16:28:35,794 - services.job_service - INFO - Batch (Job 94) finished with status: completed
+2025-08-28 16:28:35,843 - services.job_service - INFO - Starting Job 99 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:35,847 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:37,318 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:37,318 - services.job_service - INFO - Job 95 completed with status: SUCCESS
+2025-08-28 16:28:37,401 - services.job_service - INFO - Batch (Job 95) finished with status: completed
+2025-08-28 16:28:37,453 - services.job_service - INFO - Starting Job 100 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:37,458 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:40,903 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:40,905 - services.job_service - INFO - Job 96 completed with status: SUCCESS
+2025-08-28 16:28:41,008 - services.job_service - INFO - Batch (Job 96) finished with status: completed
+2025-08-28 16:28:41,057 - services.job_service - INFO - Starting Job 101 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:41,060 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:42,873 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:42,874 - services.job_service - INFO - Job 97 completed with status: SUCCESS
+2025-08-28 16:28:42,933 - services.job_service - INFO - Batch (Job 97) finished with status: completed
+2025-08-28 16:28:42,981 - services.job_service - INFO - Starting Job 102 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:42,985 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:43,493 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:43,494 - services.job_service - INFO - Job 98 completed with status: SUCCESS
+2025-08-28 16:28:43,552 - services.job_service - INFO - Batch (Job 98) finished with status: completed
+2025-08-28 16:28:43,603 - services.job_service - INFO - Starting Job 103 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:43,607 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:54,772 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:54,773 - services.job_service - INFO - Job 99 completed with status: SUCCESS
+2025-08-28 16:28:54,862 - services.job_service - INFO - Batch (Job 99) finished with status: completed
+2025-08-28 16:28:54,912 - services.job_service - INFO - Starting Job 104 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:54,916 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:55,897 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:55,898 - services.job_service - INFO - Job 100 completed with status: SUCCESS
+2025-08-28 16:28:55,956 - services.job_service - INFO - Batch (Job 100) finished with status: completed
+2025-08-28 16:28:56,000 - services.job_service - INFO - Starting Job 105 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:56,003 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:28:57,863 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:28:57,864 - services.job_service - INFO - Job 101 completed with status: SUCCESS
+2025-08-28 16:28:57,924 - services.job_service - INFO - Batch (Job 101) finished with status: completed
+2025-08-28 16:28:57,976 - services.job_service - INFO - Starting Job 106 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:28:57,980 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:01,423 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:01,424 - services.job_service - INFO - Job 102 completed with status: SUCCESS
+2025-08-28 16:29:01,517 - services.job_service - INFO - Batch (Job 102) finished with status: completed
+2025-08-28 16:29:01,578 - services.job_service - INFO - Starting Job 107 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:01,586 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:02,369 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:02,370 - services.job_service - INFO - Job 103 completed with status: SUCCESS
+2025-08-28 16:29:02,470 - services.job_service - INFO - Batch (Job 103) finished with status: completed
+2025-08-28 16:29:02,534 - services.job_service - INFO - Starting Job 108 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:02,538 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:14,331 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:14,332 - services.job_service - INFO - Job 105 completed with status: SUCCESS
+2025-08-28 16:29:14,408 - services.job_service - INFO - Batch (Job 105) finished with status: completed
+2025-08-28 16:29:14,451 - services.job_service - INFO - Starting Job 109 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:14,455 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:15,055 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:15,057 - services.job_service - INFO - Job 104 completed with status: SUCCESS
+2025-08-28 16:29:15,157 - services.job_service - INFO - Batch (Job 104) finished with status: completed
+2025-08-28 16:29:15,202 - services.job_service - INFO - Starting Job 110 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:15,205 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:16,111 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:16,112 - services.job_service - INFO - Job 106 completed with status: SUCCESS
+2025-08-28 16:29:16,174 - services.job_service - INFO - Batch (Job 106) finished with status: completed
+2025-08-28 16:29:16,224 - services.job_service - INFO - Starting Job 111 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:16,229 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:19,990 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:19,992 - services.job_service - INFO - Job 107 completed with status: SUCCESS
+2025-08-28 16:29:20,094 - services.job_service - INFO - Batch (Job 107) finished with status: completed
+2025-08-28 16:29:20,140 - services.job_service - INFO - Starting Job 112 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:20,144 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:20,389 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:20,390 - services.job_service - INFO - Job 108 completed with status: SUCCESS
+2025-08-28 16:29:20,461 - services.job_service - INFO - Batch (Job 108) finished with status: completed
+2025-08-28 16:29:20,507 - services.job_service - INFO - Starting Job 113 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:20,510 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:33,272 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:33,274 - services.job_service - INFO - Job 109 completed with status: SUCCESS
+2025-08-28 16:29:33,345 - services.job_service - INFO - Batch (Job 109) finished with status: completed
+2025-08-28 16:29:33,389 - services.job_service - INFO - Starting Job 114 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:33,394 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:33,786 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:33,787 - services.job_service - INFO - Job 110 completed with status: SUCCESS
+2025-08-28 16:29:33,867 - services.job_service - INFO - Batch (Job 110) finished with status: completed
+2025-08-28 16:29:33,911 - services.job_service - INFO - Starting Job 115 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:33,916 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:34,536 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:34,537 - services.job_service - INFO - Job 111 completed with status: SUCCESS
+2025-08-28 16:29:34,631 - services.job_service - INFO - Batch (Job 111) finished with status: completed
+2025-08-28 16:29:34,677 - services.job_service - INFO - Starting Job 116 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:34,680 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:38,188 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:38,188 - services.job_service - INFO - Job 112 completed with status: SUCCESS
+2025-08-28 16:29:38,243 - services.job_service - INFO - Batch (Job 112) finished with status: completed
+2025-08-28 16:29:38,293 - services.job_service - INFO - Starting Job 117 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:38,298 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:39,014 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:39,015 - services.job_service - INFO - Job 113 completed with status: SUCCESS
+2025-08-28 16:29:39,082 - services.job_service - INFO - Batch (Job 113) finished with status: completed
+2025-08-28 16:29:39,131 - services.job_service - INFO - Starting Job 118 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:39,135 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:51,842 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:51,844 - services.job_service - INFO - Job 115 completed with status: SUCCESS
+2025-08-28 16:29:51,953 - services.job_service - INFO - Batch (Job 115) finished with status: completed
+2025-08-28 16:29:51,996 - services.job_service - INFO - Starting Job 119 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:52,001 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:52,256 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:52,258 - services.job_service - INFO - Job 114 completed with status: SUCCESS
+2025-08-28 16:29:52,375 - services.job_service - INFO - Batch (Job 114) finished with status: completed
+2025-08-28 16:29:52,423 - services.job_service - INFO - Starting Job 120 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:52,427 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:53,066 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:53,067 - services.job_service - INFO - Job 116 completed with status: SUCCESS
+2025-08-28 16:29:53,166 - services.job_service - INFO - Batch (Job 116) finished with status: completed
+2025-08-28 16:29:53,220 - services.job_service - INFO - Starting Job 121 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:53,225 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:56,732 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:56,733 - services.job_service - INFO - Job 117 completed with status: SUCCESS
+2025-08-28 16:29:56,805 - services.job_service - INFO - Batch (Job 117) finished with status: completed
+2025-08-28 16:29:56,868 - services.job_service - INFO - Starting Job 122 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:56,872 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:29:57,197 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:29:57,200 - services.job_service - INFO - Job 118 completed with status: SUCCESS
+2025-08-28 16:29:57,293 - services.job_service - INFO - Batch (Job 118) finished with status: completed
+2025-08-28 16:29:57,340 - services.job_service - INFO - Starting Job 123 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:29:57,345 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:09,728 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:09,729 - services.job_service - INFO - Job 120 completed with status: SUCCESS
+2025-08-28 16:30:09,786 - services.job_service - INFO - Batch (Job 120) finished with status: completed
+2025-08-28 16:30:09,839 - services.job_service - INFO - Starting Job 124 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:09,844 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:10,253 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:10,254 - services.job_service - INFO - Job 119 completed with status: SUCCESS
+2025-08-28 16:30:10,309 - services.job_service - INFO - Batch (Job 119) finished with status: completed
+2025-08-28 16:30:10,356 - services.job_service - INFO - Starting Job 125 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:10,360 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:11,997 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:11,999 - services.job_service - INFO - Job 121 completed with status: SUCCESS
+2025-08-28 16:30:12,112 - services.job_service - INFO - Batch (Job 121) finished with status: completed
+2025-08-28 16:30:12,159 - services.job_service - INFO - Starting Job 126 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:12,163 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:14,670 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:14,672 - services.job_service - INFO - Job 123 completed with status: SUCCESS
+2025-08-28 16:30:14,737 - services.job_service - INFO - Batch (Job 123) finished with status: completed
+2025-08-28 16:30:14,784 - services.job_service - INFO - Starting Job 127 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:14,787 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:14,885 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:14,886 - services.job_service - INFO - Job 122 completed with status: SUCCESS
+2025-08-28 16:30:14,970 - services.job_service - INFO - Batch (Job 122) finished with status: completed
+2025-08-28 16:30:15,013 - services.job_service - INFO - Starting Job 128 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:15,018 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:28,502 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:28,503 - services.job_service - INFO - Job 124 completed with status: SUCCESS
+2025-08-28 16:30:28,580 - services.job_service - INFO - Batch (Job 124) finished with status: completed
+2025-08-28 16:30:28,625 - services.job_service - INFO - Starting Job 129 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:28,629 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:29,086 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:29,087 - services.job_service - INFO - Job 125 completed with status: SUCCESS
+2025-08-28 16:30:29,176 - services.job_service - INFO - Batch (Job 125) finished with status: completed
+2025-08-28 16:30:29,218 - services.job_service - INFO - Starting Job 130 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:29,224 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:30,522 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:30,524 - services.job_service - INFO - Job 126 completed with status: SUCCESS
+2025-08-28 16:30:30,589 - services.job_service - INFO - Batch (Job 126) finished with status: completed
+2025-08-28 16:30:30,640 - services.job_service - INFO - Starting Job 131 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:30,644 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:33,187 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:33,189 - services.job_service - INFO - Job 127 completed with status: SUCCESS
+2025-08-28 16:30:33,264 - services.job_service - INFO - Batch (Job 127) finished with status: completed
+2025-08-28 16:30:33,306 - services.job_service - INFO - Starting Job 132 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:33,310 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:34,211 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:34,212 - services.job_service - INFO - Job 128 completed with status: SUCCESS
+2025-08-28 16:30:34,286 - services.job_service - INFO - Batch (Job 128) finished with status: completed
+2025-08-28 16:30:34,330 - services.job_service - INFO - Starting Job 133 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:34,333 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:47,102 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:47,103 - services.job_service - INFO - Job 129 completed with status: SUCCESS
+2025-08-28 16:30:47,227 - services.job_service - INFO - Batch (Job 129) finished with status: completed
+2025-08-28 16:30:47,270 - services.job_service - INFO - Starting Job 134 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:47,273 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:47,410 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:47,412 - services.job_service - INFO - Job 130 completed with status: SUCCESS
+2025-08-28 16:30:47,483 - services.job_service - INFO - Batch (Job 130) finished with status: completed
+2025-08-28 16:30:47,525 - services.job_service - INFO - Starting Job 135 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:47,530 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:48,890 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:48,891 - services.job_service - INFO - Job 131 completed with status: SUCCESS
+2025-08-28 16:30:48,962 - services.job_service - INFO - Batch (Job 131) finished with status: completed
+2025-08-28 16:30:49,011 - services.job_service - INFO - Starting Job 136 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:49,014 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:51,185 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:51,185 - services.job_service - INFO - Job 132 completed with status: SUCCESS
+2025-08-28 16:30:51,246 - services.job_service - INFO - Batch (Job 132) finished with status: completed
+2025-08-28 16:30:51,295 - services.job_service - INFO - Starting Job 137 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:51,299 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:30:52,746 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:30:52,747 - services.job_service - INFO - Job 133 completed with status: SUCCESS
+2025-08-28 16:30:52,819 - services.job_service - INFO - Batch (Job 133) finished with status: completed
+2025-08-28 16:30:52,865 - services.job_service - INFO - Starting Job 138 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:30:52,868 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:04,923 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:04,924 - services.job_service - INFO - Job 134 completed with status: SUCCESS
+2025-08-28 16:31:05,026 - services.job_service - INFO - Batch (Job 134) finished with status: completed
+2025-08-28 16:31:05,075 - services.job_service - INFO - Starting Job 139 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:05,079 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:05,808 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:05,809 - services.job_service - INFO - Job 135 completed with status: SUCCESS
+2025-08-28 16:31:05,876 - services.job_service - INFO - Batch (Job 135) finished with status: completed
+2025-08-28 16:31:05,921 - services.job_service - INFO - Starting Job 140 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:05,925 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:06,885 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:06,886 - services.job_service - INFO - Job 136 completed with status: SUCCESS
+2025-08-28 16:31:06,971 - services.job_service - INFO - Batch (Job 136) finished with status: completed
+2025-08-28 16:31:07,023 - services.job_service - INFO - Starting Job 141 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:07,026 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:09,336 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:09,337 - services.job_service - INFO - Job 137 completed with status: SUCCESS
+2025-08-28 16:31:09,399 - services.job_service - INFO - Batch (Job 137) finished with status: completed
+2025-08-28 16:31:09,450 - services.job_service - INFO - Starting Job 142 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:09,454 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:10,596 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:10,597 - services.job_service - INFO - Job 138 completed with status: SUCCESS
+2025-08-28 16:31:10,661 - services.job_service - INFO - Batch (Job 138) finished with status: completed
+2025-08-28 16:31:10,713 - services.job_service - INFO - Starting Job 143 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:10,717 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:23,763 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:23,764 - services.job_service - INFO - Job 139 completed with status: SUCCESS
+2025-08-28 16:31:23,837 - services.job_service - INFO - Batch (Job 139) finished with status: completed
+2025-08-28 16:31:23,883 - services.job_service - INFO - Starting Job 144 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:23,888 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:24,656 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:24,657 - services.job_service - INFO - Job 140 completed with status: SUCCESS
+2025-08-28 16:31:24,768 - services.job_service - INFO - Batch (Job 140) finished with status: completed
+2025-08-28 16:31:24,811 - services.job_service - INFO - Starting Job 145 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:24,814 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:25,517 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:25,518 - services.job_service - INFO - Job 141 completed with status: SUCCESS
+2025-08-28 16:31:25,607 - services.job_service - INFO - Batch (Job 141) finished with status: completed
+2025-08-28 16:31:25,657 - services.job_service - INFO - Starting Job 146 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:25,661 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:27,790 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:27,791 - services.job_service - INFO - Job 142 completed with status: SUCCESS
+2025-08-28 16:31:27,844 - services.job_service - INFO - Batch (Job 142) finished with status: completed
+2025-08-28 16:31:27,890 - services.job_service - INFO - Starting Job 147 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:27,894 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:29,914 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:29,914 - services.job_service - INFO - Job 143 completed with status: SUCCESS
+2025-08-28 16:31:29,971 - services.job_service - INFO - Batch (Job 143) finished with status: completed
+2025-08-28 16:31:30,024 - services.job_service - INFO - Starting Job 148 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:30,029 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:42,339 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:42,340 - services.job_service - INFO - Job 144 completed with status: SUCCESS
+2025-08-28 16:31:42,425 - services.job_service - INFO - Batch (Job 144) finished with status: completed
+2025-08-28 16:31:42,474 - services.job_service - INFO - Starting Job 149 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:42,480 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:43,787 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:43,787 - services.job_service - INFO - Job 145 completed with status: SUCCESS
+2025-08-28 16:31:43,867 - services.job_service - INFO - Batch (Job 145) finished with status: completed
+2025-08-28 16:31:43,918 - services.job_service - INFO - Starting Job 150 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:43,922 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:43,986 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:43,987 - services.job_service - INFO - Job 146 completed with status: SUCCESS
+2025-08-28 16:31:44,094 - services.job_service - INFO - Batch (Job 146) finished with status: completed
+2025-08-28 16:31:44,149 - services.job_service - INFO - Starting Job 151 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:44,153 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:46,623 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:46,624 - services.job_service - INFO - Job 147 completed with status: SUCCESS
+2025-08-28 16:31:46,759 - services.job_service - INFO - Batch (Job 147) finished with status: completed
+2025-08-28 16:31:46,821 - services.job_service - INFO - Starting Job 152 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:46,825 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:31:48,445 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:31:48,445 - services.job_service - INFO - Job 148 completed with status: SUCCESS
+2025-08-28 16:31:48,506 - services.job_service - INFO - Batch (Job 148) finished with status: completed
+2025-08-28 16:31:48,561 - services.job_service - INFO - Starting Job 153 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:31:48,567 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:02,791 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:02,793 - services.job_service - INFO - Job 151 completed with status: SUCCESS
+2025-08-28 16:32:02,929 - services.job_service - INFO - Batch (Job 151) finished with status: completed
+2025-08-28 16:32:03,008 - services.job_service - INFO - Starting Job 154 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:03,014 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:03,016 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:03,016 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 141 column 35 (char 3386)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 141 column 35 (char 3386)
+2025-08-28 16:32:03,019 - services.job_service - WARNING - Job 150 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:32:03,026 - services.job_service - ERROR - Batch (Job 150) finished with status: failed
+2025-08-28 16:32:03,102 - services.job_service - INFO - Starting Job 155 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:03,106 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:05,625 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:05,626 - services.job_service - INFO - Job 152 completed with status: SUCCESS
+2025-08-28 16:32:05,780 - services.job_service - INFO - Batch (Job 152) finished with status: completed
+2025-08-28 16:32:05,902 - services.job_service - INFO - Starting Job 156 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:05,908 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:07,394 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:07,396 - services.job_service - INFO - Job 153 completed with status: SUCCESS
+2025-08-28 16:32:07,500 - services.job_service - INFO - Batch (Job 153) finished with status: completed
+2025-08-28 16:32:07,582 - services.job_service - INFO - Starting Job 157 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:07,587 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:14,142 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:14,143 - services.job_service - INFO - Job 149 completed with status: SUCCESS
+2025-08-28 16:32:14,255 - services.job_service - INFO - Batch (Job 149) finished with status: completed
+2025-08-28 16:32:14,382 - services.job_service - INFO - Starting Job 158 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:14,389 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:20,908 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:20,909 - services.job_service - INFO - Job 155 completed with status: SUCCESS
+2025-08-28 16:32:20,996 - services.job_service - INFO - Batch (Job 155) finished with status: completed
+2025-08-28 16:32:21,081 - services.job_service - INFO - Starting Job 159 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:21,086 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:21,088 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:21,089 - services.job_service - INFO - Job 154 completed with status: SUCCESS
+2025-08-28 16:32:21,165 - services.job_service - INFO - Batch (Job 154) finished with status: completed
+2025-08-28 16:32:21,242 - services.job_service - INFO - Starting Job 160 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:21,246 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:23,983 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:23,985 - services.job_service - INFO - Job 156 completed with status: SUCCESS
+2025-08-28 16:32:24,128 - services.job_service - INFO - Batch (Job 156) finished with status: completed
+2025-08-28 16:32:24,235 - services.job_service - INFO - Starting Job 161 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:24,241 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:26,228 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:26,229 - services.job_service - INFO - Job 157 completed with status: SUCCESS
+2025-08-28 16:32:26,378 - services.job_service - INFO - Batch (Job 157) finished with status: completed
+2025-08-28 16:32:26,433 - services.job_service - INFO - Starting Job 162 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:26,435 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:33,063 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:33,064 - services.job_service - INFO - Job 158 completed with status: SUCCESS
+2025-08-28 16:32:33,137 - services.job_service - INFO - Batch (Job 158) finished with status: completed
+2025-08-28 16:32:33,182 - services.job_service - INFO - Starting Job 163 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:33,185 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:39,443 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:39,444 - services.job_service - INFO - Job 160 completed with status: SUCCESS
+2025-08-28 16:32:39,507 - services.job_service - INFO - Batch (Job 160) finished with status: completed
+2025-08-28 16:32:39,555 - services.job_service - INFO - Starting Job 164 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:39,559 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:39,579 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:39,580 - services.job_service - INFO - Job 159 completed with status: SUCCESS
+2025-08-28 16:32:39,638 - services.job_service - INFO - Batch (Job 159) finished with status: completed
+2025-08-28 16:32:39,684 - services.job_service - INFO - Starting Job 165 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:39,687 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:42,088 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:42,089 - services.job_service - INFO - Job 161 completed with status: SUCCESS
+2025-08-28 16:32:42,151 - services.job_service - INFO - Batch (Job 161) finished with status: completed
+2025-08-28 16:32:42,199 - services.job_service - INFO - Starting Job 166 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:42,203 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:45,586 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:45,588 - services.job_service - INFO - Job 162 completed with status: SUCCESS
+2025-08-28 16:32:45,653 - services.job_service - INFO - Batch (Job 162) finished with status: completed
+2025-08-28 16:32:45,698 - services.job_service - INFO - Starting Job 167 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:45,701 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:51,857 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:51,858 - services.job_service - INFO - Job 163 completed with status: SUCCESS
+2025-08-28 16:32:51,971 - services.job_service - INFO - Batch (Job 163) finished with status: completed
+2025-08-28 16:32:52,019 - services.job_service - INFO - Starting Job 168 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:52,023 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:58,392 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:58,393 - services.job_service - INFO - Job 164 completed with status: SUCCESS
+2025-08-28 16:32:58,445 - services.job_service - INFO - Batch (Job 164) finished with status: completed
+2025-08-28 16:32:58,491 - services.job_service - INFO - Starting Job 169 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:58,496 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:32:58,497 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:32:58,498 - services.job_service - INFO - Job 165 completed with status: SUCCESS
+2025-08-28 16:32:58,556 - services.job_service - INFO - Batch (Job 165) finished with status: completed
+2025-08-28 16:32:58,604 - services.job_service - INFO - Starting Job 170 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:32:58,607 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:01,125 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:01,127 - services.job_service - INFO - Job 166 completed with status: SUCCESS
+2025-08-28 16:33:01,203 - services.job_service - INFO - Batch (Job 166) finished with status: completed
+2025-08-28 16:33:01,247 - services.job_service - INFO - Starting Job 171 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:01,250 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:04,582 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:04,582 - services.job_service - INFO - Job 167 completed with status: SUCCESS
+2025-08-28 16:33:04,647 - services.job_service - INFO - Batch (Job 167) finished with status: completed
+2025-08-28 16:33:04,710 - services.job_service - INFO - Starting Job 172 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:04,714 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:10,694 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:10,695 - services.job_service - INFO - Job 168 completed with status: SUCCESS
+2025-08-28 16:33:10,758 - services.job_service - INFO - Batch (Job 168) finished with status: completed
+2025-08-28 16:33:10,809 - services.job_service - INFO - Starting Job 173 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:10,813 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:16,869 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:16,870 - services.job_service - INFO - Job 169 completed with status: SUCCESS
+2025-08-28 16:33:16,931 - services.job_service - INFO - Batch (Job 169) finished with status: completed
+2025-08-28 16:33:16,976 - services.job_service - INFO - Starting Job 174 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:16,979 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:17,431 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:17,433 - services.job_service - INFO - Job 170 completed with status: SUCCESS
+2025-08-28 16:33:17,554 - services.job_service - INFO - Batch (Job 170) finished with status: completed
+2025-08-28 16:33:17,598 - services.job_service - INFO - Starting Job 175 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:17,601 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:19,824 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:19,825 - services.job_service - INFO - Job 171 completed with status: SUCCESS
+2025-08-28 16:33:19,881 - services.job_service - INFO - Batch (Job 171) finished with status: completed
+2025-08-28 16:33:19,931 - services.job_service - INFO - Starting Job 176 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:19,935 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:23,190 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:23,190 - services.job_service - INFO - Job 172 completed with status: SUCCESS
+2025-08-28 16:33:23,260 - services.job_service - INFO - Batch (Job 172) finished with status: completed
+2025-08-28 16:33:23,310 - services.job_service - INFO - Starting Job 177 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:23,314 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:29,208 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:29,208 - services.job_service - INFO - Job 173 completed with status: SUCCESS
+2025-08-28 16:33:29,270 - services.job_service - INFO - Batch (Job 173) finished with status: completed
+2025-08-28 16:33:29,319 - services.job_service - INFO - Starting Job 178 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:29,324 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:34,839 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:34,840 - services.job_service - INFO - Job 174 completed with status: SUCCESS
+2025-08-28 16:33:34,901 - services.job_service - INFO - Batch (Job 174) finished with status: completed
+2025-08-28 16:33:34,948 - services.job_service - INFO - Starting Job 179 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:34,953 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:35,545 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:35,546 - services.job_service - INFO - Job 175 completed with status: SUCCESS
+2025-08-28 16:33:35,606 - services.job_service - INFO - Batch (Job 175) finished with status: completed
+2025-08-28 16:33:35,652 - services.job_service - INFO - Starting Job 180 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:35,656 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:37,856 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:37,857 - services.job_service - INFO - Job 176 completed with status: SUCCESS
+2025-08-28 16:33:37,916 - services.job_service - INFO - Batch (Job 176) finished with status: completed
+2025-08-28 16:33:37,968 - services.job_service - INFO - Starting Job 181 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:37,972 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:42,087 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:42,088 - services.job_service - INFO - Job 177 completed with status: SUCCESS
+2025-08-28 16:33:42,175 - services.job_service - INFO - Batch (Job 177) finished with status: completed
+2025-08-28 16:33:42,222 - services.job_service - INFO - Starting Job 182 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:42,225 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:47,956 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:47,957 - services.job_service - INFO - Job 178 completed with status: SUCCESS
+2025-08-28 16:33:48,021 - services.job_service - INFO - Batch (Job 178) finished with status: completed
+2025-08-28 16:33:48,067 - services.job_service - INFO - Starting Job 183 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:48,071 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:53,169 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:53,170 - services.job_service - INFO - Job 179 completed with status: SUCCESS
+2025-08-28 16:33:53,227 - services.job_service - INFO - Batch (Job 179) finished with status: completed
+2025-08-28 16:33:53,271 - services.job_service - INFO - Starting Job 184 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:53,277 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:54,203 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:54,204 - services.job_service - INFO - Job 180 completed with status: SUCCESS
+2025-08-28 16:33:54,270 - services.job_service - INFO - Batch (Job 180) finished with status: completed
+2025-08-28 16:33:54,320 - services.job_service - INFO - Starting Job 185 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:54,322 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:33:57,291 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:33:57,293 - services.job_service - INFO - Job 181 completed with status: SUCCESS
+2025-08-28 16:33:57,417 - services.job_service - INFO - Batch (Job 181) finished with status: completed
+2025-08-28 16:33:57,465 - services.job_service - INFO - Starting Job 186 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:33:57,469 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:00,557 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:00,558 - services.job_service - INFO - Job 182 completed with status: SUCCESS
+2025-08-28 16:34:00,615 - services.job_service - INFO - Batch (Job 182) finished with status: completed
+2025-08-28 16:34:00,667 - services.job_service - INFO - Starting Job 187 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:00,671 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:06,889 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:06,889 - services.job_service - INFO - Job 183 completed with status: SUCCESS
+2025-08-28 16:34:06,942 - services.job_service - INFO - Batch (Job 183) finished with status: completed
+2025-08-28 16:34:06,988 - services.job_service - INFO - Starting Job 188 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:06,991 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:12,812 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:12,814 - services.job_service - INFO - Job 184 completed with status: SUCCESS
+2025-08-28 16:34:12,896 - services.job_service - INFO - Batch (Job 184) finished with status: completed
+2025-08-28 16:34:12,939 - services.job_service - INFO - Starting Job 189 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:12,942 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:13,448 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:13,450 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 10 column 31 (char 227)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 10 column 31 (char 227)
+2025-08-28 16:34:13,460 - services.job_service - WARNING - Job 185 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:34:13,477 - services.job_service - ERROR - Batch (Job 185) finished with status: failed
+2025-08-28 16:34:13,542 - services.job_service - INFO - Starting Job 190 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:13,546 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:15,046 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:15,048 - services.job_service - INFO - Job 186 completed with status: SUCCESS
+2025-08-28 16:34:15,111 - services.job_service - INFO - Batch (Job 186) finished with status: completed
+2025-08-28 16:34:15,164 - services.job_service - INFO - Starting Job 191 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:15,168 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:19,105 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:19,106 - services.job_service - INFO - Job 187 completed with status: SUCCESS
+2025-08-28 16:34:19,172 - services.job_service - INFO - Batch (Job 187) finished with status: completed
+2025-08-28 16:34:19,218 - services.job_service - INFO - Starting Job 192 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:19,222 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:25,629 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:25,630 - services.job_service - INFO - Job 188 completed with status: SUCCESS
+2025-08-28 16:34:25,701 - services.job_service - INFO - Batch (Job 188) finished with status: completed
+2025-08-28 16:34:25,752 - services.job_service - INFO - Starting Job 193 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:25,757 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:31,496 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:31,497 - services.job_service - INFO - Job 189 completed with status: SUCCESS
+2025-08-28 16:34:31,557 - services.job_service - INFO - Batch (Job 189) finished with status: completed
+2025-08-28 16:34:31,604 - services.job_service - INFO - Starting Job 194 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:31,608 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:31,902 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:31,902 - services.job_service - INFO - Job 190 completed with status: SUCCESS
+2025-08-28 16:34:31,957 - services.job_service - INFO - Batch (Job 190) finished with status: completed
+2025-08-28 16:34:32,006 - services.job_service - INFO - Starting Job 195 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:32,010 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:33,434 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:33,436 - services.job_service - INFO - Job 191 completed with status: SUCCESS
+2025-08-28 16:34:33,527 - services.job_service - INFO - Batch (Job 191) finished with status: completed
+2025-08-28 16:34:33,579 - services.job_service - INFO - Starting Job 196 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:33,584 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:38,540 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:38,541 - services.job_service - INFO - Job 192 completed with status: SUCCESS
+2025-08-28 16:34:38,601 - services.job_service - INFO - Batch (Job 192) finished with status: completed
+2025-08-28 16:34:38,649 - services.job_service - INFO - Starting Job 197 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:38,652 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:42,854 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:42,854 - services.job_service - INFO - Job 193 completed with status: SUCCESS
+2025-08-28 16:34:42,918 - services.job_service - INFO - Batch (Job 193) finished with status: completed
+2025-08-28 16:34:42,970 - services.job_service - INFO - Starting Job 198 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:42,975 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:51,865 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:51,865 - services.job_service - INFO - Job 194 completed with status: SUCCESS
+2025-08-28 16:34:51,923 - services.job_service - INFO - Batch (Job 194) finished with status: completed
+2025-08-28 16:34:51,978 - services.job_service - INFO - Starting Job 199 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:51,982 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:52,077 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:52,078 - services.job_service - INFO - Job 195 completed with status: SUCCESS
+2025-08-28 16:34:52,138 - services.job_service - INFO - Batch (Job 195) finished with status: completed
+2025-08-28 16:34:52,186 - services.job_service - INFO - Starting Job 200 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:52,192 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:53,176 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:53,177 - services.job_service - INFO - Job 196 completed with status: SUCCESS
+2025-08-28 16:34:53,281 - services.job_service - INFO - Batch (Job 196) finished with status: completed
+2025-08-28 16:34:53,334 - services.job_service - INFO - Starting Job 201 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:53,338 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:34:58,318 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:34:58,319 - services.job_service - INFO - Job 197 completed with status: SUCCESS
+2025-08-28 16:34:58,375 - services.job_service - INFO - Batch (Job 197) finished with status: completed
+2025-08-28 16:34:58,429 - services.job_service - INFO - Starting Job 202 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:34:58,434 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:00,551 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:00,552 - services.job_service - INFO - Job 198 completed with status: SUCCESS
+2025-08-28 16:35:00,621 - services.job_service - INFO - Batch (Job 198) finished with status: completed
+2025-08-28 16:35:00,666 - services.job_service - INFO - Starting Job 203 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:00,670 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:10,085 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:10,086 - services.job_service - INFO - Job 201 completed with status: SUCCESS
+2025-08-28 16:35:10,197 - services.job_service - INFO - Batch (Job 201) finished with status: completed
+2025-08-28 16:35:10,243 - services.job_service - INFO - Starting Job 204 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:10,249 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:10,805 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:10,807 - services.job_service - INFO - Job 199 completed with status: SUCCESS
+2025-08-28 16:35:10,917 - services.job_service - INFO - Batch (Job 199) finished with status: completed
+2025-08-28 16:35:10,962 - services.job_service - INFO - Starting Job 205 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:10,965 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:12,389 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:12,391 - services.job_service - INFO - Job 200 completed with status: SUCCESS
+2025-08-28 16:35:12,535 - services.job_service - INFO - Batch (Job 200) finished with status: completed
+2025-08-28 16:35:12,586 - services.job_service - INFO - Starting Job 206 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:12,590 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:17,654 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:17,656 - services.job_service - INFO - Job 202 completed with status: SUCCESS
+2025-08-28 16:35:17,720 - services.job_service - INFO - Batch (Job 202) finished with status: completed
+2025-08-28 16:35:17,768 - services.job_service - INFO - Starting Job 207 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:17,773 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:19,400 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:19,401 - services.job_service - INFO - Job 203 completed with status: SUCCESS
+2025-08-28 16:35:19,474 - services.job_service - INFO - Batch (Job 203) finished with status: completed
+2025-08-28 16:35:19,527 - services.job_service - INFO - Starting Job 208 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:19,533 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:28,732 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:28,732 - services.job_service - INFO - Job 204 completed with status: SUCCESS
+2025-08-28 16:35:28,801 - services.job_service - INFO - Batch (Job 204) finished with status: completed
+2025-08-28 16:35:28,859 - services.job_service - INFO - Starting Job 209 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:28,864 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:29,335 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:29,336 - services.job_service - INFO - Job 205 completed with status: SUCCESS
+2025-08-28 16:35:29,458 - services.job_service - INFO - Batch (Job 205) finished with status: completed
+2025-08-28 16:35:29,534 - services.job_service - INFO - Starting Job 210 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:29,538 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:30,493 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:30,493 - services.job_service - INFO - Job 206 completed with status: SUCCESS
+2025-08-28 16:35:30,616 - services.job_service - INFO - Batch (Job 206) finished with status: completed
+2025-08-28 16:35:30,660 - services.job_service - INFO - Starting Job 211 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:30,665 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:36,504 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:36,505 - services.job_service - INFO - Job 207 completed with status: SUCCESS
+2025-08-28 16:35:36,624 - services.job_service - INFO - Batch (Job 207) finished with status: completed
+2025-08-28 16:35:36,677 - services.job_service - INFO - Starting Job 212 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:36,682 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:37,951 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:37,952 - services.job_service - INFO - Job 208 completed with status: SUCCESS
+2025-08-28 16:35:38,038 - services.job_service - INFO - Batch (Job 208) finished with status: completed
+2025-08-28 16:35:38,104 - services.job_service - INFO - Starting Job 213 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:38,108 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:47,260 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:47,262 - services.job_service - INFO - Job 209 completed with status: SUCCESS
+2025-08-28 16:35:47,382 - services.job_service - INFO - Batch (Job 209) finished with status: completed
+2025-08-28 16:35:47,441 - services.job_service - INFO - Starting Job 214 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:47,445 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:47,962 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:47,963 - services.job_service - INFO - Job 210 completed with status: SUCCESS
+2025-08-28 16:35:48,082 - services.job_service - INFO - Batch (Job 210) finished with status: completed
+2025-08-28 16:35:48,138 - services.job_service - INFO - Starting Job 215 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:48,143 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:48,805 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:48,806 - services.job_service - INFO - Job 211 completed with status: SUCCESS
+2025-08-28 16:35:48,865 - services.job_service - INFO - Batch (Job 211) finished with status: completed
+2025-08-28 16:35:48,919 - services.job_service - INFO - Starting Job 216 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:48,923 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:53,490 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:53,491 - services.job_service - INFO - Job 212 completed with status: SUCCESS
+2025-08-28 16:35:53,546 - services.job_service - INFO - Batch (Job 212) finished with status: completed
+2025-08-28 16:35:53,597 - services.job_service - INFO - Starting Job 217 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:53,603 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:35:57,484 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:35:57,484 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 37 column 34 (char 893)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 37 column 34 (char 893)
+2025-08-28 16:35:57,486 - services.job_service - WARNING - Job 213 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:35:57,504 - services.job_service - ERROR - Batch (Job 213) finished with status: failed
+2025-08-28 16:35:57,583 - services.job_service - INFO - Starting Job 218 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:35:57,588 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:06,060 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:06,062 - services.job_service - INFO - Job 214 completed with status: SUCCESS
+2025-08-28 16:36:06,136 - services.job_service - INFO - Batch (Job 214) finished with status: completed
+2025-08-28 16:36:06,186 - services.job_service - INFO - Starting Job 219 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:06,192 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:06,923 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:06,924 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 25 column 35 (char 609)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 25 column 35 (char 609)
+2025-08-28 16:36:06,928 - services.job_service - WARNING - Job 215 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:36:06,943 - services.job_service - ERROR - Batch (Job 215) finished with status: failed
+2025-08-28 16:36:07,014 - services.job_service - INFO - Starting Job 220 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:07,019 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:08,122 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:08,123 - services.job_service - INFO - Job 216 completed with status: SUCCESS
+2025-08-28 16:36:08,215 - services.job_service - INFO - Batch (Job 216) finished with status: completed
+2025-08-28 16:36:08,265 - services.job_service - INFO - Starting Job 221 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:08,270 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:12,906 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:12,907 - services.job_service - INFO - Job 217 completed with status: SUCCESS
+2025-08-28 16:36:12,974 - services.job_service - INFO - Batch (Job 217) finished with status: completed
+2025-08-28 16:36:13,021 - services.job_service - INFO - Starting Job 222 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:13,026 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:16,871 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:16,871 - services.job_service - INFO - Job 218 completed with status: SUCCESS
+2025-08-28 16:36:16,935 - services.job_service - INFO - Batch (Job 218) finished with status: completed
+2025-08-28 16:36:16,980 - services.job_service - INFO - Starting Job 223 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:16,984 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:25,423 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:25,424 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 103 column 36 (char 2456)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 103 column 36 (char 2456)
+2025-08-28 16:36:25,426 - services.job_service - WARNING - Job 219 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:36:25,436 - services.job_service - ERROR - Batch (Job 219) finished with status: failed
+2025-08-28 16:36:25,500 - services.job_service - INFO - Starting Job 224 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:25,503 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:26,068 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:26,069 - services.job_service - INFO - Job 220 completed with status: SUCCESS
+2025-08-28 16:36:26,167 - services.job_service - INFO - Batch (Job 220) finished with status: completed
+2025-08-28 16:36:26,220 - services.job_service - INFO - Starting Job 225 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:26,223 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:26,590 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:26,590 - services.job_service - INFO - Job 221 completed with status: SUCCESS
+2025-08-28 16:36:26,666 - services.job_service - INFO - Batch (Job 221) finished with status: completed
+2025-08-28 16:36:26,721 - services.job_service - INFO - Starting Job 226 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:26,724 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:31,689 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:31,690 - services.job_service - INFO - Job 222 completed with status: SUCCESS
+2025-08-28 16:36:31,781 - services.job_service - INFO - Batch (Job 222) finished with status: completed
+2025-08-28 16:36:31,826 - services.job_service - INFO - Starting Job 227 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:31,830 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:33,792 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:33,793 - services.job_service - INFO - Job 223 completed with status: SUCCESS
+2025-08-28 16:36:33,868 - services.job_service - INFO - Batch (Job 223) finished with status: completed
+2025-08-28 16:36:34,013 - services.job_service - INFO - Starting Job 228 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:34,018 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:43,400 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:43,401 - services.job_service - INFO - Job 226 completed with status: SUCCESS
+2025-08-28 16:36:43,524 - services.job_service - INFO - Batch (Job 226) finished with status: completed
+2025-08-28 16:36:43,570 - services.job_service - INFO - Starting Job 229 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:43,574 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:44,117 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:44,119 - services.job_service - INFO - Job 224 completed with status: SUCCESS
+2025-08-28 16:36:44,266 - services.job_service - INFO - Batch (Job 224) finished with status: completed
+2025-08-28 16:36:44,324 - services.job_service - INFO - Starting Job 230 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:44,328 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:44,913 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:44,914 - services.job_service - INFO - Job 225 completed with status: SUCCESS
+2025-08-28 16:36:45,027 - services.job_service - INFO - Batch (Job 225) finished with status: completed
+2025-08-28 16:36:45,114 - services.job_service - INFO - Starting Job 231 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:45,121 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:50,234 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:50,235 - services.job_service - INFO - Job 227 completed with status: SUCCESS
+2025-08-28 16:36:50,320 - services.job_service - INFO - Batch (Job 227) finished with status: completed
+2025-08-28 16:36:50,388 - services.job_service - INFO - Starting Job 232 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:50,393 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:36:52,893 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:36:52,894 - services.job_service - INFO - Job 228 completed with status: SUCCESS
+2025-08-28 16:36:53,005 - services.job_service - INFO - Batch (Job 228) finished with status: completed
+2025-08-28 16:36:53,067 - services.job_service - INFO - Starting Job 233 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:36:53,072 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:02,175 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:02,177 - services.job_service - INFO - Job 229 completed with status: SUCCESS
+2025-08-28 16:37:02,268 - services.job_service - INFO - Batch (Job 229) finished with status: completed
+2025-08-28 16:37:02,316 - services.job_service - INFO - Starting Job 234 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:02,321 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:03,241 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:03,243 - services.job_service - INFO - Job 230 completed with status: SUCCESS
+2025-08-28 16:37:03,345 - services.job_service - INFO - Batch (Job 230) finished with status: completed
+2025-08-28 16:37:03,459 - services.job_service - INFO - Starting Job 235 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:03,464 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:03,745 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:03,745 - services.job_service - INFO - Job 231 completed with status: SUCCESS
+2025-08-28 16:37:03,854 - services.job_service - INFO - Batch (Job 231) finished with status: completed
+2025-08-28 16:37:03,957 - services.job_service - INFO - Starting Job 236 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:03,962 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:09,064 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:09,064 - services.job_service - INFO - Job 232 completed with status: SUCCESS
+2025-08-28 16:37:09,117 - services.job_service - INFO - Batch (Job 232) finished with status: completed
+2025-08-28 16:37:09,163 - services.job_service - INFO - Starting Job 237 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:09,169 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:11,045 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:11,046 - services.job_service - INFO - Job 233 completed with status: SUCCESS
+2025-08-28 16:37:11,109 - services.job_service - INFO - Batch (Job 233) finished with status: completed
+2025-08-28 16:37:11,155 - services.job_service - INFO - Starting Job 238 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:11,158 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:20,481 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:20,483 - services.job_service - INFO - Job 234 completed with status: SUCCESS
+2025-08-28 16:37:20,669 - services.job_service - INFO - Batch (Job 234) finished with status: completed
+2025-08-28 16:37:20,877 - services.job_service - INFO - Starting Job 239 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:20,891 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:22,278 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:22,280 - services.job_service - INFO - Job 235 completed with status: SUCCESS
+2025-08-28 16:37:22,466 - services.job_service - INFO - Batch (Job 235) finished with status: completed
+2025-08-28 16:37:22,597 - services.job_service - INFO - Starting Job 240 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:22,603 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:22,608 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:22,612 - services.job_service - INFO - Job 236 completed with status: SUCCESS
+2025-08-28 16:37:22,779 - services.job_service - INFO - Batch (Job 236) finished with status: completed
+2025-08-28 16:37:22,959 - services.job_service - INFO - Starting Job 241 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:22,969 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:27,714 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:27,716 - services.job_service - INFO - Job 237 completed with status: SUCCESS
+2025-08-28 16:37:27,924 - services.job_service - INFO - Batch (Job 237) finished with status: completed
+2025-08-28 16:37:28,101 - services.job_service - INFO - Starting Job 242 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:28,108 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:29,839 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:29,840 - services.job_service - INFO - Job 238 completed with status: SUCCESS
+2025-08-28 16:37:30,020 - services.job_service - INFO - Batch (Job 238) finished with status: completed
+2025-08-28 16:37:30,169 - services.job_service - INFO - Starting Job 243 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:30,178 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:39,101 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:39,104 - services.job_service - INFO - Job 239 completed with status: SUCCESS
+2025-08-28 16:37:39,288 - services.job_service - INFO - Batch (Job 239) finished with status: completed
+2025-08-28 16:37:39,455 - services.job_service - INFO - Starting Job 244 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:39,463 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:42,045 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:42,046 - services.job_service - INFO - Job 241 completed with status: SUCCESS
+2025-08-28 16:37:42,194 - services.job_service - INFO - Batch (Job 241) finished with status: completed
+2025-08-28 16:37:42,369 - services.job_service - INFO - Starting Job 245 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:42,377 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:47,603 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:47,605 - services.job_service - INFO - Job 242 completed with status: SUCCESS
+2025-08-28 16:37:47,768 - services.job_service - INFO - Batch (Job 242) finished with status: completed
+2025-08-28 16:37:47,964 - services.job_service - INFO - Starting Job 246 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:47,970 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:49,152 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:49,153 - services.job_service - INFO - Job 243 completed with status: SUCCESS
+2025-08-28 16:37:49,339 - services.job_service - INFO - Batch (Job 243) finished with status: completed
+2025-08-28 16:37:49,490 - services.job_service - INFO - Starting Job 247 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:49,498 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:57,036 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:57,038 - services.job_service - INFO - Job 240 completed with status: SUCCESS
+2025-08-28 16:37:57,229 - services.job_service - INFO - Batch (Job 240) finished with status: completed
+2025-08-28 16:37:57,420 - services.job_service - INFO - Starting Job 248 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:57,433 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:37:57,811 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:37:57,813 - services.job_service - INFO - Job 244 completed with status: SUCCESS
+2025-08-28 16:37:58,018 - services.job_service - INFO - Batch (Job 244) finished with status: completed
+2025-08-28 16:37:58,197 - services.job_service - INFO - Starting Job 249 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:37:58,202 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:01,057 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:01,059 - services.job_service - INFO - Job 245 completed with status: SUCCESS
+2025-08-28 16:38:01,184 - services.job_service - INFO - Batch (Job 245) finished with status: completed
+2025-08-28 16:38:01,334 - services.job_service - INFO - Starting Job 250 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:01,342 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:06,109 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:06,110 - services.job_service - INFO - Job 246 completed with status: SUCCESS
+2025-08-28 16:38:06,276 - services.job_service - INFO - Batch (Job 246) finished with status: completed
+2025-08-28 16:38:06,427 - services.job_service - INFO - Starting Job 251 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:06,433 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:08,561 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:08,563 - services.job_service - INFO - Job 247 completed with status: SUCCESS
+2025-08-28 16:38:08,711 - services.job_service - INFO - Batch (Job 247) finished with status: completed
+2025-08-28 16:38:08,889 - services.job_service - INFO - Starting Job 252 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:08,897 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:13,674 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:13,675 - services.job_service - INFO - Job 248 completed with status: SUCCESS
+2025-08-28 16:38:13,847 - services.job_service - INFO - Batch (Job 248) finished with status: completed
+2025-08-28 16:38:14,030 - services.job_service - INFO - Starting Job 253 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:14,037 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:16,663 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:16,664 - services.job_service - INFO - Job 249 completed with status: SUCCESS
+2025-08-28 16:38:16,837 - services.job_service - INFO - Batch (Job 249) finished with status: completed
+2025-08-28 16:38:16,998 - services.job_service - INFO - Starting Job 254 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:17,011 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:19,736 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:19,737 - services.job_service - INFO - Job 250 completed with status: SUCCESS
+2025-08-28 16:38:19,856 - services.job_service - INFO - Batch (Job 250) finished with status: completed
+2025-08-28 16:38:20,045 - services.job_service - INFO - Starting Job 255 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:20,052 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:25,539 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:25,540 - services.job_service - INFO - Job 251 completed with status: SUCCESS
+2025-08-28 16:38:25,707 - services.job_service - INFO - Batch (Job 251) finished with status: completed
+2025-08-28 16:38:25,889 - services.job_service - INFO - Starting Job 256 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:25,908 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:27,940 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:27,942 - services.job_service - INFO - Job 252 completed with status: SUCCESS
+2025-08-28 16:38:28,128 - services.job_service - INFO - Batch (Job 252) finished with status: completed
+2025-08-28 16:38:28,271 - services.job_service - INFO - Starting Job 257 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:28,277 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:32,452 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:32,453 - services.job_service - INFO - Job 253 completed with status: SUCCESS
+2025-08-28 16:38:32,625 - services.job_service - INFO - Batch (Job 253) finished with status: completed
+2025-08-28 16:38:32,775 - services.job_service - INFO - Starting Job 258 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:32,779 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:34,987 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:34,988 - services.job_service - INFO - Job 254 completed with status: SUCCESS
+2025-08-28 16:38:35,151 - services.job_service - INFO - Batch (Job 254) finished with status: completed
+2025-08-28 16:38:35,354 - services.job_service - INFO - Starting Job 259 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:35,364 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:39,159 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:39,160 - services.job_service - INFO - Job 255 completed with status: SUCCESS
+2025-08-28 16:38:39,336 - services.job_service - INFO - Batch (Job 255) finished with status: completed
+2025-08-28 16:38:39,513 - services.job_service - INFO - Starting Job 260 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:39,521 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:44,509 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:44,511 - services.job_service - INFO - Job 256 completed with status: SUCCESS
+2025-08-28 16:38:44,689 - services.job_service - INFO - Batch (Job 256) finished with status: completed
+2025-08-28 16:38:44,851 - services.job_service - INFO - Starting Job 261 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:44,862 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:46,654 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:46,655 - services.job_service - INFO - Job 257 completed with status: SUCCESS
+2025-08-28 16:38:46,818 - services.job_service - INFO - Batch (Job 257) finished with status: completed
+2025-08-28 16:38:46,954 - services.job_service - INFO - Starting Job 262 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:46,966 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:49,932 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:49,934 - services.job_service - INFO - Job 258 completed with status: SUCCESS
+2025-08-28 16:38:50,105 - services.job_service - INFO - Batch (Job 258) finished with status: completed
+2025-08-28 16:38:50,251 - services.job_service - INFO - Starting Job 263 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:50,261 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:52,986 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:52,989 - services.job_service - INFO - Job 259 completed with status: SUCCESS
+2025-08-28 16:38:53,190 - services.job_service - INFO - Batch (Job 259) finished with status: completed
+2025-08-28 16:38:53,327 - services.job_service - INFO - Starting Job 264 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:53,340 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:38:57,617 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:38:57,618 - services.job_service - INFO - Job 260 completed with status: SUCCESS
+2025-08-28 16:38:57,801 - services.job_service - INFO - Batch (Job 260) finished with status: completed
+2025-08-28 16:38:57,965 - services.job_service - INFO - Starting Job 265 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:38:57,973 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:05,398 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:05,399 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 23 column 35 (char 541)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 23 column 35 (char 541)
+2025-08-28 16:39:05,404 - services.job_service - WARNING - Job 261 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:39:05,425 - services.job_service - ERROR - Batch (Job 261) finished with status: failed
+2025-08-28 16:39:05,560 - services.job_service - INFO - Starting Job 266 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:05,568 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:05,803 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:05,804 - services.job_service - INFO - Job 262 completed with status: SUCCESS
+2025-08-28 16:39:05,982 - services.job_service - INFO - Batch (Job 262) finished with status: completed
+2025-08-28 16:39:06,127 - services.job_service - INFO - Starting Job 267 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:06,137 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:08,728 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:08,730 - services.job_service - INFO - Job 263 completed with status: SUCCESS
+2025-08-28 16:39:08,878 - services.job_service - INFO - Batch (Job 263) finished with status: completed
+2025-08-28 16:39:09,074 - services.job_service - INFO - Starting Job 268 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:09,081 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:11,647 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:11,648 - services.job_service - INFO - Job 264 completed with status: SUCCESS
+2025-08-28 16:39:11,837 - services.job_service - INFO - Batch (Job 264) finished with status: completed
+2025-08-28 16:39:12,009 - services.job_service - INFO - Starting Job 269 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:12,019 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:16,642 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:16,644 - services.job_service - INFO - Job 265 completed with status: SUCCESS
+2025-08-28 16:39:16,787 - services.job_service - INFO - Batch (Job 265) finished with status: completed
+2025-08-28 16:39:16,961 - services.job_service - INFO - Starting Job 270 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:16,969 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:24,135 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:24,136 - services.job_service - INFO - Job 266 completed with status: SUCCESS
+2025-08-28 16:39:24,323 - services.job_service - INFO - Batch (Job 266) finished with status: completed
+2025-08-28 16:39:24,455 - services.job_service - INFO - Starting Job 271 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:24,462 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:24,465 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:24,466 - services.job_service - INFO - Job 267 completed with status: SUCCESS
+2025-08-28 16:39:24,611 - services.job_service - INFO - Batch (Job 267) finished with status: completed
+2025-08-28 16:39:24,831 - services.job_service - INFO - Starting Job 272 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:24,846 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:27,282 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:27,283 - services.job_service - INFO - Job 268 completed with status: SUCCESS
+2025-08-28 16:39:27,438 - services.job_service - INFO - Batch (Job 268) finished with status: completed
+2025-08-28 16:39:27,586 - services.job_service - INFO - Starting Job 273 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:27,592 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:29,687 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:29,688 - services.job_service - INFO - Job 269 completed with status: SUCCESS
+2025-08-28 16:39:29,818 - services.job_service - INFO - Batch (Job 269) finished with status: completed
+2025-08-28 16:39:29,978 - services.job_service - INFO - Starting Job 274 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:29,990 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:34,689 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:34,691 - services.job_service - INFO - Job 270 completed with status: SUCCESS
+2025-08-28 16:39:34,863 - services.job_service - INFO - Batch (Job 270) finished with status: completed
+2025-08-28 16:39:35,007 - services.job_service - INFO - Starting Job 275 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:35,017 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:43,182 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:43,184 - services.job_service - INFO - Job 271 completed with status: SUCCESS
+2025-08-28 16:39:43,313 - services.job_service - INFO - Batch (Job 271) finished with status: completed
+2025-08-28 16:39:43,463 - services.job_service - INFO - Starting Job 276 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:43,470 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:44,104 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:44,105 - services.job_service - INFO - Job 273 completed with status: SUCCESS
+2025-08-28 16:39:44,298 - services.job_service - INFO - Batch (Job 273) finished with status: completed
+2025-08-28 16:39:44,439 - services.job_service - INFO - Starting Job 277 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:44,445 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:44,449 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:44,450 - services.job_service - INFO - Job 272 completed with status: SUCCESS
+2025-08-28 16:39:44,602 - services.job_service - INFO - Batch (Job 272) finished with status: completed
+2025-08-28 16:39:44,745 - services.job_service - INFO - Starting Job 278 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:44,754 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:48,199 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:48,200 - services.job_service - INFO - Job 274 completed with status: SUCCESS
+2025-08-28 16:39:48,370 - services.job_service - INFO - Batch (Job 274) finished with status: completed
+2025-08-28 16:39:48,531 - services.job_service - INFO - Starting Job 279 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:48,538 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:39:53,013 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:39:53,014 - services.job_service - INFO - Job 275 completed with status: SUCCESS
+2025-08-28 16:39:53,191 - services.job_service - INFO - Batch (Job 275) finished with status: completed
+2025-08-28 16:39:53,329 - services.job_service - INFO - Starting Job 280 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:39:53,336 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:02,276 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:02,278 - services.job_service - INFO - Job 278 completed with status: SUCCESS
+2025-08-28 16:40:02,413 - services.job_service - INFO - Batch (Job 278) finished with status: completed
+2025-08-28 16:40:02,581 - services.job_service - INFO - Starting Job 281 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:02,588 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:02,738 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:02,739 - services.job_service - INFO - Job 277 completed with status: SUCCESS
+2025-08-28 16:40:02,910 - services.job_service - INFO - Batch (Job 277) finished with status: completed
+2025-08-28 16:40:03,089 - services.job_service - INFO - Starting Job 282 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:03,104 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:03,111 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:03,114 - services.job_service - INFO - Job 276 completed with status: SUCCESS
+2025-08-28 16:40:03,297 - services.job_service - INFO - Batch (Job 276) finished with status: completed
+2025-08-28 16:40:03,514 - services.job_service - INFO - Starting Job 283 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:03,527 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:06,907 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:06,908 - services.job_service - INFO - Job 279 completed with status: SUCCESS
+2025-08-28 16:40:07,071 - services.job_service - INFO - Batch (Job 279) finished with status: completed
+2025-08-28 16:40:07,243 - services.job_service - INFO - Starting Job 284 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:07,250 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:10,419 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:10,421 - services.job_service - INFO - Job 280 completed with status: SUCCESS
+2025-08-28 16:40:10,569 - services.job_service - INFO - Batch (Job 280) finished with status: completed
+2025-08-28 16:40:10,736 - services.job_service - INFO - Starting Job 285 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:10,742 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:21,080 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:21,082 - services.job_service - INFO - Job 281 completed with status: SUCCESS
+2025-08-28 16:40:21,230 - services.job_service - INFO - Batch (Job 281) finished with status: completed
+2025-08-28 16:40:21,431 - services.job_service - INFO - Starting Job 286 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:21,441 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:21,445 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:21,446 - services.job_service - INFO - Job 282 completed with status: SUCCESS
+2025-08-28 16:40:21,569 - services.job_service - INFO - Batch (Job 282) finished with status: completed
+2025-08-28 16:40:21,705 - services.job_service - INFO - Starting Job 287 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:21,712 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:21,715 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:21,715 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting ',' delimiter: line 25 column 35 (char 614)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 117, in _parse_daily_analysis_batch_response
+    parsed_results = json.loads(json_text)
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ~~~~~~~~~~~~~~^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 25 column 35 (char 614)
+2025-08-28 16:40:21,719 - services.job_service - WARNING - Job 283 completed with status: FAILED (AI analysis fallback)
+2025-08-28 16:40:21,730 - services.job_service - ERROR - Batch (Job 283) finished with status: failed
+2025-08-28 16:40:21,862 - services.job_service - INFO - Starting Job 288 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:21,869 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:25,889 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:25,890 - services.job_service - INFO - Job 284 completed with status: SUCCESS
+2025-08-28 16:40:26,085 - services.job_service - INFO - Batch (Job 284) finished with status: completed
+2025-08-28 16:40:26,282 - services.job_service - INFO - Starting Job 289 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:26,295 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:26,784 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:26,785 - services.job_service - INFO - Job 285 completed with status: SUCCESS
+2025-08-28 16:40:26,958 - services.job_service - INFO - Batch (Job 285) finished with status: completed
+2025-08-28 16:40:27,140 - services.job_service - INFO - Starting Job 290 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:27,153 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:38,958 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:38,959 - services.job_service - INFO - Job 286 completed with status: SUCCESS
+2025-08-28 16:40:39,125 - services.job_service - INFO - Batch (Job 286) finished with status: completed
+2025-08-28 16:40:39,256 - services.job_service - INFO - Starting Job 291 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:39,263 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:40,631 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:40,634 - services.job_service - INFO - Job 288 completed with status: SUCCESS
+2025-08-28 16:40:40,794 - services.job_service - INFO - Batch (Job 288) finished with status: completed
+2025-08-28 16:40:40,983 - services.job_service - INFO - Starting Job 292 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:40,993 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:40,997 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:41,001 - services.job_service - INFO - Job 287 completed with status: SUCCESS
+2025-08-28 16:40:41,132 - services.job_service - INFO - Batch (Job 287) finished with status: completed
+2025-08-28 16:40:41,291 - services.job_service - INFO - Starting Job 293 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:41,299 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:44,736 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:44,737 - services.job_service - INFO - Job 289 completed with status: SUCCESS
+2025-08-28 16:40:44,918 - services.job_service - INFO - Batch (Job 289) finished with status: completed
+2025-08-28 16:40:45,061 - services.job_service - INFO - Starting Job 294 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:45,070 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:46,272 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:46,274 - services.job_service - INFO - Job 290 completed with status: SUCCESS
+2025-08-28 16:40:46,457 - services.job_service - INFO - Batch (Job 290) finished with status: completed
+2025-08-28 16:40:46,662 - services.job_service - INFO - Starting Job 295 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:46,673 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:57,944 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:57,946 - services.job_service - INFO - Job 291 completed with status: SUCCESS
+2025-08-28 16:40:58,126 - services.job_service - INFO - Batch (Job 291) finished with status: completed
+2025-08-28 16:40:58,300 - services.job_service - INFO - Starting Job 296 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:58,314 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:40:59,163 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:40:59,164 - services.job_service - INFO - Job 292 completed with status: SUCCESS
+2025-08-28 16:40:59,342 - services.job_service - INFO - Batch (Job 292) finished with status: completed
+2025-08-28 16:40:59,472 - services.job_service - INFO - Starting Job 297 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:40:59,478 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:00,289 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:00,289 - services.job_service - INFO - Job 293 completed with status: SUCCESS
+2025-08-28 16:41:00,383 - services.job_service - INFO - Batch (Job 293) finished with status: completed
+2025-08-28 16:41:00,531 - services.job_service - INFO - Starting Job 298 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:00,538 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:03,054 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:03,056 - services.job_service - INFO - Job 294 completed with status: SUCCESS
+2025-08-28 16:41:03,190 - services.job_service - INFO - Batch (Job 294) finished with status: completed
+2025-08-28 16:41:03,369 - services.job_service - INFO - Starting Job 299 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:03,375 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:05,799 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:05,801 - services.job_service - INFO - Job 295 completed with status: SUCCESS
+2025-08-28 16:41:06,013 - services.job_service - INFO - Batch (Job 295) finished with status: completed
+2025-08-28 16:41:06,212 - services.job_service - INFO - Starting Job 300 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:06,220 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:15,856 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:15,858 - services.job_service - INFO - Job 298 completed with status: SUCCESS
+2025-08-28 16:41:16,034 - services.job_service - INFO - Batch (Job 298) finished with status: completed
+2025-08-28 16:41:16,210 - services.job_service - INFO - Starting Job 301 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:16,222 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:16,225 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:16,226 - services.job_service - INFO - Job 296 completed with status: SUCCESS
+2025-08-28 16:41:16,406 - services.job_service - INFO - Batch (Job 296) finished with status: completed
+2025-08-28 16:41:16,610 - services.job_service - INFO - Starting Job 302 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:16,618 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:17,611 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:17,613 - services.job_service - INFO - Job 297 completed with status: SUCCESS
+2025-08-28 16:41:17,794 - services.job_service - INFO - Batch (Job 297) finished with status: completed
+2025-08-28 16:41:17,936 - services.job_service - INFO - Starting Job 303 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:17,946 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:18,998 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:18,999 - services.job_service - INFO - Job 299 completed with status: SUCCESS
+2025-08-28 16:41:19,152 - services.job_service - INFO - Batch (Job 299) finished with status: completed
+2025-08-28 16:41:19,331 - services.job_service - INFO - Starting Job 304 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:19,343 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:23,972 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:23,974 - services.job_service - INFO - Job 300 completed with status: SUCCESS
+2025-08-28 16:41:24,103 - services.job_service - INFO - Batch (Job 300) finished with status: completed
+2025-08-28 16:41:24,243 - services.job_service - INFO - Starting Job 305 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:24,249 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:33,206 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:33,208 - services.job_service - INFO - Job 302 completed with status: SUCCESS
+2025-08-28 16:41:33,405 - services.job_service - INFO - Batch (Job 302) finished with status: completed
+2025-08-28 16:41:33,595 - services.job_service - INFO - Starting Job 306 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:33,602 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:33,980 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:33,981 - services.job_service - INFO - Job 301 completed with status: SUCCESS
+2025-08-28 16:41:34,153 - services.job_service - INFO - Batch (Job 301) finished with status: completed
+2025-08-28 16:41:34,361 - services.job_service - INFO - Starting Job 307 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:34,366 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-28 16:41:36,616 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:36,617 - services.job_service - INFO - Job 303 completed with status: SUCCESS
+2025-08-28 16:41:36,765 - services.job_service - INFO - Batch (Job 303) finished with status: completed
+2025-08-28 16:41:36,910 - services.job_service - INFO - Starting Job 308 for Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6...
+2025-08-28 16:41:36,919 - services.gemini_service - INFO - --- Preparing to call Gemini API for 10 daily analyses. ---
+2025-08-28 16:41:39,072 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:39,073 - services.job_service - INFO - Job 304 completed with status: SUCCESS
+2025-08-28 16:41:39,243 - services.job_service - INFO - Batch (Job 304) finished with status: completed
+2025-08-28 16:41:43,256 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:43,258 - services.job_service - INFO - Job 305 completed with status: SUCCESS
+2025-08-28 16:41:43,404 - services.job_service - INFO - Batch (Job 305) finished with status: completed
+2025-08-28 16:41:47,155 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:47,156 - services.job_service - INFO - Job 308 completed with status: SUCCESS
+2025-08-28 16:41:47,268 - services.job_service - INFO - Batch (Job 308) finished with status: completed
+2025-08-28 16:41:52,928 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:52,930 - services.job_service - INFO - Job 307 completed with status: SUCCESS
+2025-08-28 16:41:53,127 - services.job_service - INFO - Batch (Job 307) finished with status: completed
+2025-08-28 16:41:53,130 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-08-28 16:41:53,131 - services.job_service - INFO - Job 306 completed with status: SUCCESS
+2025-08-28 16:41:53,256 - services.job_service - INFO - Batch (Job 306) finished with status: completed
+2025-08-28 16:42:21,770 - services.file_service_optimized - INFO - Upload process 55af47e9-5e0c-4e91-9596-c1eba1083ac6 completed successfully.
+2025-08-28 16:42:21,771 - services.progress_tracker - INFO - Upload 55af47e9-5e0c-4e91-9596-c1eba1083ac6 completed in 1349.5s
+2025-08-28 16:42:21,973 - services.analytics_service - ERROR - Error calculating frontend metrics: type object 'Conversation' has no attribute 'common_topics'
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\analytics_service.py", line 162, in calculate_and_cache_csi_metrics
+    topic_results = db.query(Conversation.common_topics).filter(Conversation.common_topics.isnot(None)).all()
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'Conversation' has no attribute 'common_topics'
+2025-08-28 20:51:23,950 - main - INFO - --- PowerPulse Analytics Backend Shutting Down ---

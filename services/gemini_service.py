@@ -5,7 +5,7 @@ This service analyzes batches of daily interactions to extract an expanded set o
 import logging
 import asyncio
 import re
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Tuple
 import json
 from datetime import datetime
 import google.generativeai as genai
@@ -21,23 +21,24 @@ class GeminiService:
         self.model = genai.GenerativeModel('gemini-1.5-flash')
         self.api_key = api_key
 
-    async def analyze_daily_analyses_batch(self, daily_analyses: List[DailyAnalysis]) -> List[Dict]:
+    async def analyze_daily_analyses_batch(self, daily_analyses: List[DailyAnalysis]) -> Tuple[List[Dict], Dict[str, int]]:
         """
         Analyzes a batch of DailyAnalysis objects using a single Gemini API call.
+        Returns the analysis results and the token usage metadata.
         """
         if not daily_analyses:
-            return []
+            return [], {}
 
         try:
             logger.info(f"--- Preparing to call Gemini API for {len(daily_analyses)} daily analyses. ---")
             prompt = self._create_daily_analysis_batch_prompt(daily_analyses)
-            response_text = await self._call_gemini_with_retry(prompt)
+            response, usage_metadata = await self._call_gemini_with_retry(prompt)
             logger.info(f"--- Successfully received response from Gemini API. Parsing now. ---")
-            analysis_results = self._parse_daily_analysis_batch_response(response_text, daily_analyses)
-            return analysis_results
+            analysis_results = self._parse_daily_analysis_batch_response(response, daily_analyses)
+            return analysis_results, usage_metadata
         except Exception as e:
             logger.error(f"--- Gemini API call failed catastrophically after retries. Using fallbacks. ---", exc_info=True)
-            return [self._create_fallback_result_daily(da) for da in daily_analyses]
+            return [self._create_fallback_result_daily(da) for da in daily_analyses], {}
 
     def _create_daily_analysis_batch_prompt(self, daily_analyses: List[DailyAnalysis]) -> str:
         """
@@ -74,10 +75,7 @@ Provide the analysis as a valid JSON array, with one object per daily interactio
         "sentiment_shift": <-5 to +5 float>,
         "resolution_achieved": <0-10 float>,
         "fcr_score": <0-10 float>,
-        "ces": <1-7 float, where 1 is high effort and 7 is low effort>,
-        "first_response_time": <seconds, float, or null>,
-        "avg_response_time": <seconds, float, or null>,
-        "total_handling_time": <minutes, float, or null>
+        "ces": <1-7 float, where 1 is high effort and 7 is low effort>
     }}
 }}
 
@@ -137,7 +135,7 @@ ANALYSIS GUIDELINES:
             logger.error(f"An unexpected error occurred while parsing Gemini daily batch response: {e}", exc_info=True)
             return [self._create_fallback_result_daily(da) for da in original_analyses]
 
-    async def _call_gemini_with_retry(self, prompt: str, max_retries: int = 2) -> str:
+    async def _call_gemini_with_retry(self, prompt: str, max_retries: int = 2) -> Tuple[str, Dict[str, int]]:
         """Call Gemini with exponential backoff retry logic"""
         for attempt in range(max_retries + 1):
             try:
@@ -146,7 +144,12 @@ ANALYSIS GUIDELINES:
                     None, lambda: self.model.generate_content(prompt))
                 
                 if response.text:
-                    return response.text.strip()
+                    usage = {
+                        "prompt_token_count": response.usage_metadata.prompt_token_count,
+                        "candidates_token_count": response.usage_metadata.candidates_token_count,
+                        "total_token_count": response.usage_metadata.total_token_count,
+                    }
+                    return response.text.strip(), usage
                 else:
                     raise Exception("Empty response from Gemini")
                 
@@ -173,9 +176,6 @@ ANALYSIS GUIDELINES:
             'resolution_achieved': 5.0,
             'fcr_score': 5.0,
             'ces': 4.0,
-            'first_response_time': 0.0,
-            'avg_response_time': 0.0,
-            'total_handling_time': 0.0,
             'error': 'analysis_failed'
         }
 

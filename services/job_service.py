@@ -2,15 +2,16 @@ import asyncio
 import logging
 from typing import List
 from sqlalchemy.orm import Session, joinedload
-from models import Job, DailyAnalysis, Conversation
+from database import SessionLocal
+from models import Job, DailyAnalysis, Conversation, JobMetric
 from schemas import JobCreate
 from config import settings
 # Import AI services
-from services import gemini_service, analytics_service
+from services import gemini_service, analytics_service, time_metric_service
 from datetime import datetime
 from services.REDACTED import gpt_service
-from database import SessionLocal
 import traceback
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +47,9 @@ async def process_job(job_id: int):
     updates them with the results, and calculates their CSI scores.
     """
     async with ai_semaphore:
+        # Add a small delay to ensure we don't hit rate limits, even with concurrency
+        await asyncio.sleep(1) 
+        
         with SessionLocal() as db:
             # Eagerly load all necessary relationships to prevent lazy loading issues in the background task
             job = db.query(Job).options(
@@ -73,7 +77,18 @@ async def process_job(job_id: int):
                     from services.REDACTED import gpt_service
                     ai_function = gpt_service.analyze_daily_analyses_batch
 
-                analysis_results = await ai_function(job.daily_analyses)
+                start_time = time.time()
+                analysis_results, usage_metadata = await ai_function(job.daily_analyses)
+                end_time = time.time()
+
+                # Create and save the job metric
+                job_metric = JobMetric(
+                    job_id=job.id,
+                    token_usage=usage_metadata.get("total_token_count"),
+                    processing_time_seconds=end_time - start_time,
+                    api_calls_made=1
+                )
+                db.add(job_metric)
 
                 job.result = {"results": analysis_results}
                 
@@ -90,16 +105,20 @@ async def process_job(job_id: int):
                 for analysis_obj in job.daily_analyses:
                     result_data = analysis_map.get(analysis_obj.id)
                     if result_data and not result_data.get("error"):
-                        # Update metrics only if analysis was successful
+                        # Update with AI-generated qualitative metrics
                         analysis_obj.sentiment_score = result_data.get("sentiment_score")
                         analysis_obj.sentiment_shift = result_data.get("sentiment_shift")
                         analysis_obj.resolution_achieved = result_data.get("resolution_achieved")
                         analysis_obj.fcr_score = result_data.get("fcr_score")
                         analysis_obj.ces = result_data.get("ces")
-                        analysis_obj.first_response_time = result_data.get("first_response_time")
-                        analysis_obj.avg_response_time = result_data.get("avg_response_time")
-                        analysis_obj.total_handling_time = result_data.get("total_handling_time")
                         
+                        # Calculate and update with script-based quantitative metrics
+                        time_metrics = time_metric_service.calculate_time_metrics_for_daily_analysis(analysis_obj)
+                        analysis_obj.first_response_time = time_metrics.get("first_response_time")
+                        analysis_obj.avg_response_time = time_metrics.get("avg_response_time")
+                        analysis_obj.total_handling_time = time_metrics.get("total_handling_time")
+
+                        # Finally, calculate the overall daily CSI score
                         analytics_service.calculate_and_set_daily_csi_score(analysis_obj)
 
             except Exception as e:

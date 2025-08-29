@@ -40,35 +40,34 @@ class OptimizedFileService:
         force_reprocess: bool = False
     ) -> Tuple[int, int, str]:
         """
-        Optimized processing of uploaded JSON file with a job-based system.
-        Returns (conversations_processed, messages_processed, upload_id)
+        Universal handler for processing uploaded JSON files. It detects the format
+        (raw flat array vs. pre-grouped dictionary) and processes it accordingly.
         """
         try:
-            logger.info(f"Parsing and validating uploaded file for upload_id: {upload_id}...")
-            data = json.loads(file_content)
-            if not isinstance(data, dict):
-                raise ValueError("JSON must be an object with chat_id keys")
+            logger.info(f"Starting universal processing for upload_id: {upload_id}...")
+            # The new universal parser detects the format and returns a consistent structure
+            grouped_data, customer_names = self._parse_and_normalize_input(file_content)
             
-            await progress_tracker.start_upload(upload_id, len(data))
+            await progress_tracker.start_upload(upload_id, len(grouped_data))
             
             conversations_to_process = []
             await progress_tracker.update_progress(upload_id, 0, "filtering_conversations", "Filtering conversations...")
             
-            for chat_id, messages in data.items():
+            for chat_id, messages in grouped_data.items():
+                # The rest of the pipeline remains the same, as the data is now in a consistent format
                 if not isinstance(messages, list):
                     logger.warning(f"Skipping chat_id {chat_id}: messages must be an array")
                     continue
                 
-                # If force_reprocess is true, delete the existing conversation and its children
                 if force_reprocess:
                     existing_conv = db.query(Conversation).filter(Conversation.fb_chat_id == chat_id).first()
                     if existing_conv:
                         logger.info(f"Force reprocess: Deleting existing conversation data for {chat_id}...")
                         db.delete(existing_conv)
-                        db.commit() # Commit the deletion before proceeding
+                        db.commit()
                 
-                # Standard check for already processed chats
                 elif self._is_chat_processed(db, chat_id):
+                    logger.info(f"Skipping already processed chat: {chat_id}")
                     continue
                 
                 valid_messages = [self._clean_message(msg, chat_id) for msg in messages if self._validate_message(msg)]
@@ -76,7 +75,8 @@ class OptimizedFileService:
                 if valid_messages:
                     conversations_to_process.append({
                         'chat_id': chat_id,
-                        'messages': valid_messages
+                        'messages': valid_messages,
+                        'customer_name': customer_names.get(chat_id)
                     })
 
             if not conversations_to_process:
@@ -84,13 +84,14 @@ class OptimizedFileService:
                 await progress_tracker.complete_upload(upload_id, True)
                 return 0, 0, upload_id
 
-            # 1. Create Conversation and DailyAnalysis objects in memory
             logger.info(f"Creating records for {len(conversations_to_process)} conversations in memory...")
             new_conversations = []
             for conv_data in conversations_to_process:
-                conversation = Conversation(fb_chat_id=conv_data['chat_id'])
+                conversation = Conversation(
+                    fb_chat_id=conv_data['chat_id'],
+                    customer_name=conv_data['customer_name']
+                )
                 
-                # Group messages by day
                 messages_by_day = self._group_messages_by_day(conv_data['messages'])
                 
                 for date, day_messages in messages_by_day.items():
@@ -103,25 +104,20 @@ class OptimizedFileService:
                             social_create_time=msg_data['social_create_time'],
                             agent_info=msg_data.get('agent_info')
                         )
-                        # Associate message with both conversation and daily_analysis if models support it
                         conversation.messages.append(message)
                     conversation.daily_analyses.append(daily_analysis)
 
-                # Populate message counts
                 conversation.total_messages = len(conversation.messages)
                 conversation.customer_messages = sum(1 for m in conversation.messages if m.direction == 'to_company')
                 conversation.agent_messages = sum(1 for m in conversation.messages if m.direction == 'to_client')
                 
                 new_conversations.append(conversation)
 
-            # 2. Create batches of DailyAnalysis objects
             batches = batch_service.create_daily_analysis_batches(new_conversations, db)
             logger.info(f"Splitting work into {len(batches)} batches.")
 
-            # 3. Create jobs for these batches
             jobs = await job_service.create_jobs_for_upload(upload_id, batches, db)
             
-            # 4. Process jobs
             logger.info(f"Starting AI analysis for {len(jobs)} jobs...")
             tasks = [job_service.process_job(job.id) for job in jobs]
             await asyncio.gather(*tasks)
@@ -144,11 +140,93 @@ class OptimizedFileService:
             await progress_tracker.complete_upload(upload_id, False)
             raise ValueError(f"Invalid JSON format: {e}")
         except Exception as e:
-            logger.error(f"Error processing file: {e}")
+            logger.error(f"Error processing file: {e}", exc_info=True)
             await progress_tracker.add_error(upload_id, str(e))
             await progress_tracker.complete_upload(upload_id, False)
             db.rollback()
             raise
+
+    def _parse_and_normalize_input(self, file_content: str) -> Tuple[Dict[str, List[Dict]], Dict[str, str]]:
+        """
+        Detects the JSON format (raw array, pre-grouped dict, or single-key raw dict) and normalizes it.
+        """
+        # Clean the input by stripping leading non-JSON text (like SQL comments)
+        first_char_index = -1
+        for i, char in enumerate(file_content):
+            if char in ['{', '[']:
+                first_char_index = i
+                break
+        
+        if first_char_index == -1:
+            raise ValueError("Could not find a valid JSON object or array in the file.")
+            
+        json_text = file_content[first_char_index:]
+        
+        # Parse the text into a Python object first
+        parsed_data = json.loads(json_text)
+
+        # Now, sniff the format based on the *type* and *structure* of the parsed data
+        if isinstance(parsed_data, list):
+            logger.info("Detected raw JSON array format.")
+            return self._preprocess_and_group_raw_data(parsed_data)
+        
+        elif isinstance(parsed_data, dict):
+            # Check for the single-key raw format (like FB17-23.json)
+            if len(parsed_data.keys()) == 1:
+                logger.info("Detected single-key object format. Extracting value.")
+                # The value is the list of messages
+                raw_messages = next(iter(parsed_data.values()))
+                if isinstance(raw_messages, list):
+                    return self._preprocess_and_group_raw_data(raw_messages)
+            
+            # Otherwise, assume it's the pre-grouped format
+            logger.info("Detected pre-grouped JSON object format.")
+            return self._normalize_grouped_data(parsed_data)
+        
+        else:
+            raise ValueError("Unsupported JSON format. Must be an object or an array.")
+
+    def _preprocess_and_group_raw_data(self, raw_messages: List[Dict]) -> Tuple[Dict[str, List[Dict]], Dict[str, str]]:
+        """
+        Parses a raw flat array, groups messages by conversation, and normalizes fields.
+        """
+        grouped_messages = {}
+        customer_names = {}
+
+        for msg in raw_messages:
+            # Normalize field names from the raw format
+            chat_id = msg.get("FB_ID") or msg.get("fb_chat_id") # Handle both old and new field names
+            if not chat_id:
+                continue
+
+            if chat_id not in grouped_messages:
+                grouped_messages[chat_id] = []
+            
+            # Normalize message fields into the standard format the application expects
+            normalized_msg = {
+                "MESSAGE_CONTENT": msg.get("MESSAGE") or msg.get("MESSAGE_CONTENT"),
+                "DIRECTION": msg.get("DIRECTION"),
+                "SOCIAL_CREATE_TIME": msg.get("SOCIAL_CREATE_TIME"),
+                "agent_name": msg.get("AGENT_FIRSTNAME") or msg.get("AGENT_USERNAME"),
+                "agent_email": msg.get("AGENT_EMAIL"),
+            }
+            grouped_messages[chat_id].append(normalized_msg)
+
+            if chat_id not in customer_names and (msg.get("FB_USERNAME") or msg.get("facebook_username")):
+                customer_names[chat_id] = msg.get("FB_USERNAME") or msg.get("facebook_username")
+        
+        return grouped_messages, customer_names
+
+    def _normalize_grouped_data(self, grouped_data: Dict[str, List[Dict]]) -> Tuple[Dict[str, List[Dict]], Dict[str, str]]:
+        """
+        Parses a pre-grouped dictionary and ensures its fields are normalized.
+        """
+        # Customer names are not available in this format
+        customer_names = {}
+        
+        # The structure is already grouped, so we just need to ensure field names are consistent.
+        # This is a pass-through for now, but could contain normalization logic if the grouped format changes.
+        return grouped_data, customer_names
     
     def _group_messages_by_day(self, messages: List[Dict]) -> Dict[datetime.date, List[Dict]]:
         """Groups a list of messages by their creation date."""
@@ -205,7 +283,10 @@ class OptimizedFileService:
             'message_content': msg['MESSAGE_CONTENT'].strip(),
             'direction': msg['DIRECTION'],
             'social_create_time': social_create_time,
-            'agent_info': msg.get('AGENT_USERNAME') or msg.get('AGENT_EMAIL')
+            'agent_info': {
+                "name": msg.get("agent_name"),
+                "email": msg.get("agent_email")
+            }
         }
     
     def _calculate_response_time(self, agent_message: Dict, customer_messages: List[Dict]) -> float:

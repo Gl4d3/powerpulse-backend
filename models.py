@@ -19,6 +19,22 @@ class Job(Base):
     result = Column(JSON, nullable=True)
 
     daily_analyses = relationship("DailyAnalysis", secondary=job_daily_analyses, back_populates="jobs")
+    metric = relationship("JobMetric", uselist=False, back_populates="job", cascade="all, delete-orphan")
+
+class JobMetric(Base):
+    """
+    Stores usage and performance metrics for a single background job.
+    """
+    __tablename__ = "job_metrics"
+
+    id = Column(Integer, primary_key=True, index=True)
+    job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False, unique=True)
+    
+    token_usage = Column(Integer, nullable=True)
+    processing_time_seconds = Column(Float, nullable=True)
+    api_calls_made = Column(Integer, default=1)
+
+    job = relationship("Job", back_populates="metric")
 
 
 # This file defines the SQLAlchemy ORM models for the PowerPulse application,
@@ -44,13 +60,11 @@ class Conversation(Base):
     total_messages = Column(Integer, default=0)
     customer_messages = Column(Integer, default=0)
     agent_messages = Column(Integer, default=0)
-    
-    # Final, overall CSI score for the entire conversation
+    customer_name = Column(String, nullable=True) # New field for customer's name
     
     # Metadata
     first_message_time = Column(DateTime, nullable=True)
     last_message_time = Column(DateTime, nullable=True)
-    common_topics = Column(JSON, nullable=True)
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

@@ -1,314 +1,1093 @@
-2025-08-27 19:28:51,422 - main - INFO - --- PowerPulse Analytics Backend Starting Up ---
-2025-08-27 19:28:51,423 - main - INFO - Initializing database...
-2025-08-27 19:28:51,451 - main - INFO - Database initialized.
-2025-08-27 19:32:10,772 - services.file_service_optimized - INFO - Parsing and validating uploaded file for upload_id: dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:32:10,897 - services.progress_tracker - INFO - Started tracking upload dddf8d58-a538-4655-a327-8161bac803e2 with 904 conversations
-2025-08-27 19:32:10,898 - services.progress_tracker - INFO - Upload dddf8d58-a538-4655-a327-8161bac803e2: 0.0% - filtering_conversations
-2025-08-27 19:32:13,180 - services.file_service_optimized - INFO - Creating records for 904 conversations in memory...
-2025-08-27 19:32:14,482 - services.batch_service - INFO - Created 59 batches from 1176 daily analysis objects with a batch size of 20.
-2025-08-27 19:32:14,484 - services.file_service_optimized - INFO - Splitting work into 59 batches.
-2025-08-27 19:34:17,018 - services.job_service - INFO - Created 59 jobs for upload dddf8d58-a538-4655-a327-8161bac803e2
-2025-08-27 19:34:17,019 - services.file_service_optimized - INFO - Starting AI analysis for 59 jobs...
-2025-08-27 19:34:17,235 - services.job_service - INFO - Starting Job 1 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:17,275 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:17,466 - services.job_service - INFO - Starting Job 2 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:17,486 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:17,573 - services.job_service - INFO - Starting Job 3 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:17,593 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:17,695 - services.job_service - INFO - Starting Job 4 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:17,709 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:17,857 - services.job_service - INFO - Starting Job 5 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:17,868 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:37,539 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:34:37,541 - services.job_service - INFO - Job 2 completed with status: SUCCESS
-2025-08-27 19:34:37,791 - services.job_service - INFO - Batch (Job 2) finished with status: completed
-2025-08-27 19:34:37,882 - services.job_service - INFO - Starting Job 6 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:37,895 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:40,307 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:34:40,308 - services.job_service - INFO - Job 3 completed with status: SUCCESS
-2025-08-27 19:34:40,543 - services.job_service - INFO - Batch (Job 3) finished with status: completed
-2025-08-27 19:34:40,614 - services.job_service - INFO - Starting Job 7 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:40,625 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:40,630 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:34:40,633 - services.job_service - INFO - Job 1 completed with status: SUCCESS
-2025-08-27 19:34:40,851 - services.job_service - INFO - Batch (Job 1) finished with status: completed
-2025-08-27 19:34:40,854 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:34:40,855 - services.job_service - INFO - Job 4 completed with status: SUCCESS
-2025-08-27 19:34:41,088 - services.job_service - INFO - Batch (Job 4) finished with status: completed
-2025-08-27 19:34:41,176 - services.job_service - INFO - Starting Job 8 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:41,191 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:41,485 - services.job_service - INFO - Starting Job 9 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:41,498 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:57,109 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:34:57,111 - services.job_service - INFO - Job 5 completed with status: SUCCESS
-2025-08-27 19:34:57,345 - services.job_service - INFO - Batch (Job 5) finished with status: completed
-2025-08-27 19:34:57,414 - services.job_service - INFO - Starting Job 10 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:57,430 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:34:57,578 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:34:57,580 - services.job_service - INFO - Job 6 completed with status: SUCCESS
-2025-08-27 19:34:57,796 - services.job_service - INFO - Batch (Job 6) finished with status: completed
-2025-08-27 19:34:57,888 - services.job_service - INFO - Starting Job 11 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:34:57,903 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:00,374 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:00,375 - services.job_service - INFO - Job 7 completed with status: SUCCESS
-2025-08-27 19:35:00,613 - services.job_service - INFO - Batch (Job 7) finished with status: completed
-2025-08-27 19:35:00,693 - services.job_service - INFO - Starting Job 12 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:00,705 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:01,296 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:01,298 - services.job_service - INFO - Job 8 completed with status: SUCCESS
-2025-08-27 19:35:01,518 - services.job_service - INFO - Batch (Job 8) finished with status: completed
-2025-08-27 19:35:01,609 - services.job_service - INFO - Starting Job 13 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:01,625 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:01,631 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:01,633 - services.job_service - INFO - Job 9 completed with status: SUCCESS
-2025-08-27 19:35:01,876 - services.job_service - INFO - Batch (Job 9) finished with status: completed
-2025-08-27 19:35:01,982 - services.job_service - INFO - Starting Job 14 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:01,999 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:16,974 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:16,976 - services.job_service - INFO - Job 11 completed with status: SUCCESS
-2025-08-27 19:35:17,256 - services.job_service - INFO - Batch (Job 11) finished with status: completed
-2025-08-27 19:35:17,326 - services.job_service - INFO - Starting Job 15 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:17,342 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:17,347 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:17,350 - services.job_service - INFO - Job 10 completed with status: SUCCESS
-2025-08-27 19:35:17,610 - services.job_service - INFO - Batch (Job 10) finished with status: completed
-2025-08-27 19:35:17,711 - services.job_service - INFO - Starting Job 16 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:17,734 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:20,398 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:20,400 - services.job_service - INFO - Job 12 completed with status: SUCCESS
-2025-08-27 19:35:20,645 - services.job_service - INFO - Batch (Job 12) finished with status: completed
-2025-08-27 19:35:20,831 - services.job_service - INFO - Starting Job 17 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:20,845 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:21,266 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:21,268 - services.job_service - INFO - Job 13 completed with status: SUCCESS
-2025-08-27 19:35:21,529 - services.job_service - INFO - Batch (Job 13) finished with status: completed
-2025-08-27 19:35:21,713 - services.job_service - INFO - Starting Job 18 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:21,729 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:21,734 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:21,736 - services.job_service - INFO - Job 14 completed with status: SUCCESS
-2025-08-27 19:35:22,076 - services.job_service - INFO - Batch (Job 14) finished with status: completed
-2025-08-27 19:35:22,182 - services.job_service - INFO - Starting Job 19 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:22,197 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:36,729 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:36,731 - services.job_service - INFO - Job 15 completed with status: SUCCESS
-2025-08-27 19:35:36,965 - services.job_service - INFO - Batch (Job 15) finished with status: completed
-2025-08-27 19:35:37,041 - services.job_service - INFO - Starting Job 20 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:37,054 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:37,753 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:37,754 - services.job_service - INFO - Job 16 completed with status: SUCCESS
-2025-08-27 19:35:38,030 - services.job_service - INFO - Batch (Job 16) finished with status: completed
-2025-08-27 19:35:38,128 - services.job_service - INFO - Starting Job 21 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:38,143 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:39,595 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:39,597 - services.job_service - INFO - Job 17 completed with status: SUCCESS
-2025-08-27 19:35:39,837 - services.job_service - INFO - Batch (Job 17) finished with status: completed
-2025-08-27 19:35:39,922 - services.job_service - INFO - Starting Job 22 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:39,937 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:41,538 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:41,540 - services.job_service - INFO - Job 18 completed with status: SUCCESS
-2025-08-27 19:35:41,769 - services.job_service - INFO - Batch (Job 18) finished with status: completed
-2025-08-27 19:35:41,856 - services.job_service - INFO - Starting Job 23 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:41,871 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:42,207 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:42,211 - services.job_service - INFO - Job 19 completed with status: SUCCESS
-2025-08-27 19:35:42,524 - services.job_service - INFO - Batch (Job 19) finished with status: completed
-2025-08-27 19:35:42,611 - services.job_service - INFO - Starting Job 24 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:42,629 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:56,803 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:56,804 - services.job_service - INFO - Job 20 completed with status: SUCCESS
-2025-08-27 19:35:57,144 - services.job_service - INFO - Batch (Job 20) finished with status: completed
-2025-08-27 19:35:57,388 - services.job_service - INFO - Starting Job 25 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:57,419 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:58,026 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:58,027 - services.job_service - INFO - Job 21 completed with status: SUCCESS
-2025-08-27 19:35:58,267 - services.job_service - INFO - Batch (Job 21) finished with status: completed
-2025-08-27 19:35:58,351 - services.job_service - INFO - Starting Job 26 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:35:58,363 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:35:59,670 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:35:59,673 - services.job_service - INFO - Job 22 completed with status: SUCCESS
-2025-08-27 19:35:59,977 - services.job_service - INFO - Batch (Job 22) finished with status: completed
-2025-08-27 19:36:00,120 - services.job_service - INFO - Starting Job 27 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:00,148 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:00,687 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:00,689 - services.job_service - INFO - Job 23 completed with status: SUCCESS
-2025-08-27 19:36:00,945 - services.job_service - INFO - Batch (Job 23) finished with status: completed
-2025-08-27 19:36:01,029 - services.job_service - INFO - Starting Job 28 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:01,043 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:02,224 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:02,227 - services.job_service - INFO - Job 24 completed with status: SUCCESS
-2025-08-27 19:36:02,463 - services.job_service - INFO - Batch (Job 24) finished with status: completed
-2025-08-27 19:36:02,543 - services.job_service - INFO - Starting Job 29 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:02,558 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:15,844 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:15,846 - services.job_service - INFO - Job 25 completed with status: SUCCESS
-2025-08-27 19:36:16,149 - services.job_service - INFO - Batch (Job 25) finished with status: completed
-2025-08-27 19:36:16,262 - services.job_service - INFO - Starting Job 30 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:16,274 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:17,073 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:17,075 - services.job_service - INFO - Job 26 completed with status: SUCCESS
-2025-08-27 19:36:17,389 - services.job_service - INFO - Batch (Job 26) finished with status: completed
-2025-08-27 19:36:17,492 - services.job_service - INFO - Starting Job 31 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:17,506 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:19,713 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:19,715 - services.job_service - INFO - Job 27 completed with status: SUCCESS
-2025-08-27 19:36:19,997 - services.job_service - INFO - Batch (Job 27) finished with status: completed
-2025-08-27 19:36:20,115 - services.job_service - INFO - Starting Job 32 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:20,128 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:20,133 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:20,137 - services.job_service - INFO - Job 28 completed with status: SUCCESS
-2025-08-27 19:36:20,406 - services.job_service - INFO - Batch (Job 28) finished with status: completed
-2025-08-27 19:36:20,509 - services.job_service - INFO - Starting Job 33 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:20,523 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:21,641 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:21,672 - services.job_service - INFO - Job 29 completed with status: SUCCESS
-2025-08-27 19:36:22,015 - services.job_service - INFO - Batch (Job 29) finished with status: completed
-2025-08-27 19:36:22,168 - services.job_service - INFO - Starting Job 34 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:22,180 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:35,980 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:35,982 - services.job_service - INFO - Job 30 completed with status: SUCCESS
-2025-08-27 19:36:36,214 - services.job_service - INFO - Batch (Job 30) finished with status: completed
-2025-08-27 19:36:36,297 - services.job_service - INFO - Starting Job 35 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:36,310 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:36,734 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:36,736 - services.job_service - INFO - Job 31 completed with status: SUCCESS
-2025-08-27 19:36:36,951 - services.job_service - INFO - Batch (Job 31) finished with status: completed
-2025-08-27 19:36:37,145 - services.job_service - INFO - Starting Job 36 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:37,203 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:39,501 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:39,503 - services.job_service - INFO - Job 32 completed with status: SUCCESS
-2025-08-27 19:36:39,719 - services.job_service - INFO - Batch (Job 32) finished with status: completed
-2025-08-27 19:36:39,809 - services.job_service - INFO - Starting Job 37 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:39,820 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:40,306 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:40,308 - services.job_service - INFO - Job 33 completed with status: SUCCESS
-2025-08-27 19:36:40,545 - services.job_service - INFO - Batch (Job 33) finished with status: completed
-2025-08-27 19:36:40,934 - services.job_service - INFO - Starting Job 38 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:40,948 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:40,956 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:40,958 - services.job_service - INFO - Job 34 completed with status: SUCCESS
-2025-08-27 19:36:41,317 - services.job_service - INFO - Batch (Job 34) finished with status: completed
-2025-08-27 19:36:41,441 - services.job_service - INFO - Starting Job 39 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:41,451 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:55,575 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:55,577 - services.job_service - INFO - Job 35 completed with status: SUCCESS
-2025-08-27 19:36:55,822 - services.job_service - INFO - Batch (Job 35) finished with status: completed
-2025-08-27 19:36:55,900 - services.job_service - INFO - Starting Job 40 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:55,912 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:56,702 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:56,704 - services.job_service - INFO - Job 36 completed with status: SUCCESS
-2025-08-27 19:36:56,960 - services.job_service - INFO - Batch (Job 36) finished with status: completed
-2025-08-27 19:36:57,089 - services.job_service - INFO - Starting Job 41 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:57,118 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:36:59,189 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:36:59,191 - services.job_service - INFO - Job 37 completed with status: SUCCESS
-2025-08-27 19:36:59,437 - services.job_service - INFO - Batch (Job 37) finished with status: completed
-2025-08-27 19:36:59,514 - services.job_service - INFO - Starting Job 42 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:36:59,525 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:00,169 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:00,171 - services.job_service - INFO - Job 38 completed with status: SUCCESS
-2025-08-27 19:37:00,462 - services.job_service - INFO - Batch (Job 38) finished with status: completed
-2025-08-27 19:37:00,556 - services.job_service - INFO - Starting Job 43 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:00,572 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:00,582 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:00,584 - services.job_service - INFO - Job 39 completed with status: SUCCESS
-2025-08-27 19:37:00,829 - services.job_service - INFO - Batch (Job 39) finished with status: completed
-2025-08-27 19:37:00,978 - services.job_service - INFO - Starting Job 44 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:00,993 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:14,931 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:14,932 - services.job_service - INFO - Job 40 completed with status: SUCCESS
-2025-08-27 19:37:15,231 - services.job_service - INFO - Batch (Job 40) finished with status: completed
-2025-08-27 19:37:15,364 - services.job_service - INFO - Starting Job 45 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:15,405 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:16,563 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:16,569 - services.job_service - INFO - Job 41 completed with status: SUCCESS
-2025-08-27 19:37:17,138 - services.job_service - INFO - Batch (Job 41) finished with status: completed
-2025-08-27 19:37:17,354 - services.job_service - INFO - Starting Job 46 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:17,566 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:18,825 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:18,829 - services.job_service - INFO - Job 42 completed with status: SUCCESS
-2025-08-27 19:37:19,203 - services.job_service - INFO - Batch (Job 42) finished with status: completed
-2025-08-27 19:37:19,404 - services.job_service - INFO - Starting Job 47 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:19,492 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:20,985 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:20,986 - services.job_service - INFO - Job 43 completed with status: SUCCESS
-2025-08-27 19:37:21,379 - services.job_service - INFO - Batch (Job 43) finished with status: completed
-2025-08-27 19:37:21,622 - services.job_service - INFO - Starting Job 48 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:22,038 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:22,044 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:22,050 - services.job_service - INFO - Job 44 completed with status: SUCCESS
-2025-08-27 19:37:22,590 - services.job_service - INFO - Batch (Job 44) finished with status: completed
-2025-08-27 19:37:22,740 - services.job_service - INFO - Starting Job 49 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:22,790 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:34,593 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:34,594 - services.job_service - INFO - Job 45 completed with status: SUCCESS
-2025-08-27 19:37:34,866 - services.job_service - INFO - Batch (Job 45) finished with status: completed
-2025-08-27 19:37:34,955 - services.job_service - INFO - Starting Job 50 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:34,975 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:36,234 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:36,239 - services.job_service - INFO - Job 46 completed with status: SUCCESS
-2025-08-27 19:37:36,635 - services.job_service - INFO - Batch (Job 46) finished with status: completed
-2025-08-27 19:37:36,736 - services.job_service - INFO - Starting Job 51 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:36,764 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:38,277 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:38,278 - services.job_service - INFO - Job 47 completed with status: SUCCESS
-2025-08-27 19:37:38,533 - services.job_service - INFO - Batch (Job 47) finished with status: completed
-2025-08-27 19:37:38,613 - services.job_service - INFO - Starting Job 52 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:38,627 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:40,447 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:40,450 - services.job_service - INFO - Job 48 completed with status: SUCCESS
-2025-08-27 19:37:40,734 - services.job_service - INFO - Batch (Job 48) finished with status: completed
-2025-08-27 19:37:40,823 - services.job_service - INFO - Starting Job 53 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:40,839 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:41,860 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:41,862 - services.job_service - INFO - Job 49 completed with status: SUCCESS
-2025-08-27 19:37:42,109 - services.job_service - INFO - Batch (Job 49) finished with status: completed
-2025-08-27 19:37:42,191 - services.job_service - INFO - Starting Job 54 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:42,203 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:54,355 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:54,358 - services.job_service - INFO - Job 50 completed with status: SUCCESS
-2025-08-27 19:37:54,633 - services.job_service - INFO - Batch (Job 50) finished with status: completed
-2025-08-27 19:37:54,701 - services.job_service - INFO - Starting Job 55 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:54,714 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:55,175 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:55,177 - services.job_service - INFO - Job 51 completed with status: SUCCESS
-2025-08-27 19:37:55,408 - services.job_service - INFO - Batch (Job 51) finished with status: completed
-2025-08-27 19:37:55,522 - services.job_service - INFO - Starting Job 56 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:55,537 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:37:57,530 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:37:57,532 - services.job_service - INFO - Job 52 completed with status: SUCCESS
-2025-08-27 19:37:57,792 - services.job_service - INFO - Batch (Job 52) finished with status: completed
-2025-08-27 19:37:57,886 - services.job_service - INFO - Starting Job 57 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:37:57,901 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:38:00,602 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:38:00,604 - services.job_service - INFO - Job 53 completed with status: SUCCESS
-2025-08-27 19:38:00,863 - services.job_service - INFO - Batch (Job 53) finished with status: completed
-2025-08-27 19:38:00,936 - services.job_service - INFO - Starting Job 58 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:38:00,957 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
-2025-08-27 19:38:02,755 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:38:02,757 - services.job_service - INFO - Job 54 completed with status: SUCCESS
-2025-08-27 19:38:03,011 - services.job_service - INFO - Batch (Job 54) finished with status: completed
-2025-08-27 19:38:03,091 - services.job_service - INFO - Starting Job 59 for Upload dddf8d58-a538-4655-a327-8161bac803e2...
-2025-08-27 19:38:03,104 - services.gemini_service - INFO - --- Preparing to call Gemini API for 16 daily analyses. ---
-2025-08-27 19:38:14,231 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:38:14,233 - services.job_service - INFO - Job 55 completed with status: SUCCESS
-2025-08-27 19:38:14,472 - services.job_service - INFO - Batch (Job 55) finished with status: completed
-2025-08-27 19:38:14,490 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:38:14,492 - services.job_service - INFO - Job 56 completed with status: SUCCESS
-2025-08-27 19:38:14,717 - services.job_service - INFO - Batch (Job 56) finished with status: completed
-2025-08-27 19:38:16,477 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:38:16,479 - services.job_service - INFO - Job 57 completed with status: SUCCESS
-2025-08-27 19:38:16,715 - services.job_service - INFO - Batch (Job 57) finished with status: completed
-2025-08-27 19:38:17,805 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:38:17,807 - services.job_service - INFO - Job 59 completed with status: SUCCESS
-2025-08-27 19:38:18,012 - services.job_service - INFO - Batch (Job 59) finished with status: completed
-2025-08-27 19:38:20,163 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-08-27 19:38:20,166 - services.job_service - INFO - Job 58 completed with status: SUCCESS
-2025-08-27 19:38:20,430 - services.job_service - INFO - Batch (Job 58) finished with status: completed
-2025-08-27 19:38:35,916 - services.file_service_optimized - INFO - Upload process dddf8d58-a538-4655-a327-8161bac803e2 completed successfully.
-2025-08-27 19:38:35,942 - services.progress_tracker - INFO - Upload dddf8d58-a538-4655-a327-8161bac803e2 completed in 385.0s
-2025-08-27 21:56:10,711 - services.file_service_optimized - INFO - Parsing and validating uploaded file for upload_id: fa734e62-b150-45d6-90fa-c553dff592af...
-2025-08-27 21:56:11,006 - services.progress_tracker - INFO - Started tracking upload fa734e62-b150-45d6-90fa-c553dff592af with 1 conversations
-2025-08-27 21:56:11,007 - services.progress_tracker - INFO - Upload fa734e62-b150-45d6-90fa-c553dff592af: 0.0% - filtering_conversations
-2025-08-27 21:56:11,035 - services.file_service_optimized - INFO - No new conversations to process.
-2025-08-27 21:56:11,036 - services.progress_tracker - INFO - Upload fa734e62-b150-45d6-90fa-c553dff592af completed in 0.0s
-2025-08-27 21:56:37,846 - main - INFO - --- PowerPulse Analytics Backend Shutting Down ---
+2025-08-29 10:25:11,028 - main - INFO - --- PowerPulse Analytics Backend Starting Up ---
+2025-08-29 10:25:11,028 - main - INFO - Initializing database...
+2025-08-29 10:25:11,036 - main - INFO - Database initialized.
+2025-08-29 10:25:24,569 - services.file_service_optimized - INFO - Starting universal processing for upload_id: 137f94bc-94b5-448b-b870-d57fbceb5a64...
+2025-08-29 10:25:24,573 - services.file_service_optimized - INFO - Detected pre-grouped JSON object format.
+2025-08-29 10:25:24,575 - services.progress_tracker - INFO - Started tracking upload 137f94bc-94b5-448b-b870-d57fbceb5a64 with 20 conversations
+2025-08-29 10:25:24,576 - services.progress_tracker - INFO - Upload 137f94bc-94b5-448b-b870-d57fbceb5a64: 0.0% - filtering_conversations
+2025-08-29 10:25:24,592 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6173bd56f751bf0740f105c6...
+2025-08-29 10:25:24,817 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6173bea0d99d10108c3abefb...
+2025-08-29 10:25:24,894 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6173bfcb48774dd4690addb1...
+2025-08-29 10:25:25,009 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6173c0012e6c965da961c10a...
+2025-08-29 10:25:25,037 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61745b1c9f54ec7f889910f1...
+2025-08-29 10:25:25,100 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61751db99b8246ed5141064a...
+2025-08-29 10:25:25,167 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6175866910aabac8ed4ebcdf...
+2025-08-29 10:25:25,187 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6175b85b66d966883cb3f71d...
+2025-08-29 10:25:25,245 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 617640bdf2041cef612e5109...
+2025-08-29 10:25:25,280 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61767b0e33e3da4879eb8584...
+2025-08-29 10:25:25,317 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6176f7180bb24f35959dc5f3...
+2025-08-29 10:25:25,368 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6177fdb5966fdf6741c3310a...
+2025-08-29 10:25:25,398 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6177ff5015107648604fc329...
+2025-08-29 10:25:25,435 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 617806724f104ac65d9f75c6...
+2025-08-29 10:25:25,482 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61781fcdbab5b2dddd96b4fc...
+2025-08-29 10:25:25,598 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 617823c3dd261102ee87dc71...
+2025-08-29 10:25:25,642 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61782619a6c2f29dca7cc578...
+2025-08-29 10:25:25,665 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6178279a27c50e3c7e2c78de...
+2025-08-29 10:25:25,699 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6178279ec7a2bef471e10342...
+2025-08-29 10:25:25,747 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 617852f86017fdd615f2f37c...
+2025-08-29 10:25:25,768 - services.file_service_optimized - INFO - Creating records for 20 conversations in memory...
+2025-08-29 10:25:25,774 - services.batch_service - INFO - Created 2 batches from 31 daily analysis objects with a batch size of 20.
+2025-08-29 10:25:25,774 - services.file_service_optimized - INFO - Splitting work into 2 batches.
+2025-08-29 10:25:26,725 - services.job_service - INFO - Created 2 jobs for upload 137f94bc-94b5-448b-b870-d57fbceb5a64
+2025-08-29 10:25:26,726 - services.file_service_optimized - INFO - Starting AI analysis for 2 jobs...
+2025-08-29 10:25:28,100 - services.job_service - INFO - Starting Job 311 for Upload 137f94bc-94b5-448b-b870-d57fbceb5a64...
+2025-08-29 10:25:28,112 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-29 10:25:28,333 - services.job_service - INFO - Starting Job 312 for Upload 137f94bc-94b5-448b-b870-d57fbceb5a64...
+2025-08-29 10:25:28,339 - services.gemini_service - INFO - --- Preparing to call Gemini API for 11 daily analyses. ---
+2025-08-29 10:25:28,950 - services.gemini_service - WARNING - Gemini call failed (attempt 1), retrying in 0.5s: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:25:29,534 - services.gemini_service - WARNING - Gemini call failed (attempt 1), retrying in 0.5s: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:25:29,695 - services.gemini_service - WARNING - Gemini call failed (attempt 2), retrying in 1.0s: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:25:30,279 - services.gemini_service - WARNING - Gemini call failed (attempt 2), retrying in 1.0s: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:25:30,941 - services.gemini_service - ERROR - Gemini call failed after 3 attempts: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:25:30,942 - services.gemini_service - ERROR - --- Gemini API call failed catastrophically after retries. Using fallbacks. ---
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 35, in analyze_daily_analyses_batch
+    response, usage_metadata = await self._call_gemini_with_retry(prompt)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 143, in _call_gemini_with_retry
+    response = await loop.run_in_executor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, lambda: self.model.generate_content(prompt))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 144, in <lambda>
+    None, lambda: self.model.generate_content(prompt))
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+        request,
+        **request_options,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+        request,
+    ...<2 lines>...
+        metadata=metadata,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+        target,
+    ...<3 lines>...
+        on_error=on_error,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\grpc_helpers.py", line 78, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:25:30,979 - services.job_service - WARNING - Job 312 completed with status: FAILED (AI analysis fallback)
+2025-08-29 10:25:31,017 - services.job_service - ERROR - Batch (Job 312) finished with status: failed
+2025-08-29 10:25:31,517 - services.gemini_service - ERROR - Gemini call failed after 3 attempts: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:25:31,520 - services.gemini_service - ERROR - --- Gemini API call failed catastrophically after retries. Using fallbacks. ---
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 35, in analyze_daily_analyses_batch
+    response, usage_metadata = await self._call_gemini_with_retry(prompt)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 143, in _call_gemini_with_retry
+    response = await loop.run_in_executor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, lambda: self.model.generate_content(prompt))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 144, in <lambda>
+    None, lambda: self.model.generate_content(prompt))
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+        request,
+        **request_options,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+        request,
+    ...<2 lines>...
+        metadata=metadata,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+        target,
+    ...<3 lines>...
+        on_error=on_error,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\grpc_helpers.py", line 78, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:25:31,533 - services.job_service - WARNING - Job 311 completed with status: FAILED (AI analysis fallback)
+2025-08-29 10:25:31,562 - services.job_service - ERROR - Batch (Job 311) finished with status: failed
+2025-08-29 10:25:31,639 - services.file_service_optimized - ERROR - Error processing file: (sqlite3.IntegrityError) UNIQUE constraint failed: processed_chats.fb_chat_id
+[SQL: INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at]
+[parameters: ('6173bea0d99d10108c3abefb', 14)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+    ...<2 lines>...
+        context,
+        ^^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: processed_chats.fb_chat_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\file_service_optimized.py", line 131, in process_grouped_chats_json
+    db.commit()
+    ~~~~~~~~~^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2032, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1313, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1288, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4345, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4480, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4441, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1143, in _emit_insert_statements
+    result = connection.execute(
+        statement, multiparams, execution_options=execution_options
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1844, in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2126, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e,
+        ^^
+    ...<4 lines>...
+        is_sub_exec=True,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+    ...<2 lines>...
+        context,
+        ^^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: processed_chats.fb_chat_id
+[SQL: INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at]
+[parameters: ('6173bea0d99d10108c3abefb', 14)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-08-29 10:25:31,679 - services.progress_tracker - INFO - Upload 137f94bc-94b5-448b-b870-d57fbceb5a64 failed in 7.1s
+2025-08-29 10:29:39,594 - services.file_service_optimized - INFO - Starting universal processing for upload_id: 41edbdcc-0c3d-4ec1-8876-9b6e4974898f...
+2025-08-29 10:29:39,598 - services.file_service_optimized - INFO - Detected pre-grouped JSON object format.
+2025-08-29 10:29:39,599 - services.progress_tracker - INFO - Started tracking upload 41edbdcc-0c3d-4ec1-8876-9b6e4974898f with 20 conversations
+2025-08-29 10:29:39,601 - services.progress_tracker - INFO - Upload 41edbdcc-0c3d-4ec1-8876-9b6e4974898f: 0.0% - filtering_conversations
+2025-08-29 10:29:39,609 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6173bd56f751bf0740f105c6...
+2025-08-29 10:29:39,870 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6173bea0d99d10108c3abefb...
+2025-08-29 10:29:39,956 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6173bfcb48774dd4690addb1...
+2025-08-29 10:29:40,070 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6173c0012e6c965da961c10a...
+2025-08-29 10:29:40,102 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61745b1c9f54ec7f889910f1...
+2025-08-29 10:29:40,153 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61751db99b8246ed5141064a...
+2025-08-29 10:29:40,207 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6175866910aabac8ed4ebcdf...
+2025-08-29 10:29:40,228 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6175b85b66d966883cb3f71d...
+2025-08-29 10:29:40,281 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 617640bdf2041cef612e5109...
+2025-08-29 10:29:40,306 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61767b0e33e3da4879eb8584...
+2025-08-29 10:29:40,328 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6176f7180bb24f35959dc5f3...
+2025-08-29 10:29:40,369 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6177fdb5966fdf6741c3310a...
+2025-08-29 10:29:40,393 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6177ff5015107648604fc329...
+2025-08-29 10:29:40,421 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 617806724f104ac65d9f75c6...
+2025-08-29 10:29:40,457 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61781fcdbab5b2dddd96b4fc...
+2025-08-29 10:29:40,525 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 617823c3dd261102ee87dc71...
+2025-08-29 10:29:40,566 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 61782619a6c2f29dca7cc578...
+2025-08-29 10:29:40,594 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6178279a27c50e3c7e2c78de...
+2025-08-29 10:29:40,634 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 6178279ec7a2bef471e10342...
+2025-08-29 10:29:40,685 - services.file_service_optimized - INFO - Force reprocess: Deleting existing conversation data for 617852f86017fdd615f2f37c...
+2025-08-29 10:29:40,706 - services.file_service_optimized - INFO - Creating records for 20 conversations in memory...
+2025-08-29 10:29:40,714 - services.batch_service - INFO - Created 2 batches from 31 daily analysis objects with a batch size of 20.
+2025-08-29 10:29:40,714 - services.file_service_optimized - INFO - Splitting work into 2 batches.
+2025-08-29 10:29:41,387 - services.job_service - INFO - Created 2 jobs for upload 41edbdcc-0c3d-4ec1-8876-9b6e4974898f
+2025-08-29 10:29:41,387 - services.file_service_optimized - INFO - Starting AI analysis for 2 jobs...
+2025-08-29 10:29:42,690 - services.job_service - INFO - Starting Job 313 for Upload 41edbdcc-0c3d-4ec1-8876-9b6e4974898f...
+2025-08-29 10:29:42,697 - services.gemini_service - INFO - --- Preparing to call Gemini API for 20 daily analyses. ---
+2025-08-29 10:29:42,875 - services.job_service - INFO - Starting Job 314 for Upload 41edbdcc-0c3d-4ec1-8876-9b6e4974898f...
+2025-08-29 10:29:42,885 - services.gemini_service - INFO - --- Preparing to call Gemini API for 11 daily analyses. ---
+2025-08-29 10:29:43,781 - services.gemini_service - WARNING - Gemini call failed (attempt 1), retrying in 0.5s: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:29:43,849 - services.gemini_service - WARNING - Gemini call failed (attempt 1), retrying in 0.5s: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:29:44,482 - services.gemini_service - WARNING - Gemini call failed (attempt 2), retrying in 1.0s: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:29:45,092 - services.gemini_service - WARNING - Gemini call failed (attempt 2), retrying in 1.0s: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:29:45,667 - services.gemini_service - ERROR - Gemini call failed after 3 attempts: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:29:45,672 - services.gemini_service - ERROR - --- Gemini API call failed catastrophically after retries. Using fallbacks. ---
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 35, in analyze_daily_analyses_batch
+    response, usage_metadata = await self._call_gemini_with_retry(prompt)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 143, in _call_gemini_with_retry
+    response = await loop.run_in_executor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, lambda: self.model.generate_content(prompt))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 144, in <lambda>
+    None, lambda: self.model.generate_content(prompt))
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+        request,
+        **request_options,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+        request,
+    ...<2 lines>...
+        metadata=metadata,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+        target,
+    ...<3 lines>...
+        on_error=on_error,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\grpc_helpers.py", line 78, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:29:45,692 - services.job_service - WARNING - Job 314 completed with status: FAILED (AI analysis fallback)
+2025-08-29 10:29:45,714 - services.job_service - ERROR - Batch (Job 314) finished with status: failed
+2025-08-29 10:29:46,328 - services.gemini_service - ERROR - Gemini call failed after 3 attempts: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:29:46,331 - services.gemini_service - ERROR - --- Gemini API call failed catastrophically after retries. Using fallbacks. ---
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 35, in analyze_daily_analyses_batch
+    response, usage_metadata = await self._call_gemini_with_retry(prompt)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 143, in _call_gemini_with_retry
+    response = await loop.run_in_executor(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        None, lambda: self.model.generate_content(prompt))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\concurrent\futures\thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 144, in <lambda>
+    None, lambda: self.model.generate_content(prompt))
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+        request,
+        **request_options,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+        request,
+    ...<2 lines>...
+        metadata=metadata,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+        target,
+    ...<3 lines>...
+        on_error=on_error,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+        exc,
+    ...<6 lines>...
+        timeout,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\google\api_core\grpc_helpers.py", line 78, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 Quota exceeded for quota metric 'Generate Content API requests per minute' and limit 'GenerateContent request limit per minute for a region' of service 'generativelanguage.googleapis.com' for consumer 'project_number:1086548496648'. [reason: "RATE_LIMIT_EXCEEDED"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+metadata {
+  key: "quota_unit"
+  value: "1/min/{project}/{region}"
+}
+metadata {
+  key: "quota_metric"
+  value: "generativelanguage.googleapis.com/generate_content_requests"
+}
+metadata {
+  key: "quota_location"
+  value: "europe-west1"
+}
+metadata {
+  key: "quota_limit"
+  value: "GenerateContentRequestsPerMinutePerProjectPerRegion"
+}
+metadata {
+  key: "quota_limit_value"
+  value: "0"
+}
+metadata {
+  key: "consumer"
+  value: "projects/1086548496648"
+}
+, links {
+  description: "Request a higher quota limit."
+  url: "https://cloud.google.com/docs/quotas/help/request_increase"
+}
+]
+2025-08-29 10:29:46,350 - services.job_service - WARNING - Job 313 completed with status: FAILED (AI analysis fallback)
+2025-08-29 10:29:46,364 - services.job_service - ERROR - Batch (Job 313) finished with status: failed
+2025-08-29 10:29:46,394 - services.file_service_optimized - ERROR - Error processing file: (sqlite3.IntegrityError) UNIQUE constraint failed: processed_chats.fb_chat_id
+[SQL: INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at]
+[parameters: ('6173bd56f751bf0740f105c6', 36)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+    ...<2 lines>...
+        context,
+        ^^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: processed_chats.fb_chat_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\proj-d\PowerPulse\services\file_service_optimized.py", line 131, in process_grouped_chats_json
+    db.commit()
+    ~~~~~~~~~^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2032, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1313, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1288, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4345, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4480, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4441, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1143, in _emit_insert_statements
+    result = connection.execute(
+        statement, multiparams, execution_options=execution_options
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1844, in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2126, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e,
+        ^^
+    ...<4 lines>...
+        is_sub_exec=True,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+    ...<2 lines>...
+        context,
+        ^^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: processed_chats.fb_chat_id
+[SQL: INSERT INTO processed_chats (fb_chat_id, message_count) VALUES (?, ?) RETURNING id, processed_at]
+[parameters: ('6173bd56f751bf0740f105c6', 36)]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2025-08-29 10:29:46,407 - services.progress_tracker - INFO - Upload 41edbdcc-0c3d-4ec1-8876-9b6e4974898f failed in 6.8s
