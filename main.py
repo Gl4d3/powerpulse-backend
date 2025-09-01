@@ -13,6 +13,7 @@ from routes.conversations import router as conversations_router
 from routes.export import router as export_router
 from routes.progress import router as progress_router
 from routes.charts import router as charts_router
+from routes.explorer import router as explorer_router
 from database import SessionLocal
 from logging_config import setup_logging
 
@@ -70,6 +71,7 @@ app.include_router(conversations_router, prefix="/api", tags=["conversations"])
 app.include_router(export_router, prefix="/api", tags=["export"])
 app.include_router(progress_router, prefix="/api", tags=["progress"])
 app.include_router(charts_router, prefix="/api/charts", tags=["charts"])
+app.include_router(explorer_router, prefix="/api", tags=["explorer"])
 
 @app.get("/")
 async def root():

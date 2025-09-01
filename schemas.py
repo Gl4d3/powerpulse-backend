@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from typing import List, Optional, Dict, Any
 from datetime import datetime, date
 
@@ -27,32 +27,27 @@ class MessageResponse(BaseModel):
         from_attributes = True
 
 class DailyAnalysisResponse(BaseModel):
-    """
-    Represents the detailed CSI analysis for a single day within a conversation.
-    """
-    analysis_date: datetime
-    
-    # Micro-Metrics
-    sentiment_score: Optional[float]
-    sentiment_shift: Optional[float]
-    resolution_achieved: Optional[float]
-    fcr_score: Optional[float]
-    ces: Optional[float]
-    first_response_time: Optional[float]
-    avg_response_time: Optional[float]
-    total_handling_time: Optional[float]
-    
-    # Pillar Scores
-    effectiveness_score: Optional[float]
-    effort_score: Optional[float]
-    efficiency_score: Optional[float]
-    empathy_score: Optional[float]
-    
-    # Daily CSI Score
-    csi_score: Optional[float]
+    daily_analysis_id: int
+    conversation_id: str
+    customer_name: Optional[str] = None
+    analysis_date: date
+    csi_score: Optional[float] = None
+    effectiveness_score: Optional[float] = None
+    efficiency_score: Optional[float] = None
+    effort_score: Optional[float] = None
+    empathy_score: Optional[float] = None
+    common_topics: Optional[List[str]] = None
 
     class Config:
-        from_attributes = True
+        orm_mode = True
+
+    @validator('conversation_id', pre=True, allow_reuse=True)
+    def get_fb_chat_id(cls, v, values):
+        return values.get('conversation').fb_chat_id
+
+    @validator('customer_name', pre=True, allow_reuse=True)
+    def get_customer_name(cls, v, values):
+        return values.get('conversation').customer_name
 
 class ConversationResponse(BaseModel):
     """
@@ -194,3 +189,39 @@ class DailyMetricsResponse(BaseModel):
 class HistoricalMetricsResponse(BaseModel):
     """Container for a list of daily metrics over a date range."""
     data: List[DailyMetricsResponse]
+
+class Pagination(BaseModel):
+    page: int
+    page_size: int
+    total_items: int
+    total_pages: int
+
+class PaginatedDailyAnalysisResponse(BaseModel):
+    pagination: Pagination
+    data: List[DailyAnalysisResponse]
+
+
+class Pagination(BaseModel):
+    page: int
+    page_size: int
+    total_items: int
+    total_pages: int
+
+class ConversationExplorerResponse(BaseModel):
+    daily_analysis_id: int
+    conversation_id: str
+    customer_name: Optional[str] = None
+    analysis_date: date
+    csi_score: Optional[float] = None
+    effectiveness_score: Optional[float] = None
+    efficiency_score: Optional[float] = None
+    effort_score: Optional[float] = None
+    empathy_score: Optional[float] = None
+    common_topics: Optional[List[str]] = None
+
+    class Config:
+        orm_mode = True
+
+class PaginatedConversationExplorerResponse(BaseModel):
+    pagination: Pagination
+    data: List[ConversationExplorerResponse]

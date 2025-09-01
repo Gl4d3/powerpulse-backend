@@ -111,6 +111,7 @@ async def process_job(job_id: int):
                         analysis_obj.resolution_achieved = result_data.get("resolution_achieved")
                         analysis_obj.fcr_score = result_data.get("fcr_score")
                         analysis_obj.ces = result_data.get("ces")
+                        analysis_obj.common_topics = result_data.get("common_topics")
                         
                         # Calculate and update with script-based quantitative metrics
                         time_metrics = time_metric_service.calculate_time_metrics_for_daily_analysis(analysis_obj)

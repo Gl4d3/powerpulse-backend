@@ -3,18 +3,17 @@ import logging
 import asyncio
 import uuid
 from typing import Dict, List, Any, Tuple
-from datetime import datetime
+from datetime import datetime, date
 from sqlalchemy.orm import Session
+from sqlalchemy import tuple_
+from database import SessionLocal
 
-from models import Message, Conversation, ProcessedChat, DailyAnalysis
 from services import batch_service, job_service
 from services.progress_tracker import progress_tracker
-from config import settings
+from services.analytics_service import analytics_service
+from models import Conversation, Message, DailyAnalysis
 
 logger = logging.getLogger(__name__)
-
-from database import SessionLocal
-from services.analytics_service import analytics_service
 
 async def process_uploaded_file(file_content: str, upload_id: str, force_reprocess: bool):
     """
@@ -48,72 +47,73 @@ class OptimizedFileService:
             # The new universal parser detects the format and returns a consistent structure
             grouped_data, customer_names = self._parse_and_normalize_input(file_content)
             
-            await progress_tracker.start_upload(upload_id, len(grouped_data))
-            
-            conversations_to_process = []
-            await progress_tracker.update_progress(upload_id, 0, "filtering_conversations", "Filtering conversations...")
-            
+            # Phase 2: Identify which daily analyses are new
+            all_possible_analyses: Dict[Tuple[str, date], List[Dict]] = {}
             for chat_id, messages in grouped_data.items():
-                # The rest of the pipeline remains the same, as the data is now in a consistent format
-                if not isinstance(messages, list):
-                    logger.warning(f"Skipping chat_id {chat_id}: messages must be an array")
-                    continue
-                
-                if force_reprocess:
-                    existing_conv = db.query(Conversation).filter(Conversation.fb_chat_id == chat_id).first()
-                    if existing_conv:
-                        logger.info(f"Force reprocess: Deleting existing conversation data for {chat_id}...")
-                        db.delete(existing_conv)
-                        db.commit()
-                
-                elif self._is_chat_processed(db, chat_id):
-                    logger.info(f"Skipping already processed chat: {chat_id}")
-                    continue
-                
                 valid_messages = [self._clean_message(msg, chat_id) for msg in messages if self._validate_message(msg)]
+                if not valid_messages:
+                    continue
                 
-                if valid_messages:
-                    conversations_to_process.append({
-                        'chat_id': chat_id,
-                        'messages': valid_messages,
-                        'customer_name': customer_names.get(chat_id)
-                    })
+                messages_by_day = self._group_messages_by_day(valid_messages)
+                for day, day_messages in messages_by_day.items():
+                    all_possible_analyses[(chat_id, day)] = day_messages
 
-            if not conversations_to_process:
-                logger.info("No new conversations to process.")
+            if not all_possible_analyses:
+                logger.info("No valid daily conversations to process.")
                 await progress_tracker.complete_upload(upload_id, True)
                 return 0, 0, upload_id
 
-            logger.info(f"Creating records for {len(conversations_to_process)} conversations in memory...")
-            new_conversations = []
-            for conv_data in conversations_to_process:
-                conversation = Conversation(
-                    fb_chat_id=conv_data['chat_id'],
-                    customer_name=conv_data['customer_name']
-                )
-                
-                messages_by_day = self._group_messages_by_day(conv_data['messages'])
-                
-                for date, day_messages in messages_by_day.items():
-                    daily_analysis = DailyAnalysis(analysis_date=date)
-                    for msg_data in day_messages:
-                        message = Message(
-                            fb_chat_id=conv_data['chat_id'],
-                            message_content=msg_data['message_content'],
-                            direction=msg_data['direction'],
-                            social_create_time=msg_data['social_create_time'],
-                            agent_info=msg_data.get('agent_info')
-                        )
-                        conversation.messages.append(message)
-                    conversation.daily_analyses.append(daily_analysis)
+            # Query for existing daily analyses by joining with conversations table
+            existing_keys_query = db.query(Conversation.fb_chat_id, DailyAnalysis.analysis_date)\
+                .join(DailyAnalysis, Conversation.id == DailyAnalysis.conversation_id)\
+                .filter(tuple_(Conversation.fb_chat_id, DailyAnalysis.analysis_date).in_(
+                    list(all_possible_analyses.keys())
+                ))
+            existing_keys = existing_keys_query.all()
+            
+            # Filter out analyses that already exist
+            new_analyses_to_process = {k: v for k, v in all_possible_analyses.items() if k not in existing_keys}
+            logger.info(f"Found {len(new_analyses_to_process)} new daily analyses to process out of {len(all_possible_analyses)} total.")
 
-                conversation.total_messages = len(conversation.messages)
-                conversation.customer_messages = sum(1 for m in conversation.messages if m.direction == 'to_company')
-                conversation.agent_messages = sum(1 for m in conversation.messages if m.direction == 'to_client')
-                
-                new_conversations.append(conversation)
+            if not new_analyses_to_process:
+                logger.info("No new daily analyses to process.")
+                await progress_tracker.complete_upload(upload_id, True)
+                return 0, 0, upload_id
 
-            batches = batch_service.create_daily_analysis_batches(new_conversations, db)
+            # Phase 3: Create DB objects for new analyses
+            conversations_in_db = db.query(Conversation).filter(Conversation.fb_chat_id.in_([k[0] for k in new_analyses_to_process.keys()])).all()
+            conversation_map = {c.fb_chat_id: c for c in conversations_in_db}
+            
+            daily_analyses_to_create: List[DailyAnalysis] = []
+
+            for (chat_id, day), messages in new_analyses_to_process.items():
+                # Get existing conversation from map or create a new one
+                conversation = conversation_map.get(chat_id)
+                if not conversation:
+                    conversation = Conversation(fb_chat_id=chat_id, customer_name=customer_names.get(chat_id))
+                    db.add(conversation)
+                    conversation_map[chat_id] = conversation # Add to map to reuse in this same run
+                
+                daily_analysis = DailyAnalysis(analysis_date=day)
+                conversation.daily_analyses.append(daily_analysis)
+
+                for msg_data in messages:
+                    message = Message(
+                        fb_chat_id=chat_id,
+                        message_content=msg_data['message_content'],
+                        direction=msg_data['direction'],
+                        social_create_time=msg_data['social_create_time'],
+                        agent_info=msg_data.get('agent_info')
+                    )
+                    conversation.messages.append(message)
+                
+                daily_analyses_to_create.append(daily_analysis)
+
+            # Commit conversations and new daily analyses to get IDs
+            db.commit()
+
+            # Phase 4: Create and process jobs
+            batches = batch_service.create_daily_analysis_batches(daily_analyses_to_create, db)
             logger.info(f"Splitting work into {len(batches)} batches.")
 
             jobs = await job_service.create_jobs_for_upload(upload_id, batches, db)
@@ -122,12 +122,9 @@ class OptimizedFileService:
             tasks = [job_service.process_job(job.id) for job in jobs]
             await asyncio.gather(*tasks)
 
-            conversations_processed = len(new_conversations)
-            messages_processed = sum(len(conv.messages) for conv in new_conversations)
+            conversations_processed = len(conversation_map)
+            messages_processed = sum(len(v) for v in new_analyses_to_process.values())
 
-            for conv in new_conversations:
-                self._mark_chat_processed(db, conv.fb_chat_id, len(conv.messages))
-            
             db.commit()
 
             logger.info(f"Upload process {upload_id} completed successfully.")
@@ -342,32 +339,7 @@ class OptimizedFileService:
             logger.error(f"Error calculating average response time: {e}")
             return 0.0
     
-    def _is_chat_processed(self, db: Session, chat_id: str) -> bool:
-        """Check if a chat has already been processed"""
-        try:
-            return db.query(ProcessedChat).filter(ProcessedChat.fb_chat_id == chat_id).first() is not None
-        except Exception as e:
-            logger.error(f"Error checking processed status for {chat_id}: {e}")
-            return False
     
-    def _mark_chat_processed(self, db: Session, chat_id: str, message_count: int):
-        """Mark a chat as processed"""
-        try:
-            # Remove existing record if it exists (for force reprocess)
-            existing = db.query(ProcessedChat).filter(ProcessedChat.fb_chat_id == chat_id).first()
-            if existing:
-                db.delete(existing)
-            
-            # Add new record
-            processed_chat = ProcessedChat(
-                fb_chat_id=chat_id,
-                message_count=message_count
-            )
-            db.add(processed_chat)
-            
-        except Exception as e:
-            logger.error(f"Error marking chat {chat_id} as processed: {e}")
-            raise
 
 # Global optimized service instance
 optimized_file_service = OptimizedFileService()

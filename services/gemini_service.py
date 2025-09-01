@@ -75,7 +75,8 @@ Provide the analysis as a valid JSON array, with one object per daily interactio
         "sentiment_shift": <-5 to +5 float>,
         "resolution_achieved": <0-10 float>,
         "fcr_score": <0-10 float>,
-        "ces": <1-7 float, where 1 is high effort and 7 is low effort>
+        "ces": <1-7 float, where 1 is high effort and 7 is low effort>,
+        "common_topics": ["<list of 3-5 topics discussed>"]
     }}
 }}
 
@@ -176,6 +177,7 @@ ANALYSIS GUIDELINES:
             'resolution_achieved': 5.0,
             'fcr_score': 5.0,
             'ces': 4.0,
+            'common_topics': [],
             'error': 'analysis_failed'
         }
 

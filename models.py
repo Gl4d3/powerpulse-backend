@@ -88,6 +88,7 @@ class DailyAnalysis(Base):
     resolution_achieved = Column(Float, nullable=True)
     fcr_score = Column(Float, nullable=True)
     ces = Column(Float, nullable=True) # Customer Effort Score
+    common_topics = Column(JSON, nullable=True)
     first_response_time = Column(Float, nullable=True) # seconds
     avg_response_time = Column(Float, nullable=True) # seconds
     total_handling_time = Column(Float, nullable=True) # minutes
@@ -137,14 +138,7 @@ class Message(Base):
         Index('idx_social_create_time', 'social_create_time'),
     )
 
-class ProcessedChat(Base):
-    """Track which chat IDs have been processed to avoid reprocessing"""
-    __tablename__ = "processed_chats"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    fb_chat_id = Column(String, unique=True, index=True, nullable=False)
-    processed_at = Column(DateTime(timezone=True), server_default=func.now())
-    message_count = Column(Integer, default=0)
+
 
 class Metric(Base):
     """Cached aggregated metrics for quick dashboard loading"""

@@ -4,13 +4,13 @@ Customer Satisfaction Index (CSI) model, calculated on a daily basis.
 """
 import logging
 from typing import Dict, List, Any, Optional
-from sqlalchemy.orm import Session
-from sqlalchemy import func, and_
+from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import func, and_, tuple_
 from datetime import datetime, date
 import numpy as np
 
 from models import Conversation, Metric, Message, DailyAnalysis
-from schemas import CSIMetricsResponse, DailyMetricsResponse, HistoricalMetricsResponse
+from schemas import CSIMetricsResponse, DailyMetricsResponse, HistoricalMetricsResponse, PaginatedDailyAnalysisResponse, DailyAnalysisResponse
 
 logger = logging.getLogger(__name__)
 
@@ -263,6 +263,45 @@ class AnalyticsService:
         except Exception as e:
             logger.error(f"Error calculating CSI trend: {e}", exc_info=True)
             raise
+
+    def get_daily_analyses_with_details(self, db: Session, start_date: date, end_date: date, page: int, page_size: int) -> PaginatedDailyAnalysisResponse:
+        """
+        Fetches a paginated list of daily analyses with details for the explorer.
+        """
+        offset = (page - 1) * page_size
+        
+        query = db.query(DailyAnalysis).options(
+            joinedload(DailyAnalysis.conversation)
+        ).filter(DailyAnalysis.analysis_date.between(start_date, end_date))
+        
+        total_items = query.count()
+        total_pages = (total_items + page_size - 1) // page_size
+        
+        results = query.order_by(DailyAnalysis.analysis_date.desc()).limit(page_size).offset(offset).all()
+        
+        return PaginatedDailyAnalysisResponse(
+            pagination={"page": page, "page_size": page_size, "total_items": total_items, "total_pages": total_pages},
+            data=[DailyAnalysisResponse.from_orm(row) for row in results]
+        )
+
+    def get_transcript_for_daily_analysis(self, db: Session, daily_analysis_id: int) -> List[Message]:
+        """
+        Fetches all messages associated with a specific daily analysis, ordered by time.
+        """
+        analysis = db.query(DailyAnalysis).options(
+            joinedload(DailyAnalysis.conversation).joinedload(Conversation.messages)
+        ).filter(Daily_Analysis.id == daily_analysis_id).first()
+
+        if not analysis:
+            return []
+
+        # Filter messages to only those on the specific analysis date
+        daily_messages = [
+            msg for msg in analysis.conversation.messages 
+            if msg.social_create_time.date() == analysis.analysis_date.date()
+        ]
+        
+        return sorted(daily_messages, key=lambda m: m.social_create_time)
 
 # Global instance
 analytics_service = AnalyticsService()
