@@ -11,6 +11,7 @@ from datetime import datetime
 import google.generativeai as genai
 
 from models import DailyAnalysis
+from config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +19,19 @@ class GeminiService:
     def __init__(self, api_key: str):
         """Initialize Gemini service with API key"""
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        # Configure generation parameters for large outputs
+        generation_config = genai.types.GenerationConfig(
+            max_output_tokens=8192,  # Increase output token limit
+            temperature=0.1,         # Low temperature for consistent output
+            top_p=0.8,
+            top_k=40
+        )
+        
+        self.model = genai.GenerativeModel(
+            model_name=settings.GEMINI_MODEL,
+            generation_config=generation_config
+        )
         self.api_key = api_key
 
     async def analyze_daily_analyses_batch(self, daily_analyses: List[DailyAnalysis]) -> Tuple[List[Dict], Dict[str, int]]:
@@ -112,7 +125,29 @@ ANALYSIS GUIDELINES:
             # Clean up potential markdown formatting
             json_text = json_text.strip().replace("```json", "").replace("```", "").strip()
 
-            parsed_results = json.loads(json_text)
+            # Save raw response for debugging
+            self._save_raw_response(response, json_text, len(original_analyses))
+
+            try:
+                parsed_results = json.loads(json_text)
+            except json.JSONDecodeError as e:
+                logger.error(f"Failed to decode JSON from Gemini response: {e}")
+                logger.error(f"Batch size: {len(original_analyses)} analyses")
+                logger.error(f"JSON text length: {len(json_text)} characters")
+                logger.error(f"Response ends with: ...{json_text[-100:] if len(json_text) > 100 else json_text}")
+                
+                # Try to repair common JSON issues
+                repaired_json = self._attempt_json_repair(json_text)
+                if repaired_json:
+                    try:
+                        parsed_results = json.loads(repaired_json)
+                        logger.info("Successfully parsed JSON after repair!")
+                    except json.JSONDecodeError:
+                        logger.error("JSON repair failed, using fallback results")
+                        return [self._create_fallback_result_daily(da) for da in original_analyses]
+                else:
+                    logger.error("Could not repair JSON, using fallback results")
+                    return [self._create_fallback_result_daily(da) for da in original_analyses]
             results_by_id = {result.get("daily_analysis_id"): result for result in parsed_results}
 
             final_results = []
@@ -167,6 +202,87 @@ ANALYSIS GUIDELINES:
                 else:
                     logger.error(f"Gemini call failed after {max_retries + 1} attempts: {e}")
                     raise
+
+    def _save_raw_response(self, full_response: str, json_part: str, batch_size: int):
+        """Save raw Gemini response for debugging in versioned directories"""
+        import os
+        from datetime import datetime
+        
+        # Create versioned debug directory
+        today = datetime.now().strftime("%Y%m%d")
+        debug_dir = f"logs/gemini_responses/run_{today}"
+        os.makedirs(debug_dir, exist_ok=True)
+        
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{debug_dir}/gemini_response_{timestamp}_batch_{batch_size}.txt"
+        
+        try:
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(f"Timestamp: {timestamp}\n")
+                f.write(f"Batch size: {batch_size}\n")
+                f.write(f"API Key: {self.api_key[:10]}...\n")
+                f.write(f"Model: gemini-1.5-flash\n")
+                f.write("="*80 + "\n")
+                f.write("FULL RESPONSE:\n")
+                f.write("="*80 + "\n")
+                f.write(full_response)
+                f.write("\n" + "="*80 + "\n")
+                f.write("EXTRACTED JSON PART:\n")
+                f.write("="*80 + "\n")
+                f.write(json_part)
+                f.write("\n")
+            
+            logger.info(f"Saved raw Gemini response to: {filename}")
+        except Exception as e:
+            logger.error(f"Failed to save raw response: {e}")
+
+    def _attempt_json_repair(self, json_text: str) -> str:
+        """Attempt to repair common JSON issues, especially truncated arrays"""
+        try:
+            # Common fixes for Gemini JSON issues
+            repaired = json_text
+            
+            # Fix trailing commas
+            repaired = re.sub(r',\s*}', '}', repaired)
+            repaired = re.sub(r',\s*]', ']', repaired)
+            
+            # Fix missing commas between objects (basic attempt)
+            repaired = re.sub(r'}\s*{', '},{', repaired)
+            
+            # Fix unescaped quotes in strings (basic attempt)
+            repaired = re.sub(r'(?<!\\)"(?![,:}\]\s])', '\\"', repaired)
+            
+            # Handle truncated JSON arrays - if the JSON ends abruptly without closing
+            if not repaired.rstrip().endswith(']'):
+                # Count unclosed objects/arrays and try to close them
+                open_braces = repaired.count('{') - repaired.count('}')
+                open_brackets = repaired.count('[') - repaired.count(']')
+                
+                # Remove any incomplete trailing content
+                last_complete_brace = repaired.rfind('}')
+                if last_complete_brace > -1:
+                    # Find if there's incomplete content after the last complete object
+                    remaining = repaired[last_complete_brace + 1:].strip()
+                    if remaining and not remaining.startswith(',') and not remaining == ']':
+                        repaired = repaired[:last_complete_brace + 1]
+                        logger.info(f"Removed incomplete trailing content: {remaining[:100]}...")
+                
+                # Close any remaining open structures
+                for _ in range(open_braces):
+                    repaired += '}'
+                for _ in range(open_brackets):
+                    repaired += ']'
+                
+                logger.info(f"Added {open_braces} closing braces and {open_brackets} closing brackets")
+            
+            # Try to validate the repaired JSON
+            json.loads(repaired)
+            logger.info("JSON repair successful")
+            return repaired
+            
+        except Exception as e:
+            logger.error(f"JSON repair failed: {e}")
+            return None
 
     def _create_fallback_result_daily(self, daily_analysis: DailyAnalysis) -> Dict:
         """Create a neutral fallback result for daily micro-metrics when analysis fails."""

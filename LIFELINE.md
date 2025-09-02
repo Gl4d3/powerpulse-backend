@@ -47,13 +47,13 @@ flowchart TD
 2.  **Database Check:** It then performs a single, efficient database query to fetch all `(conversation.fb_chat_id, daily_analysis.analysis_date)` pairs that already exist in the database.
 3.  **Filtering:** By comparing the two sets, the service creates a final list of `DailyAnalysis` objects that are confirmed to be new and require processing.
 4.  **Object Creation:** The service creates `Conversation`, `Message`, and `DailyAnalysis` SQLAlchemy objects in memory for the new data.
-5.  **Batching (`services/batch_service.py`):** The list of new `DailyAnalysis` objects is passed to the `create_daily_analysis_batches` function. This function will be refactored to group these analyses into batches that do not exceed a `MAX_TOKENS_PER_BATCH` limit defined in `config.py`.
+5.  **Batching (`services/batch_service.py`):** The list of new `DailyAnalysis` objects is passed to the `create_daily_analysis_batches` function. This function groups analyses into batches that do not exceed a `MAX_TOKENS_PER_BATCH` limit, ensuring all days for a single conversation stay in the same batch.
 
 ### Step 3: Job Creation and Concurrent Processing
 
 1.  **Job Creation (`services/job_service.py`):** For each batch of `DailyAnalysis` objects, a `Job` record is created in the database with a `pending` status.
 2.  **Task Scheduling:** The `process_uploaded_file` function creates an `asyncio` task for each `job.id`. A global `asyncio.Semaphore` (with its limit set by `AI_CONCURRENCY` in `config.py`) ensures that only a safe number of these jobs run at the same time.
-3.  **Delay (Future):** A configurable delay (`BATCH_PROCESSING_DELAY_SECONDS`) will be added between the scheduling of each task to further manage rate limits.
+3.  **Delay:** A configurable delay (`BATCH_PROCESSING_DELAY_SECONDS`) is awaited between the scheduling of each task to further manage rate limits.
 
 ### Step 4: AI Analysis (Inside a Job)
 

@@ -20,25 +20,15 @@ class Settings(BaseSettings):
     BACKGROUND_TASK_TIMEOUT: int = 3600  # 1 hour
     
     # AI Service Configuration
-    
-    # Original Key => akioko367@gmail.com
-    # OPENAI_API_KEY: str = "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"
-    
-    # The way of the Dao Key => agarcia1234.com@gmail.com
-    OPENAI_API_KEY: str = "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"
-    
-    # GEMINI_API_KEY: str = "AIzaSyDM9GssixzNISUbofkVLttZBco1BvyI2eE" 
-    GEMINI_API_KEY: str = "AIzaSyC89aAsZ_37Q8UBY9UMlrLOCzQtwgvtWjg" #tonykiosh api (free tier)
-    # GEMINI_API_KEY: str = "AIzaSyB0TNJzIJAc4hAJiw5CYdhrxDuQz-1sha8"
-    # GEMINI_API_KEY: str = "AIzaSyDUqzwa_9Z8Nl99PBHQqlN2FjquH-6xdu4" # akioko api
-
-    AI_SERVICE: str = "gemini"  # NEW: Choose between "openai" or "gemini"
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")  # Loaded from .env file
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")  # Loaded from .env file
+    AI_SERVICE: str = "gemini"  # Choose between "openai" or "gemini"
 
     # Job and Batching Configuration
-    BATCH_SIZE: int = 20  # Number of conversations per batch
-    MAX_TOKENS_PER_JOB: int = 16000
-    AI_CONCURRENCY: int = 2 # Reduced from 5 to stay well below 15 RPM limit
-    
+    MAX_TOKENS_PER_BATCH: int = 8000  # Reduced significantly to ensure output fits within 8K tokens
+    BATCH_PROCESSING_DELAY_SECONDS: int = 5
+    AI_CONCURRENCY: int = 1  # Reduced from 5 to stay well below 15 RPM limit
+
     # Model configuration
     GPT_MODEL: str = "gpt-4o-mini"
     GEMINI_MODEL: str = "gemini-2.5-flash-lite"

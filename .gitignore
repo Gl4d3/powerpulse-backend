@@ -5,3 +5,5 @@ __pycache__/
 
 .env
 config.py
+
+logs/gemini_responses/*

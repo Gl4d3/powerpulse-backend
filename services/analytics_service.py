@@ -159,11 +159,12 @@ class AnalyticsService:
                 sentiment_distribution = {"positive": 0, "neutral": 0, "negative": 0}
 
             # Topic Frequency (This is a simplified aggregation)
-            topic_results = db.query(Conversation.common_topics).filter(Conversation.common_topics.isnot(None)).all()
+            topic_results = db.query(DailyAnalysis.common_topics).filter(DailyAnalysis.common_topics.isnot(None)).all()
             topic_frequency = {}
             for topics_list in topic_results:
-                for topic in topics_list[0]:
-                    topic_frequency[topic] = topic_frequency.get(topic, 0) + 1
+                if topics_list[0]:  # Check if topics_list[0] is not None
+                    for topic in topics_list[0]:
+                        topic_frequency[topic] = topic_frequency.get(topic, 0) + 1
             
             topic_frequency_list = [{"topic": t, "frequency": f} for t, f in topic_frequency.items()]
 
@@ -290,7 +291,7 @@ class AnalyticsService:
         """
         analysis = db.query(DailyAnalysis).options(
             joinedload(DailyAnalysis.conversation).joinedload(Conversation.messages)
-        ).filter(Daily_Analysis.id == daily_analysis_id).first()
+        ).filter(DailyAnalysis.id == daily_analysis_id).first()
 
         if not analysis:
             return []

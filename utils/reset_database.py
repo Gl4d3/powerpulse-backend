@@ -18,7 +18,7 @@ project_root = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(project_root))
 
 from database import engine, Base
-from models import Conversation, Message, ProcessedChat, Metric, Job, DailyAnalysis
+from models import Conversation, Message, Metric, Job, DailyAnalysis
 
 # Configure basic logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

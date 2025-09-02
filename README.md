@@ -13,7 +13,9 @@ A production-ready customer satisfaction analytics backend built with FastAPI. I
 ### ✅ Production-Grade Architecture
 - **Alembic Database Migrations**: Manages all database schema changes safely and automatically.
 - **Asynchronous Job Processing**: Handles large file uploads in the background without blocking the API, managed by a concurrency-limited job queue.
-- **Format-Agnostic Ingestion**: Intelligently parses multiple JSON formats, including raw database extracts and pre-grouped conversation files.
+    - **Token-Based Batching**: Intelligently groups daily analyses into batches based on a configurable token limit (`MAX_TOKENS_PER_BATCH`) to maximize efficiency and respect API context windows.
+    - **Configurable Delays**: Adds a configurable delay between batch processing jobs to manage rate-limiting.
+    - **Format-Agnostic Ingestion**: Intelligently parses multiple JSON formats, including raw database extracts and pre-grouped conversation files.
 - **Robust Error Handling**: Includes exponential backoff and retry logic for AI API calls and graceful handling of job failures.
 - **Multi-AI Support**: Configurable to switch between Google Gemini and OpenAI GPT.
 - **Detailed Logging**: Separates application trace logs from server logs for clean and effective debugging.
@@ -59,8 +61,8 @@ uvicorn main:app --reload
 1.  **Upload**: A user uploads a JSON file containing raw message data.
 2.  **Parse & Group**: The system intelligently detects the JSON format and groups all messages by `conversation_id` and then by `date`.
 3.  **Create Daily Analysis Records**: For each day a conversation has messages, a `DailyAnalysis` record is created in the database.
-4.  **Batch & Job Creation**: These new `DailyAnalysis` records are grouped into batches, and a `Job` is created for each batch.
-5.  **Background AI Processing**: A background worker picks up each job. It sends the daily message batches to the Gemini API to extract the 8 qualitative micro-metrics.
+4.  **Token-Based Batching (`services/batch_service.py`):** The list of new `DailyAnalysis` objects is passed to the `create_daily_analysis_batches` function. This function groups analyses into batches that do not exceed a `MAX_TOKENS_PER_BATCH` limit, ensuring all days for a single conversation stay in the same batch.
+5.  **Job Creation & Processing (`services/job_service.py`):** For each batch, a `Job` is created. A semaphore (`AI_CONCURRENCY`) and a configurable delay (`BATCH_PROCESSING_DELAY_SECONDS`) manage the rate of concurrent job execution.
 6.  **Metric Calculation**:
     - The system calculates quantitative time-based metrics (e.g., response times).
     - It then calculates the four pillar scores (Effectiveness, Effort, Efficiency, Empathy).
@@ -89,8 +91,9 @@ curl "http://localhost:8000/api/metrics"
 
 ## Environment Variables
 - `GEMINI_API_KEY` - **Required**. Your Google Gemini API key.
-- `AI_CONCURRENCY` - Max number of concurrent API calls to make. Defaults to `2` to respect free-tier rate limits.
-- `BATCH_SIZE` - Number of daily analyses to group into a single job. Defaults to `20`.
+- `AI_CONCURRENCY` - Max number of concurrent API calls to make. Defaults to `2`.
+- `MAX_TOKENS_PER_BATCH` - The target token limit for creating efficient AI processing batches. Defaults to `8000`.
+- `BATCH_PROCESSING_DELAY_SECONDS` - The number of seconds to wait between starting each batch job. Defaults to `5`.
 - `DATABASE_URL` - Connection string for the database. Defaults to `sqlite:///./powerpulse.db`.
 
 ## Testing
@@ -101,3 +104,14 @@ pytest
 # Or run a specific test file
 pytest tests/unit/test_analytics_service.py -v
 ```
+
+## Relevant Documentation
+Here are the main documentation markdowns spread throughout the project:
+
+
+   * README.md: The main entry point for the project. Relevant.
+   * GEMINI.md: High-level architectural overview. Relevant.
+   * LIFELINE.md: Detailed data flow documentation. Relevant.
+   * docs/API_DOCUMENTATION.md: The canonical source for API contracts. Relevant.
+   * docs/DATABASE_SCHEMA.md: Describes the database structure. Relevant.
+   * docs/TESTING_GUIDE.md: Instructions for running tests. Relevant.

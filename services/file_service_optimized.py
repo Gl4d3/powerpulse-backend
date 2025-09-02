@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import tuple_
 from database import SessionLocal
 
+from config import settings
 from services import batch_service, job_service
 from services.progress_tracker import progress_tracker
 from services.analytics_service import analytics_service
@@ -69,11 +70,26 @@ class OptimizedFileService:
                 .filter(tuple_(Conversation.fb_chat_id, DailyAnalysis.analysis_date).in_(
                     list(all_possible_analyses.keys())
                 ))
-            existing_keys = existing_keys_query.all()
+            existing_keys_raw = existing_keys_query.all()
+            
+            # Convert SQLAlchemy Row objects to tuples for proper comparison
+            existing_keys = set((row[0], row[1]) for row in existing_keys_raw)
             
             # Filter out analyses that already exist
             new_analyses_to_process = {k: v for k, v in all_possible_analyses.items() if k not in existing_keys}
             logger.info(f"Found {len(new_analyses_to_process)} new daily analyses to process out of {len(all_possible_analyses)} total.")
+            logger.info(f"Existing keys count: {len(existing_keys)}")
+            
+            if logger.isEnabledFor(logging.DEBUG):
+                logger.debug(f"Sample existing keys: {list(existing_keys)[:5]}")
+                logger.debug(f"Sample new keys to process: {list(new_analyses_to_process.keys())[:5]}")
+            
+            # Additional debug: log some sample data
+            logger.info(f"Sample all_possible_analyses keys: {list(all_possible_analyses.keys())[:3]}")
+            if existing_keys:
+                logger.info(f"Sample existing keys: {list(existing_keys)[:3]}")
+            else:
+                logger.info("No existing keys found - this might be a fresh database or the query didn't work correctly")
 
             if not new_analyses_to_process:
                 logger.info("No new daily analyses to process.")
@@ -109,18 +125,52 @@ class OptimizedFileService:
                 
                 daily_analyses_to_create.append(daily_analysis)
 
+            # Safety check: Use a simpler, more reliable approach
+            # Check for duplicates using individual queries instead of tuple comparison
+            analysis_keys_to_insert = list(new_analyses_to_process.keys())
+            logger.info(f"Checking for duplicates among {len(analysis_keys_to_insert)} keys...")
+            
+            duplicates_found = []
+            for chat_id, analysis_date in analysis_keys_to_insert:
+                existing = db.query(DailyAnalysis).join(Conversation)\
+                    .filter(Conversation.fb_chat_id == chat_id)\
+                    .filter(DailyAnalysis.analysis_date == analysis_date)\
+                    .first()
+                if existing:
+                    duplicates_found.append((chat_id, analysis_date))
+            
+            if duplicates_found:
+                logger.error(f"Found {len(duplicates_found)} duplicates in database: {duplicates_found[:5]}...")
+                raise ValueError(f"Attempted to insert {len(duplicates_found)} daily analyses that already exist")
+            
+            # Check for duplicates within the current batch being inserted
+            seen_keys = set()
+            batch_duplicates = []
+            for key in analysis_keys_to_insert:
+                if key in seen_keys:
+                    batch_duplicates.append(key)
+                seen_keys.add(key)
+            
+            if batch_duplicates:
+                logger.error(f"Batch duplicates detected before commit: {batch_duplicates[:5]}...")
+                raise ValueError(f"Attempted to insert {len(batch_duplicates)} duplicate daily analyses within the same batch")
+
             # Commit conversations and new daily analyses to get IDs
             db.commit()
 
             # Phase 4: Create and process jobs
-            batches = batch_service.create_daily_analysis_batches(daily_analyses_to_create, db)
+            batches = batch_service.create_daily_analysis_batches(daily_analyses_to_create)
             logger.info(f"Splitting work into {len(batches)} batches.")
 
             jobs = await job_service.create_jobs_for_upload(upload_id, batches, db)
             
             logger.info(f"Starting AI analysis for {len(jobs)} jobs...")
-            tasks = [job_service.process_job(job.id) for job in jobs]
-            await asyncio.gather(*tasks)
+            for job in jobs:
+                asyncio.create_task(job_service.process_job(job.id))
+                await asyncio.sleep(settings.BATCH_PROCESSING_DELAY_SECONDS)
+
+            # This part of the function will now complete without waiting for the jobs to finish
+            # The progress tracker will be updated by the jobs themselves.
 
             conversations_processed = len(conversation_map)
             messages_processed = sum(len(v) for v in new_analyses_to_process.values())

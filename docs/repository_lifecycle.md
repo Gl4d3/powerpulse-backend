@@ -4,19 +4,17 @@ This document describes the runtime lifecycle of the PowerPulse backend, maps pi
 
 ### High-level lifecycle (canonical)
 1. File upload → JSON processing begins (validation, size check, dedupe)
-2. Job Batching → Conversations are grouped into token-limited jobs for batch processing.
-3. AI analysis → Gemini / GPT analyzes conversation jobs for sentiment, satisfaction, FCR.
-4. Database storage → Conversation, Message and ProcessedChat rows written. Job statuses are updated.
-5. Metrics calculation → Aggregated metrics (CSAT, FCR, response time, sentiment).
-6. Cache update → Metric rows / Metric cache updated for fast reads.
-7. Database commit → All changes persisted; progress tracker updated.
+2. AI analysis → Gemini / GPT analyzes conversations for sentiment, satisfaction, FCR
+3. Database storage → Conversation, Message and ProcessedChat rows written
+4. Metrics calculation → Aggregated metrics (CSAT, FCR, response time, sentiment)
+5. Cache update → Metric rows / Metric cache updated for fast reads
+6. Database commit → All changes persisted; progress tracker updated
 
 These stages correspond to code in the repository. Follow this lifecycle when debugging, testing or adding features.
 
 ### Files & responsibilities (map to lifecycle)
 - Upload & routing: `routes/upload.py`, `routes/export.py` (upload endpoints, export)
 - File processing: `services/file_service.py`, `services/file_service_optimized.py`, `services/file_service_backup.py`
-- Job Management: `services/batch_service.py`, `services/job_service.py` (batching, queueing, and execution)
 - AI adapters: `services/gpt_service.py`, `services/gpt_service_optimized.py`, `services/gemini_service.py`
 - Progress and orchestration: `services/progress_tracker.py`, `routes/progress.py`
 - Persistence & schema: `models.py`, `database.py`, `schemas.py`
@@ -38,8 +36,6 @@ These stages correspond to code in the repository. Follow this lifecycle when de
 - `GEMINI_API_KEY`, `OPENAI_API_KEY` — credentials used by adapters
 - `DATABASE_URL` — connection string (default sqlite:///./powerpulse.db)
 - `MAX_FILE_SIZE` — upload guardrail (default 50MB)
-- `MAX_TOKENS_PER_JOB` — The maximum number of tokens allowed in a single AI analysis job.
-- `AI_CONCURRENCY` - The maximum number of concurrent requests to the AI service.
 
 ### Schema & config tracking policy (strict stage)
 From this point forward we keep a strict, constant check on schema and persistent configuration. Implement these rules every time you change code, add features, or run tests:
@@ -59,7 +55,7 @@ From this point forward we keep a strict, constant check on schema and persisten
 - Autoresponse noise (e.g., strings like "*977#") — filtered during preprocessing
 - Duplicate FB_CHAT_ID uploads — `ProcessedChat` prevents reprocessing unless forced
 - Missing agent fields or null timestamps — skip/normalize; conversation-level fallbacks
-- AI API quota / rate limits — exponential backoff and graceful fallback values. Now managed by the job queue.
+- AI API quota / rate limits — exponential backoff and graceful fallback values
 
 ### How to use this document
 - Read before modifying services that touch processing, AI, or DB.
