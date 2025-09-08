@@ -16,10 +16,10 @@ logger = logging.getLogger(__name__)
 
 # --- CSI Calculation Constants from gemini-refactor.md ---
 CSI_PILLAR_WEIGHTS = {
-    'effectiveness': 0.35,
-    'effort': 0.25,
-    'efficiency': 0.25,
-    'empathy': 0.15,
+    'effectiveness': 0.29,
+    'effort': 0.27,
+    'efficiency': 0.21,
+    'empathy': 0.23,
 }
 
 def calculate_and_set_daily_csi_score(daily_analysis: DailyAnalysis):

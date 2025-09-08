@@ -158,7 +158,7 @@ def get_conversation(chat_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail="Error retrieving conversation")
 
 @router.get("/conversations/{chat_id}/messages", response_model=List[MessageResponse])
-async def get_conversation_messages(chat_id: str, db: Session = Depends(get_db)):
+def get_conversation_messages(chat_id: str, db: Session = Depends(get_db)):
     """Get the full message transcript for a specific conversation."""
     try:
         # Check if conversation exists first
@@ -169,19 +169,9 @@ async def get_conversation_messages(chat_id: str, db: Session = Depends(get_db))
         # Query for all messages in that conversation
         messages = db.query(Message).filter(Message.conversation_id == conversation.id).order_by(Message.social_create_time).all()
         
-        # Convert to response format
-        message_responses = []
-        for msg in messages:
-            message_responses.append(MessageResponse(
-                timestamp=msg.social_create_time,
-                direction=msg.direction,
-                content=msg.message_content,
-                sentiment_score=msg.sentiment_score,
-                topics=msg.topics or [],
-                agent_info=msg.agent_info
-            ))
-        
-        return message_responses
+        # The MessageResponse schema will automatically map the Message model attributes
+        # because `from_attributes=True` is set in its Config.
+        return messages
         
     except HTTPException:
         raise

@@ -45,7 +45,7 @@ class GeminiService:
         genai.configure(api_key=api_key)
         
         generation_config = genai.types.GenerationConfig(
-            max_output_tokens=8192,
+            max_output_tokens=65536,  # Max tokens for Gemini 2.5
             temperature=0.1,
             response_mime_type="application/json", # Request JSON output
         )
@@ -106,39 +106,40 @@ class GeminiService:
         ]
 
         prompt = f"""
-Analyze the following batch of customer service interactions, grouped by day. For each daily interaction, provide a score for each of the specified micro-metrics.
+            You are an expert customer satisfaction analyst for Kenya Power, an electricity utility company. Your role is to analyze daily chat interactions between agents and customers, focusing on power outages, billing, tokens, service queries and other relevant categories. Use your knowledge of utilities CX to score accurately.
+            Analyze the following batch of customer service interactions, grouped by day. For each daily interaction, perform a step-by-step analysis (Chain of Thought) and provide a score for each of the specified micro-metrics.
 
-INTERACTIONS_BATCH:
-{daily_analyses_input}
+            INTERACTIONS_BATCH DATA:
+            {daily_analyses_input}
 
-Provide the analysis as a valid JSON array, with one object per daily interaction. Use this EXACT JSON format for each object:
-{{
-    "daily_analysis_id": "<the original daily_analysis_id>",
-    "daily_analysis": {{
-        "sentiment_score": <0-10 float>,
-        "sentiment_shift": <-5 to +5 float>,
-        "resolution_achieved": <0-10 float>,
-        "fcr_score": <0-10 float>,
-        "ces": <1-7 float, where 1 is high effort and 7 is low effort>,
-        "common_topics": ["<list of 1-5 topics discussed>"]
-    }}
-}}
+            Provide the analysis as a valid JSON array, with one object per daily interaction. Use this EXACT JSON format for each object:
+            {{
+                "daily_analysis_id": "<the original daily_analysis_id>",
+                "daily_analysis": {{
+                    "sentiment_score": <0-10 float>,
+                    "sentiment_shift": <-5 to +5 float>,
+                    "resolution_achieved": <0-10 float>,
+                    "fcr_score": <0-10 float>,
+                    "ces": <1-7 float, where 1 is high effort and 7 is low effort>,
+                    "common_topics": ["<array of strings(1-3 from list of allowed_topics below)>"]
+                }}
+            }}
 
-ANALYSIS GUIDELINES:
-- **sentiment_score**: Overall emotional tone from the customer's side for that day.
-- **sentiment_shift**: Change in sentiment from the start to the end of the day's interaction.
-- **resolution_achieved**: Was the customer's issue resolved by the end of the day's interaction?
-- **fcr_score**: Was the issue resolved within this single day's contact, without prior contact days for the same issue?
-- **ces**: Customer Effort Score - how easy was it for the customer? 1 indicates very high effort, 7 indicates very low effort.
-- Ensure the output is a single, valid JSON array of objects.
-- Do not include any text or formatting outside of the JSON array.
+            ANALYSIS GUIDELINES:
+            - **sentiment_score**: Overall emotional tone from the customer's side for that day.
+            - **sentiment_shift**: Change in sentiment from the start to the end of the day's interaction.
+            - **resolution_achieved**: Was the customer's issue resolved by the end of the day's interaction?
+            - **fcr_score**: Was the issue resolved within this single day's contact, without prior contact days for the same issue?
+            - **ces**: Customer Effort Score - how easy was it for the customer? 1 indicates very high effort, 7 indicates very low effort.
+            - Ensure the output is a single, valid JSON array of objects.
+            - Do not include any text or formatting outside of the JSON array.
 
-TOPIC GUIDELINES:
-- For the "common_topics" field, you MUST choose from the following list of allowed topics.
-- If multiple topics apply, you can select up to 5.
-- If no specific topic fits well, use "Others".
-- Allowed Topics: {json.dumps(allowed_topics)}
-"""
+            TOPIC GUIDELINES:
+            - For the "common_topics" field, you MUST choose from the following list of allowed topics.
+            - If multiple topics apply, you can select up to 3.
+            - If no specific topic fits well, use "Others".
+            - Allowed Topics: {json.dumps(allowed_topics)}
+        """
         return prompt
 
     def _parse_response(self, response: str, original_analyses: List[DailyAnalysis]) -> Tuple[List[Dict], List[int]]:

@@ -1,75 +1,1037 @@
-2025-09-08 10:10:24,214 - database - ERROR - Database connection error: 6 validation errors:
-  {'type': 'missing', 'loc': ('response', 0, 'timestamp'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423BE10>}
-  {'type': 'missing', 'loc': ('response', 0, 'content'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423BE10>}
-  {'type': 'list_type', 'loc': ('response', 0, 'topics'), 'msg': 'Input should be a valid list', 'input': None}
-  {'type': 'missing', 'loc': ('response', 1, 'timestamp'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423ADD0>}
-  {'type': 'missing', 'loc': ('response', 1, 'content'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423ADD0>}
-  {'type': 'list_type', 'loc': ('response', 1, 'topics'), 'msg': 'Input should be a valid list', 'input': None}
-
-ERROR:    Exception in ASGI application
-Traceback (most recent call last):
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 403, in run_asgi
-    result = await app(  # type: ignore[func-returns-value]
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        self.scope, self.receive, self.send
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
-    return await self.app(scope, receive, send)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\fastapi\applications.py", line 1054, in __call__
-    await super().__call__(scope, receive, send)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\applications.py", line 113, in __call__
-    await self.middleware_stack(scope, receive, send)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
-    raise exc
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
-    await self.app(scope, receive, _send)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
-    await self.app(scope, receive, send)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
-    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
-    raise exc
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
-    await app(scope, receive, sender)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
-    await self.middleware_stack(scope, receive, send)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 736, in app
-    await route.handle(scope, receive, send)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 290, in handle
-    await self.app(scope, receive, send)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 78, in app
-    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
-    raise exc
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
-    await app(scope, receive, sender)
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 75, in app
-    response = await f(request)
-               ^^^^^^^^^^^^^^^^
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\fastapi\routing.py", line 328, in app
-    content = await serialize_response(
-              ^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<9 lines>...
-    )
-    ^
-  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\fastapi\routing.py", line 177, in serialize_response
-    raise ResponseValidationError(
-        errors=_normalize_errors(errors), body=response_content
-    )
-fastapi.exceptions.ResponseValidationError: 6 validation errors:
-  {'type': 'missing', 'loc': ('response', 0, 'timestamp'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423BE10>}
-  {'type': 'missing', 'loc': ('response', 0, 'content'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423BE10>}
-  {'type': 'list_type', 'loc': ('response', 0, 'topics'), 'msg': 'Input should be a valid list', 'input': None}
-  {'type': 'missing', 'loc': ('response', 1, 'timestamp'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423ADD0>}
-  {'type': 'missing', 'loc': ('response', 1, 'content'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423ADD0>}
-  {'type': 'list_type', 'loc': ('response', 1, 'topics'), 'msg': 'Input should be a valid list', 'input': None}
-
-INFO:     Shutting down
-INFO:     Waiting for application shutdown.
-2025-09-08 10:11:48,609 - main - INFO - --- PowerPulse Analytics Backend Shutting Down ---
-INFO:     Application shutdown complete.
-INFO:     Finished server process [21864]
-(venv) PS D:\proj-d\PowerPulse> 
+2025-09-08 13:26:48,497 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 13:28:19,873 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:28:19,873 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 13:28:19,879 - services.job_service - INFO - Saved Gemini response for Job ID 76 to logs\gemini_responses\run_20250908\successful\job_76.txt
+2025-09-08 13:28:19,929 - services.job_service - INFO - Successfully completed Job ID: 76
+2025-09-08 13:28:19,946 - services.job_service - INFO - Worker picked up and locked Job ID: 77
+2025-09-08 13:28:19,946 - __main__ - INFO - Found job 77 to process.
+2025-09-08 13:28:19,947 - services.job_service - INFO - Executing Job ID: 77 (Retry: 0/3)
+2025-09-08 13:28:19,998 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 13:29:38,937 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:29:38,938 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 13:29:38,940 - services.job_service - INFO - Saved Gemini response for Job ID 77 to logs\gemini_responses\run_20250908\successful\job_77.txt
+2025-09-08 13:29:38,954 - services.job_service - INFO - Successfully completed Job ID: 77
+2025-09-08 13:29:38,965 - services.job_service - INFO - Worker picked up and locked Job ID: 78
+2025-09-08 13:29:38,965 - __main__ - INFO - Found job 78 to process.
+2025-09-08 13:29:38,965 - services.job_service - INFO - Executing Job ID: 78 (Retry: 0/3)
+2025-09-08 13:29:39,019 - services.gemini_service - INFO - --- Preparing to call Gemini API for 30 daily analyses. ---
+2025-09-08 13:30:56,145 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:30:56,145 - services.gemini_service - INFO - Successfully parsed 30 objects from complete JSON response.
+2025-09-08 13:30:56,148 - services.job_service - INFO - Saved Gemini response for Job ID 78 to logs\gemini_responses\run_20250908\successful\job_78.txt
+2025-09-08 13:30:56,169 - services.job_service - INFO - Successfully completed Job ID: 78
+2025-09-08 13:30:56,182 - services.job_service - INFO - Worker picked up and locked Job ID: 79
+2025-09-08 13:30:56,182 - __main__ - INFO - Found job 79 to process.
+2025-09-08 13:30:56,183 - services.job_service - INFO - Executing Job ID: 79 (Retry: 0/3)
+2025-09-08 13:30:56,236 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 13:32:18,857 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:32:18,858 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 13:32:18,862 - services.job_service - INFO - Saved Gemini response for Job ID 79 to logs\gemini_responses\run_20250908\successful\job_79.txt
+2025-09-08 13:32:18,898 - services.job_service - INFO - Successfully completed Job ID: 79
+2025-09-08 13:32:18,907 - services.job_service - INFO - Worker picked up and locked Job ID: 80
+2025-09-08 13:32:18,908 - __main__ - INFO - Found job 80 to process.
+2025-09-08 13:32:18,908 - services.job_service - INFO - Executing Job ID: 80 (Retry: 0/3)
+2025-09-08 13:32:18,966 - services.gemini_service - INFO - --- Preparing to call Gemini API for 34 daily analyses. ---
+2025-09-08 13:33:36,233 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:33:36,233 - services.gemini_service - INFO - Successfully parsed 34 objects from complete JSON response.
+2025-09-08 13:33:36,236 - services.job_service - INFO - Saved Gemini response for Job ID 80 to logs\gemini_responses\run_20250908\successful\job_80.txt
+2025-09-08 13:33:36,254 - services.job_service - INFO - Successfully completed Job ID: 80
+2025-09-08 13:33:36,262 - services.job_service - INFO - Worker picked up and locked Job ID: 81
+2025-09-08 13:33:36,262 - __main__ - INFO - Found job 81 to process.
+2025-09-08 13:33:36,262 - services.job_service - INFO - Executing Job ID: 81 (Retry: 0/3)
+2025-09-08 13:33:36,314 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 13:34:43,080 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:34:43,081 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 13:34:43,086 - services.job_service - INFO - Saved Gemini response for Job ID 81 to logs\gemini_responses\run_20250908\successful\job_81.txt
+2025-09-08 13:34:43,121 - services.job_service - INFO - Successfully completed Job ID: 81
+2025-09-08 13:34:43,139 - services.job_service - INFO - Worker picked up and locked Job ID: 82
+2025-09-08 13:34:43,140 - __main__ - INFO - Found job 82 to process.
+2025-09-08 13:34:43,140 - services.job_service - INFO - Executing Job ID: 82 (Retry: 0/3)
+2025-09-08 13:34:43,222 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 13:35:40,796 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:35:40,797 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 13:35:40,803 - services.job_service - INFO - Saved Gemini response for Job ID 82 to logs\gemini_responses\run_20250908\successful\job_82.txt
+2025-09-08 13:35:40,864 - services.job_service - INFO - Successfully completed Job ID: 82
+2025-09-08 13:35:40,883 - services.job_service - INFO - Worker picked up and locked Job ID: 83
+2025-09-08 13:35:40,883 - __main__ - INFO - Found job 83 to process.
+2025-09-08 13:35:40,884 - services.job_service - INFO - Executing Job ID: 83 (Retry: 0/3)
+2025-09-08 13:35:40,940 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 13:36:27,545 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:36:27,546 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 13:36:27,548 - services.job_service - INFO - Saved Gemini response for Job ID 83 to logs\gemini_responses\run_20250908\successful\job_83.txt
+2025-09-08 13:36:27,587 - services.job_service - INFO - Successfully completed Job ID: 83
+2025-09-08 13:36:27,598 - services.job_service - INFO - Worker picked up and locked Job ID: 84
+2025-09-08 13:36:27,599 - __main__ - INFO - Found job 84 to process.
+2025-09-08 13:36:27,600 - services.job_service - INFO - Executing Job ID: 84 (Retry: 0/3)
+2025-09-08 13:36:27,652 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 13:37:41,765 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:37:41,766 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 13:37:41,772 - services.job_service - INFO - Saved Gemini response for Job ID 84 to logs\gemini_responses\run_20250908\successful\job_84.txt
+2025-09-08 13:37:41,807 - services.job_service - INFO - Successfully completed Job ID: 84
+2025-09-08 13:37:41,822 - services.job_service - INFO - Worker picked up and locked Job ID: 85
+2025-09-08 13:37:41,823 - __main__ - INFO - Found job 85 to process.
+2025-09-08 13:37:41,823 - services.job_service - INFO - Executing Job ID: 85 (Retry: 0/3)
+2025-09-08 13:37:41,878 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 13:38:34,212 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:38:34,213 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 13:38:34,216 - services.job_service - INFO - Saved Gemini response for Job ID 85 to logs\gemini_responses\run_20250908\successful\job_85.txt
+2025-09-08 13:38:34,240 - services.job_service - INFO - Successfully completed Job ID: 85
+2025-09-08 13:38:34,265 - services.job_service - INFO - Worker picked up and locked Job ID: 86
+2025-09-08 13:38:34,265 - __main__ - INFO - Found job 86 to process.
+2025-09-08 13:38:34,266 - services.job_service - INFO - Executing Job ID: 86 (Retry: 0/3)
+2025-09-08 13:38:34,315 - services.gemini_service - INFO - --- Preparing to call Gemini API for 35 daily analyses. ---
+2025-09-08 13:39:30,280 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:39:30,281 - services.gemini_service - INFO - Successfully parsed 35 objects from complete JSON response.
+2025-09-08 13:39:30,289 - services.job_service - INFO - Saved Gemini response for Job ID 86 to logs\gemini_responses\run_20250908\successful\job_86.txt
+2025-09-08 13:39:30,333 - services.job_service - INFO - Successfully completed Job ID: 86
+2025-09-08 13:39:30,354 - services.job_service - INFO - Worker picked up and locked Job ID: 87
+2025-09-08 13:39:30,355 - __main__ - INFO - Found job 87 to process.
+2025-09-08 13:39:30,355 - services.job_service - INFO - Executing Job ID: 87 (Retry: 0/3)
+2025-09-08 13:39:30,406 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 13:40:58,381 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:40:58,382 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 13:40:58,384 - services.job_service - INFO - Saved Gemini response for Job ID 87 to logs\gemini_responses\run_20250908\successful\job_87.txt
+2025-09-08 13:40:58,408 - services.job_service - INFO - Successfully completed Job ID: 87
+2025-09-08 13:40:58,431 - services.job_service - INFO - Worker picked up and locked Job ID: 88
+2025-09-08 13:40:58,432 - __main__ - INFO - Found job 88 to process.
+2025-09-08 13:40:58,432 - services.job_service - INFO - Executing Job ID: 88 (Retry: 0/3)
+2025-09-08 13:40:58,489 - services.gemini_service - INFO - --- Preparing to call Gemini API for 29 daily analyses. ---
+2025-09-08 13:42:24,614 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:42:24,614 - services.gemini_service - INFO - Successfully parsed 29 objects from complete JSON response.
+2025-09-08 13:42:24,617 - services.job_service - INFO - Saved Gemini response for Job ID 88 to logs\gemini_responses\run_20250908\successful\job_88.txt
+2025-09-08 13:42:24,643 - services.job_service - INFO - Successfully completed Job ID: 88
+2025-09-08 13:42:24,666 - services.job_service - INFO - Worker picked up and locked Job ID: 89
+2025-09-08 13:42:24,667 - __main__ - INFO - Found job 89 to process.
+2025-09-08 13:42:24,668 - services.job_service - INFO - Executing Job ID: 89 (Retry: 0/3)
+2025-09-08 13:42:24,722 - services.gemini_service - INFO - --- Preparing to call Gemini API for 19 daily analyses. ---
+2025-09-08 13:43:22,678 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:43:22,679 - services.gemini_service - INFO - Successfully parsed 19 objects from complete JSON response.
+2025-09-08 13:43:22,683 - services.job_service - INFO - Saved Gemini response for Job ID 89 to logs\gemini_responses\run_20250908\successful\job_89.txt
+2025-09-08 13:43:22,728 - services.job_service - INFO - Successfully completed Job ID: 89
+2025-09-08 13:43:22,739 - services.job_service - INFO - Worker picked up and locked Job ID: 90
+2025-09-08 13:43:22,739 - __main__ - INFO - Found job 90 to process.
+2025-09-08 13:43:22,739 - services.job_service - INFO - Executing Job ID: 90 (Retry: 0/3)
+2025-09-08 13:43:22,791 - services.gemini_service - INFO - --- Preparing to call Gemini API for 26 daily analyses. ---
+2025-09-08 13:43:58,642 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:43:58,643 - services.gemini_service - INFO - Successfully parsed 26 objects from complete JSON response.
+2025-09-08 13:43:58,646 - services.job_service - INFO - Saved Gemini response for Job ID 90 to logs\gemini_responses\run_20250908\successful\job_90.txt
+2025-09-08 13:43:58,676 - services.job_service - INFO - Successfully completed Job ID: 90
+2025-09-08 13:43:58,685 - services.job_service - INFO - Worker picked up and locked Job ID: 91
+2025-09-08 13:43:58,685 - __main__ - INFO - Found job 91 to process.
+2025-09-08 13:43:58,686 - services.job_service - INFO - Executing Job ID: 91 (Retry: 0/3)
+2025-09-08 13:43:58,744 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 13:45:13,477 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:45:13,478 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 13:45:13,480 - services.job_service - INFO - Saved Gemini response for Job ID 91 to logs\gemini_responses\run_20250908\successful\job_91.txt
+2025-09-08 13:45:13,522 - services.job_service - INFO - Successfully completed Job ID: 91
+2025-09-08 13:45:13,540 - services.job_service - INFO - Worker picked up and locked Job ID: 92
+2025-09-08 13:45:13,541 - __main__ - INFO - Found job 92 to process.
+2025-09-08 13:45:13,542 - services.job_service - INFO - Executing Job ID: 92 (Retry: 0/3)
+2025-09-08 13:45:13,618 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 13:46:32,091 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:46:32,092 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 13:46:32,093 - services.job_service - INFO - Saved Gemini response for Job ID 92 to logs\gemini_responses\run_20250908\successful\job_92.txt
+2025-09-08 13:46:32,113 - services.job_service - INFO - Successfully completed Job ID: 92
+2025-09-08 13:46:32,127 - services.job_service - INFO - Worker picked up and locked Job ID: 93
+2025-09-08 13:46:32,127 - __main__ - INFO - Found job 93 to process.
+2025-09-08 13:46:32,127 - services.job_service - INFO - Executing Job ID: 93 (Retry: 0/3)
+2025-09-08 13:46:32,178 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 13:47:27,823 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:47:27,824 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 13:47:27,827 - services.job_service - INFO - Saved Gemini response for Job ID 93 to logs\gemini_responses\run_20250908\successful\job_93.txt
+2025-09-08 13:47:27,866 - services.job_service - INFO - Successfully completed Job ID: 93
+2025-09-08 13:47:27,879 - services.job_service - INFO - Worker picked up and locked Job ID: 94
+2025-09-08 13:47:27,879 - __main__ - INFO - Found job 94 to process.
+2025-09-08 13:47:27,880 - services.job_service - INFO - Executing Job ID: 94 (Retry: 0/3)
+2025-09-08 13:47:27,938 - services.gemini_service - INFO - --- Preparing to call Gemini API for 30 daily analyses. ---
+2025-09-08 13:48:44,613 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:48:44,613 - services.gemini_service - INFO - Successfully parsed 30 objects from complete JSON response.
+2025-09-08 13:48:44,618 - services.job_service - INFO - Saved Gemini response for Job ID 94 to logs\gemini_responses\run_20250908\successful\job_94.txt
+2025-09-08 13:48:44,675 - services.job_service - INFO - Successfully completed Job ID: 94
+2025-09-08 13:48:44,698 - services.job_service - INFO - Worker picked up and locked Job ID: 95
+2025-09-08 13:48:44,699 - __main__ - INFO - Found job 95 to process.
+2025-09-08 13:48:44,699 - services.job_service - INFO - Executing Job ID: 95 (Retry: 0/3)
+2025-09-08 13:48:44,751 - services.gemini_service - INFO - --- Preparing to call Gemini API for 37 daily analyses. ---
+2025-09-08 13:50:21,501 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:50:21,502 - services.gemini_service - INFO - Successfully parsed 37 objects from complete JSON response.
+2025-09-08 13:50:21,505 - services.job_service - INFO - Saved Gemini response for Job ID 95 to logs\gemini_responses\run_20250908\successful\job_95.txt
+2025-09-08 13:50:21,568 - services.job_service - INFO - Successfully completed Job ID: 95
+2025-09-08 13:50:21,586 - services.job_service - INFO - Worker picked up and locked Job ID: 96
+2025-09-08 13:50:21,586 - __main__ - INFO - Found job 96 to process.
+2025-09-08 13:50:21,587 - services.job_service - INFO - Executing Job ID: 96 (Retry: 0/3)
+2025-09-08 13:50:21,649 - services.gemini_service - INFO - --- Preparing to call Gemini API for 21 daily analyses. ---
+2025-09-08 13:51:30,517 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:51:30,518 - services.gemini_service - INFO - Successfully parsed 21 objects from complete JSON response.
+2025-09-08 13:51:30,524 - services.job_service - INFO - Saved Gemini response for Job ID 96 to logs\gemini_responses\run_20250908\successful\job_96.txt
+2025-09-08 13:51:30,570 - services.job_service - INFO - Successfully completed Job ID: 96
+2025-09-08 13:51:30,588 - services.job_service - INFO - Worker picked up and locked Job ID: 97
+2025-09-08 13:51:30,589 - __main__ - INFO - Found job 97 to process.
+2025-09-08 13:51:30,589 - services.job_service - INFO - Executing Job ID: 97 (Retry: 0/3)
+2025-09-08 13:51:30,634 - services.gemini_service - INFO - --- Preparing to call Gemini API for 2 daily analyses. ---
+2025-09-08 13:51:41,389 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:51:41,389 - services.gemini_service - INFO - Successfully parsed 2 objects from complete JSON response.
+2025-09-08 13:51:41,393 - services.job_service - INFO - Saved Gemini response for Job ID 97 to logs\gemini_responses\run_20250908\successful\job_97.txt
+2025-09-08 13:51:41,442 - services.job_service - INFO - Successfully completed Job ID: 97
+2025-09-08 13:51:41,454 - services.job_service - INFO - Worker picked up and locked Job ID: 98
+2025-09-08 13:51:41,454 - __main__ - INFO - Found job 98 to process.
+2025-09-08 13:51:41,455 - services.job_service - INFO - Executing Job ID: 98 (Retry: 0/3)
+2025-09-08 13:51:41,505 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 13:52:25,931 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:52:25,932 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 13:52:25,939 - services.job_service - INFO - Saved Gemini response for Job ID 98 to logs\gemini_responses\run_20250908\successful\job_98.txt
+2025-09-08 13:52:25,991 - services.job_service - INFO - Successfully completed Job ID: 98
+2025-09-08 13:52:26,008 - services.job_service - INFO - Worker picked up and locked Job ID: 99
+2025-09-08 13:52:26,008 - __main__ - INFO - Found job 99 to process.
+2025-09-08 13:52:26,009 - services.job_service - INFO - Executing Job ID: 99 (Retry: 0/3)
+2025-09-08 13:52:26,062 - services.gemini_service - INFO - --- Preparing to call Gemini API for 34 daily analyses. ---
+2025-09-08 13:53:36,001 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:53:36,002 - services.gemini_service - INFO - Successfully parsed 34 objects from complete JSON response.
+2025-09-08 13:53:36,005 - services.job_service - INFO - Saved Gemini response for Job ID 99 to logs\gemini_responses\run_20250908\successful\job_99.txt
+2025-09-08 13:53:36,017 - services.job_service - INFO - Successfully completed Job ID: 99
+2025-09-08 13:53:36,023 - services.job_service - INFO - Worker picked up and locked Job ID: 100
+2025-09-08 13:53:36,026 - __main__ - INFO - Found job 100 to process.
+2025-09-08 13:53:36,026 - services.job_service - INFO - Executing Job ID: 100 (Retry: 0/3)
+2025-09-08 13:53:36,108 - services.gemini_service - INFO - --- Preparing to call Gemini API for 26 daily analyses. ---
+2025-09-08 13:54:34,238 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:54:34,239 - services.gemini_service - INFO - Successfully parsed 26 objects from complete JSON response.
+2025-09-08 13:54:34,244 - services.job_service - INFO - Saved Gemini response for Job ID 100 to logs\gemini_responses\run_20250908\successful\job_100.txt
+2025-09-08 13:54:34,270 - services.job_service - INFO - Successfully completed Job ID: 100
+2025-09-08 13:54:34,306 - services.job_service - INFO - Worker picked up and locked Job ID: 101
+2025-09-08 13:54:34,307 - __main__ - INFO - Found job 101 to process.
+2025-09-08 13:54:34,307 - services.job_service - INFO - Executing Job ID: 101 (Retry: 0/3)
+2025-09-08 13:54:34,359 - services.gemini_service - INFO - --- Preparing to call Gemini API for 32 daily analyses. ---
+2025-09-08 13:56:08,754 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:56:08,754 - services.gemini_service - INFO - Successfully parsed 32 objects from complete JSON response.
+2025-09-08 13:56:08,757 - services.job_service - INFO - Saved Gemini response for Job ID 101 to logs\gemini_responses\run_20250908\successful\job_101.txt
+2025-09-08 13:56:08,785 - services.job_service - INFO - Successfully completed Job ID: 101
+2025-09-08 13:56:08,801 - services.job_service - INFO - Worker picked up and locked Job ID: 102
+2025-09-08 13:56:08,801 - __main__ - INFO - Found job 102 to process.
+2025-09-08 13:56:08,803 - services.job_service - INFO - Executing Job ID: 102 (Retry: 0/3)
+2025-09-08 13:56:08,860 - services.gemini_service - INFO - --- Preparing to call Gemini API for 26 daily analyses. ---
+2025-09-08 13:57:03,541 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:57:03,541 - services.gemini_service - INFO - Successfully parsed 26 objects from complete JSON response.
+2025-09-08 13:57:03,543 - services.job_service - INFO - Saved Gemini response for Job ID 102 to logs\gemini_responses\run_20250908\successful\job_102.txt
+2025-09-08 13:57:03,593 - services.job_service - INFO - Successfully completed Job ID: 102
+2025-09-08 13:57:03,609 - services.job_service - INFO - Worker picked up and locked Job ID: 103
+2025-09-08 13:57:03,610 - __main__ - INFO - Found job 103 to process.
+2025-09-08 13:57:03,610 - services.job_service - INFO - Executing Job ID: 103 (Retry: 0/3)
+2025-09-08 13:57:03,658 - services.gemini_service - INFO - --- Preparing to call Gemini API for 29 daily analyses. ---
+2025-09-08 13:58:25,560 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:58:25,561 - services.gemini_service - INFO - Successfully parsed 29 objects from complete JSON response.
+2025-09-08 13:58:25,564 - services.job_service - INFO - Saved Gemini response for Job ID 103 to logs\gemini_responses\run_20250908\successful\job_103.txt
+2025-09-08 13:58:25,603 - services.job_service - INFO - Successfully completed Job ID: 103
+2025-09-08 13:58:25,614 - services.job_service - INFO - Worker picked up and locked Job ID: 104
+2025-09-08 13:58:25,615 - __main__ - INFO - Found job 104 to process.
+2025-09-08 13:58:25,615 - services.job_service - INFO - Executing Job ID: 104 (Retry: 0/3)
+2025-09-08 13:58:25,667 - services.gemini_service - INFO - --- Preparing to call Gemini API for 32 daily analyses. ---
+2025-09-08 13:59:30,280 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 13:59:30,280 - services.gemini_service - INFO - Successfully parsed 32 objects from complete JSON response.
+2025-09-08 13:59:30,285 - services.job_service - INFO - Saved Gemini response for Job ID 104 to logs\gemini_responses\run_20250908\successful\job_104.txt
+2025-09-08 13:59:30,313 - services.job_service - INFO - Successfully completed Job ID: 104
+2025-09-08 13:59:30,328 - services.job_service - INFO - Worker picked up and locked Job ID: 105
+2025-09-08 13:59:30,329 - __main__ - INFO - Found job 105 to process.
+2025-09-08 13:59:30,330 - services.job_service - INFO - Executing Job ID: 105 (Retry: 0/3)
+2025-09-08 13:59:30,383 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 14:00:32,345 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:00:32,345 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 14:00:32,354 - services.job_service - INFO - Saved Gemini response for Job ID 105 to logs\gemini_responses\run_20250908\successful\job_105.txt
+2025-09-08 14:00:32,396 - services.job_service - INFO - Successfully completed Job ID: 105
+2025-09-08 14:00:32,408 - services.job_service - INFO - Worker picked up and locked Job ID: 106
+2025-09-08 14:00:32,409 - __main__ - INFO - Found job 106 to process.
+2025-09-08 14:00:32,409 - services.job_service - INFO - Executing Job ID: 106 (Retry: 0/3)
+2025-09-08 14:00:32,459 - services.gemini_service - INFO - --- Preparing to call Gemini API for 37 daily analyses. ---
+2025-09-08 14:01:40,396 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:01:40,397 - services.gemini_service - INFO - Successfully parsed 37 objects from complete JSON response.
+2025-09-08 14:01:40,400 - services.job_service - INFO - Saved Gemini response for Job ID 106 to logs\gemini_responses\run_20250908\successful\job_106.txt
+2025-09-08 14:01:40,445 - services.job_service - INFO - Successfully completed Job ID: 106
+2025-09-08 14:01:40,483 - services.job_service - INFO - Worker picked up and locked Job ID: 107
+2025-09-08 14:01:40,484 - __main__ - INFO - Found job 107 to process.
+2025-09-08 14:01:40,484 - services.job_service - INFO - Executing Job ID: 107 (Retry: 0/3)
+2025-09-08 14:01:40,547 - services.gemini_service - INFO - --- Preparing to call Gemini API for 36 daily analyses. ---
+2025-09-08 14:03:08,310 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:03:08,311 - services.gemini_service - INFO - Successfully parsed 36 objects from complete JSON response.
+2025-09-08 14:03:08,314 - services.job_service - INFO - Saved Gemini response for Job ID 107 to logs\gemini_responses\run_20250908\successful\job_107.txt
+2025-09-08 14:03:08,371 - services.job_service - INFO - Successfully completed Job ID: 107
+2025-09-08 14:03:08,382 - services.job_service - INFO - Worker picked up and locked Job ID: 108
+2025-09-08 14:03:08,383 - __main__ - INFO - Found job 108 to process.
+2025-09-08 14:03:08,383 - services.job_service - INFO - Executing Job ID: 108 (Retry: 0/3)
+2025-09-08 14:03:08,434 - services.gemini_service - INFO - --- Preparing to call Gemini API for 29 daily analyses. ---
+2025-09-08 14:03:57,093 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:03:57,094 - services.gemini_service - INFO - Successfully parsed 29 objects from complete JSON response.
+2025-09-08 14:03:57,096 - services.job_service - INFO - Saved Gemini response for Job ID 108 to logs\gemini_responses\run_20250908\successful\job_108.txt
+2025-09-08 14:03:57,137 - services.job_service - INFO - Successfully completed Job ID: 108
+2025-09-08 14:03:57,166 - services.job_service - INFO - Worker picked up and locked Job ID: 109
+2025-09-08 14:03:57,166 - __main__ - INFO - Found job 109 to process.
+2025-09-08 14:03:57,168 - services.job_service - INFO - Executing Job ID: 109 (Retry: 0/3)
+2025-09-08 14:03:57,240 - services.gemini_service - INFO - --- Preparing to call Gemini API for 35 daily analyses. ---
+2025-09-08 14:05:00,863 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:05:00,864 - services.gemini_service - INFO - Successfully parsed 35 objects from complete JSON response.
+2025-09-08 14:05:00,867 - services.job_service - INFO - Saved Gemini response for Job ID 109 to logs\gemini_responses\run_20250908\successful\job_109.txt
+2025-09-08 14:05:00,885 - services.job_service - INFO - Successfully completed Job ID: 109
+2025-09-08 14:05:00,899 - services.job_service - INFO - Worker picked up and locked Job ID: 110
+2025-09-08 14:05:00,899 - __main__ - INFO - Found job 110 to process.
+2025-09-08 14:05:00,900 - services.job_service - INFO - Executing Job ID: 110 (Retry: 0/3)
+2025-09-08 14:05:00,950 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 14:06:02,792 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:06:02,793 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 14:06:02,796 - services.job_service - INFO - Saved Gemini response for Job ID 110 to logs\gemini_responses\run_20250908\successful\job_110.txt
+2025-09-08 14:06:02,858 - services.job_service - INFO - Successfully completed Job ID: 110
+2025-09-08 14:06:02,883 - services.job_service - INFO - Worker picked up and locked Job ID: 111
+2025-09-08 14:06:02,884 - __main__ - INFO - Found job 111 to process.
+2025-09-08 14:06:02,884 - services.job_service - INFO - Executing Job ID: 111 (Retry: 0/3)
+2025-09-08 14:06:02,946 - services.gemini_service - INFO - --- Preparing to call Gemini API for 35 daily analyses. ---
+2025-09-08 14:07:35,302 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:07:35,303 - services.gemini_service - INFO - Successfully parsed 35 objects from complete JSON response.
+2025-09-08 14:07:35,304 - services.job_service - INFO - Saved Gemini response for Job ID 111 to logs\gemini_responses\run_20250908\successful\job_111.txt
+2025-09-08 14:07:35,316 - services.job_service - INFO - Successfully completed Job ID: 111
+2025-09-08 14:07:35,326 - services.job_service - INFO - Worker picked up and locked Job ID: 112
+2025-09-08 14:07:35,326 - __main__ - INFO - Found job 112 to process.
+2025-09-08 14:07:35,327 - services.job_service - INFO - Executing Job ID: 112 (Retry: 0/3)
+2025-09-08 14:07:35,375 - services.gemini_service - INFO - --- Preparing to call Gemini API for 15 daily analyses. ---
+2025-09-08 14:08:25,239 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:08:25,239 - services.gemini_service - INFO - Successfully parsed 15 objects from complete JSON response.
+2025-09-08 14:08:25,241 - services.job_service - INFO - Saved Gemini response for Job ID 112 to logs\gemini_responses\run_20250908\successful\job_112.txt
+2025-09-08 14:08:25,260 - services.job_service - INFO - Successfully completed Job ID: 112
+2025-09-08 14:08:25,278 - services.job_service - INFO - Worker picked up and locked Job ID: 113
+2025-09-08 14:08:25,278 - __main__ - INFO - Found job 113 to process.
+2025-09-08 14:08:25,278 - services.job_service - INFO - Executing Job ID: 113 (Retry: 0/3)
+2025-09-08 14:08:25,333 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 14:09:28,329 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:09:28,329 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 14:09:28,335 - services.job_service - INFO - Saved Gemini response for Job ID 113 to logs\gemini_responses\run_20250908\successful\job_113.txt
+2025-09-08 14:09:28,374 - services.job_service - INFO - Successfully completed Job ID: 113
+2025-09-08 14:09:28,386 - services.job_service - INFO - Worker picked up and locked Job ID: 114
+2025-09-08 14:09:28,387 - __main__ - INFO - Found job 114 to process.
+2025-09-08 14:09:28,387 - services.job_service - INFO - Executing Job ID: 114 (Retry: 0/3)
+2025-09-08 14:09:28,440 - services.gemini_service - INFO - --- Preparing to call Gemini API for 32 daily analyses. ---
+2025-09-08 14:10:47,590 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:10:47,591 - services.gemini_service - INFO - Successfully parsed 32 objects from complete JSON response.
+2025-09-08 14:10:47,592 - services.job_service - INFO - Saved Gemini response for Job ID 114 to logs\gemini_responses\run_20250908\successful\job_114.txt
+2025-09-08 14:10:47,610 - services.job_service - INFO - Successfully completed Job ID: 114
+2025-09-08 14:10:47,623 - services.job_service - INFO - Worker picked up and locked Job ID: 115
+2025-09-08 14:10:47,623 - __main__ - INFO - Found job 115 to process.
+2025-09-08 14:10:47,623 - services.job_service - INFO - Executing Job ID: 115 (Retry: 0/3)
+2025-09-08 14:10:47,675 - services.gemini_service - INFO - --- Preparing to call Gemini API for 34 daily analyses. ---
+2025-09-08 14:11:51,329 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:11:51,330 - services.gemini_service - INFO - Successfully parsed 34 objects from complete JSON response.
+2025-09-08 14:11:51,332 - services.job_service - INFO - Saved Gemini response for Job ID 115 to logs\gemini_responses\run_20250908\successful\job_115.txt
+2025-09-08 14:11:51,398 - services.job_service - INFO - Successfully completed Job ID: 115
+2025-09-08 14:11:51,411 - services.job_service - INFO - Worker picked up and locked Job ID: 116
+2025-09-08 14:11:51,412 - __main__ - INFO - Found job 116 to process.
+2025-09-08 14:11:51,412 - services.job_service - INFO - Executing Job ID: 116 (Retry: 0/3)
+2025-09-08 14:11:51,485 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 14:13:10,438 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:13:10,439 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 14:13:10,441 - services.job_service - INFO - Saved Gemini response for Job ID 116 to logs\gemini_responses\run_20250908\successful\job_116.txt
+2025-09-08 14:13:10,487 - services.job_service - INFO - Successfully completed Job ID: 116
+2025-09-08 14:13:10,504 - services.job_service - INFO - Worker picked up and locked Job ID: 117
+2025-09-08 14:13:10,504 - __main__ - INFO - Found job 117 to process.
+2025-09-08 14:13:10,504 - services.job_service - INFO - Executing Job ID: 117 (Retry: 0/3)
+2025-09-08 14:13:10,561 - services.gemini_service - INFO - --- Preparing to call Gemini API for 29 daily analyses. ---
+2025-09-08 14:14:17,198 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:14:17,199 - services.gemini_service - INFO - Successfully parsed 29 objects from complete JSON response.
+2025-09-08 14:14:17,202 - services.job_service - INFO - Saved Gemini response for Job ID 117 to logs\gemini_responses\run_20250908\successful\job_117.txt
+2025-09-08 14:14:17,256 - services.job_service - INFO - Successfully completed Job ID: 117
+2025-09-08 14:14:17,290 - services.job_service - INFO - Worker picked up and locked Job ID: 118
+2025-09-08 14:14:17,290 - __main__ - INFO - Found job 118 to process.
+2025-09-08 14:14:17,291 - services.job_service - INFO - Executing Job ID: 118 (Retry: 0/3)
+2025-09-08 14:14:17,352 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 14:15:43,904 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:15:43,904 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 14:15:43,905 - services.job_service - INFO - Saved Gemini response for Job ID 118 to logs\gemini_responses\run_20250908\successful\job_118.txt
+2025-09-08 14:15:43,917 - services.job_service - INFO - Successfully completed Job ID: 118
+2025-09-08 14:15:43,925 - services.job_service - INFO - Worker picked up and locked Job ID: 119
+2025-09-08 14:15:43,926 - __main__ - INFO - Found job 119 to process.
+2025-09-08 14:15:43,926 - services.job_service - INFO - Executing Job ID: 119 (Retry: 0/3)
+2025-09-08 14:15:43,988 - services.gemini_service - INFO - --- Preparing to call Gemini API for 27 daily analyses. ---
+2025-09-08 14:16:38,010 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:16:38,010 - services.gemini_service - INFO - Successfully parsed 27 objects from complete JSON response.
+2025-09-08 14:16:38,013 - services.job_service - INFO - Saved Gemini response for Job ID 119 to logs\gemini_responses\run_20250908\successful\job_119.txt
+2025-09-08 14:16:38,046 - services.job_service - INFO - Successfully completed Job ID: 119
+2025-09-08 14:16:38,056 - services.job_service - INFO - Worker picked up and locked Job ID: 120
+2025-09-08 14:16:38,056 - __main__ - INFO - Found job 120 to process.
+2025-09-08 14:16:38,057 - services.job_service - INFO - Executing Job ID: 120 (Retry: 0/3)
+2025-09-08 14:16:38,120 - services.gemini_service - INFO - --- Preparing to call Gemini API for 36 daily analyses. ---
+2025-09-08 14:17:39,325 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:17:39,325 - services.gemini_service - INFO - Successfully parsed 36 objects from complete JSON response.
+2025-09-08 14:17:39,327 - services.job_service - INFO - Saved Gemini response for Job ID 120 to logs\gemini_responses\run_20250908\successful\job_120.txt
+2025-09-08 14:17:39,339 - services.job_service - INFO - Successfully completed Job ID: 120
+2025-09-08 14:17:39,348 - services.job_service - INFO - Worker picked up and locked Job ID: 121
+2025-09-08 14:17:39,348 - __main__ - INFO - Found job 121 to process.
+2025-09-08 14:17:39,349 - services.job_service - INFO - Executing Job ID: 121 (Retry: 0/3)
+2025-09-08 14:17:39,413 - services.gemini_service - INFO - --- Preparing to call Gemini API for 25 daily analyses. ---
+2025-09-08 14:19:12,991 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:19:12,992 - services.gemini_service - INFO - Successfully parsed 25 objects from complete JSON response.
+2025-09-08 14:19:12,994 - services.job_service - INFO - Saved Gemini response for Job ID 121 to logs\gemini_responses\run_20250908\successful\job_121.txt
+2025-09-08 14:19:13,033 - services.job_service - INFO - Successfully completed Job ID: 121
+2025-09-08 14:19:13,062 - services.job_service - INFO - Worker picked up and locked Job ID: 122
+2025-09-08 14:19:13,063 - __main__ - INFO - Found job 122 to process.
+2025-09-08 14:19:13,063 - services.job_service - INFO - Executing Job ID: 122 (Retry: 0/3)
+2025-09-08 14:19:13,134 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 14:20:45,883 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:20:45,883 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 14:20:45,886 - services.job_service - INFO - Saved Gemini response for Job ID 122 to logs\gemini_responses\run_20250908\successful\job_122.txt
+2025-09-08 14:20:45,921 - services.job_service - INFO - Successfully completed Job ID: 122
+2025-09-08 14:20:45,958 - services.job_service - INFO - Worker picked up and locked Job ID: 123
+2025-09-08 14:20:45,960 - __main__ - INFO - Found job 123 to process.
+2025-09-08 14:20:45,961 - services.job_service - INFO - Executing Job ID: 123 (Retry: 0/3)
+2025-09-08 14:20:46,024 - services.gemini_service - INFO - --- Preparing to call Gemini API for 30 daily analyses. ---
+2025-09-08 14:22:11,128 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:22:11,129 - services.gemini_service - INFO - Successfully parsed 30 objects from complete JSON response.
+2025-09-08 14:22:11,135 - services.job_service - INFO - Saved Gemini response for Job ID 123 to logs\gemini_responses\run_20250908\successful\job_123.txt
+2025-09-08 14:22:11,163 - services.job_service - INFO - Successfully completed Job ID: 123
+2025-09-08 14:22:11,188 - services.job_service - INFO - Worker picked up and locked Job ID: 124
+2025-09-08 14:22:11,189 - __main__ - INFO - Found job 124 to process.
+2025-09-08 14:22:11,190 - services.job_service - INFO - Executing Job ID: 124 (Retry: 0/3)
+2025-09-08 14:22:11,247 - services.gemini_service - INFO - --- Preparing to call Gemini API for 25 daily analyses. ---
+2025-09-08 14:23:03,451 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:23:03,452 - services.gemini_service - INFO - Successfully parsed 25 objects from complete JSON response.
+2025-09-08 14:23:03,454 - services.job_service - INFO - Saved Gemini response for Job ID 124 to logs\gemini_responses\run_20250908\successful\job_124.txt
+2025-09-08 14:23:03,494 - services.job_service - INFO - Successfully completed Job ID: 124
+2025-09-08 14:23:03,511 - services.job_service - INFO - Worker picked up and locked Job ID: 125
+2025-09-08 14:23:03,511 - __main__ - INFO - Found job 125 to process.
+2025-09-08 14:23:03,511 - services.job_service - INFO - Executing Job ID: 125 (Retry: 0/3)
+2025-09-08 14:23:03,563 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 14:24:20,665 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:24:20,666 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 14:24:20,671 - services.job_service - INFO - Saved Gemini response for Job ID 125 to logs\gemini_responses\run_20250908\successful\job_125.txt
+2025-09-08 14:24:20,699 - services.job_service - INFO - Successfully completed Job ID: 125
+2025-09-08 14:24:20,718 - services.job_service - INFO - Worker picked up and locked Job ID: 126
+2025-09-08 14:24:20,718 - __main__ - INFO - Found job 126 to process.
+2025-09-08 14:24:20,719 - services.job_service - INFO - Executing Job ID: 126 (Retry: 0/3)
+2025-09-08 14:24:20,769 - services.gemini_service - INFO - --- Preparing to call Gemini API for 36 daily analyses. ---
+2025-09-08 14:25:35,829 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:25:35,829 - services.gemini_service - INFO - Successfully parsed 36 objects from complete JSON response.
+2025-09-08 14:25:35,831 - services.job_service - INFO - Saved Gemini response for Job ID 126 to logs\gemini_responses\run_20250908\successful\job_126.txt
+2025-09-08 14:25:35,849 - services.job_service - INFO - Successfully completed Job ID: 126
+2025-09-08 14:25:35,859 - services.job_service - INFO - Worker picked up and locked Job ID: 127
+2025-09-08 14:25:35,860 - __main__ - INFO - Found job 127 to process.
+2025-09-08 14:25:35,861 - services.job_service - INFO - Executing Job ID: 127 (Retry: 0/3)
+2025-09-08 14:25:35,915 - services.gemini_service - INFO - --- Preparing to call Gemini API for 32 daily analyses. ---
+2025-09-08 14:26:48,033 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:26:48,034 - services.gemini_service - INFO - Successfully parsed 32 objects from complete JSON response.
+2025-09-08 14:26:48,037 - services.job_service - INFO - Saved Gemini response for Job ID 127 to logs\gemini_responses\run_20250908\successful\job_127.txt
+2025-09-08 14:26:48,052 - services.job_service - INFO - Successfully completed Job ID: 127
+2025-09-08 14:26:48,059 - services.job_service - INFO - Worker picked up and locked Job ID: 128
+2025-09-08 14:26:48,059 - __main__ - INFO - Found job 128 to process.
+2025-09-08 14:26:48,059 - services.job_service - INFO - Executing Job ID: 128 (Retry: 0/3)
+2025-09-08 14:26:48,131 - services.gemini_service - INFO - --- Preparing to call Gemini API for 27 daily analyses. ---
+2025-09-08 14:28:10,881 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:28:10,881 - services.gemini_service - INFO - Successfully parsed 27 objects from complete JSON response.
+2025-09-08 14:28:10,884 - services.job_service - INFO - Saved Gemini response for Job ID 128 to logs\gemini_responses\run_20250908\successful\job_128.txt
+2025-09-08 14:28:10,912 - services.job_service - INFO - Successfully completed Job ID: 128
+2025-09-08 14:28:10,929 - services.job_service - INFO - Worker picked up and locked Job ID: 129
+2025-09-08 14:28:10,930 - __main__ - INFO - Found job 129 to process.
+2025-09-08 14:28:10,931 - services.job_service - INFO - Executing Job ID: 129 (Retry: 0/3)
+2025-09-08 14:28:10,990 - services.gemini_service - INFO - --- Preparing to call Gemini API for 22 daily analyses. ---
+2025-09-08 14:29:04,627 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:29:04,628 - services.gemini_service - INFO - Successfully parsed 22 objects from complete JSON response.
+2025-09-08 14:29:04,632 - services.job_service - INFO - Saved Gemini response for Job ID 129 to logs\gemini_responses\run_20250908\successful\job_129.txt
+2025-09-08 14:29:04,661 - services.job_service - INFO - Successfully completed Job ID: 129
+2025-09-08 14:29:04,683 - services.job_service - INFO - Worker picked up and locked Job ID: 130
+2025-09-08 14:29:04,683 - __main__ - INFO - Found job 130 to process.
+2025-09-08 14:29:04,683 - services.job_service - INFO - Executing Job ID: 130 (Retry: 0/3)
+2025-09-08 14:29:04,733 - services.gemini_service - INFO - --- Preparing to call Gemini API for 18 daily analyses. ---
+2025-09-08 14:29:47,739 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:29:47,739 - services.gemini_service - INFO - Successfully parsed 18 objects from complete JSON response.
+2025-09-08 14:29:47,742 - services.job_service - INFO - Saved Gemini response for Job ID 130 to logs\gemini_responses\run_20250908\successful\job_130.txt
+2025-09-08 14:29:47,755 - services.job_service - INFO - Successfully completed Job ID: 130
+2025-09-08 14:29:47,762 - services.job_service - INFO - Worker picked up and locked Job ID: 131
+2025-09-08 14:29:47,762 - __main__ - INFO - Found job 131 to process.
+2025-09-08 14:29:47,762 - services.job_service - INFO - Executing Job ID: 131 (Retry: 0/3)
+2025-09-08 14:29:47,813 - services.gemini_service - INFO - --- Preparing to call Gemini API for 23 daily analyses. ---
+2025-09-08 14:30:26,711 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:30:26,711 - services.gemini_service - INFO - Successfully parsed 23 objects from complete JSON response.
+2025-09-08 14:30:26,715 - services.job_service - INFO - Saved Gemini response for Job ID 131 to logs\gemini_responses\run_20250908\successful\job_131.txt
+2025-09-08 14:30:26,758 - services.job_service - INFO - Successfully completed Job ID: 131
+2025-09-08 14:30:26,775 - services.job_service - INFO - Worker picked up and locked Job ID: 132
+2025-09-08 14:30:26,776 - __main__ - INFO - Found job 132 to process.
+2025-09-08 14:30:26,776 - services.job_service - INFO - Executing Job ID: 132 (Retry: 0/3)
+2025-09-08 14:30:26,844 - services.gemini_service - INFO - --- Preparing to call Gemini API for 29 daily analyses. ---
+2025-09-08 14:31:36,084 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:31:36,085 - services.gemini_service - INFO - Successfully parsed 29 objects from complete JSON response.
+2025-09-08 14:31:36,086 - services.job_service - INFO - Saved Gemini response for Job ID 132 to logs\gemini_responses\run_20250908\successful\job_132.txt
+2025-09-08 14:31:36,105 - services.job_service - INFO - Successfully completed Job ID: 132
+2025-09-08 14:31:36,111 - services.job_service - INFO - Worker picked up and locked Job ID: 133
+2025-09-08 14:31:36,111 - __main__ - INFO - Found job 133 to process.
+2025-09-08 14:31:36,111 - services.job_service - INFO - Executing Job ID: 133 (Retry: 0/3)
+2025-09-08 14:31:36,163 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 14:32:43,328 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:32:43,329 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 14:32:43,331 - services.job_service - INFO - Saved Gemini response for Job ID 133 to logs\gemini_responses\run_20250908\successful\job_133.txt
+2025-09-08 14:32:43,357 - services.job_service - INFO - Successfully completed Job ID: 133
+2025-09-08 14:32:43,365 - services.job_service - INFO - Worker picked up and locked Job ID: 134
+2025-09-08 14:32:43,365 - __main__ - INFO - Found job 134 to process.
+2025-09-08 14:32:43,366 - services.job_service - INFO - Executing Job ID: 134 (Retry: 0/3)
+2025-09-08 14:32:43,488 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 14:33:43,680 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:33:43,681 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 14:33:43,684 - services.job_service - INFO - Saved Gemini response for Job ID 134 to logs\gemini_responses\run_20250908\successful\job_134.txt
+2025-09-08 14:33:43,746 - services.job_service - INFO - Successfully completed Job ID: 134
+2025-09-08 14:33:43,779 - services.job_service - INFO - Worker picked up and locked Job ID: 135
+2025-09-08 14:33:43,780 - __main__ - INFO - Found job 135 to process.
+2025-09-08 14:33:43,780 - services.job_service - INFO - Executing Job ID: 135 (Retry: 0/3)
+2025-09-08 14:33:43,996 - services.gemini_service - INFO - --- Preparing to call Gemini API for 32 daily analyses. ---
+2025-09-08 14:34:59,987 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:34:59,988 - services.gemini_service - INFO - Successfully parsed 32 objects from complete JSON response.
+2025-09-08 14:34:59,996 - services.job_service - INFO - Saved Gemini response for Job ID 135 to logs\gemini_responses\run_20250908\successful\job_135.txt
+2025-09-08 14:35:00,092 - services.job_service - INFO - Successfully completed Job ID: 135
+2025-09-08 14:35:00,118 - services.job_service - INFO - Worker picked up and locked Job ID: 136
+2025-09-08 14:35:00,118 - __main__ - INFO - Found job 136 to process.
+2025-09-08 14:35:00,119 - services.job_service - INFO - Executing Job ID: 136 (Retry: 0/3)
+2025-09-08 14:35:00,669 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 14:39:25,869 - services.gemini_service - WARNING - Gemini call failed (attempt 1), retrying in 1.0s: An unexpected error occurred: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.
+2025-09-08 14:40:57,355 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:40:57,356 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 14:40:57,358 - services.job_service - INFO - Saved Gemini response for Job ID 136 to logs\gemini_responses\run_20250908\successful\job_136.txt
+2025-09-08 14:40:57,391 - services.job_service - INFO - Successfully completed Job ID: 136
+2025-09-08 14:40:57,407 - services.job_service - INFO - Worker picked up and locked Job ID: 137
+2025-09-08 14:40:57,408 - __main__ - INFO - Found job 137 to process.
+2025-09-08 14:40:57,408 - services.job_service - INFO - Executing Job ID: 137 (Retry: 0/3)
+2025-09-08 14:40:57,656 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 14:42:00,844 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:42:00,846 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 14:42:00,848 - services.job_service - INFO - Saved Gemini response for Job ID 137 to logs\gemini_responses\run_20250908\successful\job_137.txt
+2025-09-08 14:42:00,908 - services.job_service - INFO - Successfully completed Job ID: 137
+2025-09-08 14:42:00,926 - services.job_service - INFO - Worker picked up and locked Job ID: 138
+2025-09-08 14:42:00,926 - __main__ - INFO - Found job 138 to process.
+2025-09-08 14:42:00,927 - services.job_service - INFO - Executing Job ID: 138 (Retry: 0/3)
+2025-09-08 14:42:00,976 - services.gemini_service - INFO - --- Preparing to call Gemini API for 35 daily analyses. ---
+2025-09-08 14:43:42,861 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:43:42,862 - services.gemini_service - INFO - Successfully parsed 35 objects from complete JSON response.
+2025-09-08 14:43:42,865 - services.job_service - INFO - Saved Gemini response for Job ID 138 to logs\gemini_responses\run_20250908\successful\job_138.txt
+2025-09-08 14:43:42,882 - services.job_service - INFO - Successfully completed Job ID: 138
+2025-09-08 14:43:42,894 - services.job_service - INFO - Worker picked up and locked Job ID: 139
+2025-09-08 14:43:42,895 - __main__ - INFO - Found job 139 to process.
+2025-09-08 14:43:42,895 - services.job_service - INFO - Executing Job ID: 139 (Retry: 0/3)
+2025-09-08 14:43:42,947 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 14:45:01,692 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:45:01,692 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 14:45:01,697 - services.job_service - INFO - Saved Gemini response for Job ID 139 to logs\gemini_responses\run_20250908\successful\job_139.txt
+2025-09-08 14:45:01,722 - services.job_service - INFO - Successfully completed Job ID: 139
+2025-09-08 14:45:01,738 - services.job_service - INFO - Worker picked up and locked Job ID: 140
+2025-09-08 14:45:01,738 - __main__ - INFO - Found job 140 to process.
+2025-09-08 14:45:01,738 - services.job_service - INFO - Executing Job ID: 140 (Retry: 0/3)
+2025-09-08 14:45:01,787 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 14:45:43,369 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:45:43,369 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 14:45:43,373 - services.job_service - INFO - Saved Gemini response for Job ID 140 to logs\gemini_responses\run_20250908\successful\job_140.txt
+2025-09-08 14:45:43,402 - services.job_service - INFO - Successfully completed Job ID: 140
+2025-09-08 14:45:43,408 - services.job_service - INFO - Worker picked up and locked Job ID: 141
+2025-09-08 14:45:43,408 - __main__ - INFO - Found job 141 to process.
+2025-09-08 14:45:43,408 - services.job_service - INFO - Executing Job ID: 141 (Retry: 0/3)
+2025-09-08 14:45:43,459 - services.gemini_service - INFO - --- Preparing to call Gemini API for 27 daily analyses. ---
+2025-09-08 14:46:35,616 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:46:35,617 - services.gemini_service - INFO - Successfully parsed 27 objects from complete JSON response.
+2025-09-08 14:46:35,621 - services.job_service - INFO - Saved Gemini response for Job ID 141 to logs\gemini_responses\run_20250908\successful\job_141.txt
+2025-09-08 14:46:35,638 - services.job_service - INFO - Successfully completed Job ID: 141
+2025-09-08 14:46:35,651 - services.job_service - INFO - Worker picked up and locked Job ID: 142
+2025-09-08 14:46:35,651 - __main__ - INFO - Found job 142 to process.
+2025-09-08 14:46:35,651 - services.job_service - INFO - Executing Job ID: 142 (Retry: 0/3)
+2025-09-08 14:46:35,699 - services.gemini_service - INFO - --- Preparing to call Gemini API for 32 daily analyses. ---
+2025-09-08 14:47:30,683 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:47:30,683 - services.gemini_service - INFO - Successfully parsed 32 objects from complete JSON response.
+2025-09-08 14:47:30,688 - services.job_service - INFO - Saved Gemini response for Job ID 142 to logs\gemini_responses\run_20250908\successful\job_142.txt
+2025-09-08 14:47:30,706 - services.job_service - INFO - Successfully completed Job ID: 142
+2025-09-08 14:47:30,719 - services.job_service - INFO - Worker picked up and locked Job ID: 143
+2025-09-08 14:47:30,719 - __main__ - INFO - Found job 143 to process.
+2025-09-08 14:47:30,720 - services.job_service - INFO - Executing Job ID: 143 (Retry: 0/3)
+2025-09-08 14:47:30,785 - services.gemini_service - INFO - --- Preparing to call Gemini API for 25 daily analyses. ---
+2025-09-08 14:48:40,517 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:48:40,518 - services.gemini_service - INFO - Successfully parsed 25 objects from complete JSON response.
+2025-09-08 14:48:40,522 - services.job_service - INFO - Saved Gemini response for Job ID 143 to logs\gemini_responses\run_20250908\successful\job_143.txt
+2025-09-08 14:48:40,531 - services.job_service - INFO - Successfully completed Job ID: 143
+2025-09-08 14:48:40,538 - services.job_service - INFO - Worker picked up and locked Job ID: 144
+2025-09-08 14:48:40,538 - __main__ - INFO - Found job 144 to process.
+2025-09-08 14:48:40,538 - services.job_service - INFO - Executing Job ID: 144 (Retry: 0/3)
+2025-09-08 14:48:40,586 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 14:49:34,493 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:49:34,493 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 14:49:34,496 - services.job_service - INFO - Saved Gemini response for Job ID 144 to logs\gemini_responses\run_20250908\successful\job_144.txt
+2025-09-08 14:49:34,527 - services.job_service - INFO - Successfully completed Job ID: 144
+2025-09-08 14:49:34,542 - services.job_service - INFO - Worker picked up and locked Job ID: 145
+2025-09-08 14:49:34,543 - __main__ - INFO - Found job 145 to process.
+2025-09-08 14:49:34,543 - services.job_service - INFO - Executing Job ID: 145 (Retry: 0/3)
+2025-09-08 14:49:34,611 - services.gemini_service - INFO - --- Preparing to call Gemini API for 30 daily analyses. ---
+2025-09-08 14:50:19,453 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:50:19,453 - services.gemini_service - INFO - Successfully parsed 30 objects from complete JSON response.
+2025-09-08 14:50:19,458 - services.job_service - INFO - Saved Gemini response for Job ID 145 to logs\gemini_responses\run_20250908\successful\job_145.txt
+2025-09-08 14:50:19,505 - services.job_service - INFO - Successfully completed Job ID: 145
+2025-09-08 14:50:19,522 - services.job_service - INFO - Worker picked up and locked Job ID: 146
+2025-09-08 14:50:19,523 - __main__ - INFO - Found job 146 to process.
+2025-09-08 14:50:19,523 - services.job_service - INFO - Executing Job ID: 146 (Retry: 0/3)
+2025-09-08 14:50:19,780 - services.gemini_service - INFO - --- Preparing to call Gemini API for 30 daily analyses. ---
+2025-09-08 14:51:30,096 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:51:30,097 - services.gemini_service - INFO - Successfully parsed 30 objects from complete JSON response.
+2025-09-08 14:51:30,099 - services.job_service - INFO - Saved Gemini response for Job ID 146 to logs\gemini_responses\run_20250908\successful\job_146.txt
+2025-09-08 14:51:30,130 - services.job_service - INFO - Successfully completed Job ID: 146
+2025-09-08 14:51:30,154 - services.job_service - INFO - Worker picked up and locked Job ID: 147
+2025-09-08 14:51:30,154 - __main__ - INFO - Found job 147 to process.
+2025-09-08 14:51:30,155 - services.job_service - INFO - Executing Job ID: 147 (Retry: 0/3)
+2025-09-08 14:51:30,208 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 14:52:56,118 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:52:56,119 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 14:52:56,121 - services.job_service - INFO - Saved Gemini response for Job ID 147 to logs\gemini_responses\run_20250908\successful\job_147.txt
+2025-09-08 14:52:56,173 - services.job_service - INFO - Successfully completed Job ID: 147
+2025-09-08 14:52:56,196 - services.job_service - INFO - Worker picked up and locked Job ID: 148
+2025-09-08 14:52:56,197 - __main__ - INFO - Found job 148 to process.
+2025-09-08 14:52:56,197 - services.job_service - INFO - Executing Job ID: 148 (Retry: 0/3)
+2025-09-08 14:52:56,250 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 14:53:51,686 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:53:51,687 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 14:53:51,689 - services.job_service - INFO - Saved Gemini response for Job ID 148 to logs\gemini_responses\run_20250908\successful\job_148.txt
+2025-09-08 14:53:51,735 - services.job_service - INFO - Successfully completed Job ID: 148
+2025-09-08 14:53:51,745 - services.job_service - INFO - Worker picked up and locked Job ID: 149
+2025-09-08 14:53:51,746 - __main__ - INFO - Found job 149 to process.
+2025-09-08 14:53:51,746 - services.job_service - INFO - Executing Job ID: 149 (Retry: 0/3)
+2025-09-08 14:53:51,803 - services.gemini_service - INFO - --- Preparing to call Gemini API for 38 daily analyses. ---
+2025-09-08 14:55:05,863 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:55:05,864 - services.gemini_service - INFO - Successfully parsed 38 objects from complete JSON response.
+2025-09-08 14:55:05,873 - services.job_service - INFO - Saved Gemini response for Job ID 149 to logs\gemini_responses\run_20250908\successful\job_149.txt
+2025-09-08 14:55:05,898 - services.job_service - INFO - Successfully completed Job ID: 149
+2025-09-08 14:55:05,910 - services.job_service - INFO - Worker picked up and locked Job ID: 150
+2025-09-08 14:55:05,911 - __main__ - INFO - Found job 150 to process.
+2025-09-08 14:55:05,911 - services.job_service - INFO - Executing Job ID: 150 (Retry: 0/3)
+2025-09-08 14:55:05,963 - services.gemini_service - INFO - --- Preparing to call Gemini API for 38 daily analyses. ---
+2025-09-08 14:56:36,451 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:56:36,452 - services.gemini_service - INFO - Successfully parsed 38 objects from complete JSON response.
+2025-09-08 14:56:36,455 - services.job_service - INFO - Saved Gemini response for Job ID 150 to logs\gemini_responses\run_20250908\successful\job_150.txt
+2025-09-08 14:56:36,471 - services.job_service - INFO - Successfully completed Job ID: 150
+2025-09-08 14:56:36,482 - services.job_service - INFO - Worker picked up and locked Job ID: 151
+2025-09-08 14:56:36,482 - __main__ - INFO - Found job 151 to process.
+2025-09-08 14:56:36,483 - services.job_service - INFO - Executing Job ID: 151 (Retry: 0/3)
+2025-09-08 14:56:36,536 - services.gemini_service - INFO - --- Preparing to call Gemini API for 34 daily analyses. ---
+2025-09-08 14:58:19,112 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:58:19,113 - services.gemini_service - INFO - Successfully parsed 34 objects from complete JSON response.
+2025-09-08 14:58:19,118 - services.job_service - INFO - Saved Gemini response for Job ID 151 to logs\gemini_responses\run_20250908\successful\job_151.txt
+2025-09-08 14:58:19,175 - services.job_service - INFO - Successfully completed Job ID: 151
+2025-09-08 14:58:19,200 - services.job_service - INFO - Worker picked up and locked Job ID: 152
+2025-09-08 14:58:19,201 - __main__ - INFO - Found job 152 to process.
+2025-09-08 14:58:19,202 - services.job_service - INFO - Executing Job ID: 152 (Retry: 0/3)
+2025-09-08 14:58:19,262 - services.gemini_service - INFO - --- Preparing to call Gemini API for 29 daily analyses. ---
+2025-09-08 14:59:32,417 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 14:59:32,417 - services.gemini_service - INFO - Successfully parsed 29 objects from complete JSON response.
+2025-09-08 14:59:32,419 - services.job_service - INFO - Saved Gemini response for Job ID 152 to logs\gemini_responses\run_20250908\successful\job_152.txt
+2025-09-08 14:59:32,438 - services.job_service - INFO - Successfully completed Job ID: 152
+2025-09-08 14:59:32,448 - services.job_service - INFO - Worker picked up and locked Job ID: 153
+2025-09-08 14:59:32,449 - __main__ - INFO - Found job 153 to process.
+2025-09-08 14:59:32,449 - services.job_service - INFO - Executing Job ID: 153 (Retry: 0/3)
+2025-09-08 14:59:32,507 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 15:00:44,572 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:00:44,573 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 15:00:44,575 - services.job_service - INFO - Saved Gemini response for Job ID 153 to logs\gemini_responses\run_20250908\successful\job_153.txt
+2025-09-08 15:00:44,609 - services.job_service - INFO - Successfully completed Job ID: 153
+2025-09-08 15:00:44,625 - services.job_service - INFO - Worker picked up and locked Job ID: 154
+2025-09-08 15:00:44,626 - __main__ - INFO - Found job 154 to process.
+2025-09-08 15:00:44,626 - services.job_service - INFO - Executing Job ID: 154 (Retry: 0/3)
+2025-09-08 15:00:44,679 - services.gemini_service - INFO - --- Preparing to call Gemini API for 36 daily analyses. ---
+2025-09-08 15:02:05,105 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:02:05,106 - services.gemini_service - INFO - Successfully parsed 36 objects from complete JSON response.
+2025-09-08 15:02:05,111 - services.job_service - INFO - Saved Gemini response for Job ID 154 to logs\gemini_responses\run_20250908\successful\job_154.txt
+2025-09-08 15:02:05,152 - services.job_service - INFO - Successfully completed Job ID: 154
+2025-09-08 15:02:05,165 - services.job_service - INFO - Worker picked up and locked Job ID: 155
+2025-09-08 15:02:05,166 - __main__ - INFO - Found job 155 to process.
+2025-09-08 15:02:05,167 - services.job_service - INFO - Executing Job ID: 155 (Retry: 0/3)
+2025-09-08 15:02:05,222 - services.gemini_service - INFO - --- Preparing to call Gemini API for 26 daily analyses. ---
+2025-09-08 15:02:58,516 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:02:58,517 - services.gemini_service - INFO - Successfully parsed 26 objects from complete JSON response.
+2025-09-08 15:02:58,519 - services.job_service - INFO - Saved Gemini response for Job ID 155 to logs\gemini_responses\run_20250908\successful\job_155.txt
+2025-09-08 15:02:58,537 - services.job_service - INFO - Successfully completed Job ID: 155
+2025-09-08 15:02:58,543 - services.job_service - INFO - Worker picked up and locked Job ID: 156
+2025-09-08 15:02:58,544 - __main__ - INFO - Found job 156 to process.
+2025-09-08 15:02:58,544 - services.job_service - INFO - Executing Job ID: 156 (Retry: 0/3)
+2025-09-08 15:02:58,599 - services.gemini_service - INFO - --- Preparing to call Gemini API for 25 daily analyses. ---
+2025-09-08 15:03:53,353 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:03:53,354 - services.gemini_service - INFO - Successfully parsed 25 objects from complete JSON response.
+2025-09-08 15:03:53,355 - services.job_service - INFO - Saved Gemini response for Job ID 156 to logs\gemini_responses\run_20250908\successful\job_156.txt
+2025-09-08 15:03:53,373 - services.job_service - INFO - Successfully completed Job ID: 156
+2025-09-08 15:03:53,388 - services.job_service - INFO - Worker picked up and locked Job ID: 157
+2025-09-08 15:03:53,389 - __main__ - INFO - Found job 157 to process.
+2025-09-08 15:03:53,390 - services.job_service - INFO - Executing Job ID: 157 (Retry: 0/3)
+2025-09-08 15:03:53,443 - services.gemini_service - INFO - --- Preparing to call Gemini API for 22 daily analyses. ---
+2025-09-08 15:04:43,876 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:04:43,877 - services.gemini_service - INFO - Successfully parsed 22 objects from complete JSON response.
+2025-09-08 15:04:43,880 - services.job_service - INFO - Saved Gemini response for Job ID 157 to logs\gemini_responses\run_20250908\successful\job_157.txt
+2025-09-08 15:04:43,938 - services.job_service - INFO - Successfully completed Job ID: 157
+2025-09-08 15:04:43,969 - services.job_service - INFO - Worker picked up and locked Job ID: 158
+2025-09-08 15:04:43,970 - __main__ - INFO - Found job 158 to process.
+2025-09-08 15:04:43,970 - services.job_service - INFO - Executing Job ID: 158 (Retry: 0/3)
+2025-09-08 15:04:44,023 - services.gemini_service - INFO - --- Preparing to call Gemini API for 1 daily analyses. ---
+2025-09-08 15:04:51,400 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:04:51,401 - services.gemini_service - INFO - Successfully parsed 1 objects from complete JSON response.
+2025-09-08 15:04:51,406 - services.job_service - INFO - Saved Gemini response for Job ID 158 to logs\gemini_responses\run_20250908\successful\job_158.txt
+2025-09-08 15:04:51,453 - services.job_service - INFO - Successfully completed Job ID: 158
+2025-09-08 15:04:51,470 - services.job_service - INFO - Worker picked up and locked Job ID: 159
+2025-09-08 15:04:51,471 - __main__ - INFO - Found job 159 to process.
+2025-09-08 15:04:51,471 - services.job_service - INFO - Executing Job ID: 159 (Retry: 0/3)
+2025-09-08 15:04:51,537 - services.gemini_service - INFO - --- Preparing to call Gemini API for 34 daily analyses. ---
+2025-09-08 15:06:07,504 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:06:07,505 - services.gemini_service - INFO - Successfully parsed 34 objects from complete JSON response.
+2025-09-08 15:06:07,511 - services.job_service - INFO - Saved Gemini response for Job ID 159 to logs\gemini_responses\run_20250908\successful\job_159.txt
+2025-09-08 15:06:07,567 - services.job_service - INFO - Successfully completed Job ID: 159
+2025-09-08 15:06:07,584 - services.job_service - INFO - Worker picked up and locked Job ID: 160
+2025-09-08 15:06:07,585 - __main__ - INFO - Found job 160 to process.
+2025-09-08 15:06:07,585 - services.job_service - INFO - Executing Job ID: 160 (Retry: 0/3)
+2025-09-08 15:06:07,636 - services.gemini_service - INFO - --- Preparing to call Gemini API for 25 daily analyses. ---
+2025-09-08 15:07:29,018 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:07:29,019 - services.gemini_service - INFO - Successfully parsed 25 objects from complete JSON response.
+2025-09-08 15:07:29,022 - services.job_service - INFO - Saved Gemini response for Job ID 160 to logs\gemini_responses\run_20250908\successful\job_160.txt
+2025-09-08 15:07:29,045 - services.job_service - INFO - Successfully completed Job ID: 160
+2025-09-08 15:07:29,056 - services.job_service - INFO - Worker picked up and locked Job ID: 161
+2025-09-08 15:07:29,056 - __main__ - INFO - Found job 161 to process.
+2025-09-08 15:07:29,057 - services.job_service - INFO - Executing Job ID: 161 (Retry: 0/3)
+2025-09-08 15:07:29,112 - services.gemini_service - INFO - --- Preparing to call Gemini API for 34 daily analyses. ---
+2025-09-08 15:08:35,170 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:08:35,171 - services.gemini_service - INFO - Successfully parsed 34 objects from complete JSON response.
+2025-09-08 15:08:35,175 - services.job_service - INFO - Saved Gemini response for Job ID 161 to logs\gemini_responses\run_20250908\successful\job_161.txt
+2025-09-08 15:08:35,197 - services.job_service - INFO - Successfully completed Job ID: 161
+2025-09-08 15:08:35,213 - services.job_service - INFO - Worker picked up and locked Job ID: 162
+2025-09-08 15:08:35,213 - __main__ - INFO - Found job 162 to process.
+2025-09-08 15:08:35,214 - services.job_service - INFO - Executing Job ID: 162 (Retry: 0/3)
+2025-09-08 15:08:35,269 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 15:10:35,482 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:10:35,482 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 15:10:35,483 - services.job_service - INFO - Saved Gemini response for Job ID 162 to logs\gemini_responses\run_20250908\successful\job_162.txt
+2025-09-08 15:10:35,515 - services.job_service - INFO - Successfully completed Job ID: 162
+2025-09-08 15:10:35,534 - services.job_service - INFO - Worker picked up and locked Job ID: 163
+2025-09-08 15:10:35,535 - __main__ - INFO - Found job 163 to process.
+2025-09-08 15:10:35,535 - services.job_service - INFO - Executing Job ID: 163 (Retry: 0/3)
+2025-09-08 15:10:35,590 - services.gemini_service - INFO - --- Preparing to call Gemini API for 30 daily analyses. ---
+2025-09-08 15:11:43,886 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:11:43,887 - services.gemini_service - INFO - Successfully parsed 30 objects from complete JSON response.
+2025-09-08 15:11:43,890 - services.job_service - INFO - Saved Gemini response for Job ID 163 to logs\gemini_responses\run_20250908\successful\job_163.txt
+2025-09-08 15:11:43,934 - services.job_service - INFO - Successfully completed Job ID: 163
+2025-09-08 15:11:43,948 - services.job_service - INFO - Worker picked up and locked Job ID: 164
+2025-09-08 15:11:43,949 - __main__ - INFO - Found job 164 to process.
+2025-09-08 15:11:43,949 - services.job_service - INFO - Executing Job ID: 164 (Retry: 0/3)
+2025-09-08 15:11:43,999 - services.gemini_service - INFO - --- Preparing to call Gemini API for 34 daily analyses. ---
+2025-09-08 15:13:02,119 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:13:02,120 - services.gemini_service - INFO - Successfully parsed 34 objects from complete JSON response.
+2025-09-08 15:13:02,123 - services.job_service - INFO - Saved Gemini response for Job ID 164 to logs\gemini_responses\run_20250908\successful\job_164.txt
+2025-09-08 15:13:02,167 - services.job_service - INFO - Successfully completed Job ID: 164
+2025-09-08 15:13:02,181 - services.job_service - INFO - Worker picked up and locked Job ID: 165
+2025-09-08 15:13:02,182 - __main__ - INFO - Found job 165 to process.
+2025-09-08 15:13:02,183 - services.job_service - INFO - Executing Job ID: 165 (Retry: 0/3)
+2025-09-08 15:13:02,237 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 15:14:19,848 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:14:19,849 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 15:14:19,850 - services.job_service - INFO - Saved Gemini response for Job ID 165 to logs\gemini_responses\run_20250908\successful\job_165.txt
+2025-09-08 15:14:19,870 - services.job_service - INFO - Successfully completed Job ID: 165
+2025-09-08 15:14:19,880 - services.job_service - INFO - Worker picked up and locked Job ID: 166
+2025-09-08 15:14:19,881 - __main__ - INFO - Found job 166 to process.
+2025-09-08 15:14:19,881 - services.job_service - INFO - Executing Job ID: 166 (Retry: 0/3)
+2025-09-08 15:14:19,931 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 15:15:13,620 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:15:13,620 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 15:15:13,624 - services.job_service - INFO - Saved Gemini response for Job ID 166 to logs\gemini_responses\run_20250908\successful\job_166.txt
+2025-09-08 15:15:13,670 - services.job_service - INFO - Successfully completed Job ID: 166
+2025-09-08 15:15:13,697 - services.job_service - INFO - Worker picked up and locked Job ID: 167
+2025-09-08 15:15:13,698 - __main__ - INFO - Found job 167 to process.
+2025-09-08 15:15:13,698 - services.job_service - INFO - Executing Job ID: 167 (Retry: 0/3)
+2025-09-08 15:15:13,758 - services.gemini_service - INFO - --- Preparing to call Gemini API for 34 daily analyses. ---
+2025-09-08 15:16:46,251 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:16:46,252 - services.gemini_service - INFO - Successfully parsed 34 objects from complete JSON response.
+2025-09-08 15:16:46,258 - services.job_service - INFO - Saved Gemini response for Job ID 167 to logs\gemini_responses\run_20250908\successful\job_167.txt
+2025-09-08 15:16:46,296 - services.job_service - INFO - Successfully completed Job ID: 167
+2025-09-08 15:16:46,306 - services.job_service - INFO - Worker picked up and locked Job ID: 168
+2025-09-08 15:16:46,306 - __main__ - INFO - Found job 168 to process.
+2025-09-08 15:16:46,307 - services.job_service - INFO - Executing Job ID: 168 (Retry: 0/3)
+2025-09-08 15:16:46,723 - services.gemini_service - INFO - --- Preparing to call Gemini API for 29 daily analyses. ---
+2025-09-08 15:17:51,328 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:17:51,328 - services.gemini_service - INFO - Successfully parsed 29 objects from complete JSON response.
+2025-09-08 15:17:51,330 - services.job_service - INFO - Saved Gemini response for Job ID 168 to logs\gemini_responses\run_20250908\successful\job_168.txt
+2025-09-08 15:17:51,363 - services.job_service - INFO - Successfully completed Job ID: 168
+2025-09-08 15:17:51,376 - services.job_service - INFO - Worker picked up and locked Job ID: 169
+2025-09-08 15:17:51,377 - __main__ - INFO - Found job 169 to process.
+2025-09-08 15:17:51,377 - services.job_service - INFO - Executing Job ID: 169 (Retry: 0/3)
+2025-09-08 15:17:51,753 - services.gemini_service - INFO - --- Preparing to call Gemini API for 36 daily analyses. ---
+2025-09-08 15:19:28,857 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:19:28,858 - services.gemini_service - INFO - Successfully parsed 36 objects from complete JSON response.
+2025-09-08 15:19:28,864 - services.job_service - INFO - Saved Gemini response for Job ID 169 to logs\gemini_responses\run_20250908\successful\job_169.txt
+2025-09-08 15:19:28,938 - services.job_service - INFO - Successfully completed Job ID: 169
+2025-09-08 15:19:28,987 - services.job_service - INFO - Worker picked up and locked Job ID: 170
+2025-09-08 15:19:28,988 - __main__ - INFO - Found job 170 to process.
+2025-09-08 15:19:28,989 - services.job_service - INFO - Executing Job ID: 170 (Retry: 0/3)
+2025-09-08 15:19:29,166 - services.gemini_service - INFO - --- Preparing to call Gemini API for 28 daily analyses. ---
+2025-09-08 15:20:47,069 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:20:47,070 - services.gemini_service - INFO - Successfully parsed 28 objects from complete JSON response.
+2025-09-08 15:20:47,078 - services.job_service - INFO - Saved Gemini response for Job ID 170 to logs\gemini_responses\run_20250908\successful\job_170.txt
+2025-09-08 15:20:47,133 - services.job_service - INFO - Successfully completed Job ID: 170
+2025-09-08 15:20:47,146 - services.job_service - INFO - Worker picked up and locked Job ID: 171
+2025-09-08 15:20:47,146 - __main__ - INFO - Found job 171 to process.
+2025-09-08 15:20:47,146 - services.job_service - INFO - Executing Job ID: 171 (Retry: 0/3)
+2025-09-08 15:20:47,280 - services.gemini_service - INFO - --- Preparing to call Gemini API for 35 daily analyses. ---
+2025-09-08 15:22:07,228 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:22:07,230 - services.gemini_service - INFO - Successfully parsed 35 objects from complete JSON response.
+2025-09-08 15:22:07,243 - services.job_service - INFO - Saved Gemini response for Job ID 171 to logs\gemini_responses\run_20250908\successful\job_171.txt
+2025-09-08 15:22:07,284 - services.job_service - INFO - Successfully completed Job ID: 171
+2025-09-08 15:22:07,298 - services.job_service - INFO - Worker picked up and locked Job ID: 172
+2025-09-08 15:22:07,299 - __main__ - INFO - Found job 172 to process.
+2025-09-08 15:22:07,299 - services.job_service - INFO - Executing Job ID: 172 (Retry: 0/3)
+2025-09-08 15:22:07,358 - services.gemini_service - INFO - --- Preparing to call Gemini API for 24 daily analyses. ---
+2025-09-08 15:23:20,774 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:23:20,775 - services.gemini_service - INFO - Successfully parsed 24 objects from complete JSON response.
+2025-09-08 15:23:20,781 - services.job_service - INFO - Saved Gemini response for Job ID 172 to logs\gemini_responses\run_20250908\successful\job_172.txt
+2025-09-08 15:23:20,838 - services.job_service - INFO - Successfully completed Job ID: 172
+2025-09-08 15:23:20,861 - services.job_service - INFO - Worker picked up and locked Job ID: 173
+2025-09-08 15:23:20,862 - __main__ - INFO - Found job 173 to process.
+2025-09-08 15:23:20,862 - services.job_service - INFO - Executing Job ID: 173 (Retry: 0/3)
+2025-09-08 15:23:20,917 - services.gemini_service - INFO - --- Preparing to call Gemini API for 35 daily analyses. ---
+2025-09-08 15:24:48,609 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:24:48,610 - services.gemini_service - INFO - Successfully parsed 35 objects from complete JSON response.
+2025-09-08 15:24:48,617 - services.job_service - INFO - Saved Gemini response for Job ID 173 to logs\gemini_responses\run_20250908\successful\job_173.txt
+2025-09-08 15:24:48,640 - services.job_service - INFO - Successfully completed Job ID: 173
+2025-09-08 15:24:48,650 - services.job_service - INFO - Worker picked up and locked Job ID: 174
+2025-09-08 15:24:48,650 - __main__ - INFO - Found job 174 to process.
+2025-09-08 15:24:48,650 - services.job_service - INFO - Executing Job ID: 174 (Retry: 0/3)
+2025-09-08 15:24:48,744 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 15:26:15,028 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:26:15,029 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 15:26:15,031 - services.job_service - INFO - Saved Gemini response for Job ID 174 to logs\gemini_responses\run_20250908\successful\job_174.txt
+2025-09-08 15:26:15,093 - services.job_service - INFO - Successfully completed Job ID: 174
+2025-09-08 15:26:15,125 - services.job_service - INFO - Worker picked up and locked Job ID: 175
+2025-09-08 15:26:15,126 - __main__ - INFO - Found job 175 to process.
+2025-09-08 15:26:15,127 - services.job_service - INFO - Executing Job ID: 175 (Retry: 0/3)
+2025-09-08 15:26:15,694 - services.gemini_service - INFO - --- Preparing to call Gemini API for 35 daily analyses. ---
+2025-09-08 15:27:32,654 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:27:32,655 - services.gemini_service - INFO - Successfully parsed 35 objects from complete JSON response.
+2025-09-08 15:27:32,659 - services.job_service - INFO - Saved Gemini response for Job ID 175 to logs\gemini_responses\run_20250908\successful\job_175.txt
+2025-09-08 15:27:32,727 - services.job_service - INFO - Successfully completed Job ID: 175
+2025-09-08 15:27:32,759 - services.job_service - INFO - Worker picked up and locked Job ID: 176
+2025-09-08 15:27:32,759 - __main__ - INFO - Found job 176 to process.
+2025-09-08 15:27:32,760 - services.job_service - INFO - Executing Job ID: 176 (Retry: 0/3)
+2025-09-08 15:27:32,974 - services.gemini_service - INFO - --- Preparing to call Gemini API for 39 daily analyses. ---
+2025-09-08 15:28:47,775 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:28:47,775 - services.gemini_service - INFO - Successfully parsed 39 objects from complete JSON response.
+2025-09-08 15:28:47,778 - services.job_service - INFO - Saved Gemini response for Job ID 176 to logs\gemini_responses\run_20250908\successful\job_176.txt
+2025-09-08 15:28:47,822 - services.job_service - INFO - Successfully completed Job ID: 176
+2025-09-08 15:28:47,832 - services.job_service - INFO - Worker picked up and locked Job ID: 177
+2025-09-08 15:28:47,833 - __main__ - INFO - Found job 177 to process.
+2025-09-08 15:28:47,833 - services.job_service - INFO - Executing Job ID: 177 (Retry: 0/3)
+2025-09-08 15:28:48,040 - services.gemini_service - INFO - --- Preparing to call Gemini API for 36 daily analyses. ---
+2025-09-08 15:29:46,248 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:29:46,248 - services.gemini_service - INFO - Successfully parsed 36 objects from complete JSON response.
+2025-09-08 15:29:46,251 - services.job_service - INFO - Saved Gemini response for Job ID 177 to logs\gemini_responses\run_20250908\successful\job_177.txt
+2025-09-08 15:29:46,281 - services.job_service - INFO - Successfully completed Job ID: 177
+2025-09-08 15:29:46,303 - services.job_service - INFO - Worker picked up and locked Job ID: 178
+2025-09-08 15:29:46,303 - __main__ - INFO - Found job 178 to process.
+2025-09-08 15:29:46,304 - services.job_service - INFO - Executing Job ID: 178 (Retry: 0/3)
+2025-09-08 15:29:46,364 - services.gemini_service - INFO - --- Preparing to call Gemini API for 35 daily analyses. ---
+2025-09-08 15:30:56,315 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:30:56,315 - services.gemini_service - INFO - Successfully parsed 35 objects from complete JSON response.
+2025-09-08 15:30:56,321 - services.job_service - INFO - Saved Gemini response for Job ID 178 to logs\gemini_responses\run_20250908\successful\job_178.txt
+2025-09-08 15:30:56,391 - services.job_service - INFO - Successfully completed Job ID: 178
+2025-09-08 15:30:56,427 - services.job_service - INFO - Worker picked up and locked Job ID: 179
+2025-09-08 15:30:56,427 - __main__ - INFO - Found job 179 to process.
+2025-09-08 15:30:56,427 - services.job_service - INFO - Executing Job ID: 179 (Retry: 0/3)
+2025-09-08 15:30:56,569 - services.gemini_service - INFO - --- Preparing to call Gemini API for 32 daily analyses. ---
+2025-09-08 15:32:30,069 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:32:30,070 - services.gemini_service - INFO - Successfully parsed 32 objects from complete JSON response.
+2025-09-08 15:32:30,074 - services.job_service - INFO - Saved Gemini response for Job ID 179 to logs\gemini_responses\run_20250908\successful\job_179.txt
+2025-09-08 15:32:30,100 - services.job_service - INFO - Successfully completed Job ID: 179
+2025-09-08 15:32:30,121 - services.job_service - INFO - Worker picked up and locked Job ID: 180
+2025-09-08 15:32:30,121 - __main__ - INFO - Found job 180 to process.
+2025-09-08 15:32:30,121 - services.job_service - INFO - Executing Job ID: 180 (Retry: 0/3)
+2025-09-08 15:32:30,186 - services.gemini_service - INFO - --- Preparing to call Gemini API for 29 daily analyses. ---
+2025-09-08 15:33:26,884 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:33:26,885 - services.gemini_service - INFO - Successfully parsed 29 objects from complete JSON response.
+2025-09-08 15:33:26,887 - services.job_service - INFO - Saved Gemini response for Job ID 180 to logs\gemini_responses\run_20250908\successful\job_180.txt
+2025-09-08 15:33:26,909 - services.job_service - INFO - Successfully completed Job ID: 180
+2025-09-08 15:33:26,921 - services.job_service - INFO - Worker picked up and locked Job ID: 181
+2025-09-08 15:33:26,922 - __main__ - INFO - Found job 181 to process.
+2025-09-08 15:33:26,922 - services.job_service - INFO - Executing Job ID: 181 (Retry: 0/3)
+2025-09-08 15:33:27,005 - services.gemini_service - INFO - --- Preparing to call Gemini API for 23 daily analyses. ---
+2025-09-08 15:34:17,856 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:34:17,857 - services.gemini_service - INFO - Successfully parsed 23 objects from complete JSON response.
+2025-09-08 15:34:17,862 - services.job_service - INFO - Saved Gemini response for Job ID 181 to logs\gemini_responses\run_20250908\successful\job_181.txt
+2025-09-08 15:34:17,906 - services.job_service - INFO - Successfully completed Job ID: 181
+2025-09-08 15:34:17,934 - services.job_service - INFO - Worker picked up and locked Job ID: 182
+2025-09-08 15:34:17,935 - __main__ - INFO - Found job 182 to process.
+2025-09-08 15:34:17,936 - services.job_service - INFO - Executing Job ID: 182 (Retry: 0/3)
+2025-09-08 15:34:18,108 - services.gemini_service - INFO - --- Preparing to call Gemini API for 24 daily analyses. ---
+2025-09-08 15:35:20,863 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:35:20,864 - services.gemini_service - INFO - Successfully parsed 24 objects from complete JSON response.
+2025-09-08 15:35:20,867 - services.job_service - INFO - Saved Gemini response for Job ID 182 to logs\gemini_responses\run_20250908\successful\job_182.txt
+2025-09-08 15:35:20,895 - services.job_service - INFO - Successfully completed Job ID: 182
+2025-09-08 15:35:20,907 - services.job_service - INFO - Worker picked up and locked Job ID: 183
+2025-09-08 15:35:20,907 - __main__ - INFO - Found job 183 to process.
+2025-09-08 15:35:20,908 - services.job_service - INFO - Executing Job ID: 183 (Retry: 0/3)
+2025-09-08 15:35:20,986 - services.gemini_service - INFO - --- Preparing to call Gemini API for 27 daily analyses. ---
+2025-09-08 15:36:37,301 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:36:37,305 - services.gemini_service - INFO - Successfully parsed 27 objects from complete JSON response.
+2025-09-08 15:36:37,315 - services.job_service - INFO - Saved Gemini response for Job ID 183 to logs\gemini_responses\run_20250908\successful\job_183.txt
+2025-09-08 15:36:37,385 - services.job_service - INFO - Successfully completed Job ID: 183
+2025-09-08 15:36:37,409 - services.job_service - INFO - Worker picked up and locked Job ID: 184
+2025-09-08 15:36:37,410 - __main__ - INFO - Found job 184 to process.
+2025-09-08 15:36:37,410 - services.job_service - INFO - Executing Job ID: 184 (Retry: 0/3)
+2025-09-08 15:36:37,626 - services.gemini_service - INFO - --- Preparing to call Gemini API for 37 daily analyses. ---
+2025-09-08 15:38:00,708 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:38:00,708 - services.gemini_service - INFO - Successfully parsed 37 objects from complete JSON response.
+2025-09-08 15:38:00,714 - services.job_service - INFO - Saved Gemini response for Job ID 184 to logs\gemini_responses\run_20250908\successful\job_184.txt
+2025-09-08 15:38:00,753 - services.job_service - INFO - Successfully completed Job ID: 184
+2025-09-08 15:38:00,774 - services.job_service - INFO - Worker picked up and locked Job ID: 185
+2025-09-08 15:38:00,775 - __main__ - INFO - Found job 185 to process.
+2025-09-08 15:38:00,775 - services.job_service - INFO - Executing Job ID: 185 (Retry: 0/3)
+2025-09-08 15:38:00,832 - services.gemini_service - INFO - --- Preparing to call Gemini API for 31 daily analyses. ---
+2025-09-08 15:39:04,390 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:39:04,391 - services.gemini_service - INFO - Successfully parsed 31 objects from complete JSON response.
+2025-09-08 15:39:04,396 - services.job_service - INFO - Saved Gemini response for Job ID 185 to logs\gemini_responses\run_20250908\successful\job_185.txt
+2025-09-08 15:39:04,426 - services.job_service - INFO - Successfully completed Job ID: 185
+2025-09-08 15:39:04,434 - services.job_service - INFO - Worker picked up and locked Job ID: 186
+2025-09-08 15:39:04,434 - __main__ - INFO - Found job 186 to process.
+2025-09-08 15:39:04,435 - services.job_service - INFO - Executing Job ID: 186 (Retry: 0/3)
+2025-09-08 15:39:04,490 - services.gemini_service - INFO - --- Preparing to call Gemini API for 39 daily analyses. ---
+2025-09-08 15:40:17,724 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:40:17,726 - services.gemini_service - INFO - Successfully parsed 39 objects from complete JSON response.
+2025-09-08 15:40:17,733 - services.job_service - INFO - Saved Gemini response for Job ID 186 to logs\gemini_responses\run_20250908\successful\job_186.txt
+2025-09-08 15:40:17,777 - services.job_service - INFO - Successfully completed Job ID: 186
+2025-09-08 15:40:17,790 - services.job_service - INFO - Worker picked up and locked Job ID: 187
+2025-09-08 15:40:17,791 - __main__ - INFO - Found job 187 to process.
+2025-09-08 15:40:17,791 - services.job_service - INFO - Executing Job ID: 187 (Retry: 0/3)
+2025-09-08 15:40:17,854 - services.gemini_service - INFO - --- Preparing to call Gemini API for 44 daily analyses. ---
+2025-09-08 15:41:26,689 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:41:26,690 - services.gemini_service - INFO - Successfully parsed 44 objects from complete JSON response.
+2025-09-08 15:41:26,691 - services.job_service - INFO - Saved Gemini response for Job ID 187 to logs\gemini_responses\run_20250908\successful\job_187.txt
+2025-09-08 15:41:26,727 - services.job_service - INFO - Successfully completed Job ID: 187
+2025-09-08 15:41:26,742 - services.job_service - INFO - Worker picked up and locked Job ID: 188
+2025-09-08 15:41:26,742 - __main__ - INFO - Found job 188 to process.
+2025-09-08 15:41:26,742 - services.job_service - INFO - Executing Job ID: 188 (Retry: 0/3)
+2025-09-08 15:41:26,790 - services.gemini_service - INFO - --- Preparing to call Gemini API for 23 daily analyses. ---
+2025-09-08 15:42:12,701 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:42:12,702 - services.gemini_service - INFO - Successfully parsed 23 objects from complete JSON response.
+2025-09-08 15:42:12,704 - services.job_service - INFO - Saved Gemini response for Job ID 188 to logs\gemini_responses\run_20250908\successful\job_188.txt
+2025-09-08 15:42:12,728 - services.job_service - INFO - Successfully completed Job ID: 188
+2025-09-08 15:42:12,750 - services.job_service - INFO - Worker picked up and locked Job ID: 189
+2025-09-08 15:42:12,750 - __main__ - INFO - Found job 189 to process.
+2025-09-08 15:42:12,751 - services.job_service - INFO - Executing Job ID: 189 (Retry: 0/3)
+2025-09-08 15:42:12,810 - services.gemini_service - INFO - --- Preparing to call Gemini API for 22 daily analyses. ---
+2025-09-08 15:43:18,875 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:43:18,876 - services.gemini_service - INFO - Successfully parsed 22 objects from complete JSON response.
+2025-09-08 15:43:18,878 - services.job_service - INFO - Saved Gemini response for Job ID 189 to logs\gemini_responses\run_20250908\successful\job_189.txt
+2025-09-08 15:43:18,919 - services.job_service - INFO - Successfully completed Job ID: 189
+2025-09-08 15:43:18,941 - services.job_service - INFO - Worker picked up and locked Job ID: 190
+2025-09-08 15:43:18,941 - __main__ - INFO - Found job 190 to process.
+2025-09-08 15:43:18,941 - services.job_service - INFO - Executing Job ID: 190 (Retry: 0/3)
+2025-09-08 15:43:18,996 - services.gemini_service - INFO - --- Preparing to call Gemini API for 21 daily analyses. ---
+2025-09-08 15:44:21,176 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:44:21,177 - services.gemini_service - INFO - Successfully parsed 21 objects from complete JSON response.
+2025-09-08 15:44:21,179 - services.job_service - INFO - Saved Gemini response for Job ID 190 to logs\gemini_responses\run_20250908\successful\job_190.txt
+2025-09-08 15:44:21,196 - services.job_service - INFO - Successfully completed Job ID: 190
+2025-09-08 15:44:21,212 - services.job_service - INFO - Worker picked up and locked Job ID: 191
+2025-09-08 15:44:21,213 - __main__ - INFO - Found job 191 to process.
+2025-09-08 15:44:21,213 - services.job_service - INFO - Executing Job ID: 191 (Retry: 0/3)
+2025-09-08 15:44:21,266 - services.gemini_service - INFO - --- Preparing to call Gemini API for 23 daily analyses. ---
+2025-09-08 15:45:17,319 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:45:17,321 - services.gemini_service - INFO - Successfully parsed 23 objects from complete JSON response.
+2025-09-08 15:45:17,326 - services.job_service - INFO - Saved Gemini response for Job ID 191 to logs\gemini_responses\run_20250908\successful\job_191.txt
+2025-09-08 15:45:17,384 - services.job_service - INFO - Successfully completed Job ID: 191
+2025-09-08 15:45:17,405 - services.job_service - INFO - Worker picked up and locked Job ID: 192
+2025-09-08 15:45:17,406 - __main__ - INFO - Found job 192 to process.
+2025-09-08 15:45:17,406 - services.job_service - INFO - Executing Job ID: 192 (Retry: 0/3)
+2025-09-08 15:45:17,504 - services.gemini_service - INFO - --- Preparing to call Gemini API for 19 daily analyses. ---
+2025-09-08 15:45:53,961 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:45:53,961 - services.gemini_service - INFO - Successfully parsed 19 objects from complete JSON response.
+2025-09-08 15:45:53,963 - services.job_service - INFO - Saved Gemini response for Job ID 192 to logs\gemini_responses\run_20250908\successful\job_192.txt
+2025-09-08 15:45:53,987 - services.job_service - INFO - Successfully completed Job ID: 192
+2025-09-08 15:45:53,997 - services.job_service - INFO - Worker picked up and locked Job ID: 193
+2025-09-08 15:45:53,998 - __main__ - INFO - Found job 193 to process.
+2025-09-08 15:45:53,998 - services.job_service - INFO - Executing Job ID: 193 (Retry: 0/3)
+2025-09-08 15:45:54,055 - services.gemini_service - INFO - --- Preparing to call Gemini API for 23 daily analyses. ---
+2025-09-08 15:46:46,335 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:46:46,335 - services.gemini_service - INFO - Successfully parsed 23 objects from complete JSON response.
+2025-09-08 15:46:46,338 - services.job_service - INFO - Saved Gemini response for Job ID 193 to logs\gemini_responses\run_20250908\successful\job_193.txt
+2025-09-08 15:46:46,372 - services.job_service - INFO - Successfully completed Job ID: 193
+2025-09-08 15:46:46,386 - services.job_service - INFO - Worker picked up and locked Job ID: 194
+2025-09-08 15:46:46,386 - __main__ - INFO - Found job 194 to process.
+2025-09-08 15:46:46,386 - services.job_service - INFO - Executing Job ID: 194 (Retry: 0/3)
+2025-09-08 15:46:46,461 - services.gemini_service - INFO - --- Preparing to call Gemini API for 30 daily analyses. ---
+2025-09-08 15:48:00,080 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:48:00,081 - services.gemini_service - INFO - Successfully parsed 30 objects from complete JSON response.
+2025-09-08 15:48:00,085 - services.job_service - INFO - Saved Gemini response for Job ID 194 to logs\gemini_responses\run_20250908\successful\job_194.txt
+2025-09-08 15:48:00,110 - services.job_service - INFO - Successfully completed Job ID: 194
+2025-09-08 15:48:00,120 - services.job_service - INFO - Worker picked up and locked Job ID: 195
+2025-09-08 15:48:00,121 - __main__ - INFO - Found job 195 to process.
+2025-09-08 15:48:00,121 - services.job_service - INFO - Executing Job ID: 195 (Retry: 0/3)
+2025-09-08 15:48:00,221 - services.gemini_service - INFO - --- Preparing to call Gemini API for 43 daily analyses. ---
+2025-09-08 15:49:21,955 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:49:21,956 - services.gemini_service - INFO - Successfully parsed 43 objects from complete JSON response.
+2025-09-08 15:49:21,961 - services.job_service - INFO - Saved Gemini response for Job ID 195 to logs\gemini_responses\run_20250908\successful\job_195.txt
+2025-09-08 15:49:22,003 - services.job_service - INFO - Successfully completed Job ID: 195
+2025-09-08 15:49:22,018 - services.job_service - INFO - Worker picked up and locked Job ID: 196
+2025-09-08 15:49:22,018 - __main__ - INFO - Found job 196 to process.
+2025-09-08 15:49:22,018 - services.job_service - INFO - Executing Job ID: 196 (Retry: 0/3)
+2025-09-08 15:49:22,072 - services.gemini_service - INFO - --- Preparing to call Gemini API for 45 daily analyses. ---
+2025-09-08 15:50:46,125 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:50:46,126 - services.gemini_service - INFO - Successfully parsed 45 objects from complete JSON response.
+2025-09-08 15:50:46,128 - services.job_service - INFO - Saved Gemini response for Job ID 196 to logs\gemini_responses\run_20250908\successful\job_196.txt
+2025-09-08 15:50:46,148 - services.job_service - INFO - Successfully completed Job ID: 196
+2025-09-08 15:50:46,159 - services.job_service - INFO - Worker picked up and locked Job ID: 197
+2025-09-08 15:50:46,159 - __main__ - INFO - Found job 197 to process.
+2025-09-08 15:50:46,159 - services.job_service - INFO - Executing Job ID: 197 (Retry: 0/3)
+2025-09-08 15:50:46,225 - services.gemini_service - INFO - --- Preparing to call Gemini API for 60 daily analyses. ---
+2025-09-08 15:52:24,588 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:52:24,589 - services.gemini_service - INFO - Successfully parsed 60 objects from complete JSON response.
+2025-09-08 15:52:24,593 - services.job_service - INFO - Saved Gemini response for Job ID 197 to logs\gemini_responses\run_20250908\successful\job_197.txt
+2025-09-08 15:52:24,620 - services.job_service - INFO - Successfully completed Job ID: 197
+2025-09-08 15:52:24,629 - services.job_service - INFO - Worker picked up and locked Job ID: 198
+2025-09-08 15:52:24,629 - __main__ - INFO - Found job 198 to process.
+2025-09-08 15:52:24,629 - services.job_service - INFO - Executing Job ID: 198 (Retry: 0/3)
+2025-09-08 15:52:24,679 - services.gemini_service - INFO - --- Preparing to call Gemini API for 33 daily analyses. ---
+2025-09-08 15:53:38,121 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:53:38,121 - services.gemini_service - INFO - Successfully parsed 33 objects from complete JSON response.
+2025-09-08 15:53:38,124 - services.job_service - INFO - Saved Gemini response for Job ID 198 to logs\gemini_responses\run_20250908\successful\job_198.txt
+2025-09-08 15:53:38,149 - services.job_service - INFO - Successfully completed Job ID: 198
+2025-09-08 15:53:38,161 - services.job_service - INFO - Worker picked up and locked Job ID: 199
+2025-09-08 15:53:38,161 - __main__ - INFO - Found job 199 to process.
+2025-09-08 15:53:38,161 - services.job_service - INFO - Executing Job ID: 199 (Retry: 0/3)
+2025-09-08 15:53:38,463 - services.gemini_service - INFO - --- Preparing to call Gemini API for 26 daily analyses. ---
+2025-09-08 15:54:34,628 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:54:34,629 - services.gemini_service - INFO - Successfully parsed 26 objects from complete JSON response.
+2025-09-08 15:54:34,635 - services.job_service - INFO - Saved Gemini response for Job ID 199 to logs\gemini_responses\run_20250908\successful\job_199.txt
+2025-09-08 15:54:34,698 - services.job_service - INFO - Successfully completed Job ID: 199
+2025-09-08 15:54:34,741 - services.job_service - INFO - Worker picked up and locked Job ID: 200
+2025-09-08 15:54:34,743 - __main__ - INFO - Found job 200 to process.
+2025-09-08 15:54:34,744 - services.job_service - INFO - Executing Job ID: 200 (Retry: 0/3)
+2025-09-08 15:54:35,221 - services.gemini_service - INFO - --- Preparing to call Gemini API for 30 daily analyses. ---
+2025-09-08 15:55:39,240 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:55:39,241 - services.gemini_service - INFO - Successfully parsed 30 objects from complete JSON response.
+2025-09-08 15:55:39,244 - services.job_service - INFO - Saved Gemini response for Job ID 200 to logs\gemini_responses\run_20250908\successful\job_200.txt
+2025-09-08 15:55:39,331 - services.job_service - INFO - Successfully completed Job ID: 200
+2025-09-08 15:55:39,407 - services.job_service - INFO - Worker picked up and locked Job ID: 201
+2025-09-08 15:55:39,408 - __main__ - INFO - Found job 201 to process.
+2025-09-08 15:55:39,409 - services.job_service - INFO - Executing Job ID: 201 (Retry: 0/3)
+2025-09-08 15:55:39,631 - services.gemini_service - INFO - --- Preparing to call Gemini API for 29 daily analyses. ---
+2025-09-08 15:56:36,644 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:56:36,644 - services.gemini_service - INFO - Successfully parsed 29 objects from complete JSON response.
+2025-09-08 15:56:36,647 - services.job_service - INFO - Saved Gemini response for Job ID 201 to logs\gemini_responses\run_20250908\successful\job_201.txt
+2025-09-08 15:56:36,667 - services.job_service - INFO - Successfully completed Job ID: 201
+2025-09-08 15:56:36,684 - services.job_service - INFO - Worker picked up and locked Job ID: 202
+2025-09-08 15:56:36,685 - __main__ - INFO - Found job 202 to process.
+2025-09-08 15:56:36,685 - services.job_service - INFO - Executing Job ID: 202 (Retry: 0/3)
+2025-09-08 15:56:36,749 - services.gemini_service - INFO - --- Preparing to call Gemini API for 7 daily analyses. ---
+2025-09-08 15:56:58,810 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
+2025-09-08 15:56:58,811 - services.gemini_service - INFO - Successfully parsed 7 objects from complete JSON response.
+2025-09-08 15:56:58,814 - services.job_service - INFO - Saved Gemini response for Job ID 202 to logs\gemini_responses\run_20250908\successful\job_202.txt
+2025-09-08 15:56:58,834 - services.job_service - INFO - Successfully completed Job ID: 202
+2025-09-08 15:56:58,855 - services.job_service - INFO - Worker picked up and locked Job ID: 203
+2025-09-08 15:56:58,856 - __main__ - INFO - Found job 203 to process.
+2025-09-08 15:56:58,856 - services.job_service - INFO - Executing Job ID: 203 (Retry: 0/3)
+2025-09-08 15:57:01,099 - services.gemini_service - INFO - --- Preparing to call Gemini API for 1670 daily analyses. ---
+2025-09-08 16:01:20,843 - services.gemini_service - WARNING - Gemini call failed (attempt 1), retrying in 1.0s: An unexpected error occurred: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.
+2025-09-08 16:05:35,116 - services.gemini_service - WARNING - Gemini call failed (attempt 2), retrying in 2.0s: An unexpected error occurred: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.
+2025-09-08 16:09:30,049 - services.gemini_service - ERROR - Gemini call failed after 3 attempts with unexpected error: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.
+2025-09-08 16:09:30,062 - services.job_service - WARNING - Job ID: 203 failed with a transient error: An unexpected error occurred: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.
+2025-09-08 16:09:30,136 - services.job_service - INFO - Scheduled Job ID: 203 for retry at 2025-09-08 13:09:40.085893
+2025-09-08 16:09:30,465 - services.job_service - INFO - Worker picked up and locked Job ID: 204
+2025-09-08 16:09:30,465 - __main__ - INFO - Found job 204 to process.
+2025-09-08 16:09:30,466 - services.job_service - INFO - Executing Job ID: 204 (Retry: 0/3)
+2025-09-08 16:09:32,156 - services.gemini_service - INFO - --- Preparing to call Gemini API for 1666 daily analyses. ---
+2025-09-08 16:13:55,016 - services.gemini_service - WARNING - Gemini call failed (attempt 1), retrying in 1.0s: An unexpected error occurred: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.
+2025-09-08 16:18:13,898 - services.gemini_service - WARNING - Gemini call failed (attempt 2), retrying in 2.0s: An unexpected error occurred: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.
+2025-09-08 16:24:36,642 - services.gemini_service - ERROR - Gemini call failed after 3 attempts with unexpected error: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.
+2025-09-08 16:24:36,651 - services.job_service - WARNING - Job ID: 204 failed with a transient error: An unexpected error occurred: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.
+2025-09-08 16:24:36,688 - services.job_service - INFO - Scheduled Job ID: 204 for retry at 2025-09-08 13:24:46.664890
+2025-09-08 16:24:36,959 - services.job_service - INFO - Worker picked up and locked Job ID: 205
+2025-09-08 16:24:36,960 - __main__ - INFO - Found job 205 to process.
+2025-09-08 16:24:36,961 - services.job_service - INFO - Executing Job ID: 205 (Retry: 0/3)
+2025-09-08 16:24:38,878 - services.gemini_service - INFO - --- Preparing to call Gemini API for 1665 daily analyses. ---
+2025-09-08 16:28:58,332 - services.gemini_service - WARNING - Gemini call failed (attempt 1), retrying in 1.0s: An unexpected error occurred: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate's [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 2.

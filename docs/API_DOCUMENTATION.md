@@ -1,91 +1,107 @@
+# PowerPulse API Documentation
+
+This document provides a comprehensive overview of the PowerPulse Analytics API endpoints, including request parameters, response schemas, and example usage.
+
+**Base URL:** `http://localhost:8000`
+
 ---
 
-## 10. Jobs
+## Table of Contents
 
-Endpoints for monitoring and managing the background analysis jobs.
+1. [Authentication](#authentication)
+2. [API Testing](#api-testing)
+3. [Upload](#upload)
+4. [Metrics & Dashboards](#metrics--dashboards)
+5. [Charting](#charting)
+6. [Conversations](#conversations)
+7. [Exporting](#exporting)
+8. [Job Progress](#job-progress)
+9. [Conversation Explorer](#conversation-explorer)
 
-### `GET /api/jobs/`
+---
 
-List all analysis jobs with pagination and status filtering.
+## 1. Authentication
 
-- **Query Parameters:**
-  - `status` (string, optional): Filter jobs by status (e.g., `pending`, `running`, `completed`, `failed`, `retryable_failure`).
-  - `page` (integer, optional, default: 1): Page number.
-  - `page_size` (integer, optional, default: 20): Number of jobs per page.
+The current version of the API does not require authentication.
 
-- **Sample Response (`PaginatedJobResponse`):**
+---
+
+## 2. API Testing
+
+### `GET /api/test-api-key`
+
+Test the currently configured AI service API key (Gemini or OpenAI based on settings).
+
+- **Sample Response (`APIKeyTestResponse`):**
 
   ```json
   {
-    "pagination": {
-      "page": 1,
-      "page_size": 20,
-      "total_items": 150,
-      "total_pages": 8
-    },
-    "data": [
-      {
-        "id": 101,
-        "upload_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-        "task_name": "default_csi_analysis",
-        "status": "completed",
-        "run_at": "2025-09-06T14:00:00Z",
-        "retry_count": 0,
-        "max_retries": 3,
-        "created_at": "2025-09-06T13:59:00Z",
-        "started_at": "2025-09-06T14:00:00Z",
-        "completed_at": "2025-09-06T14:01:30Z",
-        "last_error": null
-      }
-    ]
+    "service": "gemini",
+    "api_key_valid": true,
+    "message": "API key is valid and working",
+    "model_used": "gemini-1.5-flash",
+    "test_response": "Hello! I'm working correctly.",
+    "error_details": null
   }
   ```
 
-### `GET /api/jobs/{job_id}`
+### `GET /api/test-gemini`
 
-Retrieve the detailed status of a single job.
+Test the Gemini API key specifically.
 
-- **Path Parameter:**
-  - `job_id` (integer, required): The ID of the job.
-
-- **Sample Response (`JobDetailsResponse`):**
+- **Sample Response (`APIKeyTestResponse`):**
 
   ```json
   {
-    "id": 102,
-    "upload_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-    "task_name": "default_csi_analysis",
-    "status": "failed",
-    "run_at": "2025-09-06T14:05:00Z",
-    "retry_count": 3,
-    "max_retries": 3,
-    "created_at": "2025-09-06T14:02:00Z",
-    "started_at": "2025-09-06T14:05:00Z",
-    "completed_at": "2025-09-06T14:05:10Z",
-    "last_error": "Max retries exceeded. PermanentApiError: Gemini API client error (HTTP 400): Invalid request",
-    "result": {
-      "error": "PermanentApiError: Gemini API client error (HTTP 400): Invalid request",
-      "traceback": "..."
-    }
+    "service": "gemini",
+    "api_key_valid": true,
+    "message": "Gemini API key is valid",
+    "model_used": "gemini-1.5-flash",
+    "test_response": "Hello from Gemini!",
+    "error_details": null
   }
   ```
 
-### `POST /api/jobs/{job_id}/retry`
+### `GET /api/test-openai`
 
-Manually retry a job that has the status 'failed'. This resets the status to 'pending' and clears the error information.
+Test the OpenAI API key specifically.
 
-- **Path Parameter:**
-  - `job_id` (integer, required): The ID of the failed job to retry.
-
-- **Sample Response (`JobRetryResponse`):**
+- **Sample Response (`APIKeyTestResponse`):**
 
   ```json
   {
-    "job_id": 102,
-    "new_status": "pending",
-    "message": "Job 102 has been successfully queued for a retry."
+    "service": "openai",
+    "api_key_valid": true,
+    "message": "OpenAI API key is valid",
+    "model_used": "gpt-4o-mini",
+    "test_response": "Hello from OpenAI!",
+    "error_details": null
   }
-  ```-567890abcdef"
+  ```
+
+---
+
+## 3. Upload
+
+### `POST /api/upload-json`
+
+Accepts a JSON file of conversations, validates it, and starts the analysis process in the background.
+
+- **Status Code:** `202 Accepted`
+- **Request Body:** `multipart/form-data`
+  - `file` (required): The `.json` file containing the chat data.
+  - `force_reprocess` (boolean, optional, default: `false`): If `true`, the system will re-analyze chats that have been processed before.
+
+- **Sample Response (`UploadResponse`):**
+
+  ```json
+  {
+    "success": true,
+    "message": "File upload accepted. Processing has started in the background.",
+    "conversations_processed": 0,
+    "messages_processed": 0,
+    "processing_time_seconds": 0,
+    "upload_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef"
   }
   ```
 
@@ -538,6 +554,116 @@ Fetches the full message transcript for a single daily analysis.
     ]
   }
   ```
+
+---
+
+## 10. Jobs
+
+Endpoints for monitoring and managing the background analysis jobs.
+
+### `GET /api/jobs/`
+
+List all analysis jobs with pagination and status filtering.
+
+- **Query Parameters:**
+  - `status` (string, optional): Filter jobs by status (e.g., `pending`, `running`, `completed`, `failed`, `retryable_failure`).
+  - `page` (integer, optional, default: 1): Page number.
+  - `page_size` (integer, optional, default: 20): Number of jobs per page.
+
+- **Sample Response (`PaginatedJobResponse`):**
+
+  ```json
+  {
+    "pagination": {
+      "page": 1,
+      "page_size": 20,
+      "total_items": 150,
+      "total_pages": 8
+    },
+    "data": [
+      {
+        "id": 101,
+        "upload_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "task_name": "default_csi_analysis",
+        "status": "completed",
+        "run_at": "2025-09-06T14:00:00Z",
+        "retry_count": 0,
+        "max_retries": 3,
+        "created_at": "2025-09-06T13:59:00Z",
+        "started_at": "2025-09-06T14:00:00Z",
+        "completed_at": "2025-09-06T14:01:30Z",
+        "last_error": null
+      }
+    ]
+  }
+  ```
+
+### `GET /api/jobs/{job_id}`
+
+Retrieve the detailed status of a single job.
+
+- **Path Parameter:**
+  - `job_id` (integer, required): The ID of the job.
+
+- **Sample Response (`JobDetailsResponse`):**
+
+  ```json
+  {
+    "id": 102,
+    "upload_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+    "task_name": "default_csi_analysis",
+    "status": "failed",
+    "run_at": "2025-09-06T14:05:00Z",
+    "retry_count": 3,
+    "max_retries": 3,
+    "created_at": "2025-09-06T14:02:00Z",
+    "started_at": "2025-09-06T14:05:00Z",
+    "completed_at": "2025-09-06T14:05:10Z",
+    "last_error": "Max retries exceeded. PermanentApiError: Gemini API client error (HTTP 400): Invalid request",
+    "result": {
+      "error": "PermanentApiError: Gemini API client error (HTTP 400): Invalid request",
+      "traceback": "..."
+    }
+  }
+  ```
+
+### `POST /api/jobs/{job_id}/retry`
+
+Manually retry a job that has the status 'failed'. This resets the status to 'pending' and clears the error information.
+
+- **Path Parameter:**
+  - `job_id` (integer, required): The ID of the failed job to retry.
+
+- **Sample Response (`JobRetryResponse`):**
+
+  ```json
+  {
+    "job_id": 102,
+    "new_status": "pending",
+    "message": "Job 102 has been successfully queued for a retry."
+  }
+  ```-567890abcdef"
+  }
+  ```
+
+### `GET /api/upload-status`
+
+Get the status of all recent uploads.
+
+- **Sample Response:**
+
+  ```json
+  {
+    "uploads": [
+      {
+        "upload_id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "status": "completed",
+        "created_at": "2025-09-02T10:00:00Z"
+      }
+    ]
+  }
+  ```
+
 
 ---
 

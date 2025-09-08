@@ -25,8 +25,8 @@ class Settings(BaseSettings):
     AI_SERVICE: str = "gemini"  # Choose between "openai" or "gemini"
 
     # Job and Batching Configuration
-    MAX_TOKENS_PER_BATCH: int = 4000  # Reduced significantly to ensure output fits within model limits
-    BATCH_PROCESSING_DELAY_SECONDS: int = 5
+    MAX_TOKENS_PER_BATCH: int = 20000 # Max tokens to process in one batch
+    BATCH_PROCESSING_DELAY_SECONDS: int = 10  # Delay between processing batches to manage rate limits
     AI_CONCURRENCY: int = 1  # Reduced from 5 to stay well below 15 RPM limit
 
     # Model configuration

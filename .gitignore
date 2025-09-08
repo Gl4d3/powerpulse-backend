@@ -1,7 +1,10 @@
-__pycache__/
+__pycache__/*
 *__pycache__*
 
 *.cpython-* 
+*.cpython-*.pyc
+*.cpython-313.pyc
+*.pyo
 
 .env
 config.py

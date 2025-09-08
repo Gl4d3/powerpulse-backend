@@ -13,12 +13,12 @@ engine = create_engine(
     settings.DATABASE_URL,
     connect_args={
         "check_same_thread": False,
-        "timeout": 30,  # 30 second timeout
-        "isolation_level": None  # Auto-commit mode
+        "timeout": 30  # 30 second timeout
     },
     # echo=True,  # Enable SQL query logging
     pool_pre_ping=True,  # Verify connections before use
-    pool_recycle=3600  # Recycle connections every hour
+    pool_recycle=3600,  # Recycle connections every hour
+    isolation_level='SERIALIZABLE',
 )
 
 SessionLocal = sessionmaker(

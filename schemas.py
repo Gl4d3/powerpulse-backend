@@ -10,11 +10,15 @@ class MessageCreate(BaseModel):
     agent_info: Optional[Dict[str, Any]] = None
 
 class MessageResponse(BaseModel):
+    """
+    Schema for representing a single chat message, used in conversation transcripts.
+    This model is used to structure the output of individual messages for the frontend.
+    """
     timestamp: datetime
     direction: str
     content: str
     sentiment_score: Optional[float] = None
-    topics: List[str] = []
+    topics: Optional[List[str]] = None
     agent_info: Optional[Dict[str, Any]] = None
 
     class Config:
