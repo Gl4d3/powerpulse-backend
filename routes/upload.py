@@ -1,36 +1,28 @@
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, BackgroundTasks, Query
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Query
 from sqlalchemy.orm import Session
-import time
 import logging
+import uuid
 
 from database import get_db
-from services.file_service_optimized import optimized_file_service
-from services.analytics_service import analytics_service
-from schemas import UploadResponse, ErrorResponse
+from services import file_service_optimized, batch_service, job_service
+from schemas import UploadResponse
 from config import settings
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
-import uuid
-from services.file_service_optimized import process_uploaded_file
-
 @router.post("/upload-json", response_model=UploadResponse, status_code=202)
 async def upload_json(
-    background_tasks: BackgroundTasks,
+    db: Session = Depends(get_db),
     file: UploadFile = File(...),
     force_reprocess: bool = Query(False, description="Force reprocessing of already processed chat_ids")
 ):
     """
-    Accepts a JSON file, returns a unique ID for tracking, and starts the
-    processing in the background.
+    Accepts a JSON file, creates analysis jobs, and returns a unique ID for tracking.
+    The processing now happens via a separate worker process, not a background task.
     """
-    # --- 1. Immediate Validation and Response ---
     if not file.filename.endswith('.json'):
         raise HTTPException(status_code=400, detail="File must be a JSON file")
-    
-    if file.size and file.size > settings.MAX_FILE_SIZE:
-        raise HTTPException(status_code=413, detail=f"File too large. Maximum size: {settings.MAX_FILE_SIZE} bytes")
     
     content = await file.read()
     if not content:
@@ -43,22 +35,36 @@ async def upload_json(
 
     upload_id = str(uuid.uuid4())
     
-    # --- 2. Delegate Processing to Background Task ---
-    background_tasks.add_task(
-        process_uploaded_file,
+    # 1. Process file to get or create DailyAnalysis records
+    logger.info(f"[{upload_id}] Starting file processing...")
+    new_or_updated_analyses = file_service_optimized.get_or_create_daily_analyses(
+        db=db,
         file_content=file_content,
-        upload_id=upload_id,
         force_reprocess=force_reprocess
     )
+    logger.info(f"[{upload_id}] Found or created {len(new_or_updated_analyses)} daily analyses to process.")
+
+    if not new_or_updated_analyses:
+        return UploadResponse(
+            success=True,
+            message="File processed. No new conversations or messages found to analyze.",
+            upload_id=upload_id,
+            jobs_created=0
+        )
+
+    # 2. Create batches from the analyses
+    batches = batch_service.create_daily_analysis_batches(new_or_updated_analyses)
+    logger.info(f"[{upload_id}] Created {len(batches)} batches from analyses.")
+
+    # 3. Create a job record for each batch
+    jobs = job_service.create_jobs_for_upload(upload_id, batches, db)
     
-    # --- 3. Return Immediately ---
+    # 4. Return Immediately
     return UploadResponse(
         success=True,
-        message="File upload accepted. Processing has started in the background.",
+        message=f"File upload accepted. Created {len(jobs)} analysis jobs.",
         upload_id=upload_id,
-        conversations_processed=0, # These values are now tracked by the progress system
-        messages_processed=0,
-        processing_time_seconds=0
+        jobs_created=len(jobs)
     )
 
 @router.get("/upload-status")

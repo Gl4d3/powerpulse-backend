@@ -25,13 +25,13 @@ class Settings(BaseSettings):
     AI_SERVICE: str = "gemini"  # Choose between "openai" or "gemini"
 
     # Job and Batching Configuration
-    MAX_TOKENS_PER_BATCH: int = 8000  # Reduced significantly to ensure output fits within 8K tokens
+    MAX_TOKENS_PER_BATCH: int = 4000  # Reduced significantly to ensure output fits within model limits
     BATCH_PROCESSING_DELAY_SECONDS: int = 5
     AI_CONCURRENCY: int = 1  # Reduced from 5 to stay well below 15 RPM limit
 
     # Model configuration
     GPT_MODEL: str = "gpt-4o-mini"
-    GEMINI_MODEL: str = "gemini-2.5-flash-lite"
+    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "")
     
     class Config:
         env_file = ".env"

@@ -8,15 +8,15 @@ This document provides a comprehensive and technically accurate overview of the 
 
 ## 1. High-Level Architecture & Data Flow
 
-The backend is a FastAPI application that processes customer service chat logs and serves a frontend with both aggregated and granular, record-level data.
+The backend is a FastAPI application that processes customer service chat logs and serves a frontend with both aggregated and granular, record-level data. The analysis is handled by a persistent, database-backed job queue processed by a standalone worker.
 
-1.  **Upload:** A user uploads a JSON file via `POST /api/upload-json`. The system no longer uses a `force_reprocess` flag; instead, it automatically detects and processes only new, unanalyzed conversation-days.
+1.  **Upload:** A user uploads a JSON file via `POST /api/upload-json`. The API's sole responsibility is to create the necessary `Job` records in the database with a `pending` status. It no longer uses a `force_reprocess` flag and immediately returns an `upload_id`.
 
-2.  **Daily Grouping & Persistence:** The backend parses conversations and groups messages by date. For each day a conversation has activity, a `DailyAnalysis` record is created in the database if one does not already exist for that specific conversation and date.
+2.  **Daily Grouping & Persistence:** The backend parses conversations and groups messages by date. For each day a conversation has activity, a `DailyAnalysis` record is created in the database if one does not already exist for that specific conversation and date. These `DailyAnalysis` records are associated with the jobs created in step 1.
 
-3.  **Token-Based Batching & AI Analysis:** The new `DailyAnalysis` records are batched based on a configurable token limit (`MAX_TOKENS_PER_BATCH`), ensuring all days for a single conversation are grouped together. A background job queue processes these batches, sending them to a Google Gemini model to extract nine **micro-metrics** (`sentiment_score`, `sentiment_shift`, `resolution_achieved`, `fcr_score`, `ces`, `common_topics`, and three time-based metrics).
+3.  **Worker-Based Processing & AI Analysis:** A standalone `worker.py` process runs continuously. It polls the database for `pending` jobs. When a job is found, the worker executes it, sending the associated batch of `DailyAnalysis` records to a Google Gemini model to extract nine **micro-metrics**. The worker handles all logic for retries and error logging.
 
-4.  **Pillar & CSI Calculation:** For each `DailyAnalysis` record, four **macro-metric pillars** (Effectiveness, Effort, Efficiency, Empathy) are calculated from the micro-metrics. A final, weighted **CSI score** is then calculated from these pillars. All results are stored in the `DailyAnalysis` table.
+4.  **Pillar & CSI Calculation:** For each `DailyAnalysis` record, four **macro-metric pillars** (Effectiveness, Effort, Efficiency, Empathy) are calculated from the micro-metrics. A final, weighted **CSI score** is then calculated from these pillars. All results are stored in the `DailyAnalysis` table, and the job is marked as `completed`.
 
 5.  **API Access (Dual-Mode):** The API now serves two distinct purposes:
     - **Aggregated Dashboards:** The `GET /api/metrics` and `GET /api/charts/*` endpoints provide system-wide, pre-aggregated data for the main UI dashboards.

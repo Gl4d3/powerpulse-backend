@@ -1,24 +1,21 @@
 import asyncio
 import logging
-from typing import List
-from sqlalchemy.orm import Session, joinedload
-from database import SessionLocal
-from models import Job, DailyAnalysis, Conversation, JobMetric
-from schemas import JobCreate
-from config import settings
-# Import AI services
-from services import gemini_service, analytics_service, time_metric_service
-from datetime import datetime
-from services.REDACTED import gpt_service
 import traceback
 import time
+from datetime import datetime, timedelta
+
+from sqlalchemy.orm import Session, joinedload
+from sqlalchemy import or_, and_
+
+from database import SessionLocal
+from models import Job, DailyAnalysis, Conversation, JobMetric
+from config import settings
+from services import gemini_service, analytics_service, time_metric_service
 
 logger = logging.getLogger(__name__)
 
-# Global semaphore to limit concurrency
-ai_semaphore = asyncio.Semaphore(settings.AI_CONCURRENCY)
 
-async def create_jobs_for_upload(upload_id: str, batches: List[List[DailyAnalysis]], db: Session) -> List[Job]:
+def create_jobs_for_upload(upload_id: str, batches: list[list[DailyAnalysis]], db: Session) -> list[Job]:
     """
     Creates Job records in the database for each batch of DailyAnalysis objects.
     """
@@ -27,6 +24,7 @@ async def create_jobs_for_upload(upload_id: str, batches: List[List[DailyAnalysi
         job = Job(
             upload_id=upload_id,
             status="pending",
+            run_at=datetime.utcnow(),
             daily_analyses=batch
         )
         db.add(job)
@@ -39,99 +37,138 @@ async def create_jobs_for_upload(upload_id: str, batches: List[List[DailyAnalysi
     logger.info(f"Created {len(jobs)} jobs for upload {upload_id}")
     return jobs
 
-import traceback
 
-async def process_job(job_id: int):
+def fetch_next_job(db: Session) -> Job | None:
     """
-    Processes a single job: calls the AI service for a batch of DailyAnalysis objects,
-    updates them with the results, and calculates their CSI scores.
+    Atomically fetches the next available job that is ready to run.
+    It locks the selected job row to prevent race conditions with other workers.
     """
-    async with ai_semaphore:
-        # Add a small delay to ensure we don't hit rate limits, even with concurrency
-        await asyncio.sleep(1) 
-        
-        with SessionLocal() as db:
-            # Eagerly load all necessary relationships to prevent lazy loading issues in the background task
-            job = db.query(Job).options(
-                joinedload(Job.daily_analyses)
-                .joinedload(DailyAnalysis.conversation)
-                .joinedload(Conversation.messages)
-            ).filter(Job.id == job_id).with_for_update().first()
+    now = datetime.utcnow()
+    job = db.query(Job).filter(
+        and_(
+            or_(Job.status == 'pending', Job.status == 'retryable_failure'),
+            Job.run_at <= now
+        )
+    ).order_by(Job.run_at).with_for_update(skip_locked=True).first()
+    
+    if job:
+        job.status = 'running'
+        job.started_at = now
+        db.commit()
+        logger.info(f"Worker picked up and locked Job ID: {job.id}")
+        return job
+    return None
 
-            if not job:
-                logger.error(f"Job with ID {job_id} not found.")
-                return
+async def execute_job(job: Job, db: Session):
+    """
+    Processes a single job: calls the AI service, and upon success, updates
+    all related analyses with the new data and calculates CSI scores.
+    """
+    logger.info(f"Executing Job ID: {job.id} (Retry: {job.retry_count}/{job.max_retries})")
+    
+    # Eagerly load all necessary relationships for the job
+    job_with_relations = db.query(Job).options(
+        joinedload(Job.daily_analyses)
+        .joinedload(DailyAnalysis.conversation)
+        .joinedload(Conversation.messages)
+    ).filter(Job.id == job.id).first()
 
-            if job.status != "pending":
-                logger.warning(f"Job {job.id} is already in status {job.status}. Skipping.")
-                return
+    if not job_with_relations:
+        logger.error(f"Could not find Job ID {job.id} in the database for execution.")
+        return
 
-            logger.info(f"Starting Job {job.id} for Upload {job.upload_id}...")
-            job.status = "in_progress"
-            db.commit()
+    start_time = time.time()
+    try:
+        ai_function = gemini_service.get_gemini_service(settings.GEMINI_API_KEY).analyze_daily_analyses_batch
+        analysis_results, usage_metadata = await ai_function(job_with_relations.daily_analyses)
 
-            try:
-                if settings.AI_SERVICE.lower() == "gemini":
-                    ai_function = gemini_service.get_gemini_service(settings.GEMINI_API_KEY).analyze_daily_analyses_batch
-                else:
-                    from services.REDACTED import gpt_service
-                    ai_function = gpt_service.analyze_daily_analyses_batch
+        # --- SUCCESS PATH ---
+        end_time = time.time()
+        _handle_successful_analysis(db, job_with_relations, analysis_results, usage_metadata, end_time - start_time)
 
-                start_time = time.time()
-                analysis_results, usage_metadata = await ai_function(job.daily_analyses)
-                end_time = time.time()
+    except gemini_service.TransientApiError as e:
+        logger.warning(f"Job ID: {job.id} failed with a transient error: {e}")
+        _handle_retryable_failure(db, job, e)
 
-                # Create and save the job metric
-                job_metric = JobMetric(
-                    job_id=job.id,
-                    token_usage=usage_metadata.get("total_token_count"),
-                    processing_time_seconds=end_time - start_time,
-                    api_calls_made=1
-                )
-                db.add(job_metric)
+    except (gemini_service.PermanentApiError, gemini_service.ParsingError) as e:
+        logger.error(f"Job ID: {job.id} failed with a permanent error: {e}", exc_info=True)
+        _handle_permanent_failure(db, job, e)
 
-                job.result = {"results": analysis_results}
-                
-                # Check if any of the results were fallbacks
-                if any(res.get("error") == "analysis_failed" for res in analysis_results):
-                    job.status = "failed"
-                    logger.warning(f"Job {job.id} completed with status: FAILED (AI analysis fallback)")
-                else:
-                    job.status = "completed"
-                    logger.info(f"Job {job.id} completed with status: SUCCESS")
+    except Exception as e:
+        logger.error(f"Job ID: {job.id} failed with an unexpected catastrophic error: {e}", exc_info=True)
+        _handle_permanent_failure(db, job, e) # Treat unexpected errors as permanent
 
-                analysis_map = {res.get("daily_analysis_id"): res for res in analysis_results}
 
-                for analysis_obj in job.daily_analyses:
-                    result_data = analysis_map.get(analysis_obj.id)
-                    if result_data and not result_data.get("error"):
-                        # Update with AI-generated qualitative metrics
-                        analysis_obj.sentiment_score = result_data.get("sentiment_score")
-                        analysis_obj.sentiment_shift = result_data.get("sentiment_shift")
-                        analysis_obj.resolution_achieved = result_data.get("resolution_achieved")
-                        analysis_obj.fcr_score = result_data.get("fcr_score")
-                        analysis_obj.ces = result_data.get("ces")
-                        analysis_obj.common_topics = result_data.get("common_topics")
-                        
-                        # Calculate and update with script-based quantitative metrics
-                        time_metrics = time_metric_service.calculate_time_metrics_for_daily_analysis(analysis_obj)
-                        analysis_obj.first_response_time = time_metrics.get("first_response_time")
-                        analysis_obj.avg_response_time = time_metrics.get("avg_response_time")
-                        analysis_obj.total_handling_time = time_metrics.get("total_handling_time")
+def _handle_successful_analysis(db: Session, job: Job, analysis_results: list, usage_metadata: dict, processing_time: float):
+    """
+    Handles the logic for a successfully completed AI analysis.
+    """
+    analysis_map = {res.get("daily_analysis_id"): res for res in analysis_results}
 
-                        # Finally, calculate the overall daily CSI score
-                        analytics_service.calculate_and_set_daily_csi_score(analysis_obj)
+    for analysis_obj in job.daily_analyses:
+        try:
+            # Always calculate time-based metrics
+            time_metrics = time_metric_service.calculate_time_metrics_for_daily_analysis(analysis_obj)
+            analysis_obj.first_response_time = time_metrics.get("first_response_time")
+            analysis_obj.avg_response_time = time_metrics.get("avg_response_time")
+            analysis_obj.total_handling_time = time_metrics.get("total_handling_time")
 
-            except Exception as e:
-                logger.error(f"Job {job.id} failed catastrophically", exc_info=True)
-                job.status = "failed"
-                # Capture the full traceback in the result for debugging
-                job.result = {"error": str(e), "traceback": traceback.format_exc()}
-            
-            finally:
-                job.completed_at = datetime.utcnow()
-                db.commit()
-                if job.status == 'failed':
-                    logger.error(f"Batch (Job {job.id}) finished with status: {job.status}")
-                else:
-                    logger.info(f"Batch (Job {job.id}) finished with status: {job.status}")
+            # Update with AI-generated metrics
+            result_data = analysis_map.get(analysis_obj.id)
+            if result_data:
+                analysis_obj.sentiment_score = result_data.get("sentiment_score")
+                analysis_obj.sentiment_shift = result_data.get("sentiment_shift")
+                analysis_obj.resolution_achieved = result_data.get("resolution_achieved")
+                analysis_obj.fcr_score = result_data.get("fcr_score")
+                analysis_obj.ces = result_data.get("ces")
+                analysis_obj.common_topics = result_data.get("common_topics")
+                analytics_service.calculate_and_set_daily_csi_score(analysis_obj)
+            else:
+                logger.warning(f"Could not find AI results for daily_analysis {analysis_obj.id} in successful job {job.id}")
+
+        except Exception as metric_error:
+            logger.error(f"Failed to calculate metrics for daily_analysis {analysis_obj.id} in job {job.id}: {metric_error}", exc_info=True)
+
+    job_metric = JobMetric(
+        job_id=job.id,
+        token_usage=usage_metadata.get("total_token_count"),
+        processing_time_seconds=processing_time,
+        api_calls_made=1 # This could be enhanced to track retries
+    )
+    db.add(job_metric)
+
+    job.status = "completed"
+    job.result = {"results_count": len(analysis_results)}
+    job.completed_at = datetime.utcnow()
+    db.commit()
+    logger.info(f"Successfully completed Job ID: {job.id}")
+
+
+def _handle_retryable_failure(db: Session, job: Job, error: Exception):
+    """
+    Handles the logic for a failure that can be retried.
+    """
+    job.retry_count += 1
+    if job.retry_count > job.max_retries:
+        _handle_permanent_failure(db, job, error, reason="Max retries exceeded.")
+    else:
+        job.status = "retryable_failure"
+        # Exponential backoff for the next run
+        wait_seconds = (2 ** job.retry_count) * 5
+        job.run_at = datetime.utcnow() + timedelta(seconds=wait_seconds)
+        job.last_error = str(error)
+        db.commit()
+        logger.info(f"Scheduled Job ID: {job.id} for retry at {job.run_at}")
+
+
+def _handle_permanent_failure(db: Session, job: Job, error: Exception, reason: str = None):
+    """
+    Handles the logic for a failure that should not be retried.
+    """
+    final_error = f"{reason} {str(error)}" if reason else str(error)
+    job.status = "failed"
+    job.last_error = final_error
+    job.result = {"error": str(error), "traceback": traceback.format_exc()}
+    job.completed_at = datetime.utcnow()
+    db.commit()
+    logger.error(f"Job ID: {job.id} failed permanently.")

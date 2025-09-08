@@ -58,16 +58,19 @@ uvicorn main:app --reload
 ```
 
 ## How It Works: The Data Pipeline
-1.  **Upload**: A user uploads a JSON file containing raw message data.
+1.  **Upload**: A user uploads a JSON file. The API creates job records in the database for the new data and immediately returns an `upload_id`.
 2.  **Parse & Group**: The system intelligently detects the JSON format and groups all messages by `conversation_id` and then by `date`.
 3.  **Create Daily Analysis Records**: For each day a conversation has messages, a `DailyAnalysis` record is created in the database.
-4.  **Token-Based Batching (`services/batch_service.py`):** The list of new `DailyAnalysis` objects is passed to the `create_daily_analysis_batches` function. This function groups analyses into batches that do not exceed a `MAX_TOKENS_PER_BATCH` limit, ensuring all days for a single conversation stay in the same batch.
-5.  **Job Creation & Processing (`services/job_service.py`):** For each batch, a `Job` is created. A semaphore (`AI_CONCURRENCY`) and a configurable delay (`BATCH_PROCESSING_DELAY_SECONDS`) manage the rate of concurrent job execution.
+4.  **Token-Based Batching (`services/batch_service.py`):** The new `DailyAnalysis` objects are grouped into efficient, token-limited batches.
+5.  **Job Creation & Processing (`worker.py` & `services/job_service.py`):**
+    - For each batch, a `Job` is created with a `pending` status.
+    - The standalone `worker.py` process polls the database, picks up pending jobs, and passes them to the `job_service` for execution.
+    - The `job_service` calls the `gemini_service` to perform the AI analysis.
 6.  **Metric Calculation**:
     - The system calculates quantitative time-based metrics (e.g., response times).
     - It then calculates the four pillar scores (Effectiveness, Effort, Efficiency, Empathy).
     - Finally, it computes the weighted daily CSI score.
-7.  **Database Persistence**: All scores are saved to the `daily_analyses` table.
+7.  **Database Persistence**: All scores are saved to the `daily_analyses` table, and the job is marked as `completed`.
 8.  **API Aggregation**: The API endpoints read from this table to provide aggregated metrics and historical trends.
 
 ## API Usage Example

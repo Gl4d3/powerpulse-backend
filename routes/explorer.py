@@ -24,6 +24,7 @@ async def get_daily_analyses_for_explorer(
     """
     Provides a paginated list of all daily analyses within a specified date range,
     including key metrics and conversation details for the frontend explorer table.
+
     """
     try:
         return analytics_service.get_daily_analyses_with_details(

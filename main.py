@@ -15,6 +15,8 @@ from routes.progress import router as progress_router
 from routes.charts import router as charts_router
 from routes.explorer import router as explorer_router
 from routes.api_test import router as api_test_router
+from routes.dev import router as dev_router
+from routes.jobs import router as jobs_router
 from database import SessionLocal
 from logging_config import setup_logging
 
@@ -74,6 +76,8 @@ app.include_router(progress_router, prefix="/api", tags=["progress"])
 app.include_router(charts_router, prefix="/api/charts", tags=["charts"])
 app.include_router(explorer_router, prefix="/api", tags=["explorer"])
 app.include_router(api_test_router, prefix="/api", tags=["api-test"])
+app.include_router(dev_router, prefix="/dev", tags=["development"])
+app.include_router(jobs_router, prefix="/api/jobs", tags=["jobs"])
 
 @app.get("/")
 async def root():

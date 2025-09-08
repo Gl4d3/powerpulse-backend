@@ -12,10 +12,23 @@ class Job(Base):
     __tablename__ = "jobs"
 
     id = Column(Integer, primary_key=True, index=True)
-    upload_id = Column(String, index=True) # To associate jobs with a specific upload
-    status = Column(String, default="pending", index=True) # pending, in_progress, completed, failed
+    upload_id = Column(String, index=True, nullable=True) # To associate jobs with a specific upload
+    
+    # Core job metadata
+    task_name = Column(String, nullable=True, default="default_csi_analysis")
+    status = Column(String, default="pending", index=True) # pending, running, completed, failed, retryable_failure
+    
+    # Execution and retry logic
+    run_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    retry_count = Column(Integer, default=0, nullable=False)
+    max_retries = Column(Integer, default=3, nullable=False)
+    
+    # Timestamps and results
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    started_at = Column(DateTime(timezone=True), nullable=True)
     completed_at = Column(DateTime(timezone=True), nullable=True)
+    
+    last_error = Column(Text, nullable=True)
     result = Column(JSON, nullable=True)
 
     daily_analyses = relationship("DailyAnalysis", secondary=job_daily_analyses, back_populates="jobs")

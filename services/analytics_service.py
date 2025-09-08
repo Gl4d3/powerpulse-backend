@@ -116,7 +116,7 @@ class AnalyticsService:
         """
         try:
             # Base query for the current period
-            query = db.query(DailyAnalysis)
+            query = db.query(DailyAnalysis).filter(DailyAnalysis.csi_score.isnot(None))
             if start_date and end_date:
                 query = query.filter(DailyAnalysis.analysis_date.between(start_date, end_date))
 
@@ -132,42 +132,15 @@ class AnalyticsService:
             avg_empathy = query.with_entities(func.avg(DailyAnalysis.empathy_score)).scalar() or 0.0
             overall_csi = query.with_entities(func.avg(DailyAnalysis.csi_score)).scalar() or 0.0
             
-            # Calculate other core KPIs
-            avg_sentiment = query.with_entities(func.avg(DailyAnalysis.sentiment_score)).scalar() or 0.0
-            # CSAT: % of days where resolution was achieved (score > 7)
-            csat_count = query.filter(DailyAnalysis.resolution_achieved > 7).count()
-            csat_percentage = (csat_count / total_analyzed) * 100 if total_analyzed > 0 else 0.0
-            # FCR: % of days where FCR score is high (> 7)
-            fcr_count = query.filter(DailyAnalysis.fcr_score > 7).count()
-            fcr_percentage = (fcr_count / total_analyzed) * 100 if total_analyzed > 0 else 0.0
-            # Avg Response Time in minutes
-            avg_response_time_seconds = query.with_entities(func.avg(DailyAnalysis.avg_response_time)).scalar() or 0.0
-            avg_response_time_minutes = avg_response_time_seconds / 60
-
-            # Sentiment Distribution
-            total_sentiment_scores = query.filter(DailyAnalysis.sentiment_score.isnot(None)).count()
-            if total_sentiment_scores > 0:
-                positive_count = query.filter(DailyAnalysis.sentiment_score >= 7).count()
-                negative_count = query.filter(DailyAnalysis.sentiment_score <= 4).count()
-                neutral_count = total_sentiment_scores - positive_count - negative_count
-                sentiment_distribution = {
-                    "positive": positive_count / total_sentiment_scores,
-                    "neutral": neutral_count / total_sentiment_scores,
-                    "negative": negative_count / total_sentiment_scores,
-                }
-            else:
-                sentiment_distribution = {"positive": 0, "neutral": 0, "negative": 0}
-
-            # Topic Frequency (This is a simplified aggregation)
-            topic_results = db.query(DailyAnalysis.common_topics).filter(DailyAnalysis.common_topics.isnot(None)).all()
-            topic_frequency = {}
-            for topics_list in topic_results:
-                if topics_list[0]:  # Check if topics_list[0] is not None
-                    for topic in topics_list[0]:
-                        topic_frequency[topic] = topic_frequency.get(topic, 0) + 1
-            
-            topic_frequency_list = [{"topic": t, "frequency": f} for t, f in topic_frequency.items()]
-
+            # Calculate all micro-metrics averages
+            avg_sentiment_score = query.with_entities(func.avg(DailyAnalysis.sentiment_score)).scalar() or 0.0
+            avg_sentiment_shift = query.with_entities(func.avg(DailyAnalysis.sentiment_shift)).scalar() or 0.0
+            avg_resolution_achieved = query.with_entities(func.avg(DailyAnalysis.resolution_achieved)).scalar() or 0.0
+            avg_fcr_score = query.with_entities(func.avg(DailyAnalysis.fcr_score)).scalar() or 0.0
+            avg_ces = query.with_entities(func.avg(DailyAnalysis.ces)).scalar() or 0.0
+            avg_first_response_time = query.with_entities(func.avg(DailyAnalysis.first_response_time)).scalar() or 0.0
+            avg_response_time = query.with_entities(func.avg(DailyAnalysis.avg_response_time)).scalar() or 0.0
+            avg_total_handling_time = query.with_entities(func.avg(DailyAnalysis.total_handling_time)).scalar() or 0.0
 
             current_metrics = {
                 "csi": overall_csi * 10, # Scale to 100
@@ -175,13 +148,18 @@ class AnalyticsService:
                 "service_timeliness": avg_efficiency * 10,
                 "customer_ease": avg_effort * 10,
                 "interaction_quality": avg_empathy * 10,
-                "sample_count": db.query(func.count(func.distinct(DailyAnalysis.conversation_id))).scalar(),
-                "sentiment": avg_sentiment,
-                "csat_percentage": csat_percentage,
-                "fcr_percentage": fcr_percentage,
-                "avg_response_time": avg_response_time_minutes,
-                "sentiment_distribution": sentiment_distribution,
-                "topic_frequency": topic_frequency_list,
+                
+                # All micro-metrics
+                "sentiment_score": avg_sentiment_score,
+                "sentiment_shift": avg_sentiment_shift,
+                "resolution_achieved": avg_resolution_achieved,
+                "fcr_score": avg_fcr_score,
+                "ces": avg_ces,
+                "first_response_time": avg_first_response_time,
+                "avg_response_time": avg_response_time,
+                "total_handling_time": avg_total_handling_time,
+                
+                "sample_count": db.query(func.count(func.distinct(DailyAnalysis.conversation_id))).filter(DailyAnalysis.csi_score.isnot(None)).scalar(),
             }
 
             # --- Calculate Deltas (if applicable) ---
@@ -207,10 +185,13 @@ class AnalyticsService:
         return {
             'csi': 0.0, 'resolution_quality': 0.0, 'service_timeliness': 0.0,
             'customer_ease': 0.0, 'interaction_quality': 0.0, 'sample_count': 0,
-            'sentiment': 0.0, 'csat_percentage': 0.0, 'fcr_percentage': 0.0,
-            'avg_response_time': 0.0,
-            'sentiment_distribution': {"positive": 0, "neutral": 0, "negative": 0},
-            'topic_frequency': [], 'deltas': None, 'pillar_weights': CSI_PILLAR_WEIGHTS
+            
+            # All micro-metrics
+            'sentiment_score': 0.0, 'sentiment_shift': 0.0, 'resolution_achieved': 0.0,
+            'fcr_score': 0.0, 'ces': 0.0, 'first_response_time': 0.0,
+            'avg_response_time': 0.0, 'total_handling_time': 0.0,
+            
+            'deltas': None, 'pillar_weights': CSI_PILLAR_WEIGHTS
         }
 
     async def get_sentiment_trend(self, db: Session, start_date: date, end_date: date) -> List[Dict[str, Any]]:
@@ -280,9 +261,25 @@ class AnalyticsService:
         
         results = query.order_by(DailyAnalysis.analysis_date.desc()).limit(page_size).offset(offset).all()
         
+        # Manually construct dictionaries to avoid Pydantic from_orm issues
+        response_data = []
+        for analysis in results:
+            response_data.append({
+                "daily_analysis_id": analysis.id,
+                "conversation_id": analysis.conversation.fb_chat_id if analysis.conversation else None,
+                "customer_name": analysis.conversation.customer_name if analysis.conversation else None,
+                "analysis_date": analysis.analysis_date,
+                "csi_score": analysis.csi_score,
+                "effectiveness_score": analysis.effectiveness_score,
+                "efficiency_score": analysis.efficiency_score,
+                "effort_score": analysis.effort_score,
+                "empathy_score": analysis.empathy_score,
+                "common_topics": analysis.common_topics
+            })
+
         return PaginatedDailyAnalysisResponse(
             pagination={"page": page, "page_size": page_size, "total_items": total_items, "total_pages": total_pages},
-            data=[DailyAnalysisResponse.from_orm(row) for row in results]
+            data=response_data
         )
 
     def get_transcript_for_daily_analysis(self, db: Session, daily_analysis_id: int) -> List[Message]:

@@ -1,0 +1,471 @@
+{
+    "conversations": [
+        {
+            "chat_id": "6610178ea680a1067a24f01c",
+            "username": "Godwill Kiprop",
+            "sentiment_score": 7.0,
+            "satisfaction_score": 68.89999999999999,
+            "avg_csi_score": null,
+            "fcr": true,
+            "topics": [
+                "Last token purchase"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T21:15:18",
+            "total_messages": 2,
+            "customer_messages": 2,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T21:15:18",
+            "last_message_time": "2025-08-22T21:15:33",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "6500a4bb63ccae1dd2666151",
+            "username": "Dorine Vande",
+            "sentiment_score": 3.0,
+            "satisfaction_score": 50.5,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "token not working"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T21:09:38",
+            "total_messages": 2,
+            "customer_messages": 1,
+            "agent_messages": 1,
+            "first_message_time": "2025-08-22T21:09:38",
+            "last_message_time": "2025-08-22T21:09:38",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "657ffa4cbc1d58f1f5c7e14b",
+            "username": "Mutisya Jacky",
+            "sentiment_score": 5.0,
+            "satisfaction_score": 44.699999999999996,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "illegal connection",
+                "meter number",
+                "transformer overload"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T21:04:11",
+            "total_messages": 2,
+            "customer_messages": 2,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T21:04:11",
+            "last_message_time": "2025-08-22T21:05:30",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "635ea3be100fcc74365a39ab",
+            "username": "Myke Patrick",
+            "sentiment_score": 3.0,
+            "satisfaction_score": 47.400000000000006,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "Token issue",
+                "Used token"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T21:02:19",
+            "total_messages": 2,
+            "customer_messages": 2,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T21:02:19",
+            "last_message_time": "2025-08-22T21:03:39",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "6300ee528481312eba796b62",
+            "username": "Mauryn Chemutai",
+            "sentiment_score": 3.0,
+            "satisfaction_score": 22.7,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "confirmation message",
+                "postpay account",
+                "billed again",
+                "payment"
+            ],
+            "agents": [
+                {
+                    "username": "George",
+                    "email": "GeorgeLyndon.OnyAgwet@kplc.co.ke"
+                }
+            ],
+            "created_at": "2025-08-22T20:59:52",
+            "total_messages": 5,
+            "customer_messages": 4,
+            "agent_messages": 1,
+            "first_message_time": "2025-08-22T20:59:52",
+            "last_message_time": "2025-08-22T23:43:06",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "61e678ca105a52ed6f3f92e4",
+            "username": "Cate Hinga",
+            "sentiment_score": 7.0,
+            "satisfaction_score": 44.699999999999996,
+            "avg_csi_score": null,
+            "fcr": true,
+            "topics": [
+                "reporting methods",
+                "power outage",
+                "reference number",
+                "meter number"
+            ],
+            "agents": [
+                {
+                    "username": "George",
+                    "email": "GeorgeLyndon.OnyAgwet@kplc.co.ke"
+                }
+            ],
+            "created_at": "2025-08-22T20:58:57",
+            "total_messages": 2,
+            "customer_messages": 1,
+            "agent_messages": 1,
+            "first_message_time": "2025-08-22T20:58:57",
+            "last_message_time": "2025-08-22T23:40:21",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "666a7c51f41f6db25d8a101f",
+            "username": "Ken Kabbz II",
+            "sentiment_score": 4.0,
+            "satisfaction_score": 23.4,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "CIU connection",
+                "Purchase issue",
+                "Token not working"
+            ],
+            "agents": [
+                {
+                    "username": "George",
+                    "email": "GeorgeLyndon.OnyAgwet@kplc.co.ke"
+                }
+            ],
+            "created_at": "2025-08-22T20:47:24",
+            "total_messages": 3,
+            "customer_messages": 2,
+            "agent_messages": 1,
+            "first_message_time": "2025-08-22T20:47:24",
+            "last_message_time": "2025-08-22T23:30:57",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "64d5342932f7abf8d6110282",
+            "username": "Kimathi Mungania",
+            "sentiment_score": 7.0,
+            "satisfaction_score": 44.0,
+            "avg_csi_score": null,
+            "fcr": true,
+            "topics": [
+                "M-Pesa transaction",
+                "token request"
+            ],
+            "agents": [
+                {
+                    "username": "George",
+                    "email": "GeorgeLyndon.OnyAgwet@kplc.co.ke"
+                }
+            ],
+            "created_at": "2025-08-22T20:46:19",
+            "total_messages": 3,
+            "customer_messages": 2,
+            "agent_messages": 1,
+            "first_message_time": "2025-08-22T20:46:19",
+            "last_message_time": "2025-08-22T23:26:25",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "633c0dd8f6aa1bc837c86ca4",
+            "username": "Daisy Akello Agai",
+            "sentiment_score": 3.0,
+            "satisfaction_score": 41.0,
+            "avg_csi_score": null,
+            "fcr": true,
+            "topics": [
+                "tokens not received",
+                "assistance",
+                "token payment",
+                "meter number"
+            ],
+            "agents": [
+                {
+                    "username": "George",
+                    "email": "GeorgeLyndon.OnyAgwet@kplc.co.ke"
+                }
+            ],
+            "created_at": "2025-08-22T20:43:29",
+            "total_messages": 5,
+            "customer_messages": 4,
+            "agent_messages": 1,
+            "first_message_time": "2025-08-22T20:43:29",
+            "last_message_time": "2025-08-22T23:28:31",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "61ea4a9581eeb2b3f11f18ea",
+            "username": "Jamoh Pinchez",
+            "sentiment_score": 6.0,
+            "satisfaction_score": 69.6,
+            "avg_csi_score": null,
+            "fcr": true,
+            "topics": [
+                "account number",
+                "fallen pole",
+                "power outage"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T20:37:33",
+            "total_messages": 1,
+            "customer_messages": 1,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:37:33",
+            "last_message_time": "2025-08-22T20:37:33",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "62111ab7af8100c99a79dfdf",
+            "username": "Robert Blessing",
+            "sentiment_score": 4.0,
+            "satisfaction_score": 43.0,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "Account Update",
+                "Meter Number"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T20:36:52",
+            "total_messages": 2,
+            "customer_messages": 2,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:36:52",
+            "last_message_time": "2025-08-22T20:42:45",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "6450a948190223a6ca30ebac",
+            "username": "Peter Mutuku",
+            "sentiment_score": 7.0,
+            "satisfaction_score": 68.4,
+            "avg_csi_score": null,
+            "fcr": true,
+            "topics": [
+                "debt balance inquiry",
+                "meter number"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T20:24:49",
+            "total_messages": 2,
+            "customer_messages": 2,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:24:49",
+            "last_message_time": "2025-08-22T20:27:41",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "65a01c53c14c610109ee685d",
+            "username": "Jemo Warui",
+            "sentiment_score": 0.0,
+            "satisfaction_score": 57.9,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [],
+            "agents": [],
+            "created_at": "2025-08-22T20:24:21",
+            "total_messages": 1,
+            "customer_messages": 1,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:24:21",
+            "last_message_time": "2025-08-22T20:24:21",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "617c024c6d10ab1091917fd4",
+            "username": "Amos Mbugua",
+            "sentiment_score": 6.0,
+            "satisfaction_score": 66.10000000000001,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "urgent assistance",
+                "location",
+                "power outage",
+                "reference number"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T20:18:54",
+            "total_messages": 1,
+            "customer_messages": 1,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:18:54",
+            "last_message_time": "2025-08-22T20:18:54",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "6358022510b139eeefa7c104",
+            "username": "Robbin Nandwa",
+            "sentiment_score": 4.0,
+            "satisfaction_score": 47.5,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "power outage",
+                "area specific outage"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T20:18:40",
+            "total_messages": 3,
+            "customer_messages": 3,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:18:40",
+            "last_message_time": "2025-08-22T20:23:01",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "620bbe93e421db519856ae1d",
+            "username": "Adurah Alex",
+            "sentiment_score": 4.0,
+            "satisfaction_score": 44.1,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "Account Number",
+                "Update Status",
+                "Bill Payment"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T20:17:48",
+            "total_messages": 3,
+            "customer_messages": 3,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:17:48",
+            "last_message_time": "2025-08-22T20:18:33",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "622cf45a4ad637883dfb4dd9",
+            "username": "Mash Mohaa",
+            "sentiment_score": 4.0,
+            "satisfaction_score": 52.9,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "reset code",
+                "meter activation",
+                "key change token"
+            ],
+            "agents": [
+                {
+                    "username": "Michel",
+                    "email": "MMalenya@kplc.co.ke"
+                }
+            ],
+            "created_at": "2025-08-22T20:16:39",
+            "total_messages": 4,
+            "customer_messages": 3,
+            "agent_messages": 1,
+            "first_message_time": "2025-08-22T20:16:39",
+            "last_message_time": "2025-08-22T20:26:21",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "65d853adf41ed2db938a6ee2",
+            "username": "Mahugu Nyaguthii Lucy",
+            "sentiment_score": 4.0,
+            "satisfaction_score": 48.4,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "location",
+                "power outage"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T20:15:31",
+            "total_messages": 1,
+            "customer_messages": 1,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:15:31",
+            "last_message_time": "2025-08-22T20:15:31",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "62625b450e3d2810a3c862f6",
+            "username": "Mercy Irungu",
+            "sentiment_score": 3.0,
+            "satisfaction_score": 47.699999999999996,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "crucial day",
+                "power outage",
+                "meter number"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T20:14:56",
+            "total_messages": 1,
+            "customer_messages": 1,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:14:56",
+            "last_message_time": "2025-08-22T20:14:56",
+            "agent_username": null,
+            "agent_email": null
+        },
+        {
+            "chat_id": "64c54cd09a9aed60ec6bf7c1",
+            "username": "Bonface Baraza",
+            "sentiment_score": 4.0,
+            "satisfaction_score": 47.9,
+            "avg_csi_score": null,
+            "fcr": false,
+            "topics": [
+                "location details",
+                "dim electricity",
+                "meter number"
+            ],
+            "agents": [],
+            "created_at": "2025-08-22T20:14:05",
+            "total_messages": 2,
+            "customer_messages": 2,
+            "agent_messages": 0,
+            "first_message_time": "2025-08-22T20:14:05",
+            "last_message_time": "2025-08-22T20:16:42",
+            "agent_username": null,
+            "agent_email": null
+        }
+    ],
+    "total": 2177,
+    "page": 2,
+    "page_size": 20,
+    "total_pages": 109
+}
+
+
+

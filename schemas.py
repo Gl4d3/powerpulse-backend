@@ -10,19 +10,13 @@ class MessageCreate(BaseModel):
     agent_info: Optional[Dict[str, Any]] = None
 
 class MessageResponse(BaseModel):
-    id: int
-    fb_chat_id: str
-    message_content: str
+    timestamp: datetime
     direction: str
-    social_create_time: datetime
-    agent_info: Optional[Dict[str, Any]]
-    sentiment_score: Optional[float]
-    sentiment_confidence: Optional[float]
-    topics: Optional[List[str]]
-    is_first_contact: bool
-    response_time_minutes: Optional[float]
-    created_at: datetime
-    
+    content: str
+    sentiment_score: Optional[float] = None
+    topics: List[str] = []
+    agent_info: Optional[Dict[str, Any]] = None
+
     class Config:
         from_attributes = True
 
@@ -39,31 +33,29 @@ class DailyAnalysisResponse(BaseModel):
     common_topics: Optional[List[str]] = None
 
     class Config:
-        orm_mode = True
-
-    @validator('conversation_id', pre=True, allow_reuse=True)
-    def get_fb_chat_id(cls, v, values):
-        return values.get('conversation').fb_chat_id
-
-    @validator('customer_name', pre=True, allow_reuse=True)
-    def get_customer_name(cls, v, values):
-        return values.get('conversation').customer_name
+        from_attributes = True
 
 class ConversationResponse(BaseModel):
     """
     Represents an aggregated summary of a conversation for the frontend.
+    This model provides a consolidated view of a conversation's metrics, calculated
+    by averaging all of its associated DailyAnalysis records.
     """
     chat_id: str
-    sentiment_score: Optional[float] = None
-    satisfaction_score: Optional[float] = None # This will be the aggregated CSI
+    username: Optional[str] = None
+    avg_sentiment_score: Optional[float] = None
+    avg_csi_score: Optional[float] = None
     fcr: Optional[bool] = None
     topics: List[str] = []
-    created_at: datetime
-    agent_username: Optional[str] = None
-    agent_email: Optional[str] = None
+    agents: List[dict] = []
+    created_at: Optional[datetime] = None
     
-    # The detailed daily breakdown can be fetched from a separate endpoint
-    # This keeps the main conversation list lightweight.
+    # Message statistics
+    total_messages: Optional[int] = None
+    customer_messages: Optional[int] = None
+    agent_messages: Optional[int] = None
+    first_message_time: Optional[datetime] = None
+    last_message_time: Optional[datetime] = None
     
     class Config:
         from_attributes = True
@@ -78,27 +70,30 @@ class ConversationListResponse(BaseModel):
 class CSIMetricsResponse(BaseModel):
     """
     Defines the structure for the aggregated metrics, aligned with the frontend contract.
+    Updated to include all micro-metrics and current calculated metrics.
     """
-    # Core KPIs
-    sentiment: float
-    csat_percentage: float
-    fcr_percentage: float
-    avg_response_time: float
-    sentiment_distribution: Dict[str, float]
-    topic_frequency: List[Dict[str, Any]]
-
     # CSI and pillars (0-100 scale for frontend)
     csi: float
-    resolution_quality: float
-    service_timeliness: float
-    customer_ease: float
-    interaction_quality: float
+    resolution_quality: float  # effectiveness_score * 10
+    service_timeliness: float  # efficiency_score * 10
+    customer_ease: float       # effort_score * 10
+    interaction_quality: float # empathy_score * 10
+    
+    # Micro-metrics used to calculate the pillars
+    sentiment_score: float           # Average sentiment score
+    sentiment_shift: float           # Average sentiment shift
+    resolution_achieved: float       # Average resolution achieved score
+    fcr_score: float                # Average first call resolution score
+    ces: float                      # Average customer effort score
+    first_response_time: float      # Average first response time (seconds)
+    avg_response_time: float        # Average response time (seconds)
+    total_handling_time: float      # Average total handling time (minutes)
+    
+    # Sample and metadata
     sample_count: int
     
-    # Deltas
+    # Deltas and metadata
     deltas: Optional[Dict[str, float]] = None
-    
-    # Metadata
     pillar_weights: Dict[str, float]
 
 
@@ -225,3 +220,35 @@ class ConversationExplorerResponse(BaseModel):
 class PaginatedConversationExplorerResponse(BaseModel):
     pagination: Pagination
     data: List[ConversationExplorerResponse]
+
+
+# --- Job Management Schemas ---
+
+class JobStatusResponse(BaseModel):
+    """A lightweight response for listing jobs."""
+    id: int
+    status: str
+    task_name: Optional[str] = None
+    upload_id: Optional[str] = None
+    retry_count: int
+    created_at: datetime
+    run_at: datetime
+    started_at: Optional[datetime] = None
+    completed_at: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True
+
+class JobDetailsResponse(JobStatusResponse):
+    """A detailed response for a single job, including errors and results."""
+    last_error: Optional[str] = None
+    result: Optional[Dict[str, Any]] = None
+
+class PaginatedJobResponse(BaseModel):
+    pagination: Pagination
+    data: List[JobStatusResponse]
+
+class JobRetryResponse(BaseModel):
+    job_id: int
+    new_status: str
+    message: str

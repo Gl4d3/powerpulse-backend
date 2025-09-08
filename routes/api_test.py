@@ -8,7 +8,6 @@ from typing import Optional
 
 # Import the AI services
 from services.gemini_service import GeminiService
-from services.gpt_service import OptimizedGPTService
 from config import settings
 
 logger = logging.getLogger(__name__)
@@ -34,8 +33,6 @@ async def test_configured_api_key():
     try:
         if service == "gemini":
             return await _test_gemini_api_key()
-        elif service == "openai":
-            return await _test_openai_api_key()
         else:
             raise HTTPException(
                 status_code=400, 
@@ -62,21 +59,6 @@ async def test_gemini_api_key():
         )
     
     return await _test_gemini_api_key()
-
-@router.get("/test-openai", response_model=APIKeyTestResponse)
-async def test_openai_api_key():
-    """
-    Test the OpenAI API key specifically.
-    """
-    if not settings.OPENAI_API_KEY:
-        return APIKeyTestResponse(
-            service="openai",
-            api_key_valid=False,
-            message="OpenAI API key not configured",
-            error_details="OPENAI_API_KEY environment variable is not set"
-        )
-    
-    return await _test_openai_api_key()
 
 async def _test_gemini_api_key() -> APIKeyTestResponse:
     """
@@ -124,53 +106,3 @@ async def _test_gemini_api_key() -> APIKeyTestResponse:
             error_details=error_msg
         )
 
-async def _test_openai_api_key() -> APIKeyTestResponse:
-    """
-    Internal function to test OpenAI API key
-    """
-    try:
-        gpt_service = OptimizedGPTService(settings.OPENAI_API_KEY)
-        
-        # Make a simple test call
-        from openai import AsyncOpenAI
-        client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
-        
-        response = await client.chat.completions.create(
-            model=settings.GPT_MODEL,
-            messages=[
-                {"role": "user", "content": "Hello! Please respond with 'API key is working' to confirm the connection."}
-            ],
-            max_tokens=50
-        )
-        
-        test_response = response.choices[0].message.content
-        
-        return APIKeyTestResponse(
-            service="openai",
-            api_key_valid=True,
-            message="OpenAI API key is valid and working",
-            model_used=settings.GPT_MODEL,
-            test_response=test_response[:200]  # Truncate for safety
-        )
-        
-    except Exception as e:
-        error_msg = str(e)
-        logger.error(f"OpenAI API key test failed: {error_msg}")
-        
-        # Check for common error patterns
-        if "invalid_api_key" in error_msg.lower() or "unauthorized" in error_msg.lower():
-            message = "OpenAI API key is invalid"
-        elif "quota" in error_msg.lower() or "rate_limit" in error_msg.lower():
-            message = "OpenAI API quota exceeded or rate limited"
-        elif "permission" in error_msg.lower():
-            message = "OpenAI API permission denied"
-        else:
-            message = "OpenAI API key test failed"
-            
-        return APIKeyTestResponse(
-            service="openai",
-            api_key_valid=False,
-            message=message,
-            model_used=settings.GPT_MODEL,
-            error_details=error_msg
-        )

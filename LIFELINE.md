@@ -10,25 +10,35 @@ This document provides a deep, technical dive into the entire data processing pi
 
 ```mermaid
 flowchart TD
-    A[HTTP POST /api/upload-json] --> B(routes/upload.py);
-    B --> C{services/file_service_optimized.py\n`process_uploaded_file`};
-    C --> D(Step 1: Parse & Normalize Input);
-    D --> E(Step 2: Identify New Daily Analyses);
-    E --> F(services/batch_service.py\n`create_daily_analysis_batches`);
-    F --> G{services/job_service.py\n`create_jobs_for_upload`};
-    G --> H(Step 3: Process Jobs Concurrently);
-    
-    subgraph "Job Processing (for each batch)"
-        direction LR
-        H --> I{services/gemini_service.py\n`analyze_daily_analyses_batch`};
-        I --> J(Step 4: AI Analysis);
-        J --> K{services/time_metric_service.py\n`calculate_time_metrics...`};
-        K --> L(Step 5: Calculate Quantitative Metrics);
-        L --> M{services/analytics_service.py\n`calculate_and_set_daily_csi_score`};
-        M --> N(Step 6: Calculate CSI Score);
+    subgraph "API (main.py)"
+        A[HTTP POST /api/upload-json] --> B(routes/upload.py);
+        B --> C{services/file_service_optimized.py};
+        C --> D(1. Parse & Group Data);
+        D --> E(2. Create DailyAnalysis Objects);
+        E --> F(services/batch_service.py);
+        F --> G(3. Create Token-based Batches);
+        G --> H{services/job_service.py\n`create_jobs_for_upload`};
+        H --> I(4. Create Jobs in DB with 'pending' status);
     end
 
-    N --> O(Step 7: Commit to Database);
+    subgraph "Worker (worker.py)"
+        J[Loop: Poll Database] --> K{services/job_service.py\n`fetch_next_job`};
+        K --> L(5. Found a Job?);
+        L -- Yes --> M(6. Execute Job);
+        L -- No --> J;
+    end
+
+    subgraph "Job Execution (services/job_service.py)"
+        M --> N{services/gemini_service.py};
+        N --> O(7. AI Analysis);
+        O --> P{services/time_metric_service.py};
+        P --> Q(8. Calculate Time Metrics);
+        Q --> R{services/analytics_service.py};
+        R --> S(9. Calculate CSI Score);
+        S --> T(10. Update DB & Mark Job 'completed'/'failed');
+    end
+
+    I --> J;
 ```
 
 ---
