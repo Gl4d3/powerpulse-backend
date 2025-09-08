@@ -56,25 +56,25 @@ class GeminiService:
         )
         self.api_key = api_key
 
-    async def analyze_daily_analyses_batch(self, daily_analyses: List[DailyAnalysis]) -> Tuple[List[Dict], Dict[str, int]]:
+    async def analyze_daily_analyses_batch(self, daily_analyses: List[DailyAnalysis]) -> Tuple[List[Dict], List[int], Dict[str, int], str]:
         """
         Analyzes a batch of DailyAnalysis objects using a single Gemini API call.
-        Returns the analysis results and the token usage metadata.
+        Returns the analysis results, a list of IDs for analyses that were missed
+        due to truncation, the token usage metadata, and the raw response text.
         Raises exceptions on failure.
         """
         if not daily_analyses:
-            return [], {}
+            return [], [], {}, ""
 
         logger.info(f"--- Preparing to call Gemini API for {len(daily_analyses)} daily analyses. ---")
         prompt = self._create_daily_analysis_batch_prompt(daily_analyses)
         
-        # Exceptions from _call_gemini_with_retry and _parse_response will now propagate up
         response_text, usage_metadata = await self._call_gemini_with_retry(prompt)
         
         logger.info(f"--- Successfully received response from Gemini API. Parsing now. ---")
-        analysis_results = self._parse_response(response_text, daily_analyses)
+        analysis_results, missed_ids = self._parse_response(response_text, daily_analyses)
         
-        return analysis_results, usage_metadata
+        return analysis_results, missed_ids, usage_metadata, response_text
 
     def _create_daily_analysis_batch_prompt(self, daily_analyses: List[DailyAnalysis]) -> str:
         """
@@ -141,41 +141,69 @@ TOPIC GUIDELINES:
 """
         return prompt
 
-    def _parse_response(self, response: str, original_analyses: List[DailyAnalysis]) -> List[Dict]:
+    def _parse_response(self, response: str, original_analyses: List[DailyAnalysis]) -> Tuple[List[Dict], List[int]]:
         """
-        Parses the JSON response from Gemini. Raises ParsingError if validation fails.
+        Parses the JSON response from Gemini. If the response is truncated,
+        it attempts to salvage all complete JSON objects.
+
+        Returns a tuple containing:
+        - A list of successfully parsed result dictionaries.
+        - A list of integer IDs for the daily analyses that were missed.
         """
+        original_ids = {analysis.id for analysis in original_analyses}
+
         try:
-            # The model is now configured to return JSON directly.
             parsed_results = json.loads(response)
-            
-            if not isinstance(parsed_results, list):
-                raise ParsingError(f"Expected a JSON list, but got {type(parsed_results).__name__}")
+            logger.info(f"Successfully parsed {len(parsed_results)} objects from complete JSON response.")
+            final_results, parsed_ids = self._validate_and_map_results(parsed_results, original_analyses)
+            missed_ids = list(original_ids - parsed_ids)
+            if missed_ids:
+                logger.warning(f"Model response was valid JSON but missed processing IDs: {missed_ids}")
+            return final_results, missed_ids
 
-            logger.info(f"Successfully parsed {len(parsed_results)} objects from the response.")
+        except json.JSONDecodeError:
+            logger.warning("JSON decoding failed. Attempting to salvage from truncated response.")
             
-            # Basic validation and mapping back to original analyses
-            results_by_id = {result.get("daily_analysis_id"): result for result in parsed_results}
-            final_results = []
-            for analysis in original_analyses:
-                result = results_by_id.get(analysis.id)
-                if result and "daily_analysis" in result:
-                    res = result["daily_analysis"]
-                    res['daily_analysis_id'] = analysis.id
-                    final_results.append(res)
-                else:
-                    # This indicates a logic error in the model's response, as it missed an ID.
-                    raise ParsingError(f"Missing analysis in response for daily_analysis_id {analysis.id}")
-            
-            return final_results
+            # Find the last occurrence of what looks like a complete object
+            last_complete_obj_pos = response.rfind('}]}')
+            if last_complete_obj_pos == -1:
+                logger.error(f"Could not find a single complete object in the truncated response.")
+                raise ParsingError("Truncated response could not be salvaged.")
 
-        except json.JSONDecodeError as e:
-            logger.error(f"Failed to decode JSON from Gemini response: {e}")
-            logger.debug(f"Raw response that failed parsing: {response}")
-            raise ParsingError(f"JSON decoding failed: {e}") from e
-        except Exception as e:
-            logger.error(f"An unexpected error occurred during parsing: {e}", exc_info=True)
-            raise ParsingError(f"An unexpected error occurred during parsing: {e}") from e
+            salvageable_str = response[:last_complete_obj_pos + 3]
+            
+            try:
+                parsed_results = json.loads(salvageable_str)
+                logger.info(f"Successfully salvaged {len(parsed_results)} objects from truncated response.")
+                final_results, parsed_ids = self._validate_and_map_results(parsed_results, original_analyses)
+                missed_ids = list(original_ids - parsed_ids)
+                logger.warning(f"The following daily_analysis_ids were missed and should be retried: {missed_ids}")
+                return final_results, missed_ids
+
+            except json.JSONDecodeError as salvage_error:
+                logger.error(f"Failed to parse even the salvaged part of the response: {salvage_error}")
+                raise ParsingError("Failed to parse even the salvaged part of the response.") from salvage_error
+
+    def _validate_and_map_results(self, parsed_results: List[Dict], original_analyses: List[DailyAnalysis]) -> Tuple[List[Dict], set]:
+        """
+        Validates the structure of parsed JSON and maps results back to original IDs.
+        """
+        if not isinstance(parsed_results, list):
+            raise ParsingError(f"Expected a JSON list, but got {type(parsed_results).__name__}")
+
+        results_by_id = {result.get("daily_analysis_id"): result for result in parsed_results}
+        final_results = []
+        parsed_ids = set()
+
+        for analysis in original_analyses:
+            result = results_by_id.get(analysis.id)
+            if result and "daily_analysis" in result:
+                res = result["daily_analysis"]
+                res['daily_analysis_id'] = analysis.id
+                final_results.append(res)
+                parsed_ids.add(analysis.id)
+        
+        return final_results, parsed_ids
 
     async def _call_gemini_with_retry(self, prompt: str, max_retries: int = 2) -> Tuple[str, Dict[str, int]]:
         """

@@ -32,6 +32,10 @@ class Settings(BaseSettings):
     # Model configuration
     GPT_MODEL: str = "gpt-4o-mini"
     GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "")
+
+    # Qdrant configuration (optional)
+    qdrant_url: str | None = None
+    qdrant_api_key: str | None = None
     
     class Config:
         env_file = ".env"

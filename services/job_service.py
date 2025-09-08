@@ -2,6 +2,8 @@ import asyncio
 import logging
 import traceback
 import time
+import os
+from pathlib import Path
 from datetime import datetime, timedelta
 
 from sqlalchemy.orm import Session, joinedload
@@ -65,8 +67,8 @@ async def execute_job(job: Job, db: Session):
     all related analyses with the new data and calculates CSI scores.
     """
     logger.info(f"Executing Job ID: {job.id} (Retry: {job.retry_count}/{job.max_retries})")
-    
-    # Eagerly load all necessary relationships for the job
+    response_text = None  # Initialize in case of early failure
+
     job_with_relations = db.query(Job).options(
         joinedload(Job.daily_analyses)
         .joinedload(DailyAnalysis.conversation)
@@ -80,23 +82,30 @@ async def execute_job(job: Job, db: Session):
     start_time = time.time()
     try:
         ai_function = gemini_service.get_gemini_service(settings.GEMINI_API_KEY).analyze_daily_analyses_batch
-        analysis_results, usage_metadata = await ai_function(job_with_relations.daily_analyses)
-
-        # --- SUCCESS PATH ---
+        analysis_results, missed_ids, usage_metadata, response_text = await ai_function(job_with_relations.daily_analyses)
         end_time = time.time()
-        _handle_successful_analysis(db, job_with_relations, analysis_results, usage_metadata, end_time - start_time)
+
+        if missed_ids:
+            _save_gemini_response(job.id, response_text, 'partial_success')
+            _handle_partial_success(db, job_with_relations, analysis_results, missed_ids, usage_metadata, end_time - start_time)
+        else:
+            _save_gemini_response(job.id, response_text, 'successful')
+            _handle_successful_analysis(db, job_with_relations, analysis_results, usage_metadata, end_time - start_time)
 
     except gemini_service.TransientApiError as e:
         logger.warning(f"Job ID: {job.id} failed with a transient error: {e}")
+        _save_gemini_response(job.id, response_text, 'failed')
         _handle_retryable_failure(db, job, e)
 
     except (gemini_service.PermanentApiError, gemini_service.ParsingError) as e:
         logger.error(f"Job ID: {job.id} failed with a permanent error: {e}", exc_info=True)
+        _save_gemini_response(job.id, response_text, 'failed')
         _handle_permanent_failure(db, job, e)
 
     except Exception as e:
         logger.error(f"Job ID: {job.id} failed with an unexpected catastrophic error: {e}", exc_info=True)
-        _handle_permanent_failure(db, job, e) # Treat unexpected errors as permanent
+        _save_gemini_response(job.id, str(e), 'failed')
+        _handle_permanent_failure(db, job, e)
 
 
 def _handle_successful_analysis(db: Session, job: Job, analysis_results: list, usage_metadata: dict, processing_time: float):
@@ -172,3 +181,61 @@ def _handle_permanent_failure(db: Session, job: Job, error: Exception, reason: s
     job.completed_at = datetime.utcnow()
     db.commit()
     logger.error(f"Job ID: {job.id} failed permanently.")
+
+def _create_retry_job(db: Session, original_job: Job, missed_analyses: list[DailyAnalysis], reason: str):
+    """
+    Creates a new job for analyses that were missed, often due to truncation.
+    """
+    if not missed_analyses:
+        return
+
+    new_job = Job(
+        upload_id=original_job.upload_id,
+        status="pending",
+        run_at=datetime.utcnow(),
+        daily_analyses=missed_analyses,
+        task_name=f"retry_for_job_{original_job.id}",
+        max_retries=original_job.max_retries - original_job.retry_count # Inherit remaining retries
+    )
+    db.add(new_job)
+    db.commit()
+    db.refresh(new_job)
+    logger.info(f"Created new retry Job ID: {new_job.id} for {len(missed_analyses)} missed analyses from original Job ID: {original_job.id}. Reason: {reason}")
+
+
+def _handle_partial_success(db: Session, job: Job, analysis_results: list, missed_ids: list[int], usage_metadata: dict, processing_time: float):
+    """
+    Handles a job that was partially successful due to a recoverable error like truncation.
+    """
+    logger.warning(f"Job ID: {job.id} was partially successful. {len(analysis_results)} analyses processed, {len(missed_ids)} missed.")
+    
+    # 1. Process the successful parts
+    _handle_successful_analysis(db, job, analysis_results, usage_metadata, processing_time)
+    
+    # 2. Create a new job for the missed parts
+    missed_analyses = db.query(DailyAnalysis).filter(DailyAnalysis.id.in_(missed_ids)).all()
+    _create_retry_job(db, job, missed_analyses, reason="Truncated response from previous attempt")
+    
+    # 3. Mark the original job as completed with errors
+    job.status = "completed_with_errors"
+    job.result["missed_count"] = len(missed_ids)
+    job.last_error = "Response was truncated. A new job was created for missed items."
+    db.commit()
+
+def _save_gemini_response(job_id: int, response_text: str, status: str):
+    """
+    Saves the raw text from a Gemini API response to a structured log directory.
+    """
+    if response_text is None:
+        return
+    try:
+        run_timestamp = datetime.now().strftime("%Y%m%d")
+        log_dir = Path("logs") / "gemini_responses" / f"run_{run_timestamp}" / status
+        log_dir.mkdir(parents=True, exist_ok=True)
+        
+        file_path = log_dir / f"job_{job_id}.txt"
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(response_text)
+        logger.info(f"Saved Gemini response for Job ID {job_id} to {file_path}")
+    except Exception as e:
+        logger.error(f"Failed to save Gemini response for Job ID {job_id}: {e}")

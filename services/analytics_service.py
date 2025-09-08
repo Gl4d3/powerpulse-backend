@@ -143,7 +143,7 @@ class AnalyticsService:
             avg_total_handling_time = query.with_entities(func.avg(DailyAnalysis.total_handling_time)).scalar() or 0.0
 
             current_metrics = {
-                "csi": overall_csi * 10, # Scale to 100
+                "csi": overall_csi * 10,
                 "resolution_quality": avg_effectiveness * 10,
                 "service_timeliness": avg_efficiency * 10,
                 "customer_ease": avg_effort * 10,
@@ -254,7 +254,10 @@ class AnalyticsService:
         
         query = db.query(DailyAnalysis).options(
             joinedload(DailyAnalysis.conversation)
-        ).filter(DailyAnalysis.analysis_date.between(start_date, end_date))
+        ).filter(
+            DailyAnalysis.analysis_date.between(start_date, end_date),
+            DailyAnalysis.csi_score.isnot(None)
+        )
         
         total_items = query.count()
         total_pages = (total_items + page_size - 1) // page_size
@@ -264,6 +267,10 @@ class AnalyticsService:
         # Manually construct dictionaries to avoid Pydantic from_orm issues
         response_data = []
         for analysis in results:
+            conversation_duration = None
+            if analysis.conversation and analysis.conversation.last_message_time and analysis.conversation.first_message_time:
+                conversation_duration = (analysis.conversation.last_message_time - analysis.conversation.first_message_time).total_seconds()
+            
             response_data.append({
                 "daily_analysis_id": analysis.id,
                 "conversation_id": analysis.conversation.fb_chat_id if analysis.conversation else None,
@@ -274,7 +281,16 @@ class AnalyticsService:
                 "efficiency_score": analysis.efficiency_score,
                 "effort_score": analysis.effort_score,
                 "empathy_score": analysis.empathy_score,
-                "common_topics": analysis.common_topics
+                "common_topics": analysis.common_topics,
+                "conversation_duration": conversation_duration,
+                "sentiment_score": analysis.sentiment_score,
+                "sentiment_shift": analysis.sentiment_shift,
+                "resolution_achieved": analysis.resolution_achieved,
+                "fcr_score": analysis.fcr_score,
+                "ces": analysis.ces,
+                "first_response_time": analysis.first_response_time,
+                "avg_response_time": analysis.avg_response_time,
+                "total_handling_time": analysis.total_handling_time
             })
 
         return PaginatedDailyAnalysisResponse(

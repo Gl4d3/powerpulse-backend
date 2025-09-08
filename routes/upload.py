@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Query
 from sqlalchemy.orm import Session
 import logging
 import uuid
+import time
 
 from database import get_db
 from services import file_service_optimized, batch_service, job_service
@@ -34,37 +35,42 @@ async def upload_json(
         raise HTTPException(status_code=400, detail="File must be UTF-8 encoded")
 
     upload_id = str(uuid.uuid4())
-    
-    # 1. Process file to get or create DailyAnalysis records
     logger.info(f"[{upload_id}] Starting file processing...")
-    new_or_updated_analyses = file_service_optimized.get_or_create_daily_analyses(
-        db=db,
-        file_content=file_content,
-        force_reprocess=force_reprocess
-    )
-    logger.info(f"[{upload_id}] Found or created {len(new_or_updated_analyses)} daily analyses to process.")
+    start_time = time.time()
 
-    if not new_or_updated_analyses:
+    try:
+        conversations_processed, messages_processed, _ = await file_service_optimized.optimized_file_service.process_grouped_chats_json(
+            db=db,
+            file_content=file_content,
+            upload_id=upload_id,
+            force_reprocess=force_reprocess
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"[{upload_id}] Unhandled error during file processing: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail="An internal error occurred during file processing.")
+
+    end_time = time.time()
+    processing_time_seconds = round(end_time - start_time, 2)
+
+    if conversations_processed == 0:
         return UploadResponse(
             success=True,
             message="File processed. No new conversations or messages found to analyze.",
             upload_id=upload_id,
-            jobs_created=0
+            conversations_processed=0,
+            messages_processed=0,
+            processing_time_seconds=processing_time_seconds
         )
-
-    # 2. Create batches from the analyses
-    batches = batch_service.create_daily_analysis_batches(new_or_updated_analyses)
-    logger.info(f"[{upload_id}] Created {len(batches)} batches from analyses.")
-
-    # 3. Create a job record for each batch
-    jobs = job_service.create_jobs_for_upload(upload_id, batches, db)
     
-    # 4. Return Immediately
     return UploadResponse(
         success=True,
-        message=f"File upload accepted. Created {len(jobs)} analysis jobs.",
+        message=f"File upload accepted. Found {conversations_processed} conversations and {messages_processed} new messages to analyze.",
         upload_id=upload_id,
-        jobs_created=len(jobs)
+        conversations_processed=conversations_processed,
+        messages_processed=messages_processed,
+        processing_time_seconds=processing_time_seconds
     )
 
 @router.get("/upload-status")

@@ -31,6 +31,15 @@ class DailyAnalysisResponse(BaseModel):
     effort_score: Optional[float] = None
     empathy_score: Optional[float] = None
     common_topics: Optional[List[str]] = None
+    conversation_duration: Optional[float] = None
+    sentiment_score: Optional[float] = None
+    sentiment_shift: Optional[float] = None
+    resolution_achieved: Optional[float] = None
+    fcr_score: Optional[float] = None
+    ces: Optional[float] = None
+    first_response_time: Optional[float] = None
+    avg_response_time: Optional[float] = None
+    total_handling_time: Optional[float] = None
 
     class Config:
         from_attributes = True

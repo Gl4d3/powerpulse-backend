@@ -1,68 +1,75 @@
-(venv) PS D:\proj-d\PowerPulse> python worker.py
-D:\proj-d\PowerPulse\venv\Lib\site-packages\pydantic\_internal\_config.py:373: UserWarning: Valid config keys have changed in V2:
-* 'orm_mode' has been renamed to 'from_attributes'
-  warnings.warn(message, UserWarning)
-2025-09-06 13:32:21,267 - __main__ - INFO - --- PowerPulse Worker Process Starting ---
-2025-09-06 13:32:21,289 - services.job_service - INFO - Worker picked up and locked Job ID: 75
-2025-09-06 13:32:21,290 - __main__ - INFO - Found job 75 to process.
-2025-09-06 13:32:21,290 - services.job_service - INFO - Executing Job ID: 75 (Retry: 0/3)
-2025-09-06 13:32:21,291 - __main__ - ERROR - An unexpected error occurred in the main worker loop: Session.refresh() got an unexpected keyword argument 'relationship_names'
+2025-09-08 10:10:24,214 - database - ERROR - Database connection error: 6 validation errors:
+  {'type': 'missing', 'loc': ('response', 0, 'timestamp'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423BE10>}
+  {'type': 'missing', 'loc': ('response', 0, 'content'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423BE10>}
+  {'type': 'list_type', 'loc': ('response', 0, 'topics'), 'msg': 'Input should be a valid list', 'input': None}
+  {'type': 'missing', 'loc': ('response', 1, 'timestamp'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423ADD0>}
+  {'type': 'missing', 'loc': ('response', 1, 'content'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423ADD0>}
+  {'type': 'list_type', 'loc': ('response', 1, 'topics'), 'msg': 'Input should be a valid list', 'input': None}
+
+ERROR:    Exception in ASGI application
 Traceback (most recent call last):
-  File "D:\proj-d\PowerPulse\worker.py", line 26, in main_loop
-    await job_service.execute_job(job, execution_db)
-  File "D:\proj-d\PowerPulse\services\job_service.py", line 70, in execute_job
-    db.refresh(job, relationship_names=["daily_analyses", "daily_analyses.conversation", "daily_analyses.conversation.messages"])
-    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Session.refresh() got an unexpected keyword argument 'relationship_names'
-2025-09-06 13:32:21,294 - __main__ - ERROR - Loop will restart after a short delay.
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\uvicorn\protocols\http\h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\fastapi\applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\middleware\cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 78, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\starlette\routing.py", line 75, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\fastapi\routing.py", line 328, in app
+    content = await serialize_response(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "D:\proj-d\PowerPulse\venv\Lib\site-packages\fastapi\routing.py", line 177, in serialize_response
+    raise ResponseValidationError(
+        errors=_normalize_errors(errors), body=response_content
+    )
+fastapi.exceptions.ResponseValidationError: 6 validation errors:
+  {'type': 'missing', 'loc': ('response', 0, 'timestamp'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423BE10>}
+  {'type': 'missing', 'loc': ('response', 0, 'content'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423BE10>}
+  {'type': 'list_type', 'loc': ('response', 0, 'topics'), 'msg': 'Input should be a valid list', 'input': None}
+  {'type': 'missing', 'loc': ('response', 1, 'timestamp'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423ADD0>}
+  {'type': 'missing', 'loc': ('response', 1, 'content'), 'msg': 'Field required', 'input': <models.Message object at 0x000002494423ADD0>}
+  {'type': 'list_type', 'loc': ('response', 1, 'topics'), 'msg': 'Input should be a valid list', 'input': None}
 
-
-
-
-2025-09-06 13:40:19,514 - __main__ - INFO - Found job 102 to process.
-2025-09-06 13:40:19,514 - services.job_service - INFO - Executing Job ID: 102 (Retry: 0/3)
-2025-09-06 13:40:19,571 - services.gemini_service - INFO - --- Preparing to call Gemini API for 41 daily analyses. ---
-2025-09-06 13:40:29,289 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-09-06 13:40:29,290 - services.gemini_service - INFO - Successfully parsed 41 objects from the response.
-2025-09-06 13:40:29,500 - services.job_service - INFO - Successfully completed Job ID: 102
-2025-09-06 13:40:29,504 - services.job_service - INFO - Worker picked up and locked Job ID: 103
-2025-09-06 13:40:29,505 - __main__ - INFO - Found job 103 to process.
-2025-09-06 13:40:29,505 - services.job_service - INFO - Executing Job ID: 103 (Retry: 0/3)
-2025-09-06 13:40:29,562 - services.gemini_service - INFO - --- Preparing to call Gemini API for 65 daily analyses. ---
-2025-09-06 13:40:43,901 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-09-06 13:40:43,902 - services.gemini_service - INFO - Successfully parsed 65 objects from the response.
-2025-09-06 13:40:44,109 - services.job_service - INFO - Successfully completed Job ID: 103
-2025-09-06 13:40:44,112 - services.job_service - INFO - Worker picked up and locked Job ID: 104
-2025-09-06 13:40:44,113 - __main__ - INFO - Found job 104 to process.
-2025-09-06 13:40:44,113 - services.job_service - INFO - Executing Job ID: 104 (Retry: 0/3)
-2025-09-06 13:40:44,171 - services.gemini_service - INFO - --- Preparing to call Gemini API for 98 daily analyses. ---
-2025-09-06 13:41:01,228 - services.gemini_service - INFO - --- Successfully received response from Gemini API. Parsing now. ---
-2025-09-06 13:41:01,229 - services.gemini_service - ERROR - Failed to decode JSON from Gemini response: Expecting property name enclosed in double quotes: line 967 column 24 (char 19786)
-2025-09-06 13:41:01,230 - services.job_service - ERROR - Job ID: 104 failed with a permanent error: JSON decoding failed: Expecting property name enclosed in double quotes: line 967 column 24 (char 19786)
-Traceback (most recent call last):
-  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 150, in _parse_response
-    parsed_results = json.loads(response)
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\__init__.py", line 346, in loads    
-    return _default_decoder.decode(s)
-           ~~~~~~~~~~~~~~~~~~~~~~~^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 345, in decode    
-    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
-               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\json\decoder.py", line 361, in raw_decode
-    obj, end = self.scan_once(s, idx)
-               ~~~~~~~~~~~~~~^^^^^^^^
-json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 967 column 24 (char 19786)
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "D:\proj-d\PowerPulse\services\job_service.py", line 83, in execute_job
-    analysis_results, usage_metadata = await ai_function(job_with_relations.daily_analyses)
-                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 75, in analyze_daily_analyses_batch
-    analysis_results = self._parse_response(response_text, daily_analyses)
-  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 175, in _parse_response
-    raise ParsingError(f"JSON decoding failed: {e}") from e
-  File "D:\proj-d\PowerPulse\services\gemini_service.py", line 175, in _parse_response
-    raise ParsingError(f"JSON decoding failed: {e}") from e
-services.gemini_service.ParsingError: JSON decoding failed: Expecting property name enclosed in double quotes: line 967 column 24 (char 19786)   
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+2025-09-08 10:11:48,609 - main - INFO - --- PowerPulse Analytics Backend Shutting Down ---
+INFO:     Application shutdown complete.
+INFO:     Finished server process [21864]
+(venv) PS D:\proj-d\PowerPulse> 

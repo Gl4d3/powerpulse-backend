@@ -133,12 +133,9 @@ class OptimizedFileService:
             batches = batch_service.create_daily_analysis_batches(daily_analyses_for_jobs)
             logger.info(f"Splitting work into {len(batches)} batches.")
 
-            jobs = await job_service.create_jobs_for_upload(upload_id, batches, db)
+            jobs = job_service.create_jobs_for_upload(upload_id, batches, db)
             
-            logger.info(f"Starting AI analysis for {len(jobs)} jobs...")
-            for job in jobs:
-                asyncio.create_task(job_service.process_job(job.id))
-                await asyncio.sleep(settings.BATCH_PROCESSING_DELAY_SECONDS)
+            logger.info(f"Created {len(jobs)} jobs for upload {upload_id}. The worker will process them asynchronously.")
 
             conversations_processed = len(conversation_map)
             messages_processed = sum(len(v) for v in new_analyses_to_process.values())
@@ -251,16 +248,20 @@ class OptimizedFileService:
     
     def _clean_message(self, msg: Dict, chat_id: str) -> Dict:
         timestamp_str = msg['SOCIAL_CREATE_TIME']
+        social_create_time = None
         if isinstance(timestamp_str, str):
             try:
-                social_create_time = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
+                # Handles ISO format like "2025-08-18T10:55:25.000Z"
+                aware_dt = datetime.fromisoformat(timestamp_str.replace('Z', '+00:00'))
+                social_create_time = aware_dt.replace(tzinfo=None) # Convert to naive
             except ValueError:
                 try:
+                    # Handles string format like "2025-08-18 10:55:25"
                     social_create_time = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
                 except ValueError:
-                    social_create_time = datetime.utcnow()
+                    social_create_time = datetime.utcnow() # Fallback to naive UTC time
         else:
-            social_create_time = datetime.utcnow()
+            social_create_time = datetime.utcnow() # Fallback to naive UTC time
         
         return {
             'fb_chat_id': chat_id,
