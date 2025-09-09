@@ -1,0 +1,78 @@
+{
+  "628c2d49-d301-494a-88be-6a3fa6e5064f": {
+    "filename": "curated_sample.json",
+    "total_conversations": 0,
+    "processed_conversations": 0,
+    "current_stage": "initializing",
+    "progress_percentage": 100.0,
+    "start_time": "2025-09-09T10:45:40.360904",
+    "last_update": "2025-09-09T10:45:40.360939",
+    "status": "completed",
+    "errors": [
+      {
+        "timestamp": "2025-09-09T10:45:40.535224",
+        "error": "fromisoformat: argument must be str"
+      }
+    ],
+    "statistics": {
+      "filtered_autoresponses": 0,
+      "gpt_calls_made": 0,
+      "errors_count": 0
+    },
+    "end_time": "2025-09-09 10:45:40.533327"
+  },
+  "798207c5-3fbb-420e-95a7-8d527eb2a8ad": {
+    "filename": "curated_sample.json",
+    "total_conversations": 0,
+    "processed_conversations": 0,
+    "current_stage": "initializing",
+    "progress_percentage": 100.0,
+    "start_time": "2025-09-09T10:46:37.109326",
+    "last_update": "2025-09-09T10:46:37.109332",
+    "status": "completed",
+    "errors": [],
+    "statistics": {
+      "filtered_autoresponses": 0,
+      "gpt_calls_made": 0,
+      "errors_count": 0
+    },
+    "end_time": "2025-09-09T10:46:37.300144",
+    "duration_seconds": 0.190818
+  },
+  "593c8275-5fee-4bba-9ac8-fc2758e96fce": {
+    "filename": "curated_sample.json",
+    "total_conversations": 0,
+    "processed_conversations": 0,
+    "current_stage": "initializing",
+    "progress_percentage": 100.0,
+    "start_time": "2025-09-09T10:48:12.085830",
+    "last_update": "2025-09-09T10:48:12.085837",
+    "status": "completed",
+    "errors": [],
+    "statistics": {
+      "filtered_autoresponses": 0,
+      "gpt_calls_made": 0,
+      "errors_count": 0
+    },
+    "end_time": "2025-09-09T10:48:12.281413",
+    "duration_seconds": 0.195583
+  },
+  "3864c914-8423-48ce-91eb-b40176dfe01a": {
+    "filename": "curated_sample.json",
+    "total_conversations": 0,
+    "processed_conversations": 0,
+    "current_stage": "initializing",
+    "progress_percentage": 100.0,
+    "start_time": "2025-09-09T10:50:31.165694",
+    "last_update": "2025-09-09T10:50:31.165701",
+    "status": "completed",
+    "errors": [],
+    "statistics": {
+      "filtered_autoresponses": 0,
+      "gpt_calls_made": 0,
+      "errors_count": 0
+    },
+    "end_time": "2025-09-09T10:50:31.296788",
+    "duration_seconds": 0.131094
+  }
+}

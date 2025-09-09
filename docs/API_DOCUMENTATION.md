@@ -340,9 +340,11 @@ Provides a paginated list of conversation summaries, aggregated from their daily
 - **Response Schema (`ConversationResponse`):**
   - `chat_id` (string): The Facebook chat identifier.
   - `username` (string, nullable): Customer's name.
-  - `avg_sentiment_score` (float, nullable): Average sentiment score across all analyzed days.
   - `avg_csi_score` (float, nullable): Average CSI score across all analyzed days (0-10 scale).
-  - `fcr` (boolean, nullable): True if any analyzed day was marked as a First Contact Resolution.
+  - `avg_effectiveness_score` (float, nullable): Average Effectiveness pillar score across all analyzed days (0-10 scale).
+  - `avg_efficiency_score` (float, nullable): Average Efficiency pillar score across all analyzed days (0-10 scale).
+  - `avg_effort_score` (float, nullable): Average Effort pillar score across all analyzed days (0-10 scale).
+  - `avg_empathy_score` (float, nullable): Average Empathy pillar score across all analyzed days (0-10 scale).
   - `topics` (array of strings): All unique topics discussed in the conversation.
   - `agents` (array of objects): All unique agents who interacted with the customer.
   - `created_at` (datetime, nullable): Timestamp when the conversation record was first created.
@@ -360,9 +362,11 @@ Provides a paginated list of conversation summaries, aggregated from their daily
       {
         "chat_id": "6174faccde2cc1d76cb26ccd",
         "username": "Gifted Gracious Shimz",
-        "avg_sentiment_score": 4.5,
         "avg_csi_score": 3.28,
-        "fcr": false,
+        "avg_effectiveness_score": 8.2,
+        "avg_efficiency_score": 7.5,
+        "avg_effort_score": 8.8,
+        "avg_empathy_score": 6.9,
         "topics": ["power outage", "repeated issues", "restoration"],
         "agents": [
           {

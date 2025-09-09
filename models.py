@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, Text, JSON, ForeignKey, Index, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -32,22 +33,34 @@ class Job(Base):
     result = Column(JSON, nullable=True)
 
     daily_analyses = relationship("DailyAnalysis", secondary=job_daily_analyses, back_populates="jobs")
-    metric = relationship("JobMetric", uselist=False, back_populates="job", cascade="all, delete-orphan")
+    # Relationship to JobMetric entries
+    job_metrics = relationship("JobMetric", back_populates="job", cascade="all, delete-orphan")
 
 class JobMetric(Base):
-    """
-    Stores usage and performance metrics for a single background job.
-    """
-    __tablename__ = "job_metrics"
-
-    id = Column(Integer, primary_key=True, index=True)
-    job_id = Column(Integer, ForeignKey("jobs.id"), nullable=False, unique=True)
-    
-    token_usage = Column(Integer, nullable=True)
-    processing_time_seconds = Column(Float, nullable=True)
+    __tablename__ = 'job_metrics'
+    id = Column(Integer, primary_key=True)
+    job_id = Column(Integer, ForeignKey('jobs.id'), nullable=False)
+    job = relationship("Job", back_populates="job_metrics")
+    token_usage = Column(Integer)
+    processing_time_seconds = Column(Float)
+    api_calls_made = Column(Integer, default=1)
     api_calls_made = Column(Integer, default=1)
 
-    job = relationship("Job", back_populates="metric")
+
+# class ProgressUpdate(Base):
+#     __tablename__ = 'progress_updates'
+#     upload_id = Column(String, primary_key=True)
+#     filename = Column(String, nullable=False)
+#     status = Column(String, default='processing')
+#     total_conversations = Column(Integer, default=0)
+#     processed_conversations = Column(Integer, default=0)
+#     progress_percentage = Column(Float, default=0.0)
+#     current_stage = Column(String, default='initializing')
+#     start_time = Column(DateTime, default=datetime.utcnow)
+#     last_update = Column(DateTime, default=datetime.utcnow)
+#     end_time = Column(DateTime, nullable=True)
+#     last_error = Column(Text, nullable=True)
+
 
 
 # This file defines the SQLAlchemy ORM models for the PowerPulse application,

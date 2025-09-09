@@ -14,9 +14,9 @@ class MessageResponse(BaseModel):
     Schema for representing a single chat message, used in conversation transcripts.
     This model is used to structure the output of individual messages for the frontend.
     """
-    timestamp: datetime
+    timestamp: datetime = Field(..., alias='social_create_time')
     direction: str
-    content: str
+    content: str = Field(..., alias='message_content')
     sentiment_score: Optional[float] = None
     topics: Optional[List[str]] = None
     agent_info: Optional[Dict[str, Any]] = None
@@ -35,6 +35,7 @@ class DailyAnalysisResponse(BaseModel):
     effort_score: Optional[float] = None
     empathy_score: Optional[float] = None
     common_topics: Optional[List[str]] = None
+    agents: List[Dict[str, Any]] = []
     conversation_duration: Optional[float] = None
     sentiment_score: Optional[float] = None
     sentiment_shift: Optional[float] = None
@@ -44,6 +45,10 @@ class DailyAnalysisResponse(BaseModel):
     first_response_time: Optional[float] = None
     avg_response_time: Optional[float] = None
     total_handling_time: Optional[float] = None
+
+    total_messages: Optional[int] = None
+    customer_messages: Optional[int] = None
+    agent_messages: Optional[int] = None
 
     class Config:
         from_attributes = True
@@ -56,9 +61,11 @@ class ConversationResponse(BaseModel):
     """
     chat_id: str
     username: Optional[str] = None
-    avg_sentiment_score: Optional[float] = None
     avg_csi_score: Optional[float] = None
-    fcr: Optional[bool] = None
+    avg_effectiveness_score: Optional[float] = None
+    avg_efficiency_score: Optional[float] = None
+    avg_effort_score: Optional[float] = None
+    avg_empathy_score: Optional[float] = None
     topics: List[str] = []
     agents: List[dict] = []
     created_at: Optional[datetime] = None

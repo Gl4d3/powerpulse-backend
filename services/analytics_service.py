@@ -5,7 +5,7 @@ Customer Satisfaction Index (CSI) model, calculated on a daily basis.
 import logging
 from typing import Dict, List, Any, Optional
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import func, and_, tuple_
+from sqlalchemy import func, and_, tuple_, case, or_
 from datetime import datetime, date
 import numpy as np
 
@@ -263,14 +263,58 @@ class AnalyticsService:
         total_pages = (total_items + page_size - 1) // page_size
         
         results = query.order_by(DailyAnalysis.analysis_date.desc()).limit(page_size).offset(offset).all()
-        
-        # Manually construct dictionaries to avoid Pydantic from_orm issues
+
+        # Efficiently fetch message counts for all analyses on the current page
+        message_counts_map = {}
+        if results:
+            # Create a list of composite keys to filter messages
+            conv_date_pairs = list(set([(res.conversation_id, res.analysis_date) for res in results]))
+
+            # Build a list of AND conditions for each (conversation_id, date) pair
+            conditions = []
+            for convo_id, analysis_date in conv_date_pairs:
+                conditions.append(
+                    and_(
+                        Message.conversation_id == convo_id,
+                        func.date(Message.social_create_time) == analysis_date
+                    )
+                )
+            
+            if conditions:
+                message_counts_query = db.query(
+                    Message.conversation_id,
+                    func.date(Message.social_create_time).label('analysis_date_group'),
+                    func.count(Message.id).label('total_messages'),
+                    func.sum(case((Message.direction == 'to_company', 1), else_=0)).label('customer_messages'),
+                    func.sum(case((Message.direction == 'to_client', 1), else_=0)).label('agent_messages')
+                ).filter(or_(*conditions)).group_by(
+                    Message.conversation_id, 'analysis_date_group'
+                )
+                
+                message_counts_map = {
+                    (row.conversation_id, row.analysis_date_group): row for row in message_counts_query.all()
+                }
+
         response_data = []
         for analysis in results:
             conversation_duration = None
             if analysis.conversation and analysis.conversation.last_message_time and analysis.conversation.first_message_time:
                 conversation_duration = (analysis.conversation.last_message_time - analysis.conversation.first_message_time).total_seconds()
+
+            # Query for daily active agents
+            agents_list = []
+            if analysis.conversation:
+                agents_query = db.query(Message.agent_info).filter(
+                    Message.conversation_id == analysis.conversation_id,
+                    func.date(Message.social_create_time) == analysis.analysis_date,
+                    Message.direction == 'to_client',
+                    Message.agent_info.isnot(None)
+                ).distinct().all()
+                agents_list = [info[0] for info in agents_query if info[0] and (info[0].get('name') or info[0].get('email'))]
             
+            # Get message counts from the pre-fetched map
+            counts = message_counts_map.get((analysis.conversation_id, analysis.analysis_date))
+
             response_data.append({
                 "daily_analysis_id": analysis.id,
                 "conversation_id": analysis.conversation.fb_chat_id if analysis.conversation else None,
@@ -282,6 +326,7 @@ class AnalyticsService:
                 "effort_score": analysis.effort_score,
                 "empathy_score": analysis.empathy_score,
                 "common_topics": analysis.common_topics,
+                "agents": agents_list,
                 "conversation_duration": conversation_duration,
                 "sentiment_score": analysis.sentiment_score,
                 "sentiment_shift": analysis.sentiment_shift,
@@ -290,7 +335,10 @@ class AnalyticsService:
                 "ces": analysis.ces,
                 "first_response_time": analysis.first_response_time,
                 "avg_response_time": analysis.avg_response_time,
-                "total_handling_time": analysis.total_handling_time
+                "total_handling_time": analysis.total_handling_time,
+                "total_messages": counts.total_messages if counts else 0,
+                "customer_messages": counts.customer_messages if counts else 0,
+                "agent_messages": counts.agent_messages if counts else 0
             })
 
         return PaginatedDailyAnalysisResponse(

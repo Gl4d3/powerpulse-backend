@@ -9,3 +9,4 @@ pandas>=2.0.0
 python-multipart>=0.0.6
 pytest-asyncio>=0.21.0
 alembic 
+aiofiles>=23.2.1

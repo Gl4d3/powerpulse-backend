@@ -66,6 +66,7 @@ def init_db():
                 raise
         
         Base.metadata.create_all(bind=engine)
+        Base.registry.configure() # Explicitly configure the ORM registry
         logger.info("Database tables created/verified successfully")
         
         # Test database operations

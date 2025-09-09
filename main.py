@@ -11,7 +11,7 @@ from routes.upload import router as upload_router
 from routes.metrics import router as metrics_router  
 from routes.conversations import router as conversations_router
 from routes.export import router as export_router
-from routes.progress import router as progress_router
+# from routes.progress import router as progress_router
 from routes.charts import router as charts_router
 from routes.explorer import router as explorer_router
 from routes.api_test import router as api_test_router
@@ -72,7 +72,7 @@ app.include_router(upload_router, prefix="/api", tags=["upload"])
 app.include_router(metrics_router, prefix="/api/metrics", tags=["metrics"])
 app.include_router(conversations_router, prefix="/api", tags=["conversations"])
 app.include_router(export_router, prefix="/api", tags=["export"])
-app.include_router(progress_router, prefix="/api", tags=["progress"])
+# app.include_router(progress_router, prefix="/api", tags=["progress"])
 app.include_router(charts_router, prefix="/api/charts", tags=["charts"])
 app.include_router(explorer_router, prefix="/api", tags=["explorer"])
 app.include_router(api_test_router, prefix="/api", tags=["api-test"])

@@ -30,18 +30,22 @@ def get_conversations(
         # Subquery to calculate aggregated stats per conversation
         agg_subquery = db.query(
             DailyAnalysis.conversation_id,
-            func.avg(DailyAnalysis.sentiment_score).label("avg_sentiment"),
             func.avg(DailyAnalysis.csi_score).label("avg_csi"),
-            func.max(case((DailyAnalysis.fcr_score > 7, 1), else_=0)).label("has_fcr")
+            func.avg(DailyAnalysis.effectiveness_score).label("avg_effectiveness"),
+            func.avg(DailyAnalysis.efficiency_score).label("avg_efficiency"),
+            func.avg(DailyAnalysis.effort_score).label("avg_effort"),
+            func.avg(DailyAnalysis.empathy_score).label("avg_empathy")
         ).filter(DailyAnalysis.csi_score.isnot(None))\
         .group_by(DailyAnalysis.conversation_id).subquery()
 
         # Main query to join Conversation with aggregated stats
         query = db.query(
             Conversation,
-            agg_subquery.c.avg_sentiment,
             agg_subquery.c.avg_csi,
-            agg_subquery.c.has_fcr
+            agg_subquery.c.avg_effectiveness,
+            agg_subquery.c.avg_efficiency,
+            agg_subquery.c.avg_effort,
+            agg_subquery.c.avg_empathy
         ).join(agg_subquery, Conversation.id == agg_subquery.c.conversation_id)
 
         total = query.count()
@@ -50,7 +54,7 @@ def get_conversations(
         
         conversation_summaries = []
         for row in results:
-            conv, avg_sentiment, avg_csi, has_fcr = row
+            conv, avg_csi, avg_effectiveness, avg_efficiency, avg_effort, avg_empathy = row
             
             topics_query = db.query(DailyAnalysis.common_topics).filter(
                 DailyAnalysis.conversation_id == conv.id,
@@ -68,14 +72,16 @@ def get_conversations(
                 Message.direction == 'to_client'
             ).distinct().all()
             
-            agents_list = [info[0] for info in agents_query if info[0] and info[0].get('name')]
+            agents_list = [info[0] for info in agents_query if info[0] and (info[0].get('name') or info[0].get('email'))]
 
             conversation_summaries.append(ConversationResponse(
                 chat_id=conv.fb_chat_id,
                 username=conv.customer_name,
-                avg_sentiment_score=avg_sentiment,
                 avg_csi_score=avg_csi,
-                fcr=bool(has_fcr),
+                avg_effectiveness_score=avg_effectiveness,
+                avg_efficiency_score=avg_efficiency,
+                avg_effort_score=avg_effort,
+                avg_empathy_score=avg_empathy,
                 topics=list(all_topics),
                 agents=agents_list,
                 created_at=conv.created_at,
@@ -105,9 +111,11 @@ def get_conversation(chat_id: str, db: Session = Depends(get_db)):
         # Similar aggregation logic as the list view, but for a single conversation
         result = db.query(
             Conversation,
-            func.avg(DailyAnalysis.sentiment_score),
             func.avg(DailyAnalysis.csi_score),
-            func.max(case((DailyAnalysis.fcr_score > 7, 1), else_=0))
+            func.avg(DailyAnalysis.effectiveness_score),
+            func.avg(DailyAnalysis.efficiency_score),
+            func.avg(DailyAnalysis.effort_score),
+            func.avg(DailyAnalysis.empathy_score)
         ).join(DailyAnalysis, Conversation.id == DailyAnalysis.conversation_id)\
         .filter(Conversation.fb_chat_id == chat_id, DailyAnalysis.csi_score.isnot(None))\
         .group_by(Conversation.id).first()
@@ -115,7 +123,7 @@ def get_conversation(chat_id: str, db: Session = Depends(get_db)):
         if not result:
             raise HTTPException(status_code=404, detail="Conversation not found or has no CSI data")
 
-        conv, avg_sentiment, avg_csi, has_fcr = result
+        conv, avg_csi, avg_effectiveness, avg_efficiency, avg_effort, avg_empathy = result
         
         topics_query = db.query(DailyAnalysis.common_topics).filter(
             DailyAnalysis.conversation_id == conv.id,
@@ -133,14 +141,16 @@ def get_conversation(chat_id: str, db: Session = Depends(get_db)):
             Message.direction == 'to_client'
         ).distinct().all()
         
-        agents_list = [info[0] for info in agents_query if info[0] and info[0].get('name')]
+        agents_list = [info[0] for info in agents_query if info[0] and (info[0].get('name') or info[0].get('email'))]
         
         return ConversationResponse(
             chat_id=conv.fb_chat_id,
             username=conv.customer_name,
-            avg_sentiment_score=avg_sentiment,
             avg_csi_score=avg_csi,
-            fcr=bool(has_fcr),
+            avg_effectiveness_score=avg_effectiveness,
+            avg_efficiency_score=avg_efficiency,
+            avg_effort_score=avg_effort,
+            avg_empathy_score=avg_empathy,
             topics=list(all_topics),
             agents=agents_list,
             created_at=conv.created_at,

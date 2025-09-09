@@ -5,12 +5,12 @@ import uuid
 from typing import Dict, List, Any, Tuple
 from datetime import datetime, date
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy import tuple_
+from sqlalchemy import tuple_, func
 from database import SessionLocal
 
 from config import settings
 from services import batch_service, job_service
-from services.progress_tracker import progress_tracker
+# from services.progress_tracker import progress_tracker
 from services.analytics_service import analytics_service
 from models import Conversation, Message, DailyAnalysis, Job, job_daily_analyses
 
@@ -113,7 +113,17 @@ class OptimizedFileService:
                     daily_analysis = DailyAnalysis(analysis_date=day)
                     conversation.daily_analyses.append(daily_analysis)
 
-                    for msg_data in messages:
+                # --- FIXED LOGIC ---
+                # Process messages regardless of whether DailyAnalysis is new, but prevent duplicates.
+                existing_timestamps_query = db.query(Message.social_create_time).filter(
+                    Message.conversation_id == conversation.id,
+                    func.date(Message.social_create_time) == day
+                )
+                existing_timestamps = {ts[0] for ts in existing_timestamps_query.all()}
+
+                for msg_data in messages:
+                    # Only add the message if its timestamp doesn't already exist for this day.
+                    if msg_data['social_create_time'] not in existing_timestamps:
                         message = Message(
                             fb_chat_id=chat_id,
                             message_content=msg_data['message_content'],
@@ -122,6 +132,8 @@ class OptimizedFileService:
                             agent_info=msg_data.get('agent_info')
                         )
                         conversation.messages.append(message)
+                        # Add the new timestamp to the set to handle duplicates within the same file
+                        existing_timestamps.add(msg_data['social_create_time'])
                 
                 daily_analyses_for_jobs.append(daily_analysis)
 
@@ -141,18 +153,18 @@ class OptimizedFileService:
             messages_processed = sum(len(v) for v in new_analyses_to_process.values())
 
             logger.info(f"Upload process {upload_id} completed successfully.")
-            await progress_tracker.complete_upload(upload_id, True)
+            # progress_tracker.complete_upload(db, upload_id, True)
             
             return conversations_processed, messages_processed, upload_id
 
         except json.JSONDecodeError as e:
-            await progress_tracker.add_error(upload_id, f"Invalid JSON format: {str(e)}")
-            await progress_tracker.complete_upload(upload_id, False)
+            # progress_tracker.add_error(db, upload_id, f"Invalid JSON format: {str(e)}")
+            # progress_tracker.complete_upload(db, upload_id, False)
             raise ValueError(f"Invalid JSON format: {e}")
         except Exception as e:
             logger.error(f"Error processing file: {e}", exc_info=True)
-            await progress_tracker.add_error(upload_id, str(e))
-            await progress_tracker.complete_upload(upload_id, False)
+            # progress_tracker.add_error(db, upload_id, str(e))
+            # progress_tracker.complete_upload(db, upload_id, False)
             db.rollback()
             raise
 
@@ -205,8 +217,8 @@ class OptimizedFileService:
                 "MESSAGE_CONTENT": msg.get("MESSAGE") or msg.get("MESSAGE_CONTENT"),
                 "DIRECTION": msg.get("DIRECTION"),
                 "SOCIAL_CREATE_TIME": msg.get("SOCIAL_CREATE_TIME"),
-                "agent_name": msg.get("agent_name"),
-                "agent_email": msg.get("agent_email")
+                "agent_name": msg.get("AGENT_USERNAME") or msg.get("agent_username"),
+                "agent_email": msg.get("AGENT_EMAIL") or msg.get("agent_email")
             }
             grouped_messages[chat_id].append(normalized_msg)
 
