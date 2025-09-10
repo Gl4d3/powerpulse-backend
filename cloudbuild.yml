@@ -1,0 +1,6 @@
+# steps:
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: ['build', '-t', 'gcr.io/your-project/your-image', '.']
+# You might also have images: or other fields here
+options:
+  logging: CLOUD_LOGGING_ONLY
