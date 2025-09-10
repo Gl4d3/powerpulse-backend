@@ -9,7 +9,7 @@ steps:
 
 # Store the built image in Artifact Registry
 images:
-- 'africa-south1-docker.pkg.dev/$PROJECT_ID/powerpulse-repo/my-app:$COMMIT_SHA'
+- 'africa-south1-docker.pkg.dev/$PROJECT_ID/powerpulse-repo/my-app:$SHORT_SHA'
 
 # Logging
 options:
