@@ -1,66 +1,50 @@
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-(venv) PS D:\proj-d\PowerPulse> docker run -p 8000:8000 --env-file ./.env --name powerpulse-container powerpulse-ap
-Unable to find image 'powerpulse-ap:latest' locally
-(venv) PS D:\proj-d\PowerPulse> docker run -p 8000:8000 --env-file ./.env --name powerpulse-container powerpulse-backend
-Traceback (most recent call last):
-  File "/usr/local/bin/uvicorn", line 8, in <module>
-    sys.exit(main())
-             ^^^^^^
-  File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
-    return self.main(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
-    rv = self.invoke(ctx)
-         ^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
-    return ctx.invoke(self.callback, **ctx.params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
-    return callback(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
-    run(
-  File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
-    server.run()
-  File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
-    return asyncio.run(self.serve(sockets=sockets))
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
-    return runner.run(main)
-           ^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
-    return self._loop.run_until_complete(task)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
-    return future.result()
-           ^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
-    await self._serve(sockets)
-  File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
-    config.load()
-  File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
-    self.loaded_app = import_from_string(self.app)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
-    module = importlib.import_module(module_str)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
-  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
-  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
-  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
-  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
-  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
-  File "/app/main.py", line 9, in <module>
-    from database import init_db
-  File "/app/database.py", line 7, in <module>
-    from config import settings
-  File "/app/config.py", line 62, in <module>
-    settings = Settings()
-               ^^^^^^^^^^
-  File "/app/config.py", line 54, in __init__
-    raise ValueError("AI_SERVICE must be either 'openai' or 'gemini'")
-ValueError: AI_SERVICE must be either 'openai' or 'gemini'
-(venv) PS D:\proj-d\PowerPulse> 
+Build Summary
+Build log
+Execution details
+Build artifacts
+Build id
+0d58d1dc-7099-4447-9bb3-b2a264dbeb32
+Status
+Failed
+Status detail
+invalid build: invalid .steps field: no build steps are specified
+Region
+global
+Tags
+trigger-087c2332-512c-494b-8ec4-87084014e966
+Timing
+Created
+September 10, 2025 at 4:23:29 PM UTC+3
+Started
+—
+Finished
+—
+Queued time
+3 min 55 sec
+Total build time
+—
+Fetch source
+—
+Build step(s)
+—
+Push
+—
+Timeout
+—
+Trigger
+powerpulse2
+Id
+087c2332-512c-494b-8ec4-87084014e966
+Description
+2nd gen
+Triggered builds
+View
+Service Account
+25756359834@cloudbuild.gserviceaccount.com
+Built-in substitutions
+BUILD_ID
+0d58d1dc-7099-4447-9bb3-b2a264dbeb32
+PROJECT_ID
+customer-satisfaction-scoring
+PROJECT_NUMBER
+25756359834

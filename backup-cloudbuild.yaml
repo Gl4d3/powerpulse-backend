@@ -1,0 +1,33 @@
+steps:
+# 1. Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/powerpulse-repo/powerpulse-backend:$COMMIT_SHA', '.']
+
+# 2. Push the container image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/powerpulse-repo/powerpulse-backend:$COMMIT_SHA']
+
+# 3. Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+    - 'run'
+    - 'deploy'
+    - 'powerpulse-backend' # The name of your Cloud Run service
+    - '--image=gcr.io/customer-satisfaction-scoring/github.com/gl4d3/powerpulse-backend:$COMMIT_SHA'
+    - '--platform=managed'
+    - '--allow-unauthenticated' # Allows public access to the service
+    - '--set-env-vars=GEMINI_API_KEY=$$GEMINI_API_KEY' # Set environment variables from secrets
+    - '--set-env-vars=AI_SERVICE=$$AI_SERVICE'
+    - '--set-env-vars=AI_MODEL=$$AI_MODEL'
+
+# Store the built image in Artifact Registry
+images:
+- 'us-central1-docker.pkg.dev/$PROJECT_ID/powerpulse-repo/powerpulse-backend:$COMMIT_SHA'
+
+# Define available secrets
+secretEnv: ['GEMINI_API_KEY', 'AI_SERVICE', 'AI_MODEL']
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+

@@ -1,0 +1,16 @@
+steps:
+# 1. Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'africa-south1-docker.pkg.dev/${PROJECT_ID}/powerpulse-repo/my-app:${SHORT_SHA}', '.']
+
+# 2. Push the container image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'africa-south1-docker.pkg.dev/${PROJECT_ID}/powerpulse-repo/my-app:${SHORT_SHA}']
+
+# Store the built image in Artifact Registry
+images:
+- 'africa-south1-docker.pkg.dev/$PROJECT_ID/powerpulse-repo/my-app:$COMMIT_SHA'
+
+# Logging
+options:
+  logging: CLOUD_LOGGING_ONLY
