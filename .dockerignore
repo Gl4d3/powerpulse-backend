@@ -22,7 +22,6 @@ coverage.xml
 .DS_Store
 .vscode
 *.sqlite
-*.db
 *.pid
 
 # Node modules and build files

@@ -118,3 +118,5 @@ Here are the main documentation markdowns spread throughout the project:
    * docs/API_DOCUMENTATION.md: The canonical source for API contracts. Relevant.
    * docs/DATABASE_SCHEMA.md: Describes the database structure. Relevant.
    * docs/TESTING_GUIDE.md: Instructions for running tests. Relevant.
+
+CMD: docker run -p 8000:8000 --env-file ./.env --name powerpulse-container powerpulse-backend

@@ -264,6 +264,24 @@ class AnalyticsService:
         
         results = query.order_by(DailyAnalysis.analysis_date.desc()).limit(page_size).offset(offset).all()
 
+        if page == 1:
+            query = query.filter(
+            DailyAnalysis.effectiveness_score.isnot(None),
+            DailyAnalysis.effectiveness_score != 0,
+            DailyAnalysis.effort_score.isnot(None),
+            DailyAnalysis.effort_score != 0,
+            DailyAnalysis.efficiency_score.isnot(None),
+            DailyAnalysis.efficiency_score != 0,
+            DailyAnalysis.empathy_score.isnot(None),
+            DailyAnalysis.empathy_score != 0,
+            DailyAnalysis.total_handling_time.isnot(None),
+            DailyAnalysis.total_handling_time != 0
+            )
+            
+            # Re-execute query for page 1 with workaround filters/ordering
+            results = query.limit(page_size).offset(offset).all()
+        # --- END URGENT WORKAROUND ---
+
         # Efficiently fetch message counts for all analyses on the current page
         message_counts_map = {}
         if results:
@@ -336,7 +354,7 @@ class AnalyticsService:
                 "first_response_time": analysis.first_response_time,
                 "avg_response_time": analysis.avg_response_time,
                 "total_handling_time": analysis.total_handling_time,
-                "total_messages": counts.total_messages if counts else 0,
+                # "total_messages": counts.total_messages if counts else 0,
                 "customer_messages": counts.customer_messages if counts else 0,
                 "agent_messages": counts.agent_messages if counts else 0
             })

@@ -1,124 +1,66 @@
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\sitPS D:\proj-d\PowerPulse> uvicorn main:app
-C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\pydantic\_internal\_config.py:373: UserWarning: Valid config keys have changed in V2:
-* 'orm_mode' has been renamed to 'from_attributes'
-  warnings.warn(message, UserWarning)
-2025-09-09 14:59:14,559 - root - INFO - Logging configured successfully. Application trace will be in logs/app_trace.log
-INFO:     Started server process [29444]
-INFO:     Waiting for application startup.
-2025-09-09 14:59:14,572 - main - INFO - --- PowerPulse Analytics Backend Starting Up ---
-2025-09-09 14:59:14,572 - main - INFO - Initializing database...
-2025-09-09 14:59:14,572 - database - INFO - Database file exists: ./powerpulse.db
-2025-09-09 14:59:14,572 - database - INFO - Database file is writable
-2025-09-09 14:59:14,577 - database - ERROR - Error initializing database: Mapper 'Mapper[JobMetric(job_metrics)]' has no property 'job'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
-ERROR:    Traceback (most recent call last):
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\mapper.py", line 2522, in get_property
-    return self._props[key]
-           ~~~~~~~~~~~^^^^^
-KeyError: 'job'
-
-The above exception was the direct cause of the following exception:
-
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(venv) PS D:\proj-d\PowerPulse> docker run -p 8000:8000 --env-file ./.env --name powerpulse-container powerpulse-ap
+Unable to find image 'powerpulse-ap:latest' locally
+(venv) PS D:\proj-d\PowerPulse> docker run -p 8000:8000 --env-file ./.env --name powerpulse-container powerpulse-backend
 Traceback (most recent call last):
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\starlette\routing.py", line 692, in lifespan
-    async with self.lifespan_context(app) as maybe_state:
-               ~~~~~~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\fastapi\routing.py", line 134, in merged_lifespan
-    async with original_context(app) as maybe_original_state:
-               ~~~~~~~~~~~~~~~~^^^^^
-  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2032.0_x64__qbz5n2kfra8p0\Lib\contextlib.py", line 214, in __aenter__  
-    return await anext(self.gen)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "D:\proj-d\PowerPulse\main.py", line 46, in lifespan
-    init_db()
-    ~~~~~~~^^
-  File "D:\proj-d\PowerPulse\database.py", line 69, in init_db
-    Base.registry.configure() # Explicitly configure the ORM registry
-    ~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\decl_api.py", line 1451, in configure
-    mapperlib._configure_registries({self}, cascade=cascade)
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\mapper.py", line 4218, in _configure_registries
-    _do_configure_registries(registries, cascade)
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\mapper.py", line 4259, in _do_configure_registries
-    mapper._post_configure_properties()
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\mapper.py", line 2418, in _post_configure_properties
-    prop.init()
-    ~~~~~~~~~^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\interfaces.py", line 595, in init
-    self.do_init()
-    ~~~~~~~~~~~~^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\relationships.py", line 1660, in do_init
-    self._generate_backref()
-    ~~~~~~~~~~~~~~~~~~~~~~^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\relationships.py", line 2144, in _generate_backref
-    self._add_reverse_property(self.back_populates)
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\relationships.py", line 1591, in _add_reverse_property
-    other = self.mapper.get_property(key, _configure_mappers=False)
-  File "C:\Users\akioko.INDRALIMITED\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\sqlalchemy\orm\mapper.py", line 2524, in get_property
-    raise sa_exc.InvalidRequestError(
-    ...<3 lines>...
-    ) from err
-sqlalchemy.exc.InvalidRequestError: Mapper 'Mapper[JobMetric(job_metrics)]' has no property 'job'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
-
-ERROR:    Application startup failed. Exiting.
-PS D:\proj-d\PowerPulse> 
+  File "/usr/local/bin/uvicorn", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+    run(
+  File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+    server.run()
+  File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+    return asyncio.run(self.serve(sockets=sockets))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+    await self._serve(sockets)
+  File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+    config.load()
+  File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+    self.loaded_app = import_from_string(self.app)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/main.py", line 9, in <module>
+    from database import init_db
+  File "/app/database.py", line 7, in <module>
+    from config import settings
+  File "/app/config.py", line 62, in <module>
+    settings = Settings()
+               ^^^^^^^^^^
+  File "/app/config.py", line 54, in __init__
+    raise ValueError("AI_SERVICE must be either 'openai' or 'gemini'")
+ValueError: AI_SERVICE must be either 'openai' or 'gemini'
+(venv) PS D:\proj-d\PowerPulse> 
