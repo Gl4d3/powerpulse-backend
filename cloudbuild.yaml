@@ -3,9 +3,10 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'africa-south1-docker.pkg.dev/${PROJECT_ID}/powerpulse-repo/my-app:${SHORT_SHA}', '.']
 
+# Redundant since cloud build handles the push if the 'images' field is set
 # 2. Push the container image to Artifact Registry
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'africa-south1-docker.pkg.dev/${PROJECT_ID}/powerpulse-repo/my-app:${SHORT_SHA}']
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: ['push', 'africa-south1-docker.pkg.dev/${PROJECT_ID}/powerpulse-repo/my-app:${SHORT_SHA}']
 
 # Store the built image in Artifact Registry
 images:
