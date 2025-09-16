@@ -37,8 +37,13 @@ class Settings(BaseSettings):
     qdrant_url: str | None = None
     qdrant_api_key: str | None = None
     
-    class Config:
-        env_file = ".env"
+    # Server configuration (for Docker/Cloud Run compatibility)
+    PORT: int = 8000
+    
+    model_config = {
+        "env_file": ".env",
+        "extra": "ignore"  # Ignore extra environment variables
+    }
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

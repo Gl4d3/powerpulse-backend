@@ -43,7 +43,7 @@ def calculate_and_set_daily_csi_score(daily_analysis: DailyAnalysis):
 
     # Effort (invert CES score from 1-7 to 0-10)
     if daily_analysis.ces is not None:
-        daily_analysis.effort_score = ((7 - daily_analysis.ces) / 6) * 10
+        daily_analysis.effort_score = ((daily_analysis.ces - 1) / 6) * 10
 
     # Efficiency (invert time-based scores and scale to 0-10)
     # Note: This is a simplified scaling. A more sophisticated approach might use logarithmic scaling.

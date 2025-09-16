@@ -26,8 +26,8 @@ A production-ready customer satisfaction analytics backend built with FastAPI. I
 - `GET /api/metrics` - Retrieve the latest aggregated dashboard metrics (CSI, pillars, etc.).
 - `GET /api/charts/csi-trend` - Fetch historical data for CSI and pillar scores, formatted for charts.
 - `GET /api/charts/sentiment-trend` - Fetch historical sentiment trend data.
-- `GET /api/explorer/analyses` - **NEW**: Get a paginated list of daily analyses for the Conversation Explorer.
-- `GET /api/explorer/transcript/{daily_analysis_id}` - **NEW**: Get the message transcript for a specific daily analysis.
+- `GET /api/explorer/analyses` - Get a paginated list of daily analyses for the Conversation Explorer.
+- `GET /api/explorer/transcript/{daily_analysis_id}` - Get the message transcript for a specific daily analysis.
 - `GET /api/download` - Export raw data tables to timestamped CSV files.
 
 ## Quick Start

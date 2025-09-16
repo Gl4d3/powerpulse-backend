@@ -1,0 +1,76 @@
+import json
+
+# Assume allowed_topics is defined elsewhere in your code
+# allowed_topics = ["Power Outage", "Billing Inquiry", "Token Purchase", "Service Query", "Account Update", "Complaint", "General Inquiry", "Others"]
+
+def final_gemini_prompt(daily_analyses_input, allowed_topics):
+    prompt = f"""
+        You are an expert, data-driven customer satisfaction analyst for Kenya Power, an electricity utility company. Your primary goal is to provide highly objective, consistent, and evidence-based scores for specific customer experience micro-metrics from chat interactions. You understand that in the utilities sector, customers often reach out during moments of high frustration (e.g., power outages, billing errors), making effective resolution, low effort, and demonstrated empathy critical.
+
+        Analyze the following batch of customer service interactions, grouped by day for specific conversations. For each daily interaction, you must perform a detailed, step-by-step internal reasoning process (Chain of Thought) before providing your final scores. Your reasoning should explicitly reference customer statements, agent responses, and the flow of the conversation to justify each score against the strict guidelines provided below.
+
+        INTERACTIONS_BATCH DATA:
+        Each object in the array below represents a single day's worth of messages for a unique chat_id. Messages are ordered chronologically.
+
+        {daily_analyses_input}
+
+        Provide the analysis as a valid JSON array, with one object per daily interaction. Use this **EXACT JSON format** for each object:
+        {{
+            "daily_analysis_id": "<the original daily_analysis_id>",
+            "daily_analysis": {{
+                "sentiment_score": <0-10 float>,
+                "sentiment_shift": <-5 to +5 float>,
+                "resolution_achieved": <0-10 float>,
+                "fcr_score": <0-10 float>,
+                "ces": <1-7 float, where 1=very high effort, 7=very low effort>,
+                "common_topics": ["<array of strings (1-3 from allowed_topics)>"]
+            }}
+        }}
+
+        ANALYSIS GUIDELINES FOR SCORING (0-10 scale unless specified otherwise):
+        - **resolution_achieved (Effectiveness Pillar):**
+            *   **Question:** Was the customer's *core issue* explicitly and successfully resolved by the end of this specific day's interaction, from the customer's perspective?
+            *   **Guidance:** Score based on *semantic analysis of conversation content*, not just agent claims. Look for direct customer confirmation of resolution (e.g., "Thanks, it's working now," "My bill is corrected").
+            *   **0-3 (Low):** Issue clearly unresolved, customer expresses continued frustration, or agent merely promised follow-up without confirmation.
+            *   **4-7 (Medium):** Partial resolution, mixed signals, or resolution is implied but not explicitly confirmed by the customer.
+            *   **8-10 (High):** Customer explicitly confirms the issue is resolved and expresses satisfaction with the outcome. A 10 means complete and unambiguous resolution.
+
+        - **fcr_score (Effectiveness Pillar - First Contact Resolution):**
+            *   **Question:** Was the customer's *core issue* completely resolved within this *single, continuous interaction segment* (i.e., within the boundaries of this daily analysis data), *without requiring the customer to contact again for the same issue on a subsequent day*, and *without referencing a prior unresolved contact for this same issue*?
+            *   **Guidance:** This is a strict measure. A resolution is only FCR if the *entire problem* was addressed from start to finish in this one daily chat. If the customer needed to contact previously for the *same specific issue*, or will need to contact again, it is NOT FCR.
+            *   **0 (No FCR):** Issue was not resolved, or required prior/future contacts for the same specific problem.
+            *   **10 (FCR Achieved):** The issue was definitively resolved in this single daily interaction, and there's no indication of prior unresolved contacts for this problem, nor a need for future contacts for the same problem.
+
+        - **ces (Effort Pillar - Customer Effort Score):**
+            *   **Scale:** 1 (Very High Effort) to 7 (Very Low Effort).
+            *   **Guidance:** Assess the *customer's perceived effort* required to get their issue handled. Look for clear indicators of *process friction*.
+            *   **Indicators of HIGH Effort (scores 1-3):** Repeated questions from customer, having to re-explain the issue multiple times, **agent ignoring previously provided information**, expressing confusion or frustration about the process, navigating complex instructions, multiple transfers, being deflected to another channel (e.g., "visit our office"), long periods of unresponsiveness, explicit complaints about difficulty.
+            *   **Indicators of MEDIUM Effort (scores 4-5):** Some minor friction, slight re-explanation needed, but generally smooth.
+            *   **Indicators of LOW Effort (scores 6-7):** Customer expresses ease, no noticeable friction, quick and straightforward resolution, agent clearly understood the issue immediately. A 7 means exceptionally effortless interaction.
+
+        - **sentiment_score (Empathy Pillar):**
+            *   **Question:** What was the *customer's overall expressed emotional tone* throughout this specific day's interaction?
+            *   **Guidance:** Focus on the customer's language, choice of words, and emotional expressions.
+            *   **0-3 (Negative):** Expresses anger, severe frustration, despair, strong dissatisfaction, rude language.
+            *   **4-7 (Neutral/Mixed):** Factual, no strong emotion, slightly annoyed but not hostile, polite but distant.
+            *   **8-10 (Positive):** Expresses gratitude, relief, satisfaction, politeness, friendly tone. A 10 indicates strong delight or appreciation.
+
+        - **sentiment_shift (Empathy Pillar):**
+            *   **Scale:** -5 (Significantly Worsened) to +5 (Significantly Improved).
+            *   **Guidance:** Measure the *absolute change in the customer's sentiment from their very first message to their very last message* within this specific day's interaction.
+            *   **-5 to -1 (Negative Shift):** Customer's emotional state clearly deteriorated by the end of the conversation.
+            *   **0 (No Change):** Sentiment remained consistent, or changes were negligible.
+            *   **+1 to +5 (Positive Shift):** Customer's emotional state clearly improved by the end of the conversation. A +5 indicates a dramatic positive change (e.g., from angry to grateful).
+
+        TOPIC GUIDELINES:
+        - For the "common_topics" field, you MUST choose from the following list of allowed topics.
+        - If multiple topics apply, you can select up to 3.
+        - If no specific topic fits well, use "Others".
+        - Allowed Topics: {json.dumps(allowed_topics)}
+
+        - Ensure the output is a single, valid JSON array of objects.
+        - **Do not include any text, comments, or formatting outside of the final JSON array.**
+        """
+    return prompt
+
+    Are those all your considerations/ questions, you haven't addressed prompt modification. Look at @docs/improved-prompt.txt at a proposal for a better prompt, but it doesn't capture the assumed csi so ask me questions for where's not clear and create an implementation plan. 

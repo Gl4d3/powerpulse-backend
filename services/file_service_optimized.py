@@ -121,6 +121,7 @@ class OptimizedFileService:
                 )
                 existing_timestamps = {ts[0] for ts in existing_timestamps_query.all()}
 
+                daily_messages = []
                 for msg_data in messages:
                     # Only add the message if its timestamp doesn't already exist for this day.
                     if msg_data['social_create_time'] not in existing_timestamps:
@@ -131,21 +132,23 @@ class OptimizedFileService:
                             social_create_time=msg_data['social_create_time'],
                             agent_info=msg_data.get('agent_info')
                         )
-                        conversation.messages.append(message)
+                        daily_messages.append(message)
                         # Add the new timestamp to the set to handle duplicates within the same file
                         existing_timestamps.add(msg_data['social_create_time'])
                 
-                daily_analyses_for_jobs.append(daily_analysis)
+                conversation.messages.extend(daily_messages)
+                self._update_conversation_statistics(db, [conversation], daily_messages)
 
-            db.commit()
-            
-            self._update_conversation_statistics(db, list(conversation_map.values()))
+                daily_analyses_for_jobs.append(daily_analysis)
 
             # Phase 4: Create and process jobs
             batches = batch_service.create_daily_analysis_batches(daily_analyses_for_jobs)
             logger.info(f"Splitting work into {len(batches)} batches.")
 
             jobs = job_service.create_jobs_for_upload(upload_id, batches, db)
+            
+            # Commit everything at the end
+            db.commit() 
             
             logger.info(f"Created {len(jobs)} jobs for upload {upload_id}. The worker will process them asynchronously.")
 
@@ -189,6 +192,10 @@ class OptimizedFileService:
             return self._preprocess_and_group_raw_data(parsed_data)
         
         elif isinstance(parsed_data, dict):
+            if 'messages' in parsed_data and isinstance(parsed_data['messages'], list):
+                logger.info("Detected JSON object with a 'messages' key.")
+                return self._preprocess_and_group_raw_data(parsed_data['messages'])
+
             if len(parsed_data.keys()) == 1:
                 logger.info("Detected single-key object format. Extracting value.")
                 raw_messages = next(iter(parsed_data.values()))
@@ -203,7 +210,7 @@ class OptimizedFileService:
 
     def _preprocess_and_group_raw_data(self, raw_messages: List[Dict]) -> Tuple[Dict[str, List[Dict]], Dict[str, str]]:
         grouped_messages = {}
-        customer_names = {}
+        customer_names = {} 
 
         for msg in raw_messages:
             chat_id = msg.get("FB_ID") or msg.get("fb_chat_id")
@@ -286,17 +293,17 @@ class OptimizedFileService:
             }
         }
     
-    def _update_conversation_statistics(self, db: Session, conversations: List[Conversation]) -> None:
+    def _update_conversation_statistics(self, db: Session, conversations: List[Conversation], daily_messages: List[Message]) -> None: 
         try:
             for conversation in conversations:
-                if not conversation.messages:
+                if not daily_messages:
                     continue
                 
-                total_messages = len(conversation.messages)
-                customer_messages = len([m for m in conversation.messages if m.direction == 'to_company'])
+                total_messages = len(daily_messages)
+                customer_messages = len([m for m in daily_messages if m.direction == 'to_company'])
                 agent_messages = total_messages - customer_messages
                 
-                sorted_messages = sorted(conversation.messages, key=lambda m: m.social_create_time)
+                sorted_messages = sorted(daily_messages, key=lambda m: m.social_create_time)
                 first_message_time = sorted_messages[0].social_create_time
                 last_message_time = sorted_messages[-1].social_create_time
                 
