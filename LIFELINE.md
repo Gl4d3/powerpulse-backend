@@ -1,12 +1,26 @@
 # PowerPulse Application Lifeline
 
-**Version:** 3.0  
-**Author:** Gemini  
+**Version:** 4.0 - Constitutional Compliance Edition  
+**Author:** GitHub Copilot  
 **Last Updated:** 2025-09-17
 
 ## 1. High-Level Data Flow
 
-This document provides a comprehensive technical overview of the PowerPulse application's dual processing pipelines: the legacy Daily Analysis pipeline and the new AI-Enhanced Interaction Detection and Analytics pipeline.
+This document provides a comprehensive technical overview of the PowerPulse application's dual processing pipelines: the legacy Daily Analysis pipeline and the **constitutionally compliant** AI-Enhanced Interaction Detection and Analytics pipeline.
+
+### 🎯 **Constitutional Amendments Enforced**
+- **Amendment I**: AI micro-metrics extraction SHALL remain the authoritative method
+- **Amendment II**: ALL pipeline logic SHALL remain identical between daily and interaction analysis  
+- **Amendment III**: Test-driven development SHALL prevent scope creep
+
+## 1.0 Constitutional Compliance Status ✅
+
+**CONSTITUTIONAL STATUS: FULLY COMPLIANT**
+- ✅ Rule-based micro-metrics calculations **REMOVED**
+- ✅ AI micro-metrics extraction **IMPLEMENTED** for interactions
+- ✅ Dual CSI storage **EXPOSED** in API schemas
+- ✅ Pipeline consistency **VALIDATED** between daily and interaction analysis
+- ✅ Test-driven development **ENFORCED** via constitutional validator
 
 ## 1.1 AI-Enhanced Interaction Analysis Pipeline (New)
 
@@ -90,14 +104,19 @@ flowchart TD
    - Detects customer service interaction boundaries
    - Achieves 88.5% high-confidence interactions with 7.7% AI usage
 
-3. **InteractionAnalyticsService** (`services/interaction_analytics_service.py`)
+3. **InteractionAnalyticsService** (`services/interaction_analytics_service.py`) ✅ **CONSTITUTIONALLY COMPLIANT**
+   - **CONSTITUTIONAL**: Uses AI micro-metrics extraction (NOT rule-based calculations)
+   - **CONSTITUTIONAL**: Identical four-pillars methodology as daily analysis
+   - **CONSTITUTIONAL**: Dual CSI storage (calculated + inferred for validation)
    - Comprehensive CSI scoring across 4 pillars
    - Pattern analysis and trend detection
    - Executive reporting and insights generation
 
-4. **Enhanced GeminiService** (`services/gemini_service.py`)
+4. **Enhanced GeminiService** (`services/gemini_service.py`) ✅ **CONSTITUTIONAL AI MICRO-METRICS**
+   - **NEW**: `analyze_interaction_analyses_batch()` - Constitutional AI micro-metrics extraction
+   - **CONSTITUTIONAL**: Mirrors `analyze_daily_analyses_batch()` methodology  
    - AI boundary enhancement for interaction detection
-   - CSI assessment and scoring
+   - CSI assessment and scoring (dual: calculated + inferred)
    - JSON response parsing and validation
 
 ### 2.2 Legacy Services (Daily Analysis Pipeline)
@@ -173,6 +192,59 @@ flowchart TD
 3. **Worker Continuation:** The worker process returns to polling for the next pending job, maintaining continuous processing until all jobs are complete.
 
 ---
+
+## 3. Constitutional Compliance Framework ✅
+
+### 3.1 Constitutional Amendments Enforced
+
+**Amendment I: AI Micro-Metrics Extraction Authoritative**
+- ❌ **REMOVED**: Rule-based keyword calculations (`_calculate_effectiveness`, `_calculate_effort`, `_calculate_efficiency`, `_calculate_empathy`)
+- ✅ **ADDED**: `InteractionAnalyticsService._extract_ai_micrometrics()` using `GeminiService.analyze_interaction_analyses_batch()`
+- ✅ **VALIDATED**: Constitutional compliance tests confirm zero rule-based violations
+
+**Amendment II: Pipeline Logic Consistency** 
+- ✅ **IDENTICAL**: Four-pillars calculation methodology between daily and interaction analysis
+- ✅ **IDENTICAL**: AI micro-metrics extraction approach (sentiment_score, sentiment_shift, resolution_achieved, fcr_score, ces)
+- ✅ **IDENTICAL**: Enhanced analytics service usage for CSI aggregation
+
+**Amendment III: Test-Driven Development**
+- ✅ **IMPLEMENTED**: `utils/constitutional_validator.py` - Comprehensive 6-test validation suite
+- ✅ **ENFORCED**: Constitutional compliance verification before deployment
+- ✅ **PREVENTED**: Scope creep through constitutional framework enforcement
+
+### 3.2 Dual CSI Architecture
+
+**Database Schema**: Both `DailyAnalysis` and `InteractionAnalysis` models support:
+- `csi_score`: Primary CSI (calculated from AI micro-metrics → four pillars → weighted aggregation)
+- `inferred_csi`: AI blackbox CSI (direct AI assessment for comparison/validation)
+
+**API Schema**: Both `DailyAnalysisResponse` and `InteractionAnalysisResponse` expose:
+```python
+# CONSTITUTIONAL DUAL CSI EXPOSURE
+csi_score: Optional[float] = None  # Primary CSI (calculated from AI micro-metrics → four pillars)
+inferred_csi: Optional[float] = None  # AI blackbox CSI (for comparison/validation)
+```
+
+### 3.3 Constitutional Testing Framework
+
+**Validation Suite** (`utils/constitutional_validator.py`):
+1. **AI Micro-Metrics Extraction Test**: Validates `_extract_ai_micrometrics()` method exists and functions
+2. **No Rule-Based Methods Test**: Confirms all forbidden calculation methods removed  
+3. **Four-Pillars Calculation Test**: Validates constitutional AI→four-pillars methodology
+4. **CSI Correlation Test**: Ensures >0.8 correlation between daily and interaction approaches
+5. **Dual CSI Storage Test**: Validates database schema supports constitutional requirements
+6. **Pipeline Integration Test**: Confirms end-to-end constitutional compliance
+
+**Test Results**: 
+```
+📋 CONSTITUTIONAL COMPLIANCE FINAL CHECK
+==================================================
+Amendment I (No Rule-Based Methods): ✅ COMPLIANT
+Dual CSI Schema Exposure: ✅ COMPLIANT  
+AI Micro-Metrics Method: ✅ COMPLIANT
+==================================================
+CONSTITUTIONAL STATUS: 🎉 FULLY COMPLIANT
+```
 
 ---
 

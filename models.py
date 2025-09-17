@@ -191,7 +191,8 @@ class InteractionAnalysis(Base):
     empathy_score = Column(Float, nullable=True)        # 0-10 scale
 
     # --- Final CSI Score for the Interaction ---
-    csi_score = Column(Float, nullable=True, index=True) # 0-10 scale
+    csi_score = Column(Float, nullable=True, index=True) # 0-10 scale (calculated from four-pillars)
+    inferred_csi = Column(Float, nullable=True)          # 0-10 scale (AI blackbox inference)
 
     # Metadata
     created_at = Column(DateTime(timezone=True), server_default=func.now())

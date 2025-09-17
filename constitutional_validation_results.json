@@ -1,0 +1,87 @@
+{
+  "validation_timestamp": "2025-09-17T15:33:38.845076",
+  "validation_version": "1.0.0",
+  "constitutional_requirements": [
+    "Amendment I: AI micro-metrics extraction SHALL remain authoritative",
+    "Amendment II: Pipeline logic SHALL remain identical to daily analysis",
+    "Amendment III: Test-driven development SHALL prevent scope creep"
+  ],
+  "overall_status": "NON_COMPLIANT",
+  "tests_completed": 6,
+  "tests_passed": 3,
+  "pass_rate": 0.5,
+  "detailed_results": [
+    {
+      "test_name": "ai_micrometrics_extraction",
+      "passed": false,
+      "details": {
+        "mock_mode": false,
+        "test_interactions": 3,
+        "extractions_completed": 3,
+        "success_rate": 0.0,
+        "extracted_metrics_sample": {}
+      },
+      "error": null
+    },
+    {
+      "test_name": "no_rule_based_methods",
+      "passed": true,
+      "details": {
+        "forbidden_methods_checked": [
+          "_calculate_effectiveness",
+          "_calculate_effort",
+          "_calculate_efficiency",
+          "_calculate_empathy"
+        ],
+        "violations_found": [],
+        "constitutional_status": "COMPLIANT"
+      },
+      "error": null
+    },
+    {
+      "test_name": "four_pillars_calculation",
+      "passed": false,
+      "details": {
+        "interaction_id": 172,
+        "calculated_csi": 5.0,
+        "effectiveness": 5.0,
+        "effort": 5.0,
+        "efficiency": 0.0,
+        "empathy": 5.0,
+        "confidence": 0.2
+      },
+      "error": null
+    },
+    {
+      "test_name": "csi_correlation",
+      "passed": false,
+      "details": {
+        "error": "Insufficient data for correlation analysis"
+      },
+      "error": "Need at least 5 samples each for correlation"
+    },
+    {
+      "test_name": "dual_csi_storage",
+      "passed": true,
+      "details": {
+        "calculated_csi_field": true,
+        "inferred_csi_field": true,
+        "micro_metrics_fields": true,
+        "four_pillars_fields": true,
+        "schema_compliance": "FULL"
+      },
+      "error": null
+    },
+    {
+      "test_name": "pipeline_integration",
+      "passed": true,
+      "details": {
+        "test_conversation_id": 1,
+        "total_interactions": 9,
+        "processed_successfully": 3,
+        "success_rate": 1.0
+      },
+      "error": null
+    }
+  ]
+}

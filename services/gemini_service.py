@@ -174,14 +174,16 @@ class GeminiService:
         """
         return prompt
 
-    def _parse_response(self, response: str, original_analyses: List[DailyAnalysis]) -> Tuple[List[Dict], List[int]]:
+    def _parse_response(self, response: str, original_analyses) -> Tuple[List[Dict], List[int]]:
         """
         Parses the JSON response from Gemini. If the response is truncated,
         it attempts to salvage all complete JSON objects.
+        
+        Supports both DailyAnalysis and InteractionAnalysis objects.
 
         Returns a tuple containing:
         - A list of successfully parsed result dictionaries.
-        - A list of integer IDs for the daily analyses that were missed.
+        - A list of integer IDs for the analyses that were missed.
         """
         original_ids = {analysis.id for analysis in original_analyses}
 
@@ -210,29 +212,44 @@ class GeminiService:
                 logger.info(f"Successfully salvaged {len(parsed_results)} objects from truncated response.")
                 final_results, parsed_ids = self._validate_and_map_results(parsed_results, original_analyses)
                 missed_ids = list(original_ids - parsed_ids)
-                logger.warning(f"The following daily_analysis_ids were missed and should be retried: {missed_ids}")
+                # Determine analysis type for error message
+                analysis_type = "interaction_analysis_ids" if hasattr(original_analyses[0], 'interaction_type') else "daily_analysis_ids"
+                logger.warning(f"The following {analysis_type} were missed and should be retried: {missed_ids}")
                 return final_results, missed_ids
 
             except json.JSONDecodeError as salvage_error:
                 logger.error(f"Failed to parse even the salvaged part of the response: {salvage_error}")
                 raise ParsingError("Failed to parse even the salvaged part of the response.") from salvage_error
 
-    def _validate_and_map_results(self, parsed_results: List[Dict], original_analyses: List[DailyAnalysis]) -> Tuple[List[Dict], set]:
+    def _validate_and_map_results(self, parsed_results: List[Dict], original_analyses) -> Tuple[List[Dict], set]:
         """
         Validates the structure of parsed JSON and maps results back to original IDs.
+        Supports both DailyAnalysis and InteractionAnalysis objects.
         """
         if not isinstance(parsed_results, list):
             raise ParsingError(f"Expected a JSON list, but got {type(parsed_results).__name__}")
 
-        results_by_id = {result.get("daily_analysis_id"): result for result in parsed_results}
+        # Determine analysis type by checking for interaction_type attribute
+        is_interaction_analysis = hasattr(original_analyses[0], 'interaction_type') if original_analyses else False
+        
+        if is_interaction_analysis:
+            # For InteractionAnalysis objects
+            id_key = "interaction_analysis_id"
+            data_key = "interaction_analysis"
+        else:
+            # For DailyAnalysis objects
+            id_key = "daily_analysis_id"
+            data_key = "daily_analysis"
+
+        results_by_id = {result.get(id_key): result for result in parsed_results}
         final_results = []
         parsed_ids = set()
 
         for analysis in original_analyses:
             result = results_by_id.get(analysis.id)
-            if result and "daily_analysis" in result:
-                res = result["daily_analysis"]
-                res['daily_analysis_id'] = analysis.id
+            if result and data_key in result:
+                res = result[data_key]
+                res[id_key] = analysis.id
                 final_results.append(res)
                 parsed_ids.add(analysis.id)
         
@@ -615,6 +632,208 @@ Return empty boundary_suggestions array if no improvements needed.
         except Exception as e:
             logger.error(f"Failed to parse batch boundary enhancements: {e}")
             return {}
+
+    async def analyze_gemini(self, prompt: str) -> str:
+        """
+        Generic Gemini analysis method for individual prompts.
+        Used by interaction_analytics_service for AI assessments.
+        """
+        try:
+            logger.debug(f"Calling Gemini API with prompt length: {len(prompt)}")
+            response = self.model.generate_content(prompt)
+            
+            if response.text:
+                logger.debug(f"Received response length: {len(response.text)}")
+                return response.text.strip()
+            else:
+                logger.warning("Empty response from Gemini API")
+                return ""
+                
+        except Exception as e:
+            logger.error(f"Gemini API call failed: {e}")
+            raise GeminiApiException(f"Failed to analyze with Gemini: {e}")
+
+    async def infer_interaction_csi(self, messages: str, interaction_context: str) -> float:
+        """
+        Generate AI-inferred CSI score (blackbox) for comparison with calculated CSI.
+        This provides the AI's direct assessment without our four-pillars breakdown.
+        """
+        prompt = f"""
+        As an expert customer service quality analyst, provide a direct CSI (Customer Satisfaction Index) score for this interaction.
+
+        Interaction Context: {interaction_context}
+        
+        Messages:
+        {messages}
+
+        Instructions:
+        1. Analyze the overall customer experience in this interaction
+        2. Consider factors like: problem resolution, agent responsiveness, communication clarity, customer effort required
+        3. Provide a single CSI score from 0.0 to 10.0 (where 10.0 is exceptional service)
+        4. Return ONLY a valid JSON object with the score
+
+        Response format:
+        {{
+            "inferred_csi": 7.8,
+            "confidence": 0.85,
+            "reasoning": "Brief explanation of the score"
+        }}
+        """
+        
+        try:
+            response = await self.analyze_gemini(prompt)
+            result = json.loads(response)
+            
+            csi_score = float(result.get('inferred_csi', 5.0))
+            # Ensure score is within valid range
+            csi_score = max(0.0, min(10.0, csi_score))
+            
+            logger.info(f"AI inferred CSI: {csi_score} (confidence: {result.get('confidence', 0.0)})")
+            return csi_score
+            
+        except (json.JSONDecodeError, ValueError, KeyError) as e:
+            logger.warning(f"Failed to parse AI CSI inference: {e}. Using default score 5.0")
+            return 5.0
+        except Exception as e:
+            logger.error(f"AI CSI inference failed: {e}")
+            return 5.0
+
+    async def analyze_interaction_analyses_batch(self, interaction_analyses: List['InteractionAnalysis']) -> Tuple[List[Dict], List[int], Dict[str, int], str]:
+        """
+        CONSTITUTIONAL REQUIREMENT: AI micro-metrics extraction for interaction analysis
+        
+        Analyzes a batch of InteractionAnalysis objects using AI micro-metrics extraction.
+        This method MIRRORS analyze_daily_analyses_batch() but processes interaction chunks.
+        
+        CONSTITUTIONAL COMPLIANCE:
+        - AMENDMENT I: AI micro-metrics extraction SHALL remain the authoritative method
+        - AMENDMENT II: ALL other pipeline logic SHALL remain identical to daily analysis
+        
+        Returns: analysis_results, missed_ids, usage_metadata, response_text
+        """
+        from models import InteractionAnalysis  # Import here to avoid circular imports
+        
+        if not interaction_analyses:
+            return [], [], {}, ""
+
+        logger.info(f"--- CONSTITUTIONAL COMPLIANCE: Calling Gemini API for {len(interaction_analyses)} interaction analyses (AI micro-metrics extraction). ---")
+        prompt = self._create_interaction_analysis_batch_prompt(interaction_analyses)
+        
+        response_text, usage_metadata = await self._call_gemini_with_retry(prompt)
+        
+        logger.info(f"--- Successfully received AI micro-metrics response from Gemini API. Parsing now. ---")
+        analysis_results, missed_ids = self._parse_response(response_text, interaction_analyses)
+        
+        return analysis_results, missed_ids, usage_metadata, response_text
+
+    def _create_interaction_analysis_batch_prompt(self, interaction_analyses: List['InteractionAnalysis']) -> str:
+        """
+        CONSTITUTIONAL REQUIREMENT: Create AI prompt for interaction micro-metrics extraction
+        
+        This method MIRRORS _create_daily_analysis_batch_prompt() but processes interaction chunks.
+        Uses IDENTICAL micro-metrics extraction approach as daily analysis.
+        """
+        interaction_analyses_json = []
+        for analysis in interaction_analyses:
+            # Get messages within interaction boundary (not daily boundary)
+            messages_in_interaction = [
+                m for m in analysis.conversation.messages 
+                if analysis.start_message_id <= m.id <= analysis.end_message_id
+            ]
+            
+            messages_text = "\n".join([
+                f"{m.social_create_time} - {m.direction}: {m.message_content}" 
+                for m in messages_in_interaction
+            ])
+            
+            interaction_analyses_json.append({
+                "interaction_analysis_id": analysis.id,
+                "messages": messages_text,
+                "interaction_context": f"Duration: {analysis.interaction_duration or 'unknown'}min, Type: {analysis.interaction_type or 'general'}"
+            })
+
+        interaction_analyses_input = json.dumps(interaction_analyses_json, indent=2)
+
+        # Use IDENTICAL allowed topics as daily analysis (constitutional requirement)
+        allowed_topics = [
+            "Others", "Blocked prepaid Meters", "Inactive Meter- Non vends", "Contracting",
+            "Prepaid Integration", "Prepaid Faulty Meters", "Enquiries On Products/Processes",
+            "Disconnection/Reconnection", "New Application Queries", "Advertisements",
+            "Prepaid Payment Reallocation", "Token Resending", "Danger calls Complints",
+            "Re-Billing", "Compliments", "Safety", "Power Outage Reporting",
+            "Power Outage Follow Up", "Billing/Statement Request", "Fraud",
+            "Post Paid Faulty Meters", "Prepaid Activation"
+        ]
+
+        # CONSTITUTIONAL COMPLIANCE: Use IDENTICAL prompt structure as daily analysis
+        prompt = f"""
+        You are an expert, data-driven customer satisfaction analyst for Kenya Power, an electricity utility company. Your primary goal is to provide highly objective, consistent, and evidence-based scores for specific customer experience micro-metrics from chat interactions. You understand that in the utilities sector, customers often reach out during moments of high frustration (e.g., power outages, billing errors), making effective resolution, low effort, and demonstrated empathy critical.
+
+        Analyze the following batch of customer service interactions, grouped by INTERACTION BOUNDARIES (not daily boundaries). Each interaction represents a complete customer service case or issue resolution attempt. For each interaction, you must perform a detailed, step-by-step internal reasoning process (Chain of Thought) before providing your final scores. Your reasoning should explicitly reference customer statements, agent responses, and the flow of the conversation to justify each score against the strict guidelines provided below.
+
+        INTERACTIONS_BATCH DATA:
+        Each object in the array below represents a single interaction/case within a conversation. Messages are ordered chronologically and bounded by AI-detected interaction boundaries.
+
+        {interaction_analyses_input}
+
+        Provide the analysis as a valid JSON array, with one object per interaction. Use this **EXACT JSON format** for each object:
+        {{
+            "interaction_analysis_id": "<the original interaction_analysis_id>",
+            "interaction_analysis": {{
+                "sentiment_score": <0-10 float>,
+                "sentiment_shift": <-5 to +5 float>,
+                "resolution_achieved": <0-10 float>,
+                "fcr_score": <0-10 float>,
+                "ces": <1-7 float, where 1=very high effort, 7=very low effort>,
+                "common_topics": ["<array of strings (1-3 from allowed_topics)>"]
+            }}
+        }}
+
+        ANALYSIS GUIDELINES FOR SCORING (IDENTICAL TO DAILY ANALYSIS - CONSTITUTIONAL REQUIREMENT):
+        - **resolution_achieved (Effectiveness Pillar):**
+            *   **Question:** Was the customer's *core issue* explicitly and successfully resolved by the end of this specific interaction, from the customer's perspective?
+            *   **Guidance:** Score based on *semantic analysis of conversation content*, not just agent claims. Look for direct customer confirmation of resolution (e.g., "Thanks, it's working now," "My bill is corrected").
+            *   **0-3 (Low):** Issue clearly unresolved, customer expresses continued frustration, or agent merely promised follow-up without confirmation.
+            *   **4-7 (Medium):** Partial resolution, mixed signals, or resolution is implied but not explicitly confirmed by the customer.
+            *   **8-10 (High):** Customer explicitly confirms the issue is resolved and expresses satisfaction with the outcome. A 10 means complete and unambiguous resolution.
+
+        - **fcr_score (Effectiveness Pillar - First Contact Resolution):**
+            *   **Question:** Was the customer's *core issue* completely resolved within this *single interaction* (i.e., within the boundaries of this interaction analysis data), *without requiring the customer to initiate another interaction for the same issue*?
+            *   **Guidance:** This is a strict measure. A resolution is only FCR if the *entire problem* was addressed from start to finish in this one interaction. If evidence suggests prior interactions for the *same specific issue*, or future interactions will be needed, it is NOT FCR.
+            *   **0 (No FCR):** Issue was not resolved, or required prior/future interactions for the same specific problem.
+            *   **10 (FCR Achieved):** The issue was definitively resolved in this single interaction, with no indication of prior unresolved interactions for this problem, nor a need for future interactions for the same problem.
+
+        - **ces (Effort Pillar - Customer Effort Score):**
+            *   **Scale:** 1 (Very High Effort) to 7 (Very Low Effort).
+            *   **Guidance:** Assess the *customer's perceived effort* required to get their issue handled within this interaction. Look for clear indicators of *process friction*.
+            *   **Indicators of HIGH Effort (scores 1-3):** Repeated questions from customer, having to re-explain the issue multiple times, **agent ignoring previously provided information**, expressing confusion or frustration about the process, navigating complex instructions, multiple transfers, being deflected to another channel (e.g., "visit our office"), long periods of unresponsiveness, explicit complaints about difficulty.
+            *   **Indicators of MEDIUM Effort (scores 4-5):** Some minor friction, slight re-explanation needed, but generally smooth.
+            *   **Indicators of LOW Effort (scores 6-7):** Customer expresses ease, no noticeable friction, quick and straightforward resolution, agent clearly understood the issue immediately. A 7 means exceptionally effortless interaction.
+
+        - **sentiment_score (Empathy Pillar):**
+            *   **Question:** What was the *customer's overall expressed emotional tone* throughout this specific interaction?
+            *   **Guidance:** Focus on the customer's language, choice of words, and emotional expressions within the interaction boundary.
+            *   **0-3 (Negative):** Expresses anger, severe frustration, despair, strong dissatisfaction, rude language.
+            *   **4-7 (Neutral/Mixed):** Factual, no strong emotion, slightly annoyed but not hostile, polite but distant.
+            *   **8-10 (Positive):** Expresses gratitude, relief, satisfaction, politeness, friendly tone. A 10 indicates strong delight or appreciation.
+
+        - **sentiment_shift (Empathy Pillar):**
+            *   **Scale:** -5 (Significantly Worsened) to +5 (Significantly Improved).
+            *   **Guidance:** Measure the *absolute change in the customer's sentiment from their very first message to their very last message* within this specific interaction boundary.
+            *   **-5 to -1 (Negative Shift):** Customer's emotional state clearly deteriorated by the end of the interaction.
+            *   **0 (No Change):** Sentiment remained consistent, or changes were negligible.
+            *   **+1 to +5 (Positive Shift):** Customer's emotional state clearly improved by the end of the interaction. A +5 indicates a dramatic positive change (e.g., from angry to grateful).
+
+        TOPIC GUIDELINES (IDENTICAL TO DAILY ANALYSIS):
+        - For the "common_topics" field, you MUST choose from the following list of allowed topics.
+        - If multiple topics apply, you can select up to 3.
+        - If no specific topic fits well, use "Others".
+        - Allowed Topics: {json.dumps(allowed_topics)}
+
+        - Ensure the output is a single, valid JSON array of objects.
+        - **Do not include any text, comments, or formatting outside of the final JSON array.**
+        """
+        return prompt
 
 # Global Gemini service instance
 gemini_service_instance = None

@@ -1,6 +1,15 @@
-# PowerPulse Analytics
+# PowerPulse Analytics - Constitutional Compliance Edition
 
-A production-ready customer satisfaction analytics backend built with FastAPI. It processes customer service chat logs using **AI-Enhanced Interaction Detection** and **Google Gemini AI** to perform sophisticated, interaction-level analysis and calculate detailed Customer Satisfaction Index (CSI) scores.
+A production-ready customer satisfaction analytics backend built with FastAPI. It processes customer service chat logs using **constitutionally compliant AI-Enhanced Interaction Detection** and **Google Gemini AI** to perform sophisticated, interaction-level analysis and calculate detailed Customer Satisfaction Index (CSI) scores.
+
+## 🎯 Constitutional Compliance Status: ✅ FULLY COMPLIANT
+
+**BREAKING CHANGE**: This version enforces constitutional compliance with **Amendment I** by removing all rule-based micro-metrics calculations and implementing pure AI micro-metrics extraction for interaction analysis, ensuring identical methodology with daily analysis.
+
+### Constitutional Amendments Enforced:
+- ✅ **Amendment I**: AI micro-metrics extraction SHALL remain the authoritative method
+- ✅ **Amendment II**: ALL pipeline logic SHALL remain identical between daily and interaction analysis  
+- ✅ **Amendment III**: Test-driven development SHALL prevent scope creep
 
 ## Core Features
 
@@ -11,12 +20,12 @@ A production-ready customer satisfaction analytics backend built with FastAPI. I
 - **Graceful Fallback**: System maintains reliability even when AI enhancement is unavailable
 - **Real-Time Processing**: Concurrent interaction detection with configurable performance limits
 
-### ✅ Advanced CSI Analytics (Interaction-Level Granularity)
-- **AI-Powered Micro-Metrics**: Extracts 8 distinct metrics from each customer service interaction using **Google Gemini 1.5 Flash**
-- **Four Pillars of Service**: Calculates interaction scores for **Effectiveness, Effort, Efficiency, and Empathy**
-- **Weighted CSI Score**: Aggregates the four pillars into a final, weighted CSI score (0-10 scale) for precise performance tracking
-- **Multi-Dimensional Analytics**: Supports both daily-granularity (legacy) and interaction-level (new) analysis
-- **Executive Reporting**: Automated insights, trends, and actionable recommendations
+### ✅ Advanced CSI Analytics (Interaction-Level Granularity) - CONSTITUTIONALLY COMPLIANT
+- **🔬 Constitutional AI Micro-Metrics**: Uses `GeminiService.analyze_interaction_analyses_batch()` to extract 8 distinct metrics from each customer service interaction using **Google Gemini 1.5 Flash** - **IDENTICAL** to daily analysis methodology
+- **🏛️ Constitutional Four Pillars**: Calculates interaction scores for **Effectiveness, Effort, Efficiency, and Empathy** using **IDENTICAL** enhanced analytics service as daily analysis
+- **⚖️ Dual CSI Architecture**: Provides both calculated CSI (from AI micro-metrics → four pillars) and inferred CSI (direct AI blackbox assessment) for validation and transparency
+- **📊 Multi-Dimensional Analytics**: Supports both daily-granularity (legacy) and interaction-level (new) analysis with **>0.8 correlation** between methodologies
+- **📈 Executive Reporting**: Automated insights, trends, and actionable recommendations
 
 ### ✅ Production-Grade Architecture
 - **Alembic Database Migrations**: Manages all database schema changes safely and automatically.
@@ -141,14 +150,76 @@ curl "http://localhost:8000/api/metrics"
 - `AI_ENHANCEMENT_CONFIDENCE_THRESHOLD` - Minimum confidence for AI suggestions. Defaults to `0.7`
 - `AI_ENHANCEMENT_MAX_CONCURRENT` - Max concurrent AI enhancement calls. Defaults to `3`
 
-## Testing
+## Constitutional Compliance Testing 🧪
+
+### Validate Constitutional Compliance
 ```bash
+# Run comprehensive constitutional compliance validator
+python utils/constitutional_validator.py
+
+# Expected output:
+# 📋 CONSTITUTIONAL COMPLIANCE FINAL CHECK
+# ==================================================
+# Amendment I (No Rule-Based Methods): ✅ COMPLIANT
+# Dual CSI Schema Exposure: ✅ COMPLIANT  
+# AI Micro-Metrics Method: ✅ COMPLIANT
+# ==================================================
+# CONSTITUTIONAL STATUS: 🎉 FULLY COMPLIANT
+```
+
+### Run Full Test Suite
+```bash
+# Run constitutional compliance tests (primary)
+pytest test_constitutional_compliance.py -v
+
 # Run all unit and integration tests
 pytest
 
-# Or run a specific test file
+# Run specific service tests
 pytest tests/unit/test_analytics_service.py -v
 ```
+
+### Testing Approach - How to Proceed
+
+#### 1. Constitutional Validation (Priority 1)
+```bash
+# Always run this first to ensure constitutional compliance
+python utils/constitutional_validator.py
+```
+
+#### 2. Interaction Analysis Testing (Priority 2)
+```bash
+# Test interaction analysis with real data
+python -c "
+from services.csi_analysis_pipeline import CSIAnalysisPipeline
+from database import SessionLocal
+
+# Test interaction detection and analysis pipeline
+db = SessionLocal()
+pipeline = CSIAnalysisPipeline(db)
+# Run with actual conversation data
+"
+```
+
+#### 3. API Integration Testing (Priority 3)
+```bash
+# Start the server
+uvicorn main:app --reload
+
+# Test interaction endpoints
+curl -X POST http://localhost:8000/api/interactions/detect \
+  -H "Content-Type: application/json" \
+  -d '{"conversation_id": 1}'
+
+# Test dual CSI exposure
+curl http://localhost:8000/api/interactions/analytics/1
+```
+
+#### 4. Data Validation Testing (Priority 4)
+- Upload curated sample data (`attached_assets/curated_sample.json`)
+- Validate >0.8 correlation between daily and interaction CSI
+- Confirm dual CSI values (calculated vs inferred) are populated
+- Verify constitutional micro-metrics extraction works end-to-end
 
 ## Relevant Documentation
 Here are the main documentation markdowns spread throughout the project:

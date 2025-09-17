@@ -29,6 +29,7 @@ from services.gemini_service import GeminiService
 logger = logging.getLogger(__name__)
 
 @dataclass
+@dataclass
 class CSIMetrics:
     """Container for calculated CSI metrics"""
     effectiveness_score: float = 0.0  # Resolution quality
@@ -81,39 +82,80 @@ class InteractionAnalyticsService:
 
     async def analyze_interaction(self, db: Session, interaction: InteractionAnalysis) -> CSIMetrics:
         """
-        Calculate comprehensive CSI metrics for a single interaction.
+        CONSTITUTIONAL COMPLIANCE: Calculate comprehensive CSI metrics using AI micro-metrics extraction
+        
+        AMENDMENT I: AI micro-metrics extraction SHALL remain the authoritative method
+        AMENDMENT II: ALL other pipeline logic SHALL remain identical to daily analysis
         
         Args:
             db: Database session
             interaction: InteractionAnalysis to analyze
             
         Returns:
-            CSIMetrics with calculated scores
+            CSIMetrics with calculated scores from AI extraction
         """
         try:
-            # Get interaction messages
-            messages = self._get_interaction_messages(db, interaction)
+            logger.info(f"CONSTITUTIONAL COMPLIANCE: Starting AI micro-metrics extraction for interaction {interaction.id}")
             
-            if not messages:
-                logger.warning(f"No messages found for interaction {interaction.id}")
+            # CONSTITUTIONAL REQUIREMENT: Use AI micro-metrics extraction (not rule-based)
+            ai_micrometrics = await self._extract_ai_micrometrics([interaction])
+            
+            if not ai_micrometrics or interaction.id not in ai_micrometrics:
+                logger.warning(f"No AI micro-metrics extracted for interaction {interaction.id}")
                 return CSIMetrics()
 
-            # Calculate individual pillar scores
-            effectiveness = await self._calculate_effectiveness(messages, interaction)
-            effort = await self._calculate_effort(messages, interaction)
-            efficiency = await self._calculate_efficiency(messages, interaction)
-            empathy = await self._calculate_empathy(messages, interaction)
+            metrics_data = ai_micrometrics[interaction.id]
+            
+            # Extract AI-generated micro-metrics
+            sentiment_score = metrics_data.get('sentiment_score', 5.0)
+            sentiment_shift = metrics_data.get('sentiment_shift', 0.0)
+            resolution_achieved = metrics_data.get('resolution_achieved', 5.0)
+            fcr_score = metrics_data.get('fcr_score', 5.0)
+            ces = metrics_data.get('ces', 4.0)
+            common_topics = metrics_data.get('common_topics', [])
 
-            # Calculate overall CSI score
-            overall_csi = (
-                effectiveness * self.csi_weights['effectiveness'] +
-                effort * self.csi_weights['effort'] +
-                efficiency * self.csi_weights['efficiency'] +
-                empathy * self.csi_weights['empathy']
-            )
+            # CONSTITUTIONAL REQUIREMENT: Use IDENTICAL four-pillars calculation as daily analysis
+            from services.enhanced_analytics_service import enhanced_analytics_service
+            
+            # Temporarily set AI-extracted micro-metrics on interaction object
+            interaction.sentiment_score = sentiment_score
+            interaction.sentiment_shift = sentiment_shift
+            interaction.resolution_achieved = resolution_achieved
+            interaction.fcr_score = fcr_score
+            interaction.ces = ces
+            interaction.common_topics = common_topics
+            
+            # Calculate four-pillars using IDENTICAL methodology as daily analysis
+            enhanced_analytics_service.calculate_and_set_csi_score(interaction)
+            
+            # Extract calculated pillar scores and CSI
+            effectiveness = interaction.effectiveness_score or 0.0
+            effort = interaction.effort_score or 0.0  
+            efficiency = interaction.efficiency_score or 0.0
+            empathy = interaction.empathy_score or 0.0
+            overall_csi = interaction.csi_score or 0.0
 
-            # Calculate confidence based on data quality
-            confidence = self._calculate_confidence(messages, interaction)
+            # Calculate AI inferred CSI (blackbox) for comparison
+            try:
+                messages = self._get_interaction_messages(db, interaction)
+                messages_text = "\n".join([
+                    f"{msg.social_create_time} - {msg.direction}: {msg.message_content}" 
+                    for msg in messages
+                ])
+                interaction_context = f"Duration: {interaction.interaction_duration}min, Messages: {len(messages)}, Type: {interaction.interaction_type or 'general'}"
+                inferred_csi = await self.gemini_service.infer_interaction_csi(messages_text, interaction_context)
+                interaction.inferred_csi = inferred_csi
+                
+                logger.info(f"CONSTITUTIONAL COMPLIANCE: AI micro-metrics CSI: {overall_csi:.2f} vs AI blackbox CSI: {inferred_csi:.2f} for interaction {interaction.id}")
+            except Exception as e:
+                logger.warning(f"Failed to calculate AI inferred CSI for interaction {interaction.id}: {e}")
+                interaction.inferred_csi = None
+
+            # Commit all changes to database
+            db.commit()
+
+            # Calculate confidence based on data quality  
+            confidence = self._calculate_confidence_from_ai_data(metrics_data)
 
             metrics = CSIMetrics(
                 effectiveness_score=effectiveness,
@@ -124,183 +166,141 @@ class InteractionAnalyticsService:
                 confidence=confidence
             )
 
-            # Update interaction record
-            interaction.effectiveness_score = effectiveness
-            interaction.effort_score = effort
-            interaction.efficiency_score = efficiency
-            interaction.empathy_score = empathy
-            interaction.csi_score = overall_csi
-            db.commit()
-
-            logger.info(f"Calculated CSI metrics for interaction {interaction.id}: {overall_csi:.2f}")
+            logger.info(f"CONSTITUTIONAL COMPLIANCE: Completed AI micro-metrics analysis for interaction {interaction.id}")
             return metrics
 
         except Exception as e:
-            logger.error(f"Error analyzing interaction {interaction.id}: {e}")
+            logger.error(f"Error in constitutional AI micro-metrics analysis for interaction {interaction.id}: {e}")
             return CSIMetrics()
 
-    async def _calculate_effectiveness(self, messages: List[Message], interaction: InteractionAnalysis) -> float:
-        """Calculate effectiveness score (resolution quality)"""
-        try:
-            score = 5.0  # Start with baseline
-
-            # Check for resolution indicators
-            resolution_keywords = [
-                'resolved', 'fixed', 'solved', 'completed', 'done',
-                'working now', 'thank you', 'problem sorted'
-            ]
+    async def analyze_interactions_batch(self, db: Session, interactions: List[InteractionAnalysis]) -> Dict[int, CSIMetrics]:
+        """
+        CONSTITUTIONAL COMPLIANCE: Batch analysis of multiple interactions using AI micro-metrics extraction
+        
+        This method processes multiple interactions in a single AI call for performance,
+        while maintaining constitutional compliance with AI micro-metrics extraction.
+        
+        Args:
+            db: Database session
+            interactions: List of InteractionAnalysis objects to analyze
             
-            agent_messages = [m for m in messages if m.direction == 'to_client']
-            customer_messages = [m for m in messages if m.direction == 'to_company']
-
-            # Resolution indication boost
-            last_messages = messages[-3:] if len(messages) >= 3 else messages
-            for msg in last_messages:
-                content_lower = msg.message_content.lower()
-                if any(keyword in content_lower for keyword in resolution_keywords):
-                    score += 1.5
-
-            # Customer satisfaction indicators
-            positive_indicators = ['thank', 'great', 'perfect', 'excellent', 'appreciate']
-            for msg in customer_messages:
-                content_lower = msg.message_content.lower()
-                if any(indicator in content_lower for indicator in positive_indicators):
-                    score += 1.0
-
-            # Multi-turn penalty (complexity might indicate difficulty)
-            if len(messages) > 8:
-                score -= 0.5
-            elif len(messages) > 15:
-                score -= 1.0
-
-            # Use AI for resolution assessment if available
-            if len(messages) >= 3:
-                ai_assessment = await self._ai_assess_resolution(messages)
-                if ai_assessment:
-                    score = (score + ai_assessment) / 2  # Blend rule-based and AI scores
-
-            return max(0.0, min(10.0, score))
-
-        except Exception as e:
-            logger.error(f"Error calculating effectiveness: {e}")
-            return 5.0
-
-    async def _calculate_effort(self, messages: List[Message], interaction: InteractionAnalysis) -> float:
-        """Calculate effort score (customer ease)"""
-        try:
-            score = 8.0  # Start high (low effort is good)
-
-            # Message count penalty (more messages = more effort)
-            message_penalty = len(messages) * 0.2
-            score -= message_penalty
-
-            # Duration penalty 
-            if interaction.interaction_duration:
-                if interaction.interaction_duration > 30:  # 30+ minutes
-                    score -= 2.0
-                elif interaction.interaction_duration > 15:  # 15-30 minutes
-                    score -= 1.0
-
-            # Repetition detection
-            customer_messages = [m for m in messages if m.direction == 'to_company']
-            if len(customer_messages) > 1:
-                repetition_penalty = self._detect_repetition(customer_messages) * 0.5
-                score -= repetition_penalty
-
-            # Transfer/escalation penalty
-            transfer_keywords = ['transfer', 'escalate', 'supervisor', 'manager', 'specialist']
-            for msg in messages:
-                if any(keyword in msg.message_content.lower() for keyword in transfer_keywords):
-                    score -= 1.5
-
-            return max(0.0, min(10.0, score))
-
-        except Exception as e:
-            logger.error(f"Error calculating effort: {e}")
-            return 5.0
-
-    async def _calculate_efficiency(self, messages: List[Message], interaction: InteractionAnalysis) -> float:
-        """Calculate efficiency score (speed and productivity)"""
-        try:
-            score = 7.0  # Start with baseline
-
-            # First response time boost
-            if interaction.first_response_time:
-                if interaction.first_response_time < 300:  # < 5 minutes
-                    score += 2.0
-                elif interaction.first_response_time < 900:  # < 15 minutes
-                    score += 1.0
-                elif interaction.first_response_time > 3600:  # > 1 hour
-                    score -= 2.0
-
-            # Average response time assessment
-            if interaction.avg_response_time:
-                if interaction.avg_response_time < 600:  # < 10 minutes
-                    score += 1.0
-                elif interaction.avg_response_time > 1800:  # > 30 minutes
-                    score -= 1.5
-
-            # Total handling time efficiency
-            if interaction.total_handling_time:
-                if interaction.total_handling_time < 5:  # < 5 minutes total
-                    score += 1.5
-                elif interaction.total_handling_time > 60:  # > 1 hour total
-                    score -= 2.0
-
-            # Message efficiency (fewer back-and-forth is better)
-            turns = interaction.turns_count or len(messages) // 2
-            if turns <= 2:
-                score += 1.5
-            elif turns > 6:
-                score -= 1.0
-
-            return max(0.0, min(10.0, score))
-
-        except Exception as e:
-            logger.error(f"Error calculating efficiency: {e}")
-            return 5.0
-
-    async def _calculate_empathy(self, messages: List[Message], interaction: InteractionAnalysis) -> float:
-        """Calculate empathy score (emotional intelligence)"""
-        try:
-            score = 5.0  # Start with baseline
-
-            agent_messages = [m for m in messages if m.direction == 'to_client']
+        Returns:
+            Dictionary mapping interaction_id to CSIMetrics
+        """
+        if not interactions:
+            return {}
             
-            # Positive sentiment from agents
-            for msg in agent_messages:
-                if msg.sentiment_score and msg.sentiment_score > 3.5:
-                    score += 0.5
-
-            # Empathy keywords detection
-            empathy_keywords = [
-                'sorry', 'apologize', 'understand', 'appreciate', 'thank',
-                'help', 'assist', 'concern', 'frustrated', 'inconvenience'
-            ]
+        try:
+            logger.info(f"CONSTITUTIONAL COMPLIANCE: Starting batch AI micro-metrics extraction for {len(interactions)} interactions")
             
-            for msg in agent_messages:
-                content_lower = msg.message_content.lower()
-                empathy_count = sum(1 for keyword in empathy_keywords if keyword in content_lower)
-                score += empathy_count * 0.3
+            # CONSTITUTIONAL REQUIREMENT: Use AI micro-metrics extraction for entire batch
+            ai_micrometrics = await self._extract_ai_micrometrics(interactions)
+            
+            # Process results for each interaction
+            results = {}
+            for interaction in interactions:
+                if interaction.id in ai_micrometrics:
+                    metrics_data = ai_micrometrics[interaction.id]
+                    
+                    # Extract AI-generated micro-metrics
+                    sentiment_score = metrics_data.get('sentiment_score', 5.0)
+                    sentiment_shift = metrics_data.get('sentiment_shift', 0.0)
+                    resolution_achieved = metrics_data.get('resolution_achieved', 5.0)
+                    fcr_score = metrics_data.get('fcr_score', 5.0)
+                    ces = metrics_data.get('ces', 4.0)
+                    common_topics = metrics_data.get('common_topics', [])
 
-            # Personal touch indicators
-            personal_keywords = ['name', 'personally', 'specifically for you', 'your situation']
-            for msg in agent_messages:
-                content_lower = msg.message_content.lower()
-                if any(keyword in content_lower for keyword in personal_keywords):
-                    score += 0.8
+                    # CONSTITUTIONAL REQUIREMENT: Use IDENTICAL four-pillars calculation as daily analysis
+                    from services.enhanced_analytics_service import enhanced_analytics_service
+                    
+                    # Temporarily set AI-extracted micro-metrics on interaction object
+                    interaction.sentiment_score = sentiment_score
+                    interaction.sentiment_shift = sentiment_shift
+                    interaction.resolution_achieved = resolution_achieved
+                    interaction.fcr_score = fcr_score
+                    interaction.ces = ces
+                    interaction.common_topics = common_topics
 
-            # Use AI for empathy assessment
-            if agent_messages:
-                ai_empathy = await self._ai_assess_empathy(agent_messages)
-                if ai_empathy:
-                    score = (score + ai_empathy) / 2
-
-            return max(0.0, min(10.0, score))
-
+                    # Calculate four-pillars CSI using enhanced analytics service
+                    enhanced_analytics_service.calculate_and_set_csi_score(interaction)
+                    csi_result = CSIMetrics(
+                        overall_csi=interaction.csi_score or 0.0,
+                        effectiveness_score=interaction.effectiveness_score or 0.0,
+                        effort_score=interaction.effort_score or 0.0,
+                        efficiency_score=interaction.efficiency_score or 0.0,
+                        empathy_score=interaction.empathy_score or 0.0,
+                        confidence=0.9  # Default confidence for calculated CSI
+                    )
+                    
+                    results[interaction.id] = csi_result
+                else:
+                    logger.warning(f"No AI micro-metrics extracted for interaction {interaction.id}")
+                    results[interaction.id] = CSIMetrics()
+            
+            logger.info(f"CONSTITUTIONAL COMPLIANCE: Completed batch analysis for {len(results)} interactions")
+            return results
+            
         except Exception as e:
-            logger.error(f"Error calculating empathy: {e}")
-            return 5.0
+            logger.error(f"Error in batch interaction analysis: {e}")
+            # Return empty results for all interactions
+            return {interaction.id: CSIMetrics() for interaction in interactions}
+
+    async def _extract_ai_micrometrics(self, interactions: List[InteractionAnalysis]) -> Dict[int, Dict[str, Any]]:
+        """
+        CONSTITUTIONAL REQUIREMENT: Extract micro-metrics using AI (mirrors daily analysis approach)
+        
+        Returns: Dictionary mapping interaction_id to micro-metrics data
+        """
+        try:
+            logger.info(f"CONSTITUTIONAL COMPLIANCE: Extracting AI micro-metrics for {len(interactions)} interactions")
+            
+            # Use constitutional AI micro-metrics extraction
+            analysis_results, missed_ids, usage_metadata, response_text = await self.gemini_service.analyze_interaction_analyses_batch(interactions)
+            
+            # Parse results into dictionary format
+            micrometrics_map = {}
+            for result in analysis_results:
+                interaction_id = result.get('interaction_analysis_id')
+                interaction_analysis = result.get('interaction_analysis', {})
+                
+                if interaction_id:
+                    micrometrics_map[interaction_id] = interaction_analysis
+            
+            logger.info(f"CONSTITUTIONAL COMPLIANCE: Successfully extracted AI micro-metrics for {len(micrometrics_map)} interactions")
+            return micrometrics_map
+            
+        except Exception as e:
+            logger.error(f"Error extracting AI micro-metrics: {e}")
+            return {}
+
+    def _calculate_confidence_from_ai_data(self, metrics_data: Dict[str, Any]) -> float:
+        """Calculate confidence score based on AI-extracted data quality"""
+        try:
+            # Count how many micro-metrics were successfully extracted
+            required_metrics = ['sentiment_score', 'sentiment_shift', 'resolution_achieved', 'fcr_score', 'ces']
+            extracted_count = sum(1 for metric in required_metrics if metrics_data.get(metric) is not None)
+            
+            # Base confidence on completeness of AI extraction
+            base_confidence = extracted_count / len(required_metrics)
+            
+            # Adjust based on data reasonableness
+            sentiment_score = metrics_data.get('sentiment_score', 5.0)
+            if 0 <= sentiment_score <= 10:
+                base_confidence += 0.1
+            
+            ces = metrics_data.get('ces', 4.0)
+            if 1 <= ces <= 7:
+                base_confidence += 0.1
+            
+            return min(1.0, max(0.0, base_confidence))
+            
+        except Exception as e:
+            logger.error(f"Error calculating confidence: {e}")
+            return 0.5
+
+    # CONSTITUTIONAL AMENDMENT I: Rule-based micro-metrics calculations REMOVED
+    # All effectiveness, effort, efficiency, and empathy calculations now use AI extraction via _extract_ai_micrometrics()
+    # This ensures consistency with daily analysis pipeline and maintains constitutional compliance
 
     def _get_interaction_messages(self, db: Session, interaction: InteractionAnalysis) -> List[Message]:
         """Get all messages for an interaction"""
@@ -312,23 +312,8 @@ class InteractionAnalyticsService:
             )
         ).order_by(Message.social_create_time).all()
 
-    def _calculate_confidence(self, messages: List[Message], interaction: InteractionAnalysis) -> float:
-        """Calculate confidence score based on data quality"""
-        confidence = 0.7  # Base confidence
-        
-        # Data completeness boosts
-        if interaction.sentiment_score is not None:
-            confidence += 0.1
-        if interaction.total_handling_time is not None:
-            confidence += 0.1
-        if len(messages) >= 3:
-            confidence += 0.1
-        
-        # AI enhancement boost
-        if 'ai' in (interaction.boundary_method or '').lower():
-            confidence += 0.1
-            
-        return min(1.0, confidence)
+    # CONSTITUTIONAL COMPLIANCE: Old rule-based confidence calculation removed
+    # Now using _calculate_confidence_from_ai_data() method for AI-based confidence assessment
 
     def _detect_repetition(self, customer_messages: List[Message]) -> float:
         """Detect repetitive content in customer messages"""
@@ -348,70 +333,8 @@ class InteractionAnalyticsService:
                     
         return repetition_score
 
-    async def _ai_assess_resolution(self, messages: List[Message]) -> Optional[float]:
-        """Use AI to assess interaction resolution quality"""
-        try:
-            # Create conversation context
-            conversation = "\n".join([
-                f"{'Agent' if msg.direction == 'to_client' else 'Customer'}: {msg.message_content}"
-                for msg in messages
-            ])
-            
-            prompt = f"""Analyze this customer service interaction for resolution quality.
-
-Conversation:
-{conversation}
-
-Rate the resolution effectiveness on a scale of 0-10, considering:
-- Was the customer's issue fully addressed?
-- Did the customer express satisfaction?
-- Was the solution appropriate and complete?
-- Did the interaction end positively?
-
-Respond with just a number between 0-10."""
-
-            response = await self.gemini_service.analyze_gemini(prompt)
-            if response:
-                # Extract numeric score
-                import re
-                score_match = re.search(r'\b([0-9](?:\.[0-9])?|10(?:\.0)?)\b', response)
-                if score_match:
-                    return float(score_match.group(1))
-                    
-        except Exception as e:
-            logger.error(f"AI resolution assessment failed: {e}")
-            
-        return None
-
-    async def _ai_assess_empathy(self, agent_messages: List[Message]) -> Optional[float]:
-        """Use AI to assess agent empathy level"""
-        try:
-            agent_content = "\n".join([msg.message_content for msg in agent_messages])
-            
-            prompt = f"""Analyze these agent messages for empathy and emotional intelligence.
-
-Agent Messages:
-{agent_content}
-
-Rate the empathy level on a scale of 0-10, considering:
-- Use of understanding and caring language
-- Acknowledgment of customer emotions
-- Personal touch and connection
-- Professional warmth
-
-Respond with just a number between 0-10."""
-
-            response = await self.gemini_service.analyze_gemini(prompt)
-            if response:
-                import re
-                score_match = re.search(r'\b([0-9](?:\.[0-9])?|10(?:\.0)?)\b', response)
-                if score_match:
-                    return float(score_match.group(1))
-                    
-        except Exception as e:
-            logger.error(f"AI empathy assessment failed: {e}")
-            
-        return None
+    # CONSTITUTIONAL COMPLIANCE: Old mixed rule-based/AI assessment methods removed
+    # All assessment now uses pure AI micro-metrics extraction via analyze_interaction_analyses_batch()
 
     async def generate_period_report(self, db: Session, start_date: datetime, end_date: datetime) -> AnalyticsReport:
         """Generate comprehensive analytics report for a time period"""

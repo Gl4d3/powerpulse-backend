@@ -29,7 +29,12 @@ class DailyAnalysisResponse(BaseModel):
     conversation_id: str
     customer_name: Optional[str] = None
     analysis_date: date
-    csi_score: Optional[float] = None
+    
+    # CONSTITUTIONAL DUAL CSI EXPOSURE
+    csi_score: Optional[float] = None  # Primary CSI (calculated from AI micro-metrics → four pillars)
+    inferred_csi: Optional[float] = None  # AI blackbox CSI (for comparison/validation)
+    
+    # Four-pillars scores (from AI micro-metrics)
     effectiveness_score: Optional[float] = None
     efficiency_score: Optional[float] = None
     effort_score: Optional[float] = None
@@ -281,7 +286,12 @@ class InteractionAnalysisResponse(BaseModel):
     customer_name: Optional[str] = None
     interaction_start: datetime
     interaction_end: datetime
-    csi_score: Optional[float] = None
+    
+    # CONSTITUTIONAL DUAL CSI EXPOSURE
+    csi_score: Optional[float] = None  # Primary CSI (calculated from AI micro-metrics → four pillars)
+    inferred_csi: Optional[float] = None  # AI blackbox CSI (for comparison/validation)
+    
+    # Four-pillars scores (from AI micro-metrics)
     effectiveness_score: Optional[float] = None
     efficiency_score: Optional[float] = None
     effort_score: Optional[float] = None

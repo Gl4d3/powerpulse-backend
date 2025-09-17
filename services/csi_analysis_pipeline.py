@@ -254,29 +254,12 @@ class CSIAnalysisPipeline:
             for interaction in interactions:
                 self.db.refresh(interaction)
             
-            # Step 2: Analyze interactions for CSI metrics
-            csi_scores = []
-            analyzed_count = 0
+            # Step 2: Analyze interactions for CSI metrics (BATCH PROCESSING)
+            logger.info(f"Starting batch CSI analysis for {len(interactions)} interactions")
+            csi_scores, analyzed_count, batch_token_usage, batch_errors = await self._analyze_interactions_batch(interactions)
             
-            for interaction in interactions:
-                try:
-                    logger.info(f"Analyzing interaction {interaction.id} for CSI metrics")
-                    metrics = await self.analytics_service.analyze_interaction(self.db, interaction)
-                    
-                    if metrics.overall_csi > 0:
-                        csi_scores.append(metrics.overall_csi)
-                        analyzed_count += 1
-                        
-                        # Track token usage (estimated)
-                        if hasattr(metrics, 'token_usage'):
-                            token_usage += getattr(metrics, 'token_usage', 0)
-                    
-                    logger.info(f"Interaction {interaction.id} CSI: {metrics.overall_csi:.2f}")
-                    
-                except Exception as e:
-                    error_msg = f"Error analyzing interaction {interaction.id}: {str(e)}"
-                    logger.error(error_msg)
-                    errors.append(error_msg)
+            token_usage += batch_token_usage
+            errors.extend(batch_errors)
             
             # Calculate results
             avg_csi = sum(csi_scores) / len(csi_scores) if csi_scores else 0.0
@@ -659,3 +642,73 @@ class CSIAnalysisPipeline:
                     'gemini_service': 'unknown'
                 }
             }
+
+    async def _analyze_interactions_batch(self, interactions: List[InteractionAnalysis]) -> Tuple[List[float], int, int, List[str]]:
+        """
+        Batch process multiple interactions for CSI analysis to reduce verbose logging.
+        Groups interactions into manageable batches and processes them efficiently.
+        
+        Args:
+            interactions: List of InteractionAnalysis objects to process
+            
+        Returns:
+            Tuple of (csi_scores, analyzed_count, total_tokens, errors)
+        """
+        if not interactions:
+            return [], 0, 0, []
+            
+        csi_scores = []
+        analyzed_count = 0
+        total_tokens = 0
+        errors = []
+        
+        # Process interactions in batches to avoid overwhelming logs and improve performance
+        interaction_batch_size = 10  # Process 10 interactions at a time
+        batches = [interactions[i:i + interaction_batch_size] for i in range(0, len(interactions), interaction_batch_size)]
+        
+        logger.info(f"Processing {len(interactions)} interactions in {len(batches)} batches of {interaction_batch_size}")
+        
+        for batch_idx, interaction_batch in enumerate(batches, 1):
+            logger.info(f"Processing interaction batch {batch_idx}/{len(batches)} ({len(interaction_batch)} interactions)")
+            
+            batch_start_time = datetime.now()
+            batch_csi_scores = []
+            batch_analyzed = 0
+            
+            # CONSTITUTIONAL COMPLIANCE: Use batch analysis for efficient AI processing
+            try:
+                batch_results = await self.analytics_service.analyze_interactions_batch(self.db, interaction_batch)
+                
+                for interaction in interaction_batch:
+                    if interaction.id in batch_results:
+                        metrics = batch_results[interaction.id]
+                        if metrics.overall_csi > 0:
+                            batch_csi_scores.append(metrics.overall_csi)
+                            batch_analyzed += 1
+                        else:
+                            batch_csi_scores.append(0.0)
+                            errors.append(f"Zero CSI calculated for interaction {interaction.id}")
+                    else:
+                        batch_csi_scores.append(0.0)
+                        errors.append(f"No results for interaction {interaction.id}")
+            
+            except Exception as e:
+                logger.error(f"Error processing batch {batch_idx}: {e}")
+                errors.append(f"Batch {batch_idx} processing failed: {str(e)}")
+                # Add zeros for all interactions in failed batch
+                batch_csi_scores.extend([0.0] * len(interaction_batch))
+            
+            # Log batch summary
+            batch_time = (datetime.now() - batch_start_time).total_seconds()
+            batch_avg_csi = sum(batch_csi_scores) / len(batch_csi_scores) if batch_csi_scores else 0.0
+            
+            logger.info(f"Batch {batch_idx} completed: {batch_analyzed}/{len(interaction_batch)} interactions analyzed, "
+                       f"avg CSI: {batch_avg_csi:.2f}, time: {batch_time:.1f}s")
+            
+            csi_scores.extend(batch_csi_scores)
+            analyzed_count += batch_analyzed
+        
+        logger.info(f"Batch interaction analysis completed: {analyzed_count}/{len(interactions)} interactions, "
+                   f"overall avg CSI: {sum(csi_scores) / len(csi_scores) if csi_scores else 0.0:.2f}")
+        
+        return csi_scores, analyzed_count, total_tokens, errors
