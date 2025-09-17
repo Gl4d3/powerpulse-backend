@@ -1,0 +1,132 @@
+{
+  "summary": {
+    "total": 11,
+    "passed": 10,
+    "failed": 0,
+    "warnings": 0,
+    "skipped": 1,
+    "success_rate": 90.9090909090909,
+    "duration_seconds": 60.145607471466064
+  },
+  "detailed_results": [
+    {
+      "test": "CSI Score Bounds",
+      "status": "PASS",
+      "total_interactions": 9,
+      "invalid_scores": 0,
+      "details": null
+    },
+    {
+      "test": "Pillar Score Bounds",
+      "status": "PASS",
+      "total_interactions": 9,
+      "invalid_pillars": 0,
+      "details": null
+    },
+    {
+      "test": "Interaction Boundaries",
+      "status": "PASS",
+      "total_interactions": 9,
+      "invalid_boundaries": 0,
+      "details": []
+    },
+    {
+      "test": "Message Range Validity",
+      "status": "PASS",
+      "total_interactions": 9,
+      "invalid_ranges": 0,
+      "details": []
+    },
+    {
+      "test": "API Endpoint Availability",
+      "status": "PASS",
+      "successful_endpoints": 6,
+      "total_endpoints": 6,
+      "details": []
+    },
+    {
+      "test": "API Response Performance",
+      "status": "PASS",
+      "threshold_ms": 3000,
+      "results": [
+        {
+          "endpoint": "Interaction Metrics",
+          "avg_response_time_ms": 2058.414125442505,
+          "max_response_time_ms": 2083.6992263793945,
+          "min_response_time_ms": 2032.0148468017578,
+          "within_threshold": true
+        },
+        {
+          "endpoint": "Conversation List",
+          "avg_response_time_ms": 2073.340129852295,
+          "max_response_time_ms": 2081.2783241271973,
+          "min_response_time_ms": 2060.2328777313232,
+          "within_threshold": true
+        },
+        {
+          "endpoint": "Chart Data",
+          "avg_response_time_ms": 2049.040174484253,
+          "max_response_time_ms": 2052.616596221924,
+          "min_response_time_ms": 2041.369915008545,
+          "within_threshold": true
+        }
+      ]
+    },
+    {
+      "test": "Empty Data Handling",
+      "status": "PASS",
+      "tests": [
+        {
+          "scenario": "Metrics with existing data",
+          "success": true,
+          "has_data": true
+        },
+        {
+          "scenario": "Charts with no data period",
+          "success": true,
+          "empty_response": true
+        }
+      ]
+    },
+    {
+      "test": "Invalid Date Range Handling",
+      "status": "PASS",
+      "results": [
+        {
+          "scenario": "Invalid start date format",
+          "status_code": 422,
+          "handled_gracefully": true
+        },
+        {
+          "scenario": "End date before start date",
+          "status_code": 400,
+          "handled_gracefully": true
+        },
+        {
+          "scenario": "Empty date parameters",
+          "status_code": 422,
+          "handled_gracefully": true
+        }
+      ]
+    },
+    {
+      "test": "CSI Calculation Consistency",
+      "status": "SKIP",
+      "reason": "No conversations with both daily and interaction analyses found"
+    },
+    {
+      "test": "Interaction Boundary Logic",
+      "status": "PASS",
+      "total_interactions_tested": 9,
+      "boundary_issues": 0,
+      "details": null
+    },
+    {
+      "test": "Backward Compatibility",
+      "status": "PASS",
+      "original_endpoints_working": 3,
+      "total_endpoints": 3,
+      "failed_endpoints": []
+    }
+  ]
+}

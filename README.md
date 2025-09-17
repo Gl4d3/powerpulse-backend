@@ -1,14 +1,22 @@
 # PowerPulse Analytics
 
-A production-ready customer satisfaction analytics backend built with FastAPI. It processes customer service chat logs, using **Google Gemini AI** to perform a sophisticated, daily-granularity analysis and calculate a detailed Customer Satisfaction Index (CSI).
+A production-ready customer satisfaction analytics backend built with FastAPI. It processes customer service chat logs using **AI-Enhanced Interaction Detection** and **Google Gemini AI** to perform sophisticated, interaction-level analysis and calculate detailed Customer Satisfaction Index (CSI) scores.
 
 ## Core Features
 
-### ✅ Advanced CSI Analytics (Daily Granularity)
-- **AI-Powered Micro-Metrics**: Extracts 8 distinct metrics from each day's conversation using **Google Gemini 1.5 Flash**, including sentiment, resolution, and customer effort.
-- **Four Pillars of Service**: Calculates daily scores for **Effectiveness, Efficiency, Effort, and Empathy**.
-- **Weighted CSI Score**: Aggregates the four pillars into a final, weighted daily CSI score for nuanced performance tracking.
-- **Historical Trend Analysis**: Provides daily trend data for CSI and all underlying metrics.
+### 🚀 AI-Enhanced Interaction Detection
+- **Hybrid Detection Pipeline**: Combines rule-based boundary detection with AI refinement for optimal accuracy
+- **Smart Boundary Enhancement**: AI identifies missed interactions and removes false boundaries with 95%+ confidence
+- **Intelligent Reasoning**: Each AI suggestion includes detailed explanations for transparency
+- **Graceful Fallback**: System maintains reliability even when AI enhancement is unavailable
+- **Real-Time Processing**: Concurrent interaction detection with configurable performance limits
+
+### ✅ Advanced CSI Analytics (Interaction-Level Granularity)
+- **AI-Powered Micro-Metrics**: Extracts 8 distinct metrics from each customer service interaction using **Google Gemini 1.5 Flash**
+- **Four Pillars of Service**: Calculates interaction scores for **Effectiveness, Effort, Efficiency, and Empathy**
+- **Weighted CSI Score**: Aggregates the four pillars into a final, weighted CSI score (0-10 scale) for precise performance tracking
+- **Multi-Dimensional Analytics**: Supports both daily-granularity (legacy) and interaction-level (new) analysis
+- **Executive Reporting**: Automated insights, trends, and actionable recommendations
 
 ### ✅ Production-Grade Architecture
 - **Alembic Database Migrations**: Manages all database schema changes safely and automatically.
@@ -21,14 +29,27 @@ A production-ready customer satisfaction analytics backend built with FastAPI. I
 - **Detailed Logging**: Separates application trace logs from server logs for clean and effective debugging.
 
 ### ✅ API Endpoints
-- `POST /api/upload-json` - Upload chat log JSON files for processing.
-- `GET /api/progress/{upload_id}` - Track the real-time progress of a file upload.
-- `GET /api/metrics` - Retrieve the latest aggregated dashboard metrics (CSI, pillars, etc.).
-- `GET /api/charts/csi-trend` - Fetch historical data for CSI and pillar scores, formatted for charts.
-- `GET /api/charts/sentiment-trend` - Fetch historical sentiment trend data.
-- `GET /api/explorer/analyses` - Get a paginated list of daily analyses for the Conversation Explorer.
-- `GET /api/explorer/transcript/{daily_analysis_id}` - Get the message transcript for a specific daily analysis.
-- `GET /api/download` - Export raw data tables to timestamped CSV files.
+
+#### Core Data Processing
+- `POST /api/upload-json` - Upload chat log JSON files for processing
+- `GET /api/progress/{upload_id}` - Track real-time progress of file uploads
+
+#### Analytics & Reporting  
+- `GET /api/metrics` - Retrieve aggregated dashboard metrics (CSI, pillars, etc.)
+- `GET /api/charts/csi-trend` - Historical CSI and pillar score data for charts
+- `GET /api/charts/sentiment-trend` - Historical sentiment trend data
+
+#### Interaction Analysis (New)
+- `POST /api/interactions/detect` - AI-enhanced interaction detection for conversations
+- `GET /api/interactions/analytics/{interaction_id}` - Detailed CSI metrics for specific interactions
+- `GET /api/interactions/report` - Generate comprehensive analytics reports for time periods
+
+#### Legacy Daily Analysis
+- `GET /api/explorer/analyses` - Paginated list of daily analyses
+- `GET /api/explorer/transcript/{daily_analysis_id}` - Message transcript for daily analysis
+
+#### Data Export
+- `GET /api/download` - Export data tables to timestamped CSV files
 
 ## Quick Start
 
@@ -57,21 +78,33 @@ alembic upgrade head
 uvicorn main:app --reload
 ```
 
-## How It Works: The Data Pipeline
-1.  **Upload**: A user uploads a JSON file. The API creates job records in the database for the new data and immediately returns an `upload_id`.
-2.  **Parse & Group**: The system intelligently detects the JSON format and groups all messages by `conversation_id` and then by `date`.
-3.  **Create Daily Analysis Records**: For each day a conversation has messages, a `DailyAnalysis` record is created in the database.
-4.  **Token-Based Batching (`services/batch_service.py`):** The new `DailyAnalysis` objects are grouped into efficient, token-limited batches.
-5.  **Job Creation & Processing (`worker.py` & `services/job_service.py`):**
-    - For each batch, a `Job` is created with a `pending` status.
-    - The standalone `worker.py` process polls the database, picks up pending jobs, and passes them to the `job_service` for execution.
-    - The `job_service` calls the `gemini_service` to perform the AI analysis.
-6.  **Metric Calculation**:
-    - The system calculates quantitative time-based metrics (e.g., response times).
-    - It then calculates the four pillar scores (Effectiveness, Effort, Efficiency, Empathy).
-    - Finally, it computes the weighted daily CSI score.
-7.  **Database Persistence**: All scores are saved to the `daily_analyses` table, and the job is marked as `completed`.
-8.  **API Aggregation**: The API endpoints read from this table to provide aggregated metrics and historical trends.
+## How It Works: The Complete CSI Analysis Pipeline
+
+### 🔄 End-to-End Processing Flow
+
+1. **Upload & Parsing**: JSON files are uploaded and intelligently parsed to detect conversation structure
+2. **AI-Enhanced Interaction Detection**:
+   - Rule-based boundary detection identifies potential interaction breaks (time gaps, resolution keywords)
+   - AI enhancement refines boundaries using contextual understanding
+   - Smart merging/splitting of interactions based on conversation flow
+3. **Comprehensive CSI Analytics**:
+   - Each detected interaction is analyzed for 4 pillar scores (Effectiveness, Effort, Efficiency, Empathy)
+   - AI assessment combined with quantitative metrics (response times, message counts)
+   - Weighted CSI score calculation (0-10 scale)
+4. **Executive Reporting & Insights**:
+   - Automated pattern detection and trend analysis
+   - Performance alerts and actionable recommendations
+   - Multi-dimensional analytics (time-based, agent-based, topic-based)
+
+### 📊 Legacy Daily Analysis Pipeline (Maintained)
+
+1. **Upload**: JSON files processed and `upload_id` returned immediately
+2. **Parse & Group**: Messages grouped by `conversation_id` and `date`
+3. **Token-Based Batching**: Daily analyses grouped into efficient, token-limited batches
+4. **Job Processing**: Background worker processes jobs via `worker.py`
+5. **AI Analysis**: Gemini API analyzes daily conversation metrics
+6. **CSI Calculation**: Four pillar scores computed and aggregated
+7. **Database Persistence**: All scores saved with job completion tracking
 
 ## API Usage Example
 
@@ -93,11 +126,20 @@ curl "http://localhost:8000/api/metrics"
 ```
 
 ## Environment Variables
-- `GEMINI_API_KEY` - **Required**. Your Google Gemini API key.
-- `AI_CONCURRENCY` - Max number of concurrent API calls to make. Defaults to `2`.
-- `MAX_TOKENS_PER_BATCH` - The target token limit for creating efficient AI processing batches. Defaults to `8000`.
-- `BATCH_PROCESSING_DELAY_SECONDS` - The number of seconds to wait between starting each batch job. Defaults to `5`.
-- `DATABASE_URL` - Connection string for the database. Defaults to `sqlite:///./powerpulse.db`.
+
+### Core Configuration
+- `GEMINI_API_KEY` - **Required**. Your Google Gemini API key
+- `DATABASE_URL` - Connection string for the database. Defaults to `sqlite:///./powerpulse.db`
+
+### AI Processing Configuration
+- `AI_CONCURRENCY` - Max concurrent API calls. Defaults to `2`
+- `MAX_TOKENS_PER_BATCH` - Token limit for processing batches. Defaults to `8000`
+- `BATCH_PROCESSING_DELAY_SECONDS` - Delay between batch jobs. Defaults to `5`
+
+### AI Enhancement Settings (New)
+- `AI_ENHANCEMENT_ENABLED` - Enable AI boundary enhancement. Defaults to `true`
+- `AI_ENHANCEMENT_CONFIDENCE_THRESHOLD` - Minimum confidence for AI suggestions. Defaults to `0.7`
+- `AI_ENHANCEMENT_MAX_CONCURRENT` - Max concurrent AI enhancement calls. Defaults to `3`
 
 ## Testing
 ```bash

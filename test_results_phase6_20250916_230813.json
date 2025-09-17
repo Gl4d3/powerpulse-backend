@@ -1,0 +1,165 @@
+{
+  "summary": {
+    "total": 11,
+    "passed": 6,
+    "failed": 4,
+    "warnings": 0,
+    "skipped": 1,
+    "success_rate": 54.54545454545454,
+    "duration_seconds": 60.16070890426636
+  },
+  "detailed_results": [
+    {
+      "test": "CSI Score Bounds",
+      "status": "FAIL",
+      "total_interactions": 9,
+      "invalid_scores": 2,
+      "details": [
+        {
+          "id": 3,
+          "csi_score": 29.34,
+          "effectiveness": 9.0,
+          "efficiency": null,
+          "effort": 1.6666666666666665,
+          "empathy": 6.25
+        },
+        {
+          "id": 7,
+          "csi_score": 29.01,
+          "effectiveness": 8.25,
+          "efficiency": null,
+          "effort": 1.6666666666666665,
+          "empathy": 5.75
+        }
+      ]
+    },
+    {
+      "test": "Pillar Score Bounds",
+      "status": "PASS",
+      "total_interactions": 9,
+      "invalid_pillars": 0,
+      "details": null
+    },
+    {
+      "test": "Interaction Boundaries",
+      "status": "PASS",
+      "total_interactions": 9,
+      "invalid_boundaries": 0,
+      "details": []
+    },
+    {
+      "test": "Message Range Validity",
+      "status": "PASS",
+      "total_interactions": 9,
+      "invalid_ranges": 0,
+      "details": []
+    },
+    {
+      "test": "API Endpoint Availability",
+      "status": "PASS",
+      "successful_endpoints": 6,
+      "total_endpoints": 6,
+      "details": []
+    },
+    {
+      "test": "API Response Performance",
+      "status": "FAIL",
+      "threshold_ms": 2000,
+      "results": [
+        {
+          "endpoint": "Interaction Metrics",
+          "avg_response_time_ms": 2054.7521114349365,
+          "max_response_time_ms": 2060.720443725586,
+          "min_response_time_ms": 2043.534755706787,
+          "within_threshold": false
+        },
+        {
+          "endpoint": "Conversation List",
+          "avg_response_time_ms": 2081.079387664795,
+          "max_response_time_ms": 2103.456735610962,
+          "min_response_time_ms": 2059.704065322876,
+          "within_threshold": false
+        },
+        {
+          "endpoint": "Chart Data",
+          "avg_response_time_ms": 2060.5725288391113,
+          "max_response_time_ms": 2085.259437561035,
+          "min_response_time_ms": 2044.4080829620361,
+          "within_threshold": false
+        }
+      ]
+    },
+    {
+      "test": "Empty Data Handling",
+      "status": "PASS",
+      "tests": [
+        {
+          "scenario": "Metrics with existing data",
+          "success": true,
+          "has_data": true
+        },
+        {
+          "scenario": "Charts with no data period",
+          "success": true,
+          "empty_response": true
+        }
+      ]
+    },
+    {
+      "test": "Invalid Date Range Handling",
+      "status": "FAIL",
+      "results": [
+        {
+          "scenario": "Invalid start date format",
+          "status_code": 422,
+          "handled_gracefully": false
+        },
+        {
+          "scenario": "End date before start date",
+          "status_code": 400,
+          "handled_gracefully": true
+        },
+        {
+          "scenario": "Empty date parameters",
+          "status_code": 422,
+          "handled_gracefully": false
+        }
+      ]
+    },
+    {
+      "test": "CSI Calculation Consistency",
+      "status": "SKIP",
+      "reason": "No conversations with both daily and interaction analyses found"
+    },
+    {
+      "test": "Interaction Boundary Logic",
+      "status": "FAIL",
+      "total_interactions_tested": 9,
+      "boundary_issues": 9,
+      "details": [
+        {
+          "interaction_id": 1,
+          "issue": "Invalid boundary method",
+          "method": "conversation_end"
+        },
+        {
+          "interaction_id": 2,
+          "issue": "Invalid boundary method",
+          "method": "time_gap_after_closure"
+        },
+        {
+          "interaction_id": 3,
+          "issue": "Invalid boundary method",
+          "method": "conversation_end"
+        }
+      ]
+    },
+    {
+      "test": "Backward Compatibility",
+      "status": "PASS",
+      "original_endpoints_working": 3,
+      "total_endpoints": 3,
+      "failed_endpoints": []
+    }
+  ]
+}

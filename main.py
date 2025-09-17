@@ -18,6 +18,12 @@ from routes.explorer import router as explorer_router
 from routes.api_test import router as api_test_router
 from routes.dev import router as dev_router
 from routes.jobs import router as jobs_router
+
+# Interaction-based analysis routes
+from routes.interaction_metrics import router as interaction_metrics_router
+from routes.interaction_conversations import router as interaction_conversations_router
+from routes.interaction_charts import router as interaction_charts_router
+from routes.interaction_export import router as interaction_export_router
 from database import SessionLocal
 from logging_config import setup_logging
 
@@ -79,6 +85,12 @@ app.include_router(explorer_router, prefix="/api", tags=["explorer"])
 app.include_router(api_test_router, prefix="/api", tags=["api-test"])
 app.include_router(dev_router, prefix="/dev", tags=["development"])
 app.include_router(jobs_router, prefix="/api/jobs", tags=["jobs"])
+
+# Interaction-based analysis routes
+app.include_router(interaction_metrics_router, prefix="/api/interactions/metrics", tags=["interaction-metrics"])
+app.include_router(interaction_conversations_router, prefix="/api/interactions", tags=["interaction-conversations"])
+app.include_router(interaction_charts_router, prefix="/api/interactions/charts", tags=["interaction-charts"])
+app.include_router(interaction_export_router, prefix="/api/interactions/export", tags=["interaction-export"])
 
 @app.get("/")
 async def root():

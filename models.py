@@ -9,6 +9,11 @@ job_daily_analyses = Table('job_daily_analyses', Base.metadata,
     Column('daily_analysis_id', Integer, ForeignKey('daily_analyses.id'), primary_key=True)
 )
 
+job_interaction_analyses = Table('job_interaction_analyses', Base.metadata,
+    Column('job_id', Integer, ForeignKey('jobs.id'), primary_key=True),
+    Column('interaction_analysis_id', Integer, ForeignKey('interaction_analyses.id'), primary_key=True)
+)
+
 class Job(Base):
     __tablename__ = "jobs"
 
@@ -33,6 +38,7 @@ class Job(Base):
     result = Column(JSON, nullable=True)
 
     daily_analyses = relationship("DailyAnalysis", secondary=job_daily_analyses, back_populates="jobs")
+    interaction_analyses = relationship("InteractionAnalysis", secondary=job_interaction_analyses, back_populates="jobs")
     # Relationship to JobMetric entries
     job_metrics = relationship("JobMetric", back_populates="job", cascade="all, delete-orphan")
 
@@ -71,7 +77,7 @@ class JobMetric(Base):
 class Conversation(Base):
     """
     Represents a single customer conversation, storing overall metadata.
-    The detailed, day-by-day analysis is stored in the DailyAnalysis model.
+    The detailed analysis is stored in DailyAnalysis (legacy) and InteractionAnalysis (new) models.
     """
     __tablename__ = "conversations"
     
@@ -81,6 +87,7 @@ class Conversation(Base):
     # Relationships
     messages = relationship("Message", back_populates="conversation", cascade="all, delete-orphan")
     daily_analyses = relationship("DailyAnalysis", back_populates="conversation", cascade="all, delete-orphan")
+    interaction_analyses = relationship("InteractionAnalysis", back_populates="conversation", cascade="all, delete-orphan")
 
     # Overall aggregated metrics
     total_messages = Column(Integer, default=0)
@@ -130,6 +137,71 @@ class DailyAnalysis(Base):
 
     __table_args__ = (
         Index('idx_conversation_date', 'conversation_id', 'analysis_date', unique=True),
+    )
+
+
+class InteractionAnalysis(Base):
+    """
+    Stores CSI analysis for individual customer service interactions within conversations.
+    Unlike DailyAnalysis, this allows multiple interactions per day and tracks interaction boundaries.
+    """
+    __tablename__ = "interaction_analyses"
+
+    id = Column(Integer, primary_key=True, index=True)
+    conversation_id = Column(Integer, ForeignKey("conversations.id"), nullable=False)
+    
+    # Message Range
+    start_message_id = Column(Integer, nullable=False)   # First message in interaction
+    end_message_id = Column(Integer, nullable=False)     # Last message in interaction
+    
+    # Interaction Boundaries
+    interaction_start = Column(DateTime, nullable=False)  # First message timestamp
+    interaction_end = Column(DateTime, nullable=False)    # Last message timestamp  
+    interaction_type = Column(String, nullable=True)     # "outage", "billing", "inquiry", etc.
+    interaction_duration = Column(Float, nullable=True)  # Duration in minutes
+    interaction_complexity = Column(String, nullable=True) # "simple", "moderate", "complex"
+    
+    # Interaction Statistics
+    message_count = Column(Integer, nullable=True)       # Total messages in interaction
+    turns_count = Column(Integer, nullable=True)         # Number of conversation turns
+    
+    # Detection Metadata
+    boundary_method = Column(String, nullable=False)     # "time_gap", "resolution_keywords", "ai_detected"
+    boundary_confidence = Column(Float, nullable=True)   # 0.0-1.0 confidence score
+    
+    # Relationships
+    conversation = relationship("Conversation", back_populates="interaction_analyses")
+    jobs = relationship("Job", secondary=job_interaction_analyses, back_populates="interaction_analyses")
+
+    # --- Micro-Metrics (Identical to DailyAnalysis) ---
+    sentiment_score = Column(Float, nullable=True)        # 0-10 scale
+    sentiment_shift = Column(Float, nullable=True)        # -5 to +5
+    resolution_achieved = Column(Float, nullable=True)    # 0-10 scale
+    fcr_score = Column(Float, nullable=True)             # 0-10 scale
+    ces = Column(Float, nullable=True)                   # 1-7 scale (Customer Effort Score)
+    common_topics = Column(JSON, nullable=True)          # Array of topic strings
+    first_response_time = Column(Float, nullable=True)   # seconds
+    avg_response_time = Column(Float, nullable=True)     # seconds
+    total_handling_time = Column(Float, nullable=True)   # minutes
+
+    # --- Pillar Scores (Calculated from Micro-metrics) ---
+    effectiveness_score = Column(Float, nullable=True)   # 0-10 scale
+    effort_score = Column(Float, nullable=True)         # 0-10 scale
+    efficiency_score = Column(Float, nullable=True)     # 0-10 scale
+    empathy_score = Column(Float, nullable=True)        # 0-10 scale
+
+    # --- Final CSI Score for the Interaction ---
+    csi_score = Column(Float, nullable=True, index=True) # 0-10 scale
+
+    # Metadata
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    
+    # Indexes for performance
+    __table_args__ = (
+        Index('idx_conversation_interaction_start', 'conversation_id', 'interaction_start'),
+        Index('idx_interaction_message_range', 'start_message_id', 'end_message_id'),
+        Index('idx_boundary_method', 'boundary_method'),
     )
 
 

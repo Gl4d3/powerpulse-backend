@@ -1,0 +1,666 @@
+Customer Satisfaction Index (CSI) 
+Framework from Chat Interactions  
+ 
+1. Introduction to CSI  
+The Customer Satisfaction Index (CSI) is a powerful metric designed to measure how well a 
+company meets customer expectations across multiple dimensions of its service. Unlike 
+single -question metrics like the Customer Satisfaction Score (CSAT), the CSI aggregates 
+various attributes into a single, holistic index, typically scored on a 0 -100 scale. This 
+structure makes it an ideal tool for tracking performance tren ds over time and helps 
+discover unseen problems for targeted improvements.  
+This framework empowers leaders to move beyond reactive problem -fixing to 
+proactively driving strategic improvements using data —directly impacting customer 
+loyalty, operational efficiency, and the bottom line.  
+Calculation of CSI in the electricity industry is particularly valuable given this sector's 
+unique challenges: from the urgency of resolving power outages to the complexity of billing 
+queries. As customers increasingly turn to messaging channels for suppor t, traditional 
+post -interaction surveys with their 5 -15% response rates and delayed feedback are no 
+longer sufficient.  
+This framework transforms every customer chat into a strategic data point by leveraging 
+conversational analysis to provide structured, real -time evaluation. It enables utility 
+companies like Kenya Power to pinpoint specific improvement areas, build custome r 
+loyalty, and reduce operational costs from repeat contacts and escalations —turning 
+customer service from a cost center into a competitive advantage.  
+ 
+ 
+ 
+  
+2. Role of AI in Customer Satisfaction  Measurement  
+Beyond Surveys: The AI Advantage  
+Traditional customer satisfaction measurement is fundamentally limited: post -interaction 
+surveys suffer from 5 -15% response rates, delayed feedback, and capture only a fraction 
+of customer experiences. Meanwhile, every customer service chat contains rich 
+satisfaction signals waiting to be unlocked signals that were previously impossible to 
+analyze at scale.  
+This represents a paradigm shift.  Advanced AI systems, particularly large language 
+models (LLMs), offer an unparalleled capability to transform conversational data into 
+strategic insights. This isn't just an improvement over traditional methods —it's a 
+fundamental breakthrough that positio ns organizations at the forefront of customer 
+experience innovation.  
+Why AI for Customer Satisfaction Analysis  
+Generative AI systems like large language models represent a quantum leap in customer 
+experience measurement. LLMs like OpenAI's ChatGPT and Google's Gemini deliver 
+unprecedented diagnostic power through capabilities that were unimaginable just years 
+ago:  
+• Infinite Scale with Consistent Accuracy : Analyze thousands of chat transcripts with 
+unwavering precision, providing comprehensive coverage that manual analysis or surveys 
+could never achieve  
+• Contextual Intelligence : Differentiate nuanced scenarios like "The issue was resolved 
+quickly" versus "The agent said the issue was resolved, but I'm still having problems" —
+understanding meaning beyond keywords  
+• Multilingual Sophistication : Process over 40 languages and cultural expressions of 
+satisfaction or frustration, enabling global consistency in measurement  
+• Pattern Recognition : Detect subtle indicators of customer struggle, hesitation, or 
+satisfaction that human reviewers might miss, uncovering hidden friction points before 
+they escalate  
+AI Implementation in CSI Framework  
+The CSI framework harnesses this cutting -edge AI technology to analyze three critical 
+dimensions from conversation transcripts:  
+• Resolution Assessment : AI conducts semantic analysis to determine actual issue 
+resolution (not just agent claims), providing data for the Effectiveness pillar with 
+unprecedented accuracy  
+• Effort Detection : AI proactively identifies subtle patterns of customer struggle —
+repeated questions, process confusion, or escalating frustration —quantifying effort levels 
+that traditional surveys completely miss  
+• Emotional Intelligence : AI analyzes linguistic patterns, tone shifts, and sentiment 
+evolution throughout interactions, measuring empathy and tracking emotional journeys 
+with sophisticated natural language processing  
+This AI -powered approach doesn't just measure satisfaction —it provides a comprehensive 
+diagnostic engine that transforms every customer interaction into actionable intelligence, 
+giving organizations a truly future -proof customer experience strategy.  
+ 
+ 
+  
+3. The CSI Model Architecture  
+The CSI model is formulated as an index, analyzing and combining insights from chat 
+interactions into a single cohesive score. The model's architecture is built up on four 
+foundational pillars, each representing a critical aspect of the customer experience.  
+ 
+The Four Pillars of  Satisfaction/Customer Experience  
+• Effectiveness (resolution quality) : The quality and success of issue resolution. 
+This pillar answers the question: "Was the customer's issue successfully resolved?"  
+• Effort (customer ease) : The perceived ease of the customer's journey to resolution. 
+This pillar answers the question: "How simple was the process for the customer?"  
+• Empathy (interaction quality) : The quality of the human or emotional connection 
+during the interaction. This pillar answers the question: "What was the emotional 
+tone of the interaction?"  
+• Efficiency (service timeliness) : The timeliness and speed of the service 
+interaction. This pillar answers the question: "How fast and efficient was the 
+service?"  
+ 
+ 
+ 
+
+The CSI Measurement Methods  
+The model is structured hierarchically. The overall CSI  is derived from the four Pillars , and 
+each pillar's score is derived from one or more underlying Micro -Metrics . A key strength of 
+this framework is its intelligent use of technology, applying the right tool for the right job. 
+The Efficiency pillar is calculated with objective mathematics, while the other three more 
+nuanced pillars are measured using Large Language Models  (AI). 
+Pillar  Key Micro -Metrics  Measurement Method  
+Effectiveness  Resolution Achieved, First 
+Contact Resolution  AI-based Inference  (Semantic 
+analysis of chat content)  
+Effort  Customer Effort Score 
+(CES)  AI-based Inference  (Pattern detection 
+and scoring)  
+Empathy  Sentiment Score, 
+Sentiment Shift  AI-based Inference  (Natural 
+Language Processing)  
+Efficiency  First Response Time, Avg. 
+Response Time, Total 
+Handling Time  Objective Calculation  (Mathematical 
+functions on timestamps)  
+ 
+The Weighting Method  and Final Formula  
+A core principle of the model is that not all pillars have the same impact on customer 
+satisfaction. To build an accurate index , each pillar should be weighed based on its proven 
+influence. At the core of the model is a weighted formula  that attaches importance values 
+(weights) to the four identified attributes —Effectiveness, Effort, Empathy, and 
+Efficiency . By weighing  these attributes appropriately, the CSI provides meaningful 
+insights into customer experience, turning raw scores into a strategic manageme nt tool.  
+1. Strategy -Based Weighting : Recommended Approach  
+This is the primary methodology we recommend.  Strategy -based weighting ensures your 
+CSI reflects what matters most to your organization's current priorities, making it a true 
+strategic management tool rather than just a measurement system.  
+The allocation of weights is guided by your company's strategic priorities. Different 
+contexts require different emphases, ensuring the CSI becomes an actionable driver of 
+business results . Below are examples of strategy driven weight sets:  
+1. Regulatory  and Reliability  Compliance Focus  
+a. Effectiveness 50% | Effort 20% | Efficiency 20% | Empathy 10%  
+b. Why:  When regulatory compliance and system reliability are paramount, 
+effectiveness (Resolution Quality) must dominate your measurements. This 
+weighting prioritizes actual problem -solving and technical fixes over softer 
+experience factors, aligning with regulatory KPIs like SAIDI/SAIFI and 
+ensuring uninterrupted supply commitments are met.  
+2. Customer Experience and Loyalty Focus  
+a. Effectiveness 35% | Effort 30% | Empathy 25% | Efficiency 10%  
+b. Why:  When building long -term customer relationships and brand loyalty, the 
+customer's journey matters as much as the outcome. This balance 
+emphasizes making interactions effortless and emotionally positive, 
+supporting contact center training investments and proactive 
+communi cation programs that transform service encounters into loyalty -
+building moments.  
+3. Digital Transformation Focus  
+a. Effectiveness 30% | Efficiency 35% | Effort 20% | Empathy 15%  
+b. Why:  When driving customers toward digital self -service channels and 
+automated solutions, speed and streamlined processes become critical 
+success factors. This weighting rewards efficient digital interactions while 
+maintaining resolution quality and preserving the human touch needed for 
+successful channel migration.  
+4. Operational Efficiency Focus  
+a. Effectiveness 40% | Efficiency 30% | Effort 20% | Empathy 10%  
+b. Why:  When cost reduction and operational optimization are priorities, focus 
+on metrics that directly impact repeat contacts and handling costs. This 
+approach maintains high resolution standards to prevent costly callbacks 
+while rewarding faster processing that improves agent productivity and 
+reduces operational overhead  
+5. Crisis / Outage Recovery Focus  
+a. Effectiveness 45% | Empathy 20% | Efficiency 20% | Effort 15%  
+b. Why:  During major outages or service disruptions, actual problem resolution 
+becomes critical, but customer communication and emotional management 
+strongly influence public perception. This weighting rewards agents who 
+combine effective restoration updates with empathetic communication that 
+de-escalates tension and maintains trust during difficult situations.  
+ 
+Strategy Driven Weight Sets Summary Table  
+Strategy Focus  Effective
+ness  Effort  Empathy  Efficiency  Rationale  Sumamry  
+Regulatory / 
+Reliability  50%  20%  10%  20%  Prioritize resolution 
+and compliance to 
+regulations (SAIDI)  
+Customer 
+Experience / 
+Loyalty  35%  30%  25%  10%  Focus on trust, 
+advocacy, and ease 
+of interactions.  
+Self -Service 
+Acceleration  30%  20%  15%  35%  Emphasize digital 
+efficiency while 
+maintaining quality.  
+Crisis / Outage 
+Recovery  45%  15%  20%  20%  Balance Fast 
+resolution with 
+empathetic 
+communication  
+Short Notes : 
+• Emphasize Effectiveness  when resolution  accuracy and reliability dominate 
+business or regulatory needs.  
+• Elevate Effort  when simplifying customer interactions and reducing repeated 
+contacts is critical.  
+• Increase Empathy  when brand reputation, trust, and advocacy are the company’s 
+priority.  
+• Boost Efficiency  during digital -first initiatives, automation rollouts, or cost -control 
+programs.  
+ 
+2. Variance -Based Weights  from Research Correlation  
+As a valuable alternative when strategic priorities haven't been clearly defined, variance -
+based weights provide a credible starting point grounded in empirical research. This 
+approach uses documented correlations between each pillar and satisfaction outco mes, 
+offering a research -backed baseline that can later evolve into strategy -based weighting . 
+Two complementary methods are combined here:  
+1. Correlation -Derived Baseline:  Uses average correlations of each pillar with 
+satisfaction from CX and utility studies.  
+2. Variance Explained (R² Method):  Squares correlations to better reflect how much 
+variance in satisfaction is explained, spreading the weights more clearly in line with 
+actual impact.  
+Research & Variance -Based Weights  
+Pillar  Avg. 
+Correlation to 
+Satisfactoin (r) Correlation -
+based 
+Weight (r/t) r²  Variance -
+based 
+Weight (%)  
+Effectiveness  9 29%  81 34% 
+Effort  8.1 27%  65.61  28% 
+Empathy  7 23%  49 21% 
+Efficiency  6.5 21%  42.25  18% 
+TOTAL  (t) — 100%  237.86  100%  
+ 
+3. Governance & Closing Considerations  
+• Choice of Strategy:  Selection should be guided by the company’s overarching goal 
+for the quarter or year —regulatory compliance, customer loyalty, cost reduction, or 
+crisis management.  
+• Time Horizon:  Weights should remain stable for a defined period (e.g., one quarter) 
+to allow trend analysis. Frequent shifts risk losing comparability.  
+• Transparency:  Both overall CSI and pillar -level scores should be reported. 
+Changing weights may mask the underlying drivers of improvement or decline.  
+• Review Cycle:  Reassess weights quarterly or following major strategic or 
+operational changes.  
+Summary:  The CSI formula derives its meaning from how weights are assigned. Strategy -
+driven weighting  is a method that helps in  ensuring alignment with business priorities. 
+Research - and variance -based weights  provide a credible baseline option grounded by 
+empirical studies to assign weights . Governance ensures weights are applied 
+transparently and consistently, preserving the CSI as a trusted decision -making tool.  
+  
+4. The Four Pillars of Satisfaction  
+The selection of Effectiveness, Effort, Empathy, and Efficiency is a deliberate, research -
+backed strategy designed specifically for the high -stakes environment of a utility's 
+customer service. Customers often contact their electricity provider during momen ts of 
+frustration —a power outage, a confusing bill, a service disruption . In these moments, a 
+successful interaction is not just about one thing; it's a balance of getting the problem 
+solved ( Effectiveness ), making it easy on the customer ( Effort ), showing you care 
+(Empathy ), and respecting their time ( Efficiency ). 
+Pillar Selection Logic  
+This combination, inspired by McKinsey's four -pillar journeys (focus/effectiveness, 
+simplicity/effort, digital -first/efficiency, perceptions/empathy) and KPMG's six -pillar model 
+(condensed for practicality), ensures comprehensive coverage of CX drivers. The research 
+model prioritizes these pillars based on their proven impact  on satisfaction . 
+ 
+Visual showing pillar impact on satisfaction  
+
+Pillar  Impact on 
+Satisfaction  Rationale  
+Effectiveness  0.8 - 1 Research consistently shows issue resolution as 
+the dominant satisfaction driver. In utilities, where 
+customers often contact during crisis moments, 
+successful problem -solving becomes paramount.  
+Effort  0.7 - 0.92  The second -highest weight reflects the finding that 
+post -resolution process ease is the strongest 
+predictor of customer loyalty and willingness to 
+return.  
+Empathy  0.6 - 0.8 Emotional connection quality serves as a powerful 
+experience enhancer that can transform frustrating 
+situations into positive memories, but secondary to 
+resolution success.  
+Efficiency  0.6 – 0.7 Speed represents a foundational expectation. While 
+poor efficiency damages satisfaction significantly, 
+once "good enough" thresholds are met, additional 
+speed improvements show diminishing returns 
+compared to other pillars.  
+ 
+This hierarchy is validated by influential frameworks like "The Effortless Experience," which 
+proved that loyalty is driven more by low effort and successful resolution than by attempts 
+to "delight" the customer. By adopting this balanced, evidence -based a pproach, we can 
+create a CSI that is not just a number, but a strategic guide for improving customer 
+interactions where they matter most.  
+ 
+Micro Metric s of Satisfaction : (Summarized ) 
+Large language models are often prone to hallucination and “black box solutions” despite 
+the advent of more powerful reasoning models. Hence objectivity and specificity is 
+enforced to help  reduce hallucinations and improve predictabil ity. Think of it as tricking the 
+model to give us answers to specific questions without having it philosophically answer 
+what qualifies as a satisfied customer  each time we send it a message.  
+  
+ 
+To achieve this, we came up with several important micro metrics that will help us 
+objectively answer the score of each pillar for our CSI. Each of the four pillars are broken 
+down into measurable micro metrics inspired by Fornell’s American Customer Satisfaction 
+Index and KPMG pillars of satisfaction:  
+Effectiveness Pillar:  
+• Resolution Achieved : AI scores (0 -10) whether the customer's issue was resolved 
+through semantic analysis of conversation content  
+• First Contact Resolution (FCR) : AI determines (0 -10) if the issue was completely 
+resolved in a single interaction  
+Effort Pillar:  
+• Customer Effort Score : AI infers effort level (1 -7 scale, inverted to 0 -10) by 
+detecting frustration patterns, repeated questions, or process complexity  
+Empathy Pillar:  
+• Sentiment Score : AI rates overall interaction tone (0 -10 scale)  
+• Sentiment Shift : AI tracks emotional change from chat beginning to end ( -5 to +5, 
+scaled to 0 -10) 
+Efficiency Pillar:  
+• First Response Time : Calculated from timestamps, scaled against industry 
+benchmarks (e.g., <1 hour threshold)  
+• Average Response Time : Mathematical average of all agent response times, 
+scaled to 0 -10 
+• Total Handling Time : Complete interaction duration, scaled against optimal 
+thresholds (e.g., <2 hours)  
+  
+5. Literature Review  
+This section details the key research that underpins  the CSI model's structure, pillar 
+weighting, and micro -metrics. The synthesis of these sources confirms that the framework 
+is built upon established, data -driven principles from academia and industry leaders.  
+ 
+Foundational Framework Re search  
+The multi -attribute satisfaction index concept originates from  Claes Fornell's  work on the 
+American Customer Satisfaction Index (ACSI). In his seminal paper, "The American 
+Customer Satisfaction Index: Nature, Purpose, and Findings" (Journal of Marketing, 1996), 
+he details how attributes like perceived quality (our Effectiveness ) and perceived value 
+(related to Effort ) can explain 20 -40% of the variance in customer satisfaction in the 
+utilities sector. This research provides t he core validation for weighting pillars based on 
+their proven impact.  
+This principle is further supported by KPMG's  "Customer Experience Excellence" report 
+(2023), which analyzed 3 million customer evaluations to identify pillars like Resolution 
+(Effectiveness ), Time & Effort ( Efficiency/Effort ), and Empathy , linking strong 
+performance in these areas to a 15 -20% increase in customer loyalty. Similarly, research 
+from McKinsey & Company  on customer journeys emphasizes simplicity ( Effort ) and 
+timeliness ( Efficiency ) as key drivers, showing that companies excelling in a balanced set 
+of pillars achieve 20 -30% higher satisfaction scores.  
+ 
+The four pillars and their correlation to s atisf action : Extended Research  
+The specific micro -metrics and their direct influence on satisfaction are grounded in 
+extensive operational studies:  
+• Effectiveness (Correlation: 0.8 –1.0):  SQM Group 's comprehensive guide on First 
+Contact Resolution (FCR) (2025), based on millions of call center interactions, 
+reports a near 1:1 relationship between FCR and CSAT. This finding is the primary 
+justification for assigning Effectiveness the highest weight in our model. Their 
+research also shows that high FCR rates reduce repeat customer contacts by up to 
+30% in the utilities industry. ICMI (2018)  corroborates this, finding that successful 
+FCR boosts CSAT by 15 -20%.  
+ 
+• Effort (Correlation: 0.7 –0.92): The importance of this pillar is most famously 
+articulated in Matthew Dixon et al .'s book, "The Effortless Experience" (2013). 
+Based on data from 97,000 customer surveys, they found that low -effort 
+interactions result in a 94% likelihood of repeat business, making the Customer 
+Effort Score (CES) a stronger predictor of loyalty than CSAT. Research from 
+Qualtrics (2023) further vali dates CES as a key metric in modern service contexts.  
+This supports our 27% weighting for the Eff ort pillar.  
+ 
+• Efficiency (Correlation: 0.6 –0.7): Industry reports on digital customer service 
+provide clear benchmarks. Gorgias's analysis of live chat metrics (2023) shows that 
+response times have a 0.6 -0.7 correlation to CSAT, with satisfaction dropping by 
+15% when response times exceed established thresholds (e.g., one hour). For 
+utilities specifically, J.D. Power's "2024 U.S. Electric Utility Business Customer 
+Satisfaction Study" directly links faster handling times to higher satisfaction 
+scores (784/1000) , validating our 21% efficiency weighting.  
+ 
+• Empathy ( orrelation: 0.6 –0.8): The role of sentiment is quantified in academic 
+research leveraging machine learning. A study by Yi -Hsiang Hsieh et al. in "Expert 
+Systems with Applications" (2022) used deep learning and NLP to analyze 
+customer reviews, finding a 0.6 -0.8 correlation between positive sentiment and 
+satisfaction. This is supported by industry sources like Sprout Social , which report 
+that positive shifts in sentiment during a support chat can increase customer 
+advocacy by 10 -20% , confirming the measurability and importance of our 23% 
+empathy weighting.  
+ 
+Micro -Metrics used to calculate  each Pillar  
+Each pillar is built from micro -metrics, hierarchically aggregated for precision. Below, we 
+describe each micro's calculation, correlation to satisfaction, and grounding in research.  
+• Resolution Achieved (Effectiveness) : LLM scores (0 -10) if issue resolved via 
+semantic analysis; correlates 0.8 -1.0 to CSAT (SQM Group, 2025: 1:1 link with 
+resolution boosting satisfaction 15 -20%).  
+• First Contact Resolution (FCR, Effectiveness) : LLM binary check (0 -10 if one -
+interaction fix); 0.8 -1.0 correlation (ICMI, 2018: High FCR reduces repeats 30%, 
+uplifts CSAT 15 -20%).  
+• Customer Effort Score (CES, Effort) : LLM inference (1 -7, inverted to 0 -10) from 
+patterns; 0.7 -0.92 correlation to loyalty (Dixon et al., 2013: Low CES predicts 94% 
+retention).  Furthermore, LLM detects query repetitions or loops (scored 0 -10) 
+correlating 0.7 to churn reduction (Qualtrics, 2023: Repeat queries drop 
+satisfaction 20%).  
+• Sentiment Score (Empathy) : LLM tone rating (0 -10); 0.6 -0.8 correlation (Hsieh et 
+al., 2022: NLP sentiment predicts satisfaction 70%+ accuracy).  
+• Sentiment Shift (Empathy) : LLM change detection ( -5 to +5, scaled 0 -10); 0.6 -0.8 
+correlation (Sprout Social, 2023: Positive shifts boost advocacy 10 -20%).  
+• First Response Time (Efficiency) : Timestamp calc (inverted 0 -10, <1 hour 
+threshold); 0.6 correlation (Gorgias, 2023: <1 min boosts CSAT 10 -15%).  
+• Avg. Response Time (Efficiency) : Timestamp average (inverted 0 -10, <30 min 
+threshold); 0.6 -0.7 correlation (SQM Group, 2025: <30 min reduces repeats 20%).  
+• Total Handling Time (Efficiency) : Total duration (inverted 0 -10, <2 hours 
+threshold); 0.65 correlation (J.D. Power, 2024: <30 min links to 784/1000 scores).  
+This hierarchical setup, from micros to pillars to CSI, draws from MUSA methodology in 
+Drosos et al. (2020), achieving 85% accuracy in energy satisfaction prediction.  
+ 
+Utilities -Specific Application  
+Direct secto r validation  comes from Dimitris Drosos et al.'s study, "Evaluating Customer 
+Satisfaction in Energy Markets" (Sustainability, 2020), which applied a multi -criteria 
+analysis to the Greek electricity market, producing a CSI of 52.15% finding resolution and 
+effort as primary satisfaction drivers . This aligns perfectly with our model's  top weighting. 
+Furthermore, a 2012 study in Energy Policy on "Consumers Satisfaction in the Energy 
+Sector in Kenya" reported a low satisfaction score of 53.06% for electricity, recommending 
+a focus on r eliability  factors that map directly to our Effectiveness and Efficiency pillars . 
+ 
+  
+6. Case Study : Testing the Method  
+ 
+This chapter moves beyond the theoretical architecture of the Customer Satisfaction Index 
+(CSI) to demonstrate its tangible, operational value. The following case studies are not 
+merely validations of the AI engine's accuracy; they are practical demonstrat ions of the 
+framework as an actionable diagnostic tool . 
+The true power of this framework lies in its ability to tell a story —to connect a specific set 
+of scores to a root cause and, most importantly, to a clear, strategic course of action. Each 
+case study follows a "Data -> Diagnosis -> Action" narrative, showi ng how this framework 
+transforms raw conversational data into a roadmap for operational improvement, agent 
+training, and strategic decision -making.  
+Considerations:  
+1. All calculations of the CSI score in this section were performed using the weights 
+highlighted in chapter 3:  
+Pillar  Micro -Metrics  Avg. impact on 
+satisfaction  Weight  
+Effectiveness  Resolution Achieved, First 
+Contact Resolution  9 29%  
+Effort  Customer Effort Score 
+(CES)  8.1 27%  
+Empathy  Sentiment Score, 
+Sentiment Shift  7 23%  
+Efficiency  First Response Time, Avg. 
+Response Time, Total 
+Handling Time  6.5 21%  
+ 
+2. All case studies will include  the raw results returned by the large language model 
+(Gemini 2.5 Flash Lite) from analyzing conversations between customer service 
+agents and clients ’ Facebook  accounts  to show real world framework 
+implementation.  
+6.2. Case Study: The "Happy Path" - Textbook Efficiency  
+This case study analyzes a short, transactional interaction that represents an ideal, low -
+effort customer experience.  
+Conversation Analysis: Bonny Mweri (ID: 677a0a194e12eb106917ff7b)  
+Conversation Transcript  
+• 2025 -08-17T10:17:30.000Z  - Customer:  Morning, I'm requesting my token 
+numbers I've payed 50 but ive not received the token numbers yet. Token meter 
+92111437304  
+• 2025 -08-17T10:20:20.000Z  - Customer:  Can you please send me via sms the 
+token numbers  
+• 2025 -08-17T10:22:22.000Z  - Kenya Power Agent:  Hello, Delay regretted Token: 
+5738 -6106 -8347 -9095 -8982 Please note that you can check your tokens proactively 
+by dialing *977# on your phone or using My Power app  
+• 2025 -08-17T10:26:12.000Z  - Customer:  Thank you  
+• 2025 -08-17T10:35:31.000Z  - Kenya Power Agent:  You are welcome.  
+CSI Metrics Analysis  
+Raw Micro -Metrics:  
+• Resolution Achieved: 10.0/10  
+• First Contact Resolution: 10.0/10  
+• Customer Effort Score: 7.0/7 (10.0/10)  
+• Sentiment Score: 8.5/10  
+• Sentiment Shift: +2.5 (7.5/10 scaled)  
+• First Response Time: ~5 minutes (9.0/10)  
+• Average Response Time: ~7 minutes (8.5/10)  
+• Total Handling Time: ~18 minutes (8.0/10)  
+Synthesized Pillar Scores:  
+• Effectiveness: 10.0/10  (Perfect resolution on first contact)  
+• Effort: 10.0/10  (Minimal customer work required)  
+• Empathy: 8.0/10  (Professional, courteous interaction)  
+• Efficiency: 8.5/10  (Quick responses, reasonable total time)  
+Final CSI Score: 9.1/10  
+Diagnostic Analysis  
+The combination of perfect Effectiveness and Effort scores reveals an interaction that 
+exemplifies best practices. The customer made a simple request, received an immediate 
+solution, and was provided with proactive information for future self -service. The positive 
+sentiment shift confirms emotional satisfaction alongside problem resolution.  
+Strategic Action & Root Cause  
+• Root Cause:  Well -trained agent with immediate access to customer account 
+information and token generation capability  
+• Action:  Archive this interaction as a training exemplar. The agent's approach —
+acknowledging the delay, providing the solution immediately, and offering self -
+service options —should be embedded in standard operating procedures for token 
+requests.  
+ 
+6.3. Case Study: The "Cutoff" - Complete Service Breakdown  
+This case demonstrates the framework's ability to identify total service failures where 
+customer queries receive no response.  
+Conversation Analysis: Vicky Victor (ID: 6308ed87f44efb75dc308d87)  
+Conversation Transcript  
+• 2025 -08-22T18:18:23.000Z  - Customer:  THM9H97Z8D Confirmed. Ksh30.00 
+sent to KPLC PREPAID for account 37163118765 on 22/8/25 at 6:07 PM New M -
+PESA balance is Ksh0.00. Transaction cost, Ksh0.00.Amount you can transact 
+within the day is 499,518.00. Save frequent paybills for quick payment on M -PESA 
+app https://bit.ly/mpesalnk  
+• 2025 -08-22T18:18:37.000Z  - Customer:  Why am I not getting my tokens  
+CSI Metrics Analysis  
+Raw Micro -Metrics:  
+• Resolution Achieved: 0.0/10  
+• First Contact Resolution: 0.0/10  
+• Customer Effort Score: 3.0/7 (4.3/10)  
+• Sentiment Score: 3.0/10  
+• Sentiment Shift: 0.0 (5.0/10 scaled)  
+• First Response Time: No response (0.0/10)  
+• Average Response Time: No response (0.0/10)  
+• Total Handling Time: Incomplete (0.0/10)  
+Synthesized Pillar Scores:  
+• Effectiveness: 0.0/10  (No resolution attempted)  
+• Effort: 4.3/10  (Customer left stranded after payment)  
+• Empathy: 4.0/10  (No emotional acknowledgment)  
+• Efficiency: 0.0/10  (Complete response failure)  
+Final CSI Score: 1.8/10  
+Diagnostic Analysis  
+This represents a catastrophic service failure. The customer provided payment proof and 
+asked a legitimate question but received complete silence. The low Effort score correctly 
+identifies that being ignored after making a payment constitutes maximum custo mer 
+frustration.  
+Strategic Action & Root Cause  
+• Root Cause:  Chat routing failure, agent unavailability, or missed notification during 
+evening hours  
+• Immediate Action:  Implement automated escalation for any customer query that 
+remains unanswered for more than 30 minutes  
+• Strategic Action:  Audit chat routing system and establish mandatory response 
+time SLAs with supervisor alerts for breaches  
+ 
+6.4. Case Study: The "Complex Troubleshooting" - High Effort, Low 
+Resolution  
+This case illustrates how the framework measures customer effort through process 
+complexity, even when tone remains neutral.  
+Conversation Analysis: Dennis Tanui (ID: 62b3f4ae4588d233cf10a59e)  
+Conversation Transcript  (Single day: 2025 -08-19) 
+• 2025 -08-19T05:51:55.000Z  - Kenya Power Agent:  Good Morning. What error do 
+you get when you try to load tokens?  
+• 2025 -08-19T07:14:46.000Z  - Customer:  It reads,'Reject'  
+• 2025 -08-19T07:43:40.000Z  - Kenya Power Agent:  Kindly ensure the CIU is 
+connected to the wall socket and that it is on. Press 009, then provide feedback.  
+• 2025 -08-19T09:28:48.000Z  - Customer:  0.00  
+• 2025 -08-19T09:33:22.000Z  - Customer:  It reads 0.00  
+• 2025 -08-19T14:14:51.000Z  - Kenya Power Agent:  Please connect the CIU to the 
+wall socket in your house (preferably the cooker socket, if any), make sure the 
+batteries are in place and the socket is switched on then you can try loading the 
+token. The batteries should be Duracell or energizer.  
+• 2025 -08-19T14:39:41.000Z  - Customer:  No positive response  
+• 2025 -08-19T19:04:48.000Z  - Kenya Power Agent:  Noted, Tanui. Kindly confirm 
+whether there is power at the premises, then press 001 followed by Enter on your 
+meter, and share the details displayed.  
+• 2025 -08-19T21:29:46.000Z  - Customer:  Power is there but when 001is 
+pressed,it reads 0.00  
+CSI Metrics Analysis  
+Raw Micro -Metrics:  
+• Resolution Achieved: 1.0/10  
+• First Contact Resolution: 0.0/10  
+• Customer Effort Score: 2.0/7 (2.9/10)  
+• Sentiment Score: 4.5/10  
+• Sentiment Shift: 0.0 (5.0/10 scaled)  
+• First Response Time: N/A (continuing conversation)  
+• Average Response Time: ~4.5 hours (2.0/10)  
+• Total Handling Time: ~15.5 hours (1.0/10)  
+Synthesized Pillar Scores:  
+• Effectiveness: 0.5/10  (Issue remains unresolved after full day)  
+• Effort: 2.9/10  (Multiple technical steps, long waits between responses)  
+• Empathy: 4.8/10  (Professional but clinical interaction)  
+• Efficiency: 1.5/10  (Extremely long response times)  
+Final CSI Score: 2.1/10  
+Diagnostic Analysis  
+Despite the customer's patience and neutral tone, this interaction reveals a broken 
+troubleshooting process. The customer was required to perform multiple technical tasks 
+over 15+ hours without resolution. The framework correctly identifies this as high ef fort 
+regardless of emotional expression.  
+Strategic Action & Root Cause  
+• Root Cause:  Ineffective troubleshooting script for "Reject" error code places 
+excessive burden on customer  
+• Process Action:  Redesign troubleshooting workflow to escalate to field technician 
+after two failed attempts rather than continuing customer -performed diagnostics  
+• Training Action:  Empower agents to schedule technician visits proactively for 
+complex meter issues  
+ 
+6.5. Case Study: The "Informational Resolution" - Correct Answer, Poor 
+Journey  
+This case tests the AI's ability to recognize that providing accurate information (even 
+unwelcome news) constitutes successful resolution, while still penalizing poor process 
+execution.  
+Conversation Analysis: Christa Bellah Omwene (ID: 
+66f3dc03c10160cf95be2e71)  
+Conversation Transcript  
+• 2025 -08-18T11:44:12.000Z  - Customer:  Hello  
+• 2025 -08-18T11:45:02.000Z  - Customer:  Can't get the tokens  
+• 2025 -08-18T11:46:15.000Z  - Customer:  Why  
+• 2025 -08-18T11:46:53.000Z  - Customer:  14466777951  
+• 2025 -08-18T12:14:28.000Z  - Customer:  Hi 
+• 2025 -08-18T12:15:04.000Z  - Kenya Power Agent:  Hello, your token message 
+has been resent. You can also use *977# or my power app to get your last three 
+token purchases.  
+• 2025 -08-18T12:15:26.000Z  - Customer:  14466777951  
+• 2025 -08-18T12:16:23.000Z  - Customer:  14466777951  
+• 2025 -08-18T12:16:28.000Z  - Customer:  14466777951  
+• 2025 -08-18T12:16:34.000Z  - Customer:  14466777951  
+• 2025 -08-18T12:23:38.000Z  - Customer:  Hi 
+• 2025 -08-18T12:23:45.000Z  - Customer:  14466777951  
+• 2025 -08-18T12:38:18.000Z  - Kenya Power Agent:  Hello, your meter has an 
+outstanding debt of KSh 20,046.00. 100% of each token purchase will be used to 
+repay the debt.  
+• 2025 -08-18T12:38:46.000Z  - Customer:  14466777951  
+CSI Metrics Analysis  
+Raw Micro -Metrics:  
+• Resolution Achieved: 8.0/10  
+• First Contact Resolution: 10.0/10 (correct information ultimately provided)  
+• Customer Effort Score: 3.0/7 (4.3/10)  
+• Sentiment Score: 3.5/10  
+• Sentiment Shift: 0.0 (5.0/10 scaled)  
+• First Response Time: ~30 minutes (6.0/10)  
+• Average Response Time: ~23 minutes (6.5/10)  
+• Total Handling Time: ~54 minutes (6.0/10)  
+Synthesized Pillar Scores:  
+• Effectiveness: 9.0/10  (Accurate explanation provided)  
+• Effort: 4.3/10  (Customer repeated meter number 8 times)  
+• Empathy: 4.3/10  (Minimal acknowledgment of frustration)  
+• Efficiency: 6.2/10  (Reasonable response times)  
+Final CSI Score: 6.2/10  
+Diagnostic Analysis  
+This interaction demonstrates the framework's sophistication: it rewards the agent for 
+ultimately providing the correct, complete answer about the debt situation while 
+penalizing the poor journey that required eight repetitions of the meter number and an 
+initially incorrect response.  
+Strategic Action & Root Cause  
+• Root Cause:  Agent provided generic response without checking account status 
+first, forcing customer into repetitive loop  
+• System Action:  Implement automatic account status display when customer 
+provides meter number to prevent generic responses  
+• Training Action:  Coach agents to verify account information before offering 
+standard solutions like "token resent"  
+ 
+  
+7. Conclusion  
+The four -pillar CSI model provides a robust, data -driven, and transparent framework for 
+measuring and improving customer satisfaction. By grounding its structure in proven CX 
+principles and using a clear, evidence -based methodology for its calculations, it offers a 
+reliable starting point for turning conversational data into strategic insights.  
+However, a truly effective measurement system must also be designed to evolve. We have 
+identified several avenues for future enhancements to ensure the model remains relevant 
+and increasingly accurate over time:  
+• Model flexibility: Implementing the spirit of CSI which entails getting insights from 
+attributes that matter is at the core of this implementation. After collecting enough 
+data and holding discussions with each other, we can redefine the metrics and 
+weights of this score to bring more meaningful results.  
+• Future Metrics:  As the model matures, we can explore incorporating more metrics 
+as needed by the clients. For example, a future  "Personalization"  micro -metric. 
+This would measure how well service is tailored to individual customer histories and 
+needs, adding another layer of sophistication to the Empathy  pillar.  
+By embracing this approach of continuous improvement, this CSI framework is not just a 
+static report, but a living tool designed for long -term strategic value.  
+  
+8. References  
+• Dixon, M., Toman, N., & DeLisi, R. (2013). The Effortless Experience: Conquering the 
+New Battleground for Customer Loyalty. Portfolio/Penguin. (ISBN: 1591845815)  
+• Drosos, D., Kyriakopoulos, G.L., Arabatzis, G., & Tsotsolas, N. (2020). Evaluating 
+Customer Satisfaction in Energy Markets Using a Multicriteria Method. 
+Sustainability. (DOI: 10.3390/su12093862)  
+• Fornell, C., Johnson, M.D., Anderson, E.W., Cha, J., & Bryant, B.E. (1996). The 
+American Customer Satisfaction Index: Nature, Purpose, and Findings. Journal of 
+Marketing. (DOI: 10.1177/002224299606000403)  
+• Hsieh, Y. -H., et al. (2022). Understanding customer satisfaction via deep learning 
+and natural language processing. Expert Systems with Applications. (DOI: 
+10.1016/j.eswa.2022.118370)  
+• J.D. Power. (2024). 2024 U.S. Electric Utility Business Customer Satisfaction Study. 
+Available at jdpower.com.  
+• KPMG. (2023). Customer Experience Excellence: The Six Pillars. Available at 
+kpmg.com/cee. · SQM Group. (2025). First Call Resolution (FCR): A Comprehensive 
+Guide. Available at sqmgroup.com.  
+ 
+ 
+ 

@@ -1,0 +1,148 @@
+{
+  "conversations": [
+    {
+      "fb_chat_id": "6173bd7d248150e3a44a2f21",
+      "customer_name": "Daniel Wa Gas", 
+      "messages": [
+        {
+          "id": 1,
+          "message_content": "Hello",
+          "social_create_time": "2025-08-18T10:55:25.000Z",
+          "direction": "to_company"
+        },
+        {
+          "id": 2, 
+          "message_content": "Good morning, apologies. We have recorded the complaint under reference number 13459714, and our team will attend.\nAnswered by: FW",
+          "social_create_time": "2025-08-18T10:55:38.000Z",
+          "direction": "to_client",
+          "agent_info": {
+            "agent_username": "KPL21086",
+            "agent_email": "faithwayuamwongela@kplc.co.ke", 
+            "agent_firstname": "Faith",
+            "agent_lastname": "Mwongela"
+          }
+        },
+        {
+          "id": 3,
+          "message_content": "Not yet sorted",
+          "social_create_time": "2025-08-18T10:55:45.000Z",
+          "direction": "to_company"
+        },
+        {
+          "id": 4,
+          "message_content": "We're still in darkness", 
+          "social_create_time": "2025-08-18T10:55:54.000Z",
+          "direction": "to_company"
+        },
+        {
+          "id": 5,
+          "message_content": "We regret the inconvenience, we have alerted our technicians to assist you. We are following up with them for a quick assistance.",
+          "social_create_time": "2025-08-19T15:30:22.000Z",
+          "direction": "to_client",
+          "agent_info": {
+            "agent_username": "KPL21086",
+            "agent_email": "faithwayuamwongela@kplc.co.ke",
+            "agent_firstname": "Faith", 
+            "agent_lastname": "Mwongela"
+          }
+        },
+        {
+          "id": 6,
+          "message_content": "Power back on now, thanks for your help",
+          "social_create_time": "2025-08-20T08:15:10.000Z", 
+          "direction": "to_company"
+        }
+      ]
+    },
+    {
+      "fb_chat_id": "6173bde5a91c73792bb40861",
+      "customer_name": "Julius Willis Okoth Muma",
+      "messages": [
+        {
+          "id": 7,
+          "message_content": "Hi team kenya power,\nThere has been a power outage in Ndori, Rarieda sub county. Account number 33586587 Contact 0721807306",
+          "social_create_time": "2025-08-19T20:01:12.000Z",
+          "direction": "to_company"
+        },
+        {
+          "id": 8,
+          "message_content": "Hello. Apologies for delayed response. We regret the inconvenience we have already alerted our technicians to assist you we are following up with them for a quick assistance.",
+          "social_create_time": "2025-08-19T22:27:43.000Z",
+          "direction": "to_client",
+          "agent_info": {
+            "agent_username": "KPL21151",
+            "agent_email": "GrinlingMaganaOdhiambo@kplc.co.ke",
+            "agent_firstname": "Grinling",
+            "agent_lastname": "Magana"
+          }
+        },
+        {
+          "id": 9,
+          "message_content": "Hi team kenya power,\nThere has been a power outage in Ndori, Rarieda sub county. Account number 33586587 Contact 0721807306",
+          "social_create_time": "2025-08-20T18:37:17.000Z",
+          "direction": "to_company"
+        },
+        {
+          "id": 10,
+          "message_content": "Your complaint has been recorded under reference number 13492165. Our technical team is working to resolve this issue promptly.",
+          "social_create_time": "2025-08-20T19:45:33.000Z", 
+          "direction": "to_client",
+          "agent_info": {
+            "agent_username": "KPL21151",
+            "agent_email": "GrinlingMaganaOdhiambo@kplc.co.ke",
+            "agent_firstname": "Grinling",
+            "agent_lastname": "Magana"
+          }
+        }
+      ]
+    },
+    {
+      "fb_chat_id": "6173bdf2c5e4a8b9f2c30972",
+      "customer_name": "Sarah Kimani",
+      "messages": [
+        {
+          "id": 11,
+          "message_content": "Good morning. My prepaid token is not working. Meter number 47829364",
+          "social_create_time": "2025-08-21T09:15:00.000Z",
+          "direction": "to_company"
+        },
+        {
+          "id": 12,
+          "message_content": "Good morning Sarah. We apologize for the inconvenience. Please provide us with your token number so we can assist you.",
+          "social_create_time": "2025-08-21T09:22:15.000Z", 
+          "direction": "to_client",
+          "agent_info": {
+            "agent_username": "KPL21201",
+            "agent_email": "johnkamau@kplc.co.ke",
+            "agent_firstname": "John",
+            "agent_lastname": "Kamau"
+          }
+        },
+        {
+          "id": 13,
+          "message_content": "Token number: 2847-5019-3827-4562-1098",
+          "social_create_time": "2025-08-21T09:25:30.000Z",
+          "direction": "to_company"
+        },
+        {
+          "id": 14,
+          "message_content": "Thank you. The token is valid and should work. Please try entering it again on your meter. If it still doesn't work, there might be a meter issue and we will send a technician.",
+          "social_create_time": "2025-08-21T09:32:45.000Z",
+          "direction": "to_client",
+          "agent_info": {
+            "agent_username": "KPL21201", 
+            "agent_email": "johnkamau@kplc.co.ke",
+            "agent_firstname": "John",
+            "agent_lastname": "Kamau"
+          }
+        },
+        {
+          "id": 15,
+          "message_content": "It worked! Thank you so much for your help",
+          "social_create_time": "2025-08-21T09:35:10.000Z",
+          "direction": "to_company"
+        }
+      ]
+    }
+  ]
+}

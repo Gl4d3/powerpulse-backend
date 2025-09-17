@@ -272,3 +272,121 @@ class JobRetryResponse(BaseModel):
     job_id: int
     new_status: str
     message: str
+
+# Interaction-based analysis schemas
+class InteractionAnalysisResponse(BaseModel):
+    """Response schema for individual interaction analysis results."""
+    interaction_id: int
+    conversation_id: str
+    customer_name: Optional[str] = None
+    interaction_start: datetime
+    interaction_end: datetime
+    csi_score: Optional[float] = None
+    effectiveness_score: Optional[float] = None
+    efficiency_score: Optional[float] = None
+    effort_score: Optional[float] = None
+    empathy_score: Optional[float] = None
+    
+    # Interaction-specific metrics
+    interaction_type: Optional[str] = None
+    interaction_complexity: Optional[str] = None
+    interaction_duration: Optional[float] = None  # in minutes
+    message_count: Optional[int] = None
+    turns_count: Optional[int] = None
+    
+    # Detailed micro-metrics
+    sentiment_score: Optional[float] = None
+    sentiment_shift: Optional[float] = None
+    resolution_achieved: Optional[float] = None
+    fcr_score: Optional[float] = None
+    ces: Optional[float] = None
+    first_response_time: Optional[float] = None
+    avg_response_time: Optional[float] = None
+    total_handling_time: Optional[float] = None
+    
+    # Context
+    common_topics: Optional[List[str]] = None
+    agents: List[Dict[str, Any]] = []
+    
+    class Config:
+        from_attributes = True
+
+class InteractionMetricsResponse(BaseModel):
+    """
+    Response model for interaction-based CSI metrics, mirroring CSIMetricsResponse
+    but with interaction-specific aggregations.
+    """
+    # CSI and pillars (0-100 scale for frontend)
+    csi: float
+    resolution_quality: float  # effectiveness_score * 10
+    service_timeliness: float  # efficiency_score * 10
+    customer_ease: float       # effort_score * 10
+    interaction_quality: float # empathy_score * 10
+    
+    # Micro-metrics used to calculate the pillars
+    sentiment_score: float           # Average sentiment score
+    sentiment_shift: float           # Average sentiment shift
+    resolution_achieved: float       # Average resolution achieved score
+    fcr_score: float                # Average first call resolution score
+    ces: float                      # Average customer effort score
+    first_response_time: float      # Average first response time (seconds)
+    avg_response_time: float        # Average response time (seconds)
+    total_handling_time: float      # Average total handling time (minutes)
+    
+    # Interaction-specific aggregations
+    avg_interaction_duration: float  # Average interaction duration (minutes)
+    avg_message_count: float        # Average messages per interaction
+    avg_turns_count: float          # Average turns per interaction
+    
+    # Sample and metadata
+    sample_count: int
+    interaction_count: int          # Total interactions analyzed
+    
+    # Deltas and metadata
+    deltas: Optional[Dict[str, float]] = None
+    pillar_weights: Dict[str, float]
+    
+    # Interaction distribution
+    interaction_complexity_distribution: Optional[Dict[str, int]] = None
+
+class InteractionHistoricalMetricsResponse(BaseModel):
+    """Container for a list of interaction metrics over a date range."""
+    data: List[InteractionAnalysisResponse]
+
+class InteractionConversationResponse(BaseModel):
+    """
+    Response model for conversations with interaction-based aggregations.
+    """
+    chat_id: str
+    username: Optional[str] = None
+    
+    # Interaction-aggregated scores
+    avg_csi_score: Optional[float] = None
+    avg_effectiveness_score: Optional[float] = None
+    avg_efficiency_score: Optional[float] = None
+    avg_effort_score: Optional[float] = None
+    avg_empathy_score: Optional[float] = None
+    
+    # Interaction statistics
+    total_interactions: int
+    avg_interaction_duration: Optional[float] = None
+    most_common_interaction_type: Optional[str] = None
+    complexity_distribution: Optional[Dict[str, int]] = None
+    
+    # Conversation metadata (unchanged)
+    topics: List[str] = []
+    agents: List[Dict[str, Any]] = []
+    created_at: Optional[datetime] = None
+    total_messages: Optional[int] = None
+    customer_messages: Optional[int] = None
+    agent_messages: Optional[int] = None
+    first_message_time: Optional[datetime] = None
+    last_message_time: Optional[datetime] = None
+
+class InteractionConversationListResponse(BaseModel):
+    """Paginated response for interaction-based conversation list."""
+    conversations: List[InteractionConversationResponse]
+    total: int
+    page: int
+    page_size: int
+    total_pages: int

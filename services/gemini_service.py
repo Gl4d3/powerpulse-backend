@@ -282,11 +282,339 @@ class GeminiService:
             logger.warning(f"Gemini call failed (attempt {attempt + 1}), retrying in {wait_time}s: {error}")
             await asyncio.sleep(wait_time)
 
-    
+    def _clean_json_response(self, response_text: str) -> str:
+        """Clean and extract JSON from AI response text."""
+        # Remove markdown code blocks if present
+        if '```json' in response_text:
+            start = response_text.find('```json') + 7
+            end = response_text.find('```', start)
+            if end != -1:
+                response_text = response_text[start:end]
+        elif '```' in response_text:
+            start = response_text.find('```') + 3
+            end = response_text.find('```', start)
+            if end != -1:
+                response_text = response_text[start:end]
+        
+        # Find JSON object boundaries
+        response_text = response_text.strip()
+        
+        # Try to extract JSON object
+        start_idx = response_text.find('{')
+        if start_idx != -1:
+            # Find matching closing brace
+            brace_count = 0
+            end_idx = start_idx
+            for i, char in enumerate(response_text[start_idx:], start_idx):
+                if char == '{':
+                    brace_count += 1
+                elif char == '}':
+                    brace_count -= 1
+                    if brace_count == 0:
+                        end_idx = i + 1
+                        break
+            
+            if brace_count == 0:
+                response_text = response_text[start_idx:end_idx]
+        
+        return response_text
 
+    async def enhance_interaction_boundaries(self, conversation, rule_boundaries: List) -> List[Dict[str, Any]]:
+        """
+        AI enhancement of rule-based interaction boundaries.
+        Reviews existing boundaries and suggests improvements: merge, split, add, remove.
+        
+        Args:
+            conversation: Conversation object with messages
+            rule_boundaries: List of InteractionBoundary objects from rule-based detection
+            
+        Returns:
+            List of boundary enhancement suggestions
+        """
+        if not rule_boundaries or not conversation.messages:
+            logger.info("No boundaries or messages to enhance")
+            return []
+        
+        try:
+            # Create boundary enhancement prompt
+            prompt = self._create_boundary_enhancement_prompt(conversation, rule_boundaries)
+            
+            # Call Gemini AI
+            response_text, usage_metadata = await self._call_gemini_with_retry(prompt)
+            
+            # Parse enhancement suggestions
+            enhancements = self._parse_boundary_enhancements(response_text)
+            
+            logger.info(f"AI boundary enhancement completed: {len(enhancements)} suggestions, tokens: {usage_metadata}")
+            return enhancements
+            
+        except Exception as e:
+            logger.error(f"AI boundary enhancement failed: {e}")
+            return []  # Graceful fallback - no enhancements
     
+    def _create_boundary_enhancement_prompt(self, conversation, rule_boundaries: List) -> str:
+        """Create AI prompt for boundary enhancement review."""
+        
+        # Format conversation messages
+        messages_text = []
+        for i, msg in enumerate(conversation.messages):
+            direction = "Customer" if msg.direction == 'to_company' else "Agent"
+            timestamp = msg.social_create_time.strftime("%Y-%m-%d %H:%M")
+            messages_text.append(f"[{i}] {timestamp} {direction}: {msg.message_content}")
+        
+        formatted_messages = "\n".join(messages_text)
+        
+        # Format current rule-based boundaries
+        boundaries_info = []
+        for i, boundary in enumerate(rule_boundaries):
+            if boundary.method.value in ['conversation_start', 'conversation_end']:
+                continue  # Skip structural boundaries
+            boundaries_info.append({
+                "boundary_id": i,
+                "message_index": boundary.message_index,
+                "detection_method": boundary.method.value,
+                "confidence": boundary.confidence,
+                "reason": boundary.reason
+            })
+        
+        boundaries_json = json.dumps(boundaries_info, indent=2)
+        
+        prompt = f"""
+You are an expert customer service interaction analyst. Review these rule-based interaction boundaries and suggest improvements for better customer service interaction detection.
 
+CONVERSATION MESSAGES:
+{formatted_messages}
+
+CURRENT RULE-BASED BOUNDARIES:
+{boundaries_json}
+
+Your task: Analyze if these boundaries create logical customer service interactions. Each interaction should represent one complete customer issue/request cycle.
+
+Consider:
+1. **Topic Continuity**: Messages about the same issue should stay together
+2. **Resolution Cycles**: Problem → Investigation → Resolution → Confirmation
+3. **Natural Breaks**: Clear shifts in topics, issues, or conversation context  
+4. **Customer Journey**: Each interaction should have clear beginning and end
+
+Provide suggestions in this EXACT JSON format:
+{{
+    "boundary_suggestions": [
+        {{
+            "action": "merge_interactions",
+            "boundary_indices": [1, 2],
+            "reason": "Both boundaries relate to same power outage issue",
+            "confidence": 0.85
+        }},
+        {{
+            "action": "add_boundary",
+            "after_message_index": 8,
+            "reason": "Clear topic shift from billing to technical issue",
+            "confidence": 0.90
+        }},
+        {{
+            "action": "remove_boundary", 
+            "boundary_index": 3,
+            "reason": "False positive - continuation of same interaction",
+            "confidence": 0.80
+        }}
+    ],
+    "overall_assessment": "Brief assessment of current boundary quality"
+}}
+
+Actions allowed: "merge_interactions", "add_boundary", "remove_boundary"
+"""
+        return prompt
     
+    def _parse_boundary_enhancements(self, response_text: str) -> List[Dict[str, Any]]:
+        """Parse AI boundary enhancement suggestions."""
+        try:
+            # Clean and parse JSON response
+            cleaned_response = self._clean_json_response(response_text)
+            enhancement_data = json.loads(cleaned_response)
+            
+            suggestions = enhancement_data.get('boundary_suggestions', [])
+            
+            # Validate suggestion format
+            valid_suggestions = []
+            for suggestion in suggestions:
+                if self._validate_enhancement_suggestion(suggestion):
+                    valid_suggestions.append(suggestion)
+                else:
+                    logger.warning(f"Invalid boundary suggestion: {suggestion}")
+            
+            logger.info(f"Parsed {len(valid_suggestions)} valid boundary enhancement suggestions")
+            return valid_suggestions
+            
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse boundary enhancement JSON: {e}")
+            logger.error(f"Response text: {response_text[:500]}...")
+            return []
+        except Exception as e:
+            logger.error(f"Error parsing boundary enhancements: {e}")
+            return []
+    
+    def _validate_enhancement_suggestion(self, suggestion: Dict[str, Any]) -> bool:
+        """Validate boundary enhancement suggestion format."""
+        required_fields = ['action', 'reason', 'confidence']
+        valid_actions = ['merge_interactions', 'add_boundary', 'remove_boundary']
+        
+        # Check required fields
+        if not all(field in suggestion for field in required_fields):
+            return False
+        
+        # Check valid action
+        if suggestion['action'] not in valid_actions:
+            return False
+        
+        # Check confidence range
+        confidence = suggestion.get('confidence', 0)
+        if not (0 <= confidence <= 1):
+            return False
+        
+        # Action-specific validation
+        action = suggestion['action']
+        if action == 'merge_interactions' and 'boundary_indices' not in suggestion:
+            return False
+        elif action == 'add_boundary' and 'after_message_index' not in suggestion:
+            return False
+        elif action == 'remove_boundary' and 'boundary_index' not in suggestion:
+            return False
+        
+        return True
+    
+    async def enhance_interaction_boundaries_batch(self, conversations_with_boundaries: List[Tuple]) -> Dict[int, List[Dict[str, Any]]]:
+        """
+        Batch AI enhancement of rule-based interaction boundaries for multiple conversations.
+        Uses a single API call for cost efficiency and rate limit compliance.
+        
+        Args:
+            conversations_with_boundaries: List of (conversation, rule_boundaries) tuples
+            
+        Returns:
+            Dictionary mapping conversation.id to enhancement suggestions list
+        """
+        if not conversations_with_boundaries:
+            logger.info("No conversations to enhance in batch")
+            return {}
+        
+        try:
+            # Create batch enhancement prompt
+            prompt = self._create_batch_enhancement_prompt(conversations_with_boundaries)
+            
+            # Single Gemini API call for all conversations
+            response_text, usage_metadata = await self._call_gemini_with_retry(prompt)
+            
+            # Parse batch enhancement results
+            batch_results = self._parse_batch_boundary_enhancements(response_text, conversations_with_boundaries)
+            
+            logger.info(f"Batch AI enhancement completed: {len(conversations_with_boundaries)} conversations, tokens: {usage_metadata}")
+            return batch_results
+            
+        except Exception as e:
+            logger.error(f"Batch AI boundary enhancement failed: {e}")
+            return {}  # Graceful fallback - no enhancements
+
+    def _create_batch_enhancement_prompt(self, conversations_with_boundaries: List[Tuple]) -> str:
+        """Create AI prompt for batch boundary enhancement review."""
+        
+        conversations_data = []
+        for i, (conversation, rule_boundaries) in enumerate(conversations_with_boundaries):
+            # Format messages
+            messages_text = []
+            for j, msg in enumerate(conversation.messages):
+                direction = "Customer" if msg.direction == 'to_company' else "Agent"
+                timestamp = msg.social_create_time.strftime("%Y-%m-%d %H:%M")
+                messages_text.append(f"[{j}] {timestamp} {direction}: {msg.message_content}")
+            
+            # Format boundaries (skip structural boundaries)
+            boundaries_info = []
+            for boundary_idx, boundary in enumerate(rule_boundaries):
+                if boundary.method.value not in ['conversation_start', 'conversation_end']:
+                    boundaries_info.append({
+                        "boundary_id": boundary_idx,
+                        "message_index": boundary.message_index,
+                        "detection_method": boundary.method.value,
+                        "confidence": boundary.confidence,
+                        "reason": boundary.reason
+                    })
+            
+            conversations_data.append({
+                "conversation_id": conversation.id,
+                "messages": messages_text,
+                "boundaries": boundaries_info
+            })
+        
+        conversations_json = json.dumps(conversations_data, indent=2)
+        
+        return f"""
+You are an expert customer service interaction analyst. Review rule-based interaction boundaries for multiple conversations and suggest improvements for better interaction detection.
+
+BATCH CONVERSATIONS DATA:
+{conversations_json}
+
+Your task: For each conversation, analyze if the boundaries create logical customer service interactions. Each interaction should represent one complete customer issue/request cycle.
+
+Consider:
+1. **Topic Continuity**: Messages about the same issue should stay together
+2. **Resolution Cycles**: Problem → Investigation → Resolution → Confirmation  
+3. **Natural Breaks**: Clear shifts in topics, issues, or conversation context
+4. **Customer Journey**: Each interaction should have clear beginning and end
+
+Provide suggestions in this EXACT JSON format:
+{{
+    "batch_results": [
+        {{
+            "conversation_id": 123,
+            "boundary_suggestions": [
+                {{
+                    "action": "merge_interactions",
+                    "boundary_indices": [1, 2],
+                    "reason": "Both boundaries relate to same power outage issue",
+                    "confidence": 0.85
+                }},
+                {{
+                    "action": "add_boundary", 
+                    "after_message_index": 8,
+                    "reason": "Clear topic shift from billing to technical issue",
+                    "confidence": 0.90
+                }}
+            ]
+        }}
+    ]
+}}
+
+Valid actions: "merge_interactions", "add_boundary", "remove_boundary"
+Only suggest high-confidence improvements (confidence >= 0.7)
+Return empty boundary_suggestions array if no improvements needed.
+"""
+
+    def _parse_batch_boundary_enhancements(self, response_text: str, conversations_with_boundaries: List[Tuple]) -> Dict[int, List[Dict[str, Any]]]:
+        """Parse batch boundary enhancement results."""
+        try:
+            response_text = self._clean_json_response(response_text)
+            data = json.loads(response_text)
+            
+            results = {}
+            if 'batch_results' in data:
+                for result in data['batch_results']:
+                    conv_id = result.get('conversation_id')
+                    suggestions = result.get('boundary_suggestions', [])
+                    
+                    # Validate suggestions
+                    valid_suggestions = []
+                    for suggestion in suggestions:
+                        if self._validate_enhancement_suggestion(suggestion):
+                            valid_suggestions.append(suggestion)
+                    
+                    if conv_id:
+                        results[conv_id] = valid_suggestions
+            
+            logger.info(f"Parsed batch enhancement results for {len(results)} conversations")
+            return results
+            
+        except Exception as e:
+            logger.error(f"Failed to parse batch boundary enhancements: {e}")
+            return {}
 
 # Global Gemini service instance
 gemini_service_instance = None

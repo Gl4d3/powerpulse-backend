@@ -11,7 +11,7 @@ from sqlalchemy.pool import StaticPool
 
 from main import app
 from database import get_db, Base
-from models import Conversation, Message, ProcessedChat, Metric
+from models import Conversation, Message, Metric
 
 
 @pytest.fixture(scope="session")

@@ -40,6 +40,33 @@ def create_jobs_for_upload(upload_id: str, batches: list[list[DailyAnalysis]], d
     return jobs
 
 
+def create_interaction_analysis_job(db: Session, upload_id: str, job_data: dict) -> Job:
+    """
+    Creates a Job record for interaction analysis pipeline processing.
+    
+    Args:
+        db: Database session
+        upload_id: Unique upload identifier
+        job_data: Dictionary containing analysis parameters and file content
+        
+    Returns:
+        Created Job instance
+    """
+    job = Job(
+        upload_id=upload_id,
+        task_name="interaction_analysis",
+        status="pending",
+        run_at=datetime.utcnow(),
+        result=job_data  # Store job data in result field for worker processing
+    )
+    db.add(job)
+    db.commit()
+    db.refresh(job)
+    
+    logger.info(f"Created interaction analysis job {job.id} for upload {upload_id}")
+    return job
+
+
 def fetch_next_job(db: Session) -> Job | None:
     """
     Atomically fetches the next available job that is ready to run.
