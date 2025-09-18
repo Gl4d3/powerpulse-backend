@@ -8,10 +8,10 @@ This document establishes the immutable principles for PowerPulse development to
 
 ## 📜 **CONSTITUTIONAL AMENDMENTS (Requirements Clarification)**
 
-### **AMENDMENT I: AI Micro-Metrics Supremacy**
-- **AI micro-metrics extraction SHALL remain the authoritative method** for all CSI calculations
+### **AMENDMENT I: Micro-Metrics Supremacy**
+- **Micro-metrics extraction SHALL remain the authoritative method** for all CSI calculations
 - **Rule-based calculations SHALL NOT replace AI-based micro-metrics**
-- The proven pipeline of `AI micro-metrics → Four Pillars → Weighted CSI` is **SACRED AND IMMUTABLE**
+- The proven pipeline of `Micro-metrics → Four Pillars → Weighted CSI` is **SACRED AND IMMUTABLE**
 
 ### **AMENDMENT II: Granularity Enhancement Only**
 - **The ONLY change** is switching from daily conversation chunks to interaction/case chunks
