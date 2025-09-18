@@ -1,0 +1,35 @@
+{
+  "conversations": [
+    {
+      "customer_name": "Test Customer",
+      "fb_chat_id": "test_chat_001",
+      "messages": [
+        {
+          "direction": "incoming",
+          "message_content": "Hello, I'm having trouble with my electricity bill. The amount seems too high.",
+          "social_create_time": "2025-09-18T10:00:00.000Z"
+        },
+        {
+          "direction": "outgoing", 
+          "message_content": "I understand your concern about the high electricity bill. Let me check your account details.",
+          "social_create_time": "2025-09-18T10:01:00.000Z"
+        },
+        {
+          "direction": "incoming",
+          "message_content": "My account number is 1234567890. This month's bill is double the usual amount.",
+          "social_create_time": "2025-09-18T10:02:00.000Z"
+        },
+        {
+          "direction": "outgoing",
+          "message_content": "I can see there was a meter reading error. I've corrected it and your bill has been adjusted. You'll receive an updated bill within 24 hours.",
+          "social_create_time": "2025-09-18T10:05:00.000Z"
+        },
+        {
+          "direction": "incoming",
+          "message_content": "Thank you so much! That resolves my concern completely.",
+          "social_create_time": "2025-09-18T10:06:00.000Z"
+        }
+      ]
+    }
+  ]
+}

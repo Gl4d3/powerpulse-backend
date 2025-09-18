@@ -21,9 +21,11 @@ def create_jobs_for_upload(upload_id: str, batches: list[list[DailyAnalysis]], d
     """
     Creates Job records in the database for each batch of DailyAnalysis objects.
     """
+    import uuid
     jobs = []
     for batch in batches:
         job = Job(
+            id=str(uuid.uuid4()),  # Generate UUID for job id
             upload_id=upload_id,
             status="pending",
             run_at=datetime.utcnow(),

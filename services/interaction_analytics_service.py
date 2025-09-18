@@ -261,10 +261,12 @@ class InteractionAnalyticsService:
             micrometrics_map = {}
             for result in analysis_results:
                 interaction_id = result.get('interaction_analysis_id')
-                interaction_analysis = result.get('interaction_analysis', {})
                 
                 if interaction_id:
-                    micrometrics_map[interaction_id] = interaction_analysis
+                    # The result is already flattened by _validate_and_map_results
+                    # Remove the interaction_analysis_id to get clean metrics
+                    metrics = {k: v for k, v in result.items() if k != 'interaction_analysis_id'}
+                    micrometrics_map[interaction_id] = metrics
             
             logger.info(f"CONSTITUTIONAL COMPLIANCE: Successfully extracted AI micro-metrics for {len(micrometrics_map)} interactions")
             return micrometrics_map

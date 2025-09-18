@@ -1,0 +1,70 @@
+{
+  "test_chat_001": [
+    {
+      "FB_CHAT_ID": "test_chat_001",
+      "MESSAGE_CONTENT": "Hello, I'm having trouble with my electricity bill. The amount seems too high.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-09-18T10:00:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    },
+    {
+      "FB_CHAT_ID": "test_chat_001",
+      "MESSAGE_CONTENT": "I understand your concern about the high electricity bill. Let me check your account details.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-09-18T10:01:00.000Z",
+      "AGENT_USERNAME": "AGENT_001",
+      "AGENT_EMAIL": "support@powerpulse.com"
+    },
+    {
+      "FB_CHAT_ID": "test_chat_001",
+      "MESSAGE_CONTENT": "My account number is 1234567890. This month's bill is double the usual amount.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-09-18T10:02:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    },
+    {
+      "FB_CHAT_ID": "test_chat_001",
+      "MESSAGE_CONTENT": "I can see there was a meter reading error. I've corrected it and your bill has been adjusted. You'll receive an updated bill within 24 hours.",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-09-18T10:05:00.000Z",
+      "AGENT_USERNAME": "AGENT_001",
+      "AGENT_EMAIL": "support@powerpulse.com"
+    },
+    {
+      "FB_CHAT_ID": "test_chat_001",
+      "MESSAGE_CONTENT": "Thank you so much! That resolves my concern completely.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-09-18T10:06:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    }
+  ],
+  "test_chat_002": [
+    {
+      "FB_CHAT_ID": "test_chat_002",
+      "MESSAGE_CONTENT": "Hi, I need help with my account setup.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-09-18T11:00:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    },
+    {
+      "FB_CHAT_ID": "test_chat_002",
+      "MESSAGE_CONTENT": "Of course! I'll help you set up your account. What do you need assistance with?",
+      "DIRECTION": "to_client",
+      "SOCIAL_CREATE_TIME": "2025-09-18T11:01:00.000Z",
+      "AGENT_USERNAME": "AGENT_002",
+      "AGENT_EMAIL": "support@powerpulse.com"
+    },
+    {
+      "FB_CHAT_ID": "test_chat_002",
+      "MESSAGE_CONTENT": "Perfect, thanks! That's all I needed.",
+      "DIRECTION": "to_company",
+      "SOCIAL_CREATE_TIME": "2025-09-18T11:02:00.000Z",
+      "AGENT_USERNAME": null,
+      "AGENT_EMAIL": null
+    }
+  ]
+}

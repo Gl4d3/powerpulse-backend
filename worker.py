@@ -30,7 +30,6 @@ class EnhancedWorker:
     """
     
     def __init__(self):
-        self.session_service = UploadSessionService()
         self.batch_service = BatchProcessingService()
         self.constitutional_validator = ConstitutionalValidator()
         self.active_batches = set()
