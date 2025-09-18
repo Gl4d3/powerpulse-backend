@@ -19,6 +19,10 @@ from routes.api_test import router as api_test_router
 from routes.dev import router as dev_router
 from routes.jobs import router as jobs_router
 
+# Enhanced batch processing routes
+from routes.batch_config import router as batch_config_router
+from routes.constitutional import router as constitutional_router
+
 # Interaction-based analysis routes
 from routes.interaction_metrics import router as interaction_metrics_router
 from routes.interaction_conversations import router as interaction_conversations_router
@@ -75,7 +79,7 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(upload_router, prefix="/api", tags=["upload"])
+app.include_router(upload_router, prefix="/api/interaction", tags=["upload"])
 app.include_router(metrics_router, prefix="/api/metrics", tags=["metrics"])
 app.include_router(conversations_router, prefix="/api", tags=["conversations"])
 app.include_router(export_router, prefix="/api", tags=["export"])
@@ -85,6 +89,10 @@ app.include_router(explorer_router, prefix="/api", tags=["explorer"])
 app.include_router(api_test_router, prefix="/api", tags=["api-test"])
 app.include_router(dev_router, prefix="/dev", tags=["development"])
 app.include_router(jobs_router, prefix="/api/jobs", tags=["jobs"])
+
+# Enhanced batch processing routes  
+app.include_router(batch_config_router, prefix="/api", tags=["batch-config"])
+app.include_router(constitutional_router, prefix="/api", tags=["constitutional"])
 
 # Interaction-based analysis routes
 app.include_router(interaction_metrics_router, prefix="/api/interactions/metrics", tags=["interaction-metrics"])

@@ -1,0 +1,1 @@
+[{"conversation_id": "simple_test_001", "timestamp": "2025-09-17T10:00:00Z", "messages": [{"role": "user", "content": "Hello, I need help with my power connection", "timestamp": "2025-09-17T10:00:00Z"}, {"role": "assistant", "content": "I can help you with that. What seems to be the issue?", "timestamp": "2025-09-17T10:01:00Z"}]}]

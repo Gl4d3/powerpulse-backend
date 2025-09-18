@@ -400,3 +400,137 @@ class InteractionConversationListResponse(BaseModel):
     page: int
     page_size: int
     total_pages: int
+
+# ========================================
+# Enhanced Upload & Batching Schemas
+# ========================================
+
+class BatchProcessingStatus(BaseModel):
+    """Response model for batch processing status endpoint."""
+    upload_id: str
+    job_id: int
+    status: str
+    
+    # Progress tracking
+    progress_percentage: float
+    current_stage: str
+    estimated_completion_minutes: Optional[int] = None
+    
+    # Processing metrics
+    total_conversations: int
+    processed_conversations: int
+    total_interactions: int
+    processed_interactions: int
+    
+    # Batch details
+    current_batch_number: Optional[int] = None
+    total_batches: Optional[int] = None
+    
+    # Performance tracking
+    processing_speed_interactions_per_second: Optional[float] = None
+    elapsed_time_seconds: float
+    
+    # Results (partial/final)
+    avg_csi_score: Optional[float] = None
+    success_rate: float
+    
+    # Error summary
+    error_count: int
+    recent_errors: List[str] = []
+    
+    # Timestamps
+    started_at: datetime
+    last_updated_at: datetime
+    estimated_completion_at: Optional[datetime] = None
+
+class BatchConfig(BaseModel):
+    """Response model for batch configuration endpoint."""
+    context_window_size: int
+    batch_size_interactions: int
+    max_concurrent_batches: int
+    timeout_seconds: int
+    
+    performance_targets: Dict[str, float]
+    current_performance: Dict[str, float]
+    
+    optimization_enabled: bool
+    last_updated: datetime
+
+class EnhancedUploadResponse(BaseModel):
+    """Enhanced response model for upload endpoints with progress tracking."""
+    # Basic upload confirmation
+    message: str
+    upload_id: str
+    status: str
+    
+    # Processing summary
+    conversations_processed: int
+    interactions_detected: int
+    interactions_analyzed: int
+    
+    # Results overview (Constitutional Dual CSI Architecture)
+    avg_csi_score: float
+    avg_inferred_csi: Optional[float] = None  # Secondary CSI for comparison
+    avg_effectiveness: float
+    avg_efficiency: float
+    avg_effort: float
+    avg_empathy: float
+    
+    # Performance metrics
+    processing_time_seconds: float
+    total_tokens_used: int
+    api_calls_made: int
+    
+    # Quality metrics
+    success_rate: float
+    error_count: int
+    
+    # Progress tracking
+    progress_url: str
+    
+    # Timestamps
+    started_at: datetime
+    completed_at: Optional[datetime] = None
+
+class InteractionAnalysisResult(BaseModel):
+    """Detailed interaction analysis results with dual CSI."""
+    # Interaction identification
+    interaction_id: int
+    conversation_id: int
+    
+    # Interaction boundaries
+    start_time: datetime
+    end_time: datetime
+    duration_minutes: float
+    message_count: int
+    
+    # Constitutional Dual CSI Architecture
+    csi_score: float  # Primary: calculated from AI micro-metrics
+    inferred_csi: float  # Secondary: AI blackbox inference
+    
+    # Four Pillars Breakdown (from AI micro-metrics)
+    effectiveness_score: float
+    efficiency_score: float
+    effort_score: float
+    empathy_score: float
+    
+    # Processing metadata
+    confidence_level: float
+    detection_method: str
+    token_usage: int
+    processing_time_seconds: float
+    
+    # Quality indicators
+    analysis_quality: str
+    anomaly_flags: List[str] = []
+
+class BatchContextResponse(BaseModel):
+    """Response model for individual batch context information."""
+    batch_number: int
+    context_window_size: int
+    actual_tokens_used: int
+    interaction_count: int
+    successful_interactions: int
+    failed_interactions: int
+    processing_duration_seconds: float
+    avg_batch_csi: float

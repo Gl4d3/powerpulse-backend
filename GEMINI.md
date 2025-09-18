@@ -1,9 +1,44 @@
-# PowerPulse Analytics Gemini Context (v6.0 - AI-Enhanced CSI Analysis)
+# PowerPulse Analytics Gemini Context (v7.0 - Enhanced Upload & Batching)
 
 This document provides a comprehensive and technically accurate overview of the PowerPulse Analytics backend. It details the architecture after implementing AI-enhanced interaction analysis with hybrid boundary detection and comprehensive CSI scoring across customer service interactions.
 
+**CURRENT FEATURE**: Interaction Analysis Endpoints with JSON Upload and Batching Optimization (Branch: `001-title-interaction-analysis`)
+
 ---
 **IMPORTANT NOTE:** For detailed, human-readable API documentation, including sample requests and responses, refer to the official **[`docs/API_DOCUMENTATION.md`](./docs/API_DOCUMENTATION.md)**. This file is the canonical source for API contracts.
+---
+
+## CONSTITUTIONAL REQUIREMENTS (NON-NEGOTIABLE)
+
+### 1. AI Micro-Metrics Supremacy
+- ALL CSI calculations MUST use AI micro-metrics extraction
+- NEVER implement rule-based calculations  
+- Preserve existing pipeline: `AI micro-metrics → Four Pillars → Weighted CSI`
+
+### 2. Dual CSI Architecture  
+- Maintain `csi_score` (PRIMARY: calculated from AI micro-metrics)
+- Maintain `inferred_csi` (SECONDARY: AI blackbox inference)
+- BOTH scores must appear in ALL API responses
+
+### 3. Brownfield Compatibility
+- Enhance existing interaction analysis without breaking daily pipeline
+- Use identical methodology, only change granularity (daily → interaction)
+- Preserve all existing database tables and relationships
+
+## CURRENT ENHANCEMENT FOCUS
+
+### Upload Endpoint Status
+- ✅ EXISTS: `POST /api/upload-interaction-json` in `routes/upload.py`
+- 🔧 ENHANCE: Add async processing for large files (prevent timeouts)
+- 🔧 ADD: Progress tracking endpoints for long-running uploads
+- 🔧 INTEGRATE: Job queue system for consistency with daily analysis
+
+### Batch Processing Status  
+- ✅ WORKING: `CSIAnalysisPipeline.process_batch()` achieves 80% API cost reduction
+- ✅ OPTIMIZED: 20K token context windows for efficient processing
+- ✅ PROVEN: 3-4 interactions/second processing speed in E2E tests
+- 🔧 ENHANCE: Better error handling and retry logic for large batches
+
 ---
 
 ## 1. High-Level Architecture & Data Flow

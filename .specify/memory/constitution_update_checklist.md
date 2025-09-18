@@ -11,6 +11,10 @@ When amending the constitution (`/memory/constitution.md`), ensure all dependent
 - [ ] `/.claude/commands/plan.md` - Update if planning process changes
 - [ ] `/.claude/commands/tasks.md` - Update if task generation affected
 - [ ] `/CLAUDE.md` - Update runtime development guidelines
+- [ ] `/GEMINI.md` - Update architecture/requirements if affected
+- [ ] `/.github/prompts/tasks.prompt.md` - Update if task genereation affected
+- [ ] `/.github/prompts/plan.prompt.md` - Update if planning process changes
+- [ ] `/docs/API_DOCUMENTATION.md` - Update if API contracts change
 
 ### Article-specific updates:
 

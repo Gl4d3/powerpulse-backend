@@ -17,30 +17,58 @@ job_interaction_analyses = Table('job_interaction_analyses', Base.metadata,
 class Job(Base):
     __tablename__ = "jobs"
 
-    id = Column(Integer, primary_key=True, index=True)
-    upload_id = Column(String, index=True, nullable=True) # To associate jobs with a specific upload
+    id = Column(String, primary_key=True, index=True)  # Changed to String for UUID support
+    upload_id = Column(String, index=True, nullable=True) # Legacy support for old uploads
+    session_id = Column(String, ForeignKey("upload_sessions.session_id"), nullable=True, index=True)  # New session support
     
     # Core job metadata
     task_name = Column(String, nullable=True, default="default_csi_analysis")
-    status = Column(String, default="pending", index=True) # pending, running, completed, failed, retryable_failure
+    job_type = Column(String, nullable=True, index=True)  # interaction_analysis, interaction_analysis_batch, etc.
+    status = Column(String, default="pending", index=True) # pending, queued, running, completed, failed, cancelled, retryable_failure
+    priority = Column(Integer, default=0, nullable=False, index=True)  # Job priority for queue ordering
     
     # Execution and retry logic
     run_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     retry_count = Column(Integer, default=0, nullable=False)
     max_retries = Column(Integer, default=3, nullable=False)
     
+    # Enhanced payload and context
+    payload = Column(JSON, nullable=True)  # Job-specific data and configuration
+    context = Column(JSON, nullable=True)  # Execution context and metadata
+    
+    # Constitutional compliance tracking
+    constitutional_compliance_required = Column(Boolean, default=True, nullable=False)
+    ai_supremacy_validated = Column(Boolean, default=False, nullable=False)
+    dual_csi_validated = Column(Boolean, default=False, nullable=False)
+    
+    # Performance and cost tracking
+    estimated_processing_time = Column(Float, nullable=True)  # Estimated time in seconds
+    actual_processing_time = Column(Float, nullable=True)  # Actual time in seconds
+    cost_optimization_target = Column(Float, nullable=True)  # Target cost reduction percentage
+    cost_optimization_achieved = Column(Float, nullable=True)  # Actual cost reduction achieved
+    
     # Timestamps and results
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     started_at = Column(DateTime(timezone=True), nullable=True)
     completed_at = Column(DateTime(timezone=True), nullable=True)
     
     last_error = Column(Text, nullable=True)
     result = Column(JSON, nullable=True)
 
+    # Relationships
+    upload_session = relationship("UploadSession", back_populates="jobs")
     daily_analyses = relationship("DailyAnalysis", secondary=job_daily_analyses, back_populates="jobs")
     interaction_analyses = relationship("InteractionAnalysis", secondary=job_interaction_analyses, back_populates="jobs")
-    # Relationship to JobMetric entries
     job_metrics = relationship("JobMetric", back_populates="job", cascade="all, delete-orphan")
+    
+    # Enhanced indexes
+    __table_args__ = (
+        Index('idx_job_status_priority', 'status', 'priority', 'created_at'),
+        Index('idx_job_session_type', 'session_id', 'job_type'),
+        Index('idx_job_constitutional', 'constitutional_compliance_required', 'ai_supremacy_validated', 'dual_csi_validated'),
+        Index('idx_job_performance', 'actual_processing_time', 'cost_optimization_achieved'),
+    )
 
 class JobMetric(Base):
     __tablename__ = 'job_metrics'
@@ -250,3 +278,113 @@ class Metric(Base):
     
     calculated_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
+
+class UploadSession(Base):
+    """
+    Upload session for batch processing with constitutional compliance.
+    Tracks session lifecycle, file metadata, and processing status.
+    """
+    __tablename__ = "upload_sessions"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    session_id = Column(String, unique=True, index=True, nullable=False)
+    filename = Column(String, nullable=False)
+    user_id = Column(String, nullable=True, index=True)
+    
+    # Processing status and metrics
+    status = Column(String, default="initialized", index=True)  # initialized, processing, completed, failed, partial_success, cancelled
+    total_interactions = Column(Integer, default=0, nullable=False)
+    processed_interactions = Column(Integer, default=0, nullable=False)
+    failed_interactions = Column(Integer, default=0, nullable=False)
+    
+    # Constitutional compliance tracking
+    ai_micro_metrics_enabled = Column(Boolean, default=True, nullable=False)
+    dual_csi_architecture = Column(Boolean, default=True, nullable=False)
+    batch_optimization_enabled = Column(Boolean, default=True, nullable=False)
+    
+    # Performance metrics
+    processing_time = Column(Float, nullable=True)  # Total processing time in seconds
+    cost_reduction_achieved = Column(Float, nullable=True)  # Percentage cost reduction
+    processing_speed = Column(Float, nullable=True)  # Interactions per second
+    
+    # Metadata and error tracking
+    session_metadata = Column(JSON, nullable=True)  # User-provided metadata
+    processing_summary = Column(JSON, nullable=True)  # Final processing results
+    error_details = Column(JSON, nullable=True)  # Error information
+    
+    # Timestamps
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    started_at = Column(DateTime(timezone=True), nullable=True)
+    completed_at = Column(DateTime(timezone=True), nullable=True)
+    
+    # Relationships
+    batch_contexts = relationship("BatchContext", back_populates="upload_session", cascade="all, delete-orphan")
+    jobs = relationship("Job", back_populates="upload_session", cascade="all, delete-orphan")
+    
+    # Indexes for performance
+    __table_args__ = (
+        Index('idx_session_status_created', 'status', 'created_at'),
+        Index('idx_user_sessions', 'user_id', 'created_at'),
+        Index('idx_session_performance', 'processing_speed', 'cost_reduction_achieved'),
+    )
+
+
+class BatchContext(Base):
+    """
+    Individual batch context within an upload session.
+    Tracks batch-level processing, optimization, and constitutional compliance.
+    """
+    __tablename__ = "batch_contexts"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    batch_id = Column(String, unique=True, index=True, nullable=False)
+    session_id = Column(String, ForeignKey("upload_sessions.session_id"), nullable=False)
+    
+    # Batch organization
+    batch_index = Column(Integer, nullable=False)  # Order within session (0-based)
+    interactions_count = Column(Integer, default=0, nullable=False)
+    
+    # Processing status
+    status = Column(String, default="pending", index=True)  # pending, processing, completed, failed, cancelled, retrying
+    retry_count = Column(Integer, default=0, nullable=False)
+    max_retries = Column(Integer, default=3, nullable=False)
+    
+    # Constitutional compliance per batch
+    ai_supremacy_enforced = Column(Boolean, default=True, nullable=False)
+    dual_csi_validated = Column(Boolean, default=True, nullable=False)
+    cost_optimization_applied = Column(Boolean, default=True, nullable=False)
+    
+    # Performance metrics per batch
+    processing_time = Column(Float, nullable=True)  # Processing time in seconds
+    api_calls_made = Column(Integer, default=0, nullable=False)
+    tokens_used = Column(Integer, default=0, nullable=False)
+    cost_reduction_achieved = Column(Float, nullable=True)  # Percentage for this batch
+    
+    # Data storage
+    interactions_data = Column(JSON, nullable=True)  # Raw interaction data for batch
+    result_data = Column(JSON, nullable=True)  # Processed results and metrics
+    error_details = Column(JSON, nullable=True)  # Batch-specific error information
+    
+    # Optimization context
+    optimization_strategy = Column(JSON, nullable=True)  # Strategy applied to this batch
+    gemini_prompt_used = Column(Text, nullable=True)  # Prompt template used
+    context_window_usage = Column(Float, nullable=True)  # Percentage of context window used
+    
+    # Timestamps
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    started_at = Column(DateTime(timezone=True), nullable=True)
+    completed_at = Column(DateTime(timezone=True), nullable=True)
+    
+    # Relationships
+    upload_session = relationship("UploadSession", back_populates="batch_contexts")
+    
+    # Indexes for performance
+    __table_args__ = (
+        Index('idx_session_batch_order', 'session_id', 'batch_index'),
+        Index('idx_batch_status_created', 'status', 'created_at'),
+        Index('idx_batch_performance', 'processing_time', 'cost_reduction_achieved'),
+        Index('idx_constitutional_compliance', 'ai_supremacy_enforced', 'dual_csi_validated'),
+    )

@@ -1,4 +1,9 @@
-2025-09-17 15:30:09,077 - main - INFO - --- PowerPulse Analytics Backend Starting Up ---
-2025-09-17 15:30:09,077 - main - INFO - Initializing database...
-2025-09-17 15:30:09,116 - main - INFO - Database initialized.
-2025-09-17 15:48:29,547 - main - INFO - --- PowerPulse Analytics Backend Shutting Down ---
+2025-09-17 20:44:57,906 - main - INFO - --- PowerPulse Analytics Backend Starting Up ---
+2025-09-17 20:44:57,906 - main - INFO - Initializing database...
+2025-09-17 20:44:57,948 - main - INFO - Database initialized.
+2025-09-17 20:48:08,895 - services.file_service_optimized - INFO - Starting universal processing for upload_id: 19c7f4c2-9b41-49c3-acc5-88c757879d18...
+2025-09-17 20:48:08,896 - services.file_service_optimized - INFO - Detected raw JSON array format.
+2025-09-17 20:48:08,897 - services.file_service_optimized - INFO - No valid daily conversations to process.
+2025-09-17 20:50:18,028 - services.file_service_optimized - INFO - Starting universal processing for upload_id: 5e8e1fb5-85e8-41b1-a56b-1d40cf4315c4...
+2025-09-17 20:50:18,029 - services.file_service_optimized - INFO - Detected raw JSON array format.
+2025-09-17 20:50:18,029 - services.file_service_optimized - INFO - No valid daily conversations to process.

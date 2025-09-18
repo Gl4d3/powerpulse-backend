@@ -1,0 +1,471 @@
+openapi: 3.0.3
+info:
+  title: PowerPulse Interaction Analysis API
+  description: API for uploading and processing conversation JSON files with optimized interaction-level CSI analysis
+  version: 1.0.0
+  contact:
+    name: PowerPulse Development Team
+
+servers:
+  - url: http://localhost:8000/api
+    description: Local development server
+  - url: https://api.powerpulse.com/api  
+    description: Production server
+
+paths:
+  /upload-interaction-json:
+    post:
+      summary: Upload JSON file for interaction analysis
+      description: Upload conversation data in JSON format for interaction-level CSI analysis with optimized batching
+      operationId: uploadInteractionJson
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: JSON file containing conversation data
+                mode:
+                  type: string
+                  enum: [interaction, daily]
+                  default: interaction
+                  description: Analysis mode
+                force_reprocess:
+                  type: boolean
+                  default: false
+                  description: Force reprocessing of existing conversations
+              required:
+                - file
+      responses:
+        '202':
+          description: Upload accepted and processing initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+        '400':
+          description: Bad request - invalid file format or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Payload too large - file size exceeds limit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable entity - invalid JSON structure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error - processing failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+        - Upload
+
+  /upload-interaction-json/{upload_id}/status:
+    get:
+      summary: Check processing status
+      description: Monitor the progress of interaction analysis processing for an uploaded file
+      operationId: getUploadStatus
+      parameters:
+        - name: upload_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Upload session identifier
+      responses:
+        '200':
+          description: Status information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchProcessingStatus'
+        '404':
+          description: Upload session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+        - Status
+
+  /batch-config:
+    get:
+      summary: Get batch processing configuration
+      description: Retrieve current batching configuration and performance settings
+      operationId: getBatchConfig
+      responses:
+        '200':
+          description: Configuration retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchConfig'
+      tags:
+        - Configuration
+
+  /interaction-metrics/{interaction_id}:
+    get:
+      summary: Get detailed interaction analysis
+      description: Retrieve comprehensive analysis results for a specific interaction including dual CSI scores
+      operationId: getInteractionAnalysis
+      parameters:
+        - name: interaction_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Interaction identifier
+      responses:
+        '200':
+          description: Interaction analysis retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InteractionAnalysisResult'
+        '404':
+          description: Interaction not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      tags:
+        - Analysis
+
+components:
+  schemas:
+    UploadResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Successfully processed 150 conversations with 450 interactions"
+        upload_id:
+          type: string
+          format: uuid
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        status:
+          type: string
+          enum: [completed, processing, failed]
+        conversations_processed:
+          type: integer
+          example: 150
+        interactions_detected:
+          type: integer
+          example: 450
+        interactions_analyzed:
+          type: integer
+          example: 435
+        avg_csi_score:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+          example: 6.75
+        avg_effectiveness:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+          example: 6.2
+        avg_efficiency:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+          example: 7.1
+        avg_effort:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+          example: 6.8
+        avg_empathy:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+          example: 6.9
+        processing_time_seconds:
+          type: number
+          format: float
+          example: 125.5
+        total_tokens_used:
+          type: integer
+          example: 45000
+        api_calls_made:
+          type: integer
+          example: 45
+        success_rate:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          example: 0.967
+        error_count:
+          type: integer
+          example: 15
+        progress_url:
+          type: string
+          format: uri
+          example: "/api/upload-interaction-json/123e4567-e89b-12d3-a456-426614174000/status"
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+      required:
+        - message
+        - upload_id
+        - status
+        - conversations_processed
+        - interactions_detected
+        - interactions_analyzed
+
+    BatchProcessingStatus:
+      type: object
+      properties:
+        upload_id:
+          type: string
+          format: uuid
+        job_id:
+          type: integer
+        status:
+          type: string
+          enum: [pending, running, completed, failed]
+        progress_percentage:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
+        current_stage:
+          type: string
+          enum: [parsing, detection, ai_analysis, completion]
+        estimated_completion_minutes:
+          type: integer
+        total_conversations:
+          type: integer
+        processed_conversations:
+          type: integer
+        total_interactions:
+          type: integer
+        processed_interactions:
+          type: integer
+        current_batch_number:
+          type: integer
+        total_batches:
+          type: integer
+        processing_speed_interactions_per_second:
+          type: number
+          format: float
+        elapsed_time_seconds:
+          type: number
+          format: float
+        avg_csi_score:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+          nullable: true
+        success_rate:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        error_count:
+          type: integer
+        recent_errors:
+          type: array
+          items:
+            type: string
+          maxItems: 5
+        started_at:
+          type: string
+          format: date-time
+        last_updated_at:
+          type: string
+          format: date-time
+        estimated_completion_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+        - upload_id
+        - job_id
+        - status
+        - progress_percentage
+
+    BatchConfig:
+      type: object
+      properties:
+        context_window_size:
+          type: integer
+          example: 20000
+        batch_size_interactions:
+          type: integer
+          example: 10
+        max_concurrent_batches:
+          type: integer
+          example: 5
+        timeout_seconds:
+          type: integer
+          example: 300
+        performance_targets:
+          type: object
+          properties:
+            interactions_per_second:
+              type: number
+              format: float
+              example: 3.5
+            api_cost_reduction_percentage:
+              type: integer
+              example: 80
+            success_rate_minimum:
+              type: number
+              format: float
+              example: 0.95
+        current_performance:
+          type: object
+          properties:
+            avg_processing_speed:
+              type: number
+              format: float
+              example: 3.2
+            actual_cost_reduction:
+              type: integer
+              example: 83
+            recent_success_rate:
+              type: number
+              format: float
+              example: 0.967
+        optimization_enabled:
+          type: boolean
+        last_updated:
+          type: string
+          format: date-time
+
+    InteractionAnalysisResult:
+      type: object
+      properties:
+        interaction_id:
+          type: integer
+        conversation_id:
+          type: integer
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        duration_minutes:
+          type: number
+          format: float
+        message_count:
+          type: integer
+        csi_score:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+          description: Primary CSI calculated from AI micro-metrics
+        inferred_csi:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+          description: Secondary CSI from AI blackbox inference
+        effectiveness_score:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+        efficiency_score:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+        effort_score:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+        empathy_score:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 10
+        confidence_level:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+        detection_method:
+          type: string
+        token_usage:
+          type: integer
+        processing_time_seconds:
+          type: number
+          format: float
+        analysis_quality:
+          type: string
+          enum: [high, medium, low]
+        anomaly_flags:
+          type: array
+          items:
+            type: string
+      required:
+        - interaction_id
+        - conversation_id
+        - csi_score
+        - inferred_csi
+
+    ErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: Human-readable error message
+        error_code:
+          type: string
+          description: Machine-readable error code
+        upload_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: Upload identifier if applicable
+        retry_available:
+          type: boolean
+          description: Whether the operation can be retried
+        timestamp:
+          type: string
+          format: date-time
+      required:
+        - detail
+        - error_code
+
+  securitySchemes: {}
+
+tags:
+  - name: Upload
+    description: File upload and processing operations
+  - name: Status  
+    description: Processing status monitoring
+  - name: Configuration
+    description: System configuration and settings
+  - name: Analysis
+    description: Analysis results and metrics
